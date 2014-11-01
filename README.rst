@@ -169,37 +169,97 @@ The Configuration File
 System options
 ``````````````
 
+admin_email
+
+motd
+
+auto_upgrades
+
+additional_packages
+
 Plone options
 `````````````
 target
 
-clients
-memory profile
+buildout_git_repo
 
-eggs
+..note:
 
-versions
-appends to version list
+    If you use your own buildout from a repository, you still need to specify your client count so that the playbook can 1) set up the supervisor specifications to start/stop and monitor clients, and 2) set up the load balancer.
 
-supervisor mem monitor
+    Client part names must follow the pattern `client#` where # is a number (1,2,3 ...). Client ports must be numbered sequentially beginning with 8081 or the value you set for client_base_port. The zeoserver part must be named `zeoserver` and be at 8100 or the value you set for zeo_port.
+
+initial_password
+
+client_count
+
+client_memory_profile
+
+client_max_memory
+
+additional_eggs
+
+additional_versions
+
+    appends to version list
+
+zeo_port
+
+client_base_port
+
+autorun_buildout=(yes|no)
+
 
 Load-balancer options
 `````````````````````
 
+install_loadbalancer
+
+loadbalancer_port
+
+monitor_port
+
+monitor_password
+
 Caching proxy options
 `````````````````````
+
+install_proxycache
+
+proxycache_port
 
 Web-server options
 ``````````````````
 
+install_webserver
+
 Virtual hosting setup
-`````````````````````
+~~~~~~~~~~~~~~~~~~~~~
+
+.. codeblock:: yaml
+
+    virtual_hosts: [
+        {'hostname': xxx, 'zodb_path': xxx, 'port': xxx,}
+        ]
+
+(certificate file handling!)
 
 Mail-server options
 ```````````````````
 
+install_mailserver
+
+mailserver_forward
+
 Monitoring options
 ``````````````````
+
+install_muninnode
+
+muninnode_allowed_ips
+
+install_logwatch
+
 Remember munin supervisor monitor
 
 fail2ban
@@ -213,6 +273,11 @@ Testing with Vagrant
 virtualbox configuration
 
 targetting the virtualbox
+
+Testing
+-------
+
+Do tests when appropriate to connect to ports both from outside and inside
 
 Live host deployment
 --------------------
