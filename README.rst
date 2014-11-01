@@ -209,10 +209,14 @@ Defaults to `yes`
 .. code-block:: yaml
 
     additional_packages:
-        - package_one
-        - package_two
+        - sockstat
+        - wget
 
 List any additional operating system packages you wish to install. Default is empty.
+
+.. note ::
+
+The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
 
 Plone options
 `````````````
@@ -298,25 +302,58 @@ The default list is empty.
 
 .. code-block:: yaml
 
-    additional_versions
+    additional_versions:
+        - egg: Products.PloneFormGen
+          version: 1.7.16
+        - egg: collective.cover
+          version: 1.0
 
-    appends to version list
+The version pins you specify here will be added to the ``[versions]`` section of your buildout. The default list is empty.
 
 .. code-block:: yaml
 
     zeo_port
 
+The port number for the Zope database server. Defaults to ``8100``.
+
 .. code-block:: yaml
 
-    client_base_port
+    client_base_port: 6080
+
+The port number for your first Zope client. Subsequent client ports will be added in increments of 1. Defaults to ``8081``.
 
 .. code-block:: yaml
 
     autorun_buildout=(yes|no)
 
-backup options
+.. code-block:: yaml
 
-    XXX
+    buildout_cache: http://dist.plone.org/4.3.4/buildout-cache.tar.bz2
+
+The URL of a buildout egg cache. Defaults to the one for the current version of Plone.
+
+Cron jobs
+~~~~~~~~~
+
+.. code-block:: yaml
+
+    pack_at: 32 1 * * 7
+
+.. code-block:: yaml
+
+    keep_days: 3
+
+.. code-block:: yaml
+
+    backup_at: 27 2 * * *
+
+.. code-block:: yaml
+
+    keep_backups: 15
+
+.. code-block:: yaml
+
+    backup_path: /mnt/backup/plone/var
 
 
 Load-balancer options
@@ -324,7 +361,7 @@ Load-balancer options
 
 .. code-block:: yaml
 
-    install_loadbalancer
+    install_loadbalancer=(yes|no)
 
 .. code-block:: yaml
 
