@@ -537,9 +537,6 @@ Updating
 
 Using tags for quick, partial updates
 
-Remaining issues
-----------------
-
 Firewall
 ^^^^^^^^
 
@@ -547,5 +544,6 @@ Passwords
 ^^^^^^^^^
 
 Hotfixes, Updates, Upgrades
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Subscribe to XXX for security announcements
