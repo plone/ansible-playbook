@@ -63,7 +63,7 @@ Provisioning a Plone server
 The stack
 `````````
 
-ZEO server, ZEO clients, supervisor, haproxy, varnish, apache or nginx
+ZEO server, ZEO clients, supervisor, haproxy, varnish, nginx
 
 What about other apps?
 ``````````````````````
@@ -470,7 +470,7 @@ Do you want to install munin-node? Defaults to `yes`.
 
 What IP address are allowed to query your munin node? Specify a list of regular expressions.
 
-Defaults to `^127\.0\.0\.1$`
+Defaults to ``^127\.0\.0\.1$``
 
 .. note ::
 
@@ -491,9 +491,16 @@ Fail2ban scans log files and bans IPs that show malicious signs -- too many pass
 Testing with Vagrant
 --------------------
 
-virtualbox configuration
+This is really easy. Vagrant includes an Ansible provisioner and will run the playbook any time you use ``vagrant up``. While vagrant knows about Ansible, and the playbook specification is in your VagrantFile, you still must have Ansible itself available. The ideal thing to do is to create a Python virtualenv to the same directory and install Ansible into it.
 
-targetting the virtualbox
+.. code-block:: bash
+
+    cd ansible.playbook
+    virtualenv ./
+    bin/pip install ansible
+    bin/pip install ansible-vagrant
+    vagrant up
+    bin/ansible-playbook-vagrant playbook.yml
 
 Testing
 -------
@@ -506,10 +513,24 @@ Live host deployment
 Creating a host file
 ^^^^^^^^^^^^^^^^^^^^
 
+You'll need to tell Ansible how to connect to your host. There are multiple ways to do this. The easiest for our purposes is to create a *manifest* file.
+
+Create a file with a name like ``myhost.cfg`` that follows the pattern:
+
+.. code-block:: ini
+
+    plone.com --ansible_ssh_user=stevem ansible_ssh_host=192.168.1.50 ansible_ssh_port=5555
+
+You may leave off the ``ansible_ssh_host`` setting if the hostname is real. However, when doing early provisioning, it's often not available. ``ansible_ssh_port`` is only required if you want to use a non-standard ssh port.
+
 Running your playbook
 ^^^^^^^^^^^^^^^^^^^^^
 
-ansible-playbook --ask-sudo-pass -i host.cfg plone-playbook.yml
+.. code-block:: sh
+
+    ansible-playbook --ask-sudo-pass -i myhost.cfg plone-playbook.yml
+
+The ``--ask-sudo-pass`` option instructs Ansible to ask for your user password when it uses sudo for provisioning.
 
 Updating
 ^^^^^^^^
