@@ -27,7 +27,7 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 * An outgoing-mail-only mail server using `Postfix <http://www.postfix.org/>`_;
 
-* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_ and `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_.
+* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_ and `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_, logwatch and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
 
 * Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
@@ -460,26 +460,33 @@ Monitoring options
 
     install_muninnode: (yes|no)
 
-    Defaults to `yes`
+Do you want to install munin-node? Defaults to `yes`.
 
 .. code-block:: yaml
 
-    muninnode_allowed_ips: ipaddress
+    muninnode_query_ips:
+        - ^127\.0\.0\.1$
+        - ^192\.168\.10\.3$
 
-    Defaults to `127.0.0.1`
+What IP address are allowed to query your munin node? Specify a list of regular expressions.
+
+Defaults to `^127\.0\.0\.1$`
+
+.. note ::
+
+    For this to be useful, you must set up a munin monitor machine and cause it to query your node.
 
 .. code-block:: yaml
 
     install_logwatch: (yes|no)
 
-Defaults to `yes`
+If turned on, this will cause a daily summary of log file information to be sent to the admin email address. Defaults to `yes`
 
-Remember munin supervisor monitor
+.. code-block:: yaml
 
-fail2ban
-check nginx logs for login attempts
+    install_fail2ban: (yes|no)
 
-logwatch?
+Fail2ban scans log files and bans IPs that show malicious signs -- too many password failures, seeking for exploits, etc. Defaults to ``yes``.
 
 Testing with Vagrant
 --------------------
