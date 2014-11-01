@@ -196,7 +196,8 @@ Defaults to:
 .. code-block:: yaml
 
     motd: |
-        This server is configured via Ansible. Do not change configuration settings directly.
+        This server is configured via Ansible.
+        Do not change configuration settings directly.
 
 .. code-block:: yaml
 
@@ -216,7 +217,7 @@ List any additional operating system packages you wish to install. Default is em
 
 .. note ::
 
-The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
+    The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
 
 Plone options
 `````````````
@@ -271,7 +272,7 @@ Defaults to ``8000``
 
 .. Note ::
 
-The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
+    The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
 
 .. code-block:: yaml
 
@@ -363,35 +364,45 @@ Load-balancer options
 
     install_loadbalancer=(yes|no)
 
-.. code-block:: yaml
-
-    loadbalancer_port
+Defaults to ``yes``.
 
 .. code-block:: yaml
 
-    monitor_port
+    loadbalancer_port=6080
 
-.. code-block:: yaml
+The front-end port for the load balancer. Defaults to ``8080``.
 
-    monitor_password
+.. note ::
+
+    The haproxy stats page will be at ``http://localhost:1080/admin``. The administrative password is disabled on the assumption that the port will be firewalled and you will use any ssh tunnel to connect.
 
 Caching proxy options
 `````````````````````
 
 .. code-block:: yaml
 
-    install_proxycache
+    install_proxycache: (yes|no)
+
+Do you want to install the Varnish reverse-proxy cache? Default is ``yes``.
 
 .. code-block:: yaml
 
-    proxycache_port
+    proxycache_size: 512m
+
+Sets the Varnish cache size. Default is ``256m`` -- 256 megabytes.
+
+.. note ::
+
+    We assume the varnish cache and admin ports are firewalled and that you will administer the cache via ssh.
 
 Web-server options
 ``````````````````
 
 .. code-block:: yaml
 
-    install_webserver
+    install_webserver: (yes|no)
+
+Do you want to install Nginx? Defaults to ``yes``.
 
 Virtual hosting setup
 ~~~~~~~~~~~~~~~~~~~~~
@@ -402,15 +413,15 @@ Virtual hosting setup
         - hostname: plone.org
           zodb_path: /Plone
           port: 80
+          protocol: http
         - hostname: plone.org
           zodb_path: /Plone
           port: 443
+          protocol: https
           certificate_file: /thiscomputer/path/mycert.crt
           key_file: /thiscomputer/path/mycert.key
 
-.. note ::
-
-    keyfile can't be encrypted...
+Connects host names to paths in the ZODB.
 
 Default value:
 
@@ -419,6 +430,10 @@ Default value:
     - hostname: localhost
       zodb_path: /Plone
       port: 80
+
+.. note ::
+
+    If you are setting up and SSL sever, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
 
 
 (certificate file handling!)
@@ -430,9 +445,13 @@ Mail-server options
 
     install_mailserver: (yes|no)
 
+Do you want to install the Postfix mail server in a send-only configuration. Default is ``yes``.
+
 .. code-block:: yaml
 
-    mailserver_forward
+    mailserver_relay::
+
+XXX -- this one's important, but a bit of work
 
 Monitoring options
 ``````````````````
@@ -453,7 +472,7 @@ Monitoring options
 
     install_logwatch: (yes|no)
 
-    Defaults to `yes`
+Defaults to `yes`
 
 Remember munin supervisor monitor
 
