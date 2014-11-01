@@ -171,6 +171,17 @@ System options
 
 Plone options
 `````````````
+target
+
+clients
+memory profile
+
+eggs
+
+versions
+appends to version list
+
+supervisor mem monitor
 
 Load-balancer options
 `````````````````````
@@ -183,6 +194,18 @@ Web-server options
 
 Virtual hosting setup
 `````````````````````
+
+Mail-server options
+```````````````````
+
+Monitoring options
+``````````````````
+Remember munin supervisor monitor
+
+fail2ban
+check nginx logs for login attempts
+
+logwatch?
 
 Testing with Vagrant
 --------------------
@@ -211,3 +234,7 @@ Firewall
 
 Passwords
 ^^^^^^^^^
+
+Hotfixes, Updates, Upgrades
+
+Subscribe to XXX for security announcements
