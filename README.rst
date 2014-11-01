@@ -13,7 +13,7 @@ Plone Ansible playbook
 Introduction
 ------------
 
-Plone's Ansible Playbook can completely provision a remote cloud server to run the full stack of Plone, including:
+Plone's Ansible Playbook can completely provision a remote server to run the full stack of Plone, including:
 
 * Plone in a cluster configuration;
 
@@ -28,6 +28,10 @@ Plone's Ansible Playbook can completely provision a remote cloud server to run t
 * An outgoing-mail-only mail server using `Postfix <http://www.postfix.org/>`_;
 
 * Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_ and `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_.
+
+* Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
+
+An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
 TL;DR
 ^^^^^
@@ -44,7 +48,7 @@ TL;DR
 
 6. To test in a local virtual machine, run ``vagrant up``;
 
-7. To deploy, create an Ansible inventory file for the remote host and run ``ansible-playbook -i myhost playbook.yml``;
+7. To deploy, create an Ansible inventory file for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost playbook.yml``;
 
 8. Set a real password for your Plone instance on the target server;
 
@@ -92,7 +96,7 @@ SSH access
 
 public key auth
 
-passwordless sudo
+sudo
 
 Local setup
 ^^^^^^^^^^^
@@ -166,99 +170,253 @@ If you use a buildout directory checkout, you must still specify in your Playboo
 The Configuration File
 ^^^^^^^^^^^^^^^^^^^^^^
 
+YAML
+
 System options
 ``````````````
 
-admin_email
+.. code-block:: yaml
 
-motd
+    admin_email: sysadmin@yourdomain.com
 
-auto_upgrades
+It is important that you update this setting. The admin_email address will receive system mail, some of which is vitally important.
 
-additional_packages
+Defaults to an invalid address. Mail will not be delivered.
+
+.. code-block:: yaml
+
+    motd: |
+        Message of the day
+        for your server
+
+Sets the server's message of the day, which is displayed on login.
+
+Defaults to:
+
+.. code-block:: yaml
+
+    motd: |
+        This server is configured via Ansible. Do not change configuration settings directly.
+
+.. code-block:: yaml
+
+    auto_upgrades: (yes|no)
+
+Should the operating system's auto-update feature be turned on. You will still need to monitor for updates that cannot be automatically applied and for cases where a system restart is required after an update.
+
+Defaults to `yes`
+
+.. code-block:: yaml
+
+    additional_packages:
+        - package_one
+        - package_two
+
+List any additional operating system packages you wish to install. Default is empty.
 
 Plone options
 `````````````
-target
 
-buildout_git_repo
+.. code-block:: yaml
 
-..note:
+    target_path: /opt/plone
+
+Sets the Plone installation directory.
+
+Defaults to ``/usr/local/plone``
+
+.. code-block:: yaml
+
+    buildout_git_repo: https://github.com/plone/plone.com.ansible.git
+
+Defaults to none (uses built-in buildout).
+
+.. note::
 
     If you use your own buildout from a repository, you still need to specify your client count so that the playbook can 1) set up the supervisor specifications to start/stop and monitor clients, and 2) set up the load balancer.
 
     Client part names must follow the pattern `client#` where # is a number (1,2,3 ...). Client ports must be numbered sequentially beginning with 8081 or the value you set for client_base_port. The zeoserver part must be named `zeoserver` and be at 8100 or the value you set for zeo_port.
 
-initial_password
+.. code-block:: yaml
 
-client_count
+    initial_password: alnv%r(ybs83nt
 
-client_memory_profile
+Initial password of the Zope ``admin`` user. The initial password is used when the database is first created. Don't forget to change it.
 
-client_max_memory
+Defaults to ``admin``
 
-additional_eggs
+.. code-block:: yaml
 
-additional_versions
+    client_count: 5
+
+How many ZEO clients do you want to run?
+
+Defaults to ``2``
+
+.. note ::
+
+    The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer. Use it for debugging, run scripts and quick testing.
+
+.. code-block:: yaml
+
+    zodb_cache_size: 30000
+
+How many objects do you wish to keep in the ZODB cache.
+
+Defaults to ``8000``
+
+.. Note ::
+
+The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
+
+.. code-block:: yaml
+
+    z_server_threads: 2
+
+How many threads should run per server?
+
+Defaults to ``1``
+
+.. code-block:: yaml
+
+    client_max_memory: 800MB
+
+A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any client process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
+
+Defaults to ``0`` (turned off)
+
+.. code-block:: yaml
+
+    additional_eggs:
+        - Products.PloneFormGen
+        - collective.cover
+        - webcourtier.dropdownmenus
+
+List additional Python packages (beyond Plone and the Python Imaging Library) that you want available in the Python package environment.
+
+The default list is empty.
+
+.. code-block:: yaml
+
+    additional_versions
 
     appends to version list
 
-zeo_port
+.. code-block:: yaml
 
-client_base_port
+    zeo_port
 
-autorun_buildout=(yes|no)
+.. code-block:: yaml
+
+    client_base_port
+
+.. code-block:: yaml
+
+    autorun_buildout=(yes|no)
+
+backup options
+
+    XXX
 
 
 Load-balancer options
 `````````````````````
 
-install_loadbalancer
+.. code-block:: yaml
 
-loadbalancer_port
+    install_loadbalancer
 
-monitor_port
+.. code-block:: yaml
 
-monitor_password
+    loadbalancer_port
+
+.. code-block:: yaml
+
+    monitor_port
+
+.. code-block:: yaml
+
+    monitor_password
 
 Caching proxy options
 `````````````````````
 
-install_proxycache
+.. code-block:: yaml
 
-proxycache_port
+    install_proxycache
+
+.. code-block:: yaml
+
+    proxycache_port
 
 Web-server options
 ``````````````````
 
-install_webserver
+.. code-block:: yaml
+
+    install_webserver
 
 Virtual hosting setup
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. codeblock:: yaml
+.. code-block:: yaml
 
-    virtual_hosts: [
-        {'hostname': xxx, 'zodb_path': xxx, 'port': xxx,}
-        ]
+    virtual_hosts:
+        - hostname: plone.org
+          zodb_path: /Plone
+          port: 80
+        - hostname: plone.org
+          zodb_path: /Plone
+          port: 443
+          certificate_file: /thiscomputer/path/mycert.crt
+          key_file: /thiscomputer/path/mycert.key
+
+.. note ::
+
+    keyfile can't be encrypted...
+
+Default value:
+
+.. code-block:: yaml
+
+    - hostname: localhost
+      zodb_path: /Plone
+      port: 80
+
 
 (certificate file handling!)
 
 Mail-server options
 ```````````````````
 
-install_mailserver
+.. code-block:: yaml
 
-mailserver_forward
+    install_mailserver: (yes|no)
+
+.. code-block:: yaml
+
+    mailserver_forward
 
 Monitoring options
 ``````````````````
 
-install_muninnode
+.. code-block:: yaml
 
-muninnode_allowed_ips
+    install_muninnode: (yes|no)
 
-install_logwatch
+    Defaults to `yes`
+
+.. code-block:: yaml
+
+    muninnode_allowed_ips: ipaddress
+
+    Defaults to `127.0.0.1`
+
+.. code-block:: yaml
+
+    install_logwatch: (yes|no)
+
+    Defaults to `yes`
 
 Remember munin supervisor monitor
 
@@ -285,6 +443,10 @@ Live host deployment
 Creating a host file
 ^^^^^^^^^^^^^^^^^^^^
 
+Running your playbook
+^^^^^^^^^^^^^^^^^^^^^
+
+ansible-playbook --ask-sudo-pass -i host.cfg plone-playbook.yml
 
 Updating
 ^^^^^^^^
