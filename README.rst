@@ -268,7 +268,7 @@ Defaults to ``2``
 
 How many objects do you wish to keep in the ZODB cache.
 
-Defaults to ``8000``
+Defaults to ``30000``
 
 .. Note ::
 
