@@ -1,0 +1,125 @@
+---
+
+##########################################################################
+# Configuration options for the Plone Ansible Playbook
+# All these are discussed in the documentation.
+#
+# Unless you have forked your playbook, you should probably not customize
+# this file, as changes will be overwritten by pulls.
+#
+# Instead, create and edit local-configure.yml
+##########################################################################
+
+
+#######################################
+# System options
+
+admin_email: nobody
+
+motd: |
+    This server is configured via Ansible.
+    Do not change configuration settings directly.
+
+auto_upgrades: yes
+
+# additional_packages:
+#    wget
+
+
+#######################################
+# Plone options
+
+target_path: /usr/local/plone
+
+# buildout_git_repo:
+
+plone_version: 4.3.3
+
+initial_password: admin
+
+client_count: 2
+
+zodb_cache_size: 30000
+
+z_server_threads: 1
+
+client_max_memory: 0
+
+# additional_eggs:
+#     - Products.PloneFormGen
+
+# additional_versions:
+#     - egg: Products.PloneFormGen
+#       version: 1.7.16
+
+zeo_port: 8100
+
+client_base_port: 8080
+
+autorun_buildout: yes
+
+buildout_cache: http://dist.plone.org/4.3.4/buildout-cache.tar.bz2
+
+
+#######################################
+# Cron jobs
+
+pack_at: 30 1 * * 7
+
+keep_days: 3
+
+backup_at: 30 2 * * *
+
+keep_backups: 14
+
+# backup_path:
+
+
+#######################################
+# Load-balancer options
+
+install_loadbalancer: yes
+
+loadbalancer_port: 8080
+
+
+#######################################
+# Caching proxy options
+
+install_proxycache: yes
+
+proxycache_port: 6081
+
+proxycache_size: 256m
+
+
+#######################################
+# Web-server options
+
+install_webserver: yes
+
+virtual_hosts:
+  - hostname: localhost
+    zodb_path: /Plone
+    port: 80
+
+
+#######################################
+# Mail-server options
+
+install_mailserver: yes
+
+# mailserver_relay::
+
+
+#######################################
+# Monitoring options
+
+install_muninnode: yes
+
+muninnode_query_ips:
+    - ^127\.0\.0\.1$
+
+install_logwatch: yes
+
+install_fail2ban: yes

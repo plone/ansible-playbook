@@ -218,6 +218,10 @@ Should the operating system's auto-update feature be turned on. You will still n
 
 Defaults to `yes`
 
+.. warning ::
+
+    Turning on automatic updates does not relieve you of the duty of actively administering the server. Many updates, including vital security updates, will not happen or take effect without direct action.
+
 
 additional_packages
 ~~~~~~~~~~~~~~~~~~~
@@ -233,6 +237,7 @@ List any additional operating system packages you wish to install. Default is em
 .. note ::
 
     The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
+
 
 Plone options
 `````````````
@@ -405,7 +410,7 @@ autorun_buildout
 
 .. code-block:: yaml
 
-    autorun_buildout=(yes|no)
+    autorun_buildout: (yes|no)
 
 Do you wish to automatically run buildout if any of the Plone settings change? Defaults to ``yes``.
 
@@ -481,7 +486,7 @@ install_loadbalancer
 
 .. code-block:: yaml
 
-    install_loadbalancer=(yes|no)
+    install_loadbalancer: (yes|no)
 
 Do you want to use a load balancer? Defaults to ``yes``.
 
@@ -493,7 +498,7 @@ Defaults to ``yes``.
 
 .. code-block:: yaml
 
-    loadbalancer_port=6080
+    loadbalancer_port: 6080
 
 The front-end port for the load balancer. Defaults to ``8080``.
 
