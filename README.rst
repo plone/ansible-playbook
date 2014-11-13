@@ -175,6 +175,9 @@ YAML
 System options
 ``````````````
 
+admin_email
+~~~~~~~~~~~
+
 .. code-block:: yaml
 
     admin_email: sysadmin@yourdomain.com
@@ -182,6 +185,10 @@ System options
 It is important that you update this setting. The admin_email address will receive system mail, some of which is vitally important.
 
 Defaults to an invalid address. Mail will not be delivered.
+
+
+motd
+~~~~
 
 .. code-block:: yaml
 
@@ -199,6 +206,10 @@ Defaults to:
         This server is configured via Ansible.
         Do not change configuration settings directly.
 
+
+auto_upgrades
+~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     auto_upgrades: (yes|no)
@@ -206,6 +217,10 @@ Defaults to:
 Should the operating system's auto-update feature be turned on. You will still need to monitor for updates that cannot be automatically applied and for cases where a system restart is required after an update.
 
 Defaults to `yes`
+
+
+additional_packages
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -222,6 +237,9 @@ List any additional operating system packages you wish to install. Default is em
 Plone options
 `````````````
 
+target_path
+~~~~~~~~~~~
+
 .. code-block:: yaml
 
     target_path: /opt/plone
@@ -229,6 +247,10 @@ Plone options
 Sets the Plone installation directory.
 
 Defaults to ``/usr/local/plone``
+
+
+buildout_git_repo
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -242,6 +264,10 @@ Defaults to none (uses built-in buildout).
 
     Client part names must follow the pattern `client#` where # is a number (1,2,3 ...). Client ports must be numbered sequentially beginning with 8081 or the value you set for client_base_port. The zeoserver part must be named `zeoserver` and be at 8100 or the value you set for zeo_port.
 
+
+initial_password
+~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     initial_password: alnv%r(ybs83nt
@@ -249,6 +275,10 @@ Defaults to none (uses built-in buildout).
 Initial password of the Zope ``admin`` user. The initial password is used when the database is first created. Don't forget to change it.
 
 Defaults to ``admin``
+
+
+client_count
+~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -262,6 +292,10 @@ Defaults to ``2``
 
     The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer. Use it for debugging, run scripts and quick testing.
 
+
+zodb_cache_size
+~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     zodb_cache_size: 30000
@@ -274,6 +308,10 @@ Defaults to ``30000``
 
     The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
 
+
+z_server_threads
+~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     z_server_threads: 2
@@ -282,6 +320,10 @@ How many threads should run per server?
 
 Defaults to ``1``
 
+
+client_max_memory
+~~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     client_max_memory: 800MB
@@ -289,6 +331,10 @@ Defaults to ``1``
 A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any client process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
 
 Defaults to ``0`` (turned off)
+
+
+additional_eggs
+~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -301,6 +347,10 @@ List additional Python packages (beyond Plone and the Python Imaging Library) th
 
 The default list is empty.
 
+
+additional_versions
+~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     additional_versions:
@@ -311,11 +361,19 @@ The default list is empty.
 
 The version pins you specify here will be added to the ``[versions]`` section of your buildout. The default list is empty.
 
+
+zeo_port
+~~~~~~~~
+
 .. code-block:: yaml
 
-    zeo_port
+    zeo_port: 6100
 
 The port number for the Zope database server. Defaults to ``8100``.
+
+
+client_base_port
+~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -323,9 +381,19 @@ The port number for the Zope database server. Defaults to ``8100``.
 
 The port number for your first Zope client. Subsequent client ports will be added in increments of 1. Defaults to ``8081``.
 
+
+autorun_buildout
+~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     autorun_buildout=(yes|no)
+
+Do you wish to automatically run buildout if any of the Plone settings change? Defaults to ``yes``.
+
+
+buildout_cache
+~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -333,36 +401,75 @@ The port number for your first Zope client. Subsequent client ports will be adde
 
 The URL of a buildout egg cache. Defaults to the one for the current version of Plone.
 
+
 Cron jobs
 ~~~~~~~~~
+
+pack_at
+~~~~~~~
 
 .. code-block:: yaml
 
     pack_at: 32 1 * * 7
 
+When do you wish to run the ZEO pack operation? Specify a valid *cron* time. See ``CRONTAB(5)``. Defaults to 1:30 Sunday morning.
+
+
+keep_days
+~~~~~~~~~
+
 .. code-block:: yaml
 
     keep_days: 3
+
+How many days of undo information do you wish to keep when you pack the database. Defaults to ``3``.
+
+
+backup_at
+~~~~~~~~~
 
 .. code-block:: yaml
 
     backup_at: 27 2 * * *
 
+When do you wish to run the backup operation? Specify a valid *cron* time. See ``CRONTAB(5)``. Defaults to 2:30 every morning.
+
+
+keep_backups
+~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     keep_backups: 15
+
+How many generations of backups do you wish to keep? Defaults to ``14``.
+
+
+backup_path
+~~~~~~~~~~~
 
 .. code-block:: yaml
 
     backup_path: /mnt/backup/plone/var
 
+Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
+
 
 Load-balancer options
 `````````````````````
 
+install_loadbalancer
+~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     install_loadbalancer=(yes|no)
+
+Do you want to use a load balancer? Defaults to ``yes``.
+
+.. note ::
+
+    If you decide not to use a load balancer, you will need to make sure that the ``loadbalancer_port`` setting points to your main ZEO client if you are using a proxy cache. If you are not using a proxy_cache, you must make sure that ``proxycache_port`` points to main ZEO client.
 
 Defaults to ``yes``.
 
@@ -385,15 +492,34 @@ Caching proxy options
 
 Do you want to install the Varnish reverse-proxy cache? Default is ``yes``.
 
+.. note ::
+
+    If you decide not to use a proxy cache, you will need to make sure that the ``proxycache_port`` setting points to your load balancer front end. If you are not using a load balancer, you must make sure that ``proxycache_port`` points to main ZEO client.
+
+
+proxycache_port
+~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    proxycache_port: 5081
+
+The front-end address for the proxy cache. Defaults to ``6081``.
+
+.. note ::
+
+    We assume the varnish cache and admin ports are firewalled and that you will administer the cache via ssh.
+
+
+proxycache_size
+~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     proxycache_size: 512m
 
 Sets the Varnish cache size. Default is ``256m`` -- 256 megabytes.
 
-.. note ::
-
-    We assume the varnish cache and admin ports are firewalled and that you will administer the cache via ssh.
 
 Web-server options
 ``````````````````
@@ -403,6 +529,10 @@ Web-server options
     install_webserver: (yes|no)
 
 Do you want to install Nginx? Defaults to ``yes``.
+
+.. note ::
+
+    If you decide not to install the webserver -- which acts as a reverse proxy -- you are on your own for making sure that Plone is accessible at a well-known port.
 
 Virtual hosting setup
 ~~~~~~~~~~~~~~~~~~~~~
@@ -435,11 +565,16 @@ Default value:
 
     If you are setting up and SSL sever, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
 
+.. warning ::
 
-(certificate file handling!)
+    Make sure that your source key file is not placed in a public location.
+
 
 Mail-server options
 ```````````````````
+
+install_mailserver
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -447,14 +582,22 @@ Mail-server options
 
 Do you want to install the Postfix mail server in a send-only configuration. Default is ``yes``.
 
+.. note ::
+
+    If you choose not to install a mail server via this playbook, this becomes your responsibility.
+
 .. code-block:: yaml
 
     mailserver_relay::
 
 XXX -- this one's important, but a bit of work
 
+
 Monitoring options
 ``````````````````
+
+install_muninnode
+~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -476,17 +619,30 @@ Defaults to ``^127\.0\.0\.1$``
 
     For this to be useful, you must set up a munin monitor machine and cause it to query your node.
 
+
+install_logwatch
+~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     install_logwatch: (yes|no)
 
 If turned on, this will cause a daily summary of log file information to be sent to the admin email address. Defaults to `yes`
 
+
+install_fail2ban
+~~~~~~~~~~~~~~~~
+
 .. code-block:: yaml
 
     install_fail2ban: (yes|no)
 
 Fail2ban scans log files and bans IPs that show malicious signs -- too many password failures, seeking for exploits, etc. Defaults to ``yes``.
+
+.. note ::
+
+    fail2ban is only useful with an iptables-style firewall.
+
 
 Testing with Vagrant
 --------------------
@@ -502,10 +658,11 @@ This is really easy. Vagrant includes an Ansible provisioner and will run the pl
     vagrant up
     bin/ansible-playbook-vagrant playbook.yml
 
+
 Testing
 -------
 
-Do tests when appropriate to connect to ports both from outside and inside
+Do tests when appropriate to connect to ports both from outside and inside?
 
 Live host deployment
 --------------------
@@ -540,10 +697,22 @@ Using tags for quick, partial updates
 Firewall
 ^^^^^^^^
 
+The main playbook, ``playbook.yml``, does **not** configure your firewall.
+
+A separate playbook, ``firewall.yml`` sets up a basic firewall that closes all ports except ssh, http and https.
+
+.. note ::
+
+    If you are using munin-node, you will need to add a rule to open your munin node monitor port to your munin server.
+
 Passwords
 ^^^^^^^^^
 
 Hotfixes, Updates, Upgrades
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Subscribe to XXX for security announcements
+.. warning ::
+
+    If you are administering an Internet-accessible Plone install, you **must** subscribe to the `Plone-Announce mailing list <https://lists.sourceforge.net/lists/listinfo/plone-announce>`_ to receive vital security and version update announcements. Expect to apply periodic hotfixes to maintain your site.
+
+This is the **minimum** responsibility of a site administrator. Ideally you should also participate in the Plone community and read other Plone news.
