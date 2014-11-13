@@ -264,6 +264,17 @@ Defaults to none (uses built-in buildout).
 
     Client part names must follow the pattern `client#` where # is a number (1,2,3 ...). Client ports must be numbered sequentially beginning with 8081 or the value you set for client_base_port. The zeoserver part must be named `zeoserver` and be at 8100 or the value you set for zeo_port.
 
+    If you use your own buildout, all Plone settings except ``client_count``, ``client_base_port``, and ``client_max_memory`` are ignored.
+
+
+plone_version
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_version: 4.3.3
+
+Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook.
 
 initial_password
 ~~~~~~~~~~~~~~~~
@@ -332,6 +343,9 @@ A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be c
 
 Defaults to ``0`` (turned off)
 
+.. note ::
+
+    This setting is used in configuration of the ``memmon`` monitor in the supervisor `superlance <http://superlance.readthedocs.org/en/latest>`_ plugin.
 
 additional_eggs
 ~~~~~~~~~~~~~~~
@@ -346,6 +360,10 @@ additional_eggs
 List additional Python packages (beyond Plone and the Python Imaging Library) that you want available in the Python package environment.
 
 The default list is empty.
+
+.. note ::
+
+    Plone hotfixes are typically added as additional eggs.
 
 
 additional_versions
