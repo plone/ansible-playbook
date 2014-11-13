@@ -2,7 +2,8 @@
 
 - hosts: all
   sudo: yes
-  gather_facts: no
+  gather_facts: yes
+
 
   pre_tasks:
 
@@ -15,20 +16,35 @@
        - local-configure.yml
        - null.yml
 
-    - name: Update host
-      apt: upgrade=dist update_cache=yes
+    # - name: Update host
+    #   apt: upgrade=dist update_cache=yes
 
-    - name: Ensure required packages
-      apt: pkg={{ item }} state=present
-      with_items:
-        - build-essential
-        - python-dev
-        - python-pip
+    # - name: Ensure required packages
+    #   apt: pkg={{ item }} state=present
+    #   with_items:
+    #     - build-essential
+    #     - python-dev
+    #     - python-pip
+    #     - mailutils
 
-    - name: Ensure recent python-virtualenv
-      pip: name=virtualenv
-      # note that this installs to /usr/local/bin
-      # which is not automatically on the path
+    # - name: Ensure recent python-virtualenv
+    #   pip: name=virtualenv
+    #   # note that this installs to /usr/local/bin
+    #   # which is not automatically on the path
+
+
+  roles:
+
+    - role: jnv.unattended-upgrades
+      when: auto_upgrades
+      unattended_mail: root
+      unattended_origins_patterns:
+        - 'origin=${distro_id},archive=${distro_codename}-security'
+        - 'o=${distro_id},a=${distro_codename}'
+        - 'o=${distro_id},a=${distro_codename}-updates'
+
+    - role: tersmitten.fail2ban
+      when: install_fail2ban
 
 
   tasks:

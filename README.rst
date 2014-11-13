@@ -42,7 +42,7 @@ TL;DR
 
 3. Check out or download a copy of this package;
 
-4. Run ``ansible-galaxy requirements.yml`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.txt`` to install required roles;
 
 5. Edit ``configure.yml`` to override settings;
 
