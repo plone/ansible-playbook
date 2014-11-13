@@ -1,1 +1,4 @@
-*.html
+.vagrant/
+docs/Makefile
+docs/_build/
+docs/conf.py

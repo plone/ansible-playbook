@@ -1,0 +1,40 @@
+---
+
+- hosts: all
+  sudo: yes
+  gather_facts: no
+
+  pre_tasks:
+
+    - name: Include vars from configure.yml
+      include_vars: configure.yml
+
+    - name: Include vars from local-configure.yml if found
+      include_vars: "{{ item }}"
+      with_first_found:
+       - local-configure.yml
+       - null.yml
+
+    - name: Update host
+      apt: upgrade=dist update_cache=yes
+
+    - name: Ensure required packages
+      apt: pkg={{ item }} state=present
+      with_items:
+        - build-essential
+        - python-dev
+        - python-pip
+
+    - name: Ensure recent python-virtualenv
+      pip: name=virtualenv
+      # note that this installs to /usr/local/bin
+      # which is not automatically on the path
+
+
+  tasks:
+
+    - name: Update motd
+      copy:
+        dest=/etc/motd
+        content="{{ motd }}"
+
