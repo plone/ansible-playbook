@@ -46,6 +46,7 @@
     - role: tersmitten.fail2ban
       when: install_fail2ban
 
+    - role: plone
 
   tasks:
 

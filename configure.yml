@@ -31,6 +31,10 @@ auto_upgrades: yes
 
 target_path: /usr/local/plone
 
+python_version: 2.7
+
+instance_name: zeoserver
+
 # buildout_git_repo:
 
 plone_version: 4.3.3
@@ -58,7 +62,7 @@ client_base_port: 8080
 
 autorun_buildout: yes
 
-buildout_cache: http://dist.plone.org/4.3.4/buildout-cache.tar.bz2
+buildout_cache: http://dist.plone.org/{{ plone_version }}/buildout-cache.tar.bz2
 
 
 #######################################
