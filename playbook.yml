@@ -2,7 +2,7 @@
 
 - hosts: all
   sudo: yes
-  gather_facts: yes
+#  gather_facts: yes
 
 
   pre_tasks:
@@ -35,23 +35,23 @@
 
   roles:
 
-    - role: jnv.unattended-upgrades
-      when: auto_upgrades
-      unattended_mail: root
-      unattended_origins_patterns:
-        - 'origin=${distro_id},archive=${distro_codename}-security'
-        - 'o=${distro_id},a=${distro_codename}'
-        - 'o=${distro_id},a=${distro_codename}-updates'
+    # - role: jnv.unattended-upgrades
+    #   when: auto_upgrades
+    #   unattended_mail: root
+    #   unattended_origins_patterns:
+    #     - 'origin=${distro_id},archive=${distro_codename}-security'
+    #     - 'o=${distro_id},a=${distro_codename}'
+    #     - 'o=${distro_id},a=${distro_codename}-updates'
 
-    - role: tersmitten.fail2ban
-      when: install_fail2ban
+    # - role: tersmitten.fail2ban
+    #   when: install_fail2ban
 
     - role: plone
 
   tasks:
 
-    - name: Update motd
-      copy:
-        dest=/etc/motd
-        content="{{ motd }}"
+    # - name: Update motd
+    #   copy:
+    #     dest=/etc/motd
+    #     content="{{ motd }}"
 

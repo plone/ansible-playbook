@@ -45,7 +45,7 @@ client_count: 2
 
 zodb_cache_size: 30000
 
-z_server_threads: 1
+zserver_threads: 1
 
 client_max_memory: 0
 
@@ -59,6 +59,9 @@ client_max_memory: 0
 zeo_port: 8100
 
 client_base_port: 8080
+
+environment_vars:
+  - "PYTHON_EGG_CACHE ${buildout:directory}/var/.python-eggs"
 
 autorun_buildout: yes
 

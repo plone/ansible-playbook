@@ -325,12 +325,12 @@ Defaults to ``30000``
     The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
 
 
-z_server_threads
+zserver_threads
 ~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
-    z_server_threads: 2
+    zserver_threads: 2
 
 How many threads should run per server?
 
@@ -403,6 +403,23 @@ client_base_port
     client_base_port: 6080
 
 The port number for your first Zope client. Subsequent client ports will be added in increments of 1. Defaults to ``8081``.
+
+environment_vars
+~~~~~~~~~~~~~~~~
+
+.. code_block:: yaml
+
+    environment_vars:
+        - "TZ US/Eastern"
+        - "zope_i18n_allowed_languages en"
+
+A list of environment variables you wish to set for running Plone instances.
+
+Defaults to:
+
+.. code_block:: yaml
+
+    - "PYTHON_EGG_CACHE ${buildout:directory}/var/.python-eggs"
 
 
 autorun_buildout
