@@ -377,10 +377,9 @@ additional_versions
 .. code-block:: yaml
 
     additional_versions:
-        - egg: Products.PloneFormGen
-          version: 1.7.16
-        - egg: collective.cover
-          version: 1.0
+      - "Products.PloneFormGen = 1.7.16"
+      - "Products.PythonField = 1.1.3"
+      - "Products.TALESField = 1.1.3"
 
 The version pins you specify here will be added to the ``[versions]`` section of your buildout. The default list is empty.
 
