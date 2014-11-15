@@ -35,7 +35,9 @@ python_version: 2.7
 
 instance_name: zeoserver
 
-# buildout_git_repo:
+buildout_git_repo: no
+
+buildout_git_version: master
 
 plone_version: 4.3.3
 
@@ -53,17 +55,16 @@ client_max_memory: 0
 #     - Products.PloneFormGen
 
 # additional_versions:
-#     - egg: Products.PloneFormGen
-#       version: 1.7.16
+#      - "Products.PloneFormGen = 1.7.16"
+#      - "Products.PythonField = 1.1.3"
+#      - "Products.TALESField = 1.1.3"
 
 zeo_port: 8100
 
 client_base_port: 8080
 
 environment_vars:
-  - "Products.PloneFormGen = 1.7.16"
-  - "Products.PythonField = 1.1.3"
-  - "Products.TALESField = 1.1.3"
+  - "PYTHON_EGG_CACHE ${buildout:directory}/var/.python-eggs"
 
 autorun_buildout: yes
 
@@ -73,15 +74,23 @@ buildout_cache: http://dist.plone.org/{{ plone_version }}/buildout-cache.tar.bz2
 #######################################
 # Cron jobs
 
-pack_at: 30 1 * * 7
+pack_at:
+  minute: 30
+  hour: 1
+  weekday: 7
 
 keep_days: 3
 
-backup_at: 30 2 * * *
+backup_at:
+  minute: 30
+  hour: 2
+  weekday: "*"
 
-keep_backups: 14
+keep_backups: 3
 
-# backup_path:
+keep_blob_days: 21
+
+backup_path: no
 
 
 #######################################

@@ -3,6 +3,7 @@
 - hosts: all
   sudo: yes
 #  gather_facts: yes
+  gather_facts: no
 
 
   pre_tasks:

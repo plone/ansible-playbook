@@ -260,8 +260,11 @@ buildout_git_repo
 .. code-block:: yaml
 
     buildout_git_repo: https://github.com/plone/plone.com.ansible.git
+    buildout_git_version: master
 
-Defaults to none (uses built-in buildout).
+``buildout_git_repo`` defaults to none (uses built-in buildout).
+
+``buildout_git_version`` is the tag or branch. Defaults to ``master``.
 
 .. note::
 
@@ -406,7 +409,7 @@ The port number for your first Zope client. Subsequent client ports will be adde
 environment_vars
 ~~~~~~~~~~~~~~~~
 
-.. code_block:: yaml
+.. code-block:: yaml
 
     environment_vars:
         - "TZ US/Eastern"
@@ -416,7 +419,7 @@ A list of environment variables you wish to set for running Plone instances.
 
 Defaults to:
 
-.. code_block:: yaml
+.. code-block:: yaml
 
     - "PYTHON_EGG_CACHE ${buildout:directory}/var/.python-eggs"
 
@@ -449,9 +452,12 @@ pack_at
 
 .. code-block:: yaml
 
-    pack_at: 32 1 * * 7
+    pack_at:
+      minute: 30
+      hour: 1
+      weekday: 7
 
-When do you wish to run the ZEO pack operation? Specify a valid *cron* time. See ``CRONTAB(5)``. Defaults to 1:30 Sunday morning.
+When do you wish to run the ZEO pack operation? Specify minute, hour and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 1:30 Sunday morning. Set to ``no`` to avoid creation of a cron job.
 
 
 keep_days
@@ -469,9 +475,12 @@ backup_at
 
 .. code-block:: yaml
 
-    backup_at: 27 2 * * *
+    backup_at:
+      minute: 30
+      hour: 2
+      weekday: "*"
 
-When do you wish to run the backup operation? Specify a valid *cron* time. See ``CRONTAB(5)``. Defaults to 2:30 every morning.
+When do you wish to run the backup operation?  Specify minute, hour and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 2:30 every morning.  Set to ``no`` to avoid creation of a cron job.
 
 
 keep_backups
@@ -479,17 +488,30 @@ keep_backups
 
 .. code-block:: yaml
 
-    keep_backups: 15
+    keep_backups: 3
 
-How many generations of backups do you wish to keep? Defaults to ``14``.
+How many generations of full backups do you wish to keep? Defaults to ``2``.
 
+.. note ::
+
+    Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However backups after a pack operation are complete (full) backups -- not difference operations. Thus, keeping two full backups means that you have backups for ``keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.python.org/pypi/collective.recipe.backup>`_.
+
+
+keep_blob_days
+~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    keep_blob_days: 21
+
+How many days of blob backups do you wish to keep? This is typically set to `keep_backups * days_between_packs`` days. Default is ``14``.
 
 backup_path
 ~~~~~~~~~~~
 
 .. code-block:: yaml
 
-    backup_path: /mnt/backup/plone/var
+    backup_path: /mnt/backup/plone
 
 Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
 
