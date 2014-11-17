@@ -5,6 +5,5 @@ admin: root
 
 plone_daemon: root
 plone_buildout: root
-steve: root
 
 root: {{ admin_email }}

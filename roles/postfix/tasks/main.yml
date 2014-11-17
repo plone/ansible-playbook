@@ -11,22 +11,12 @@
   notify:
   - reload postfix
 
-# - name: Set aliases
-#   template:
-#     src=aliases
-#     dest=/etc/aliases
-#     owner=root
-#     group=root
-#     mode=644
-#   notify:
-#   - new aliases
-#   - reload postfix
-
-- name: Set admin email
-  lineinfile:
+- name: Set aliases
+  template:
+    src=aliases
     dest=/etc/aliases
-    state=present
-    regexp="^root.*$"
-    line="root{{:}} {{ admin_email }}"
+    owner=root
+    group=root
+    mode=644
   notify:
-  - reload postfix
+  - new aliases

@@ -54,6 +54,11 @@
       when: install_proxycache
 
     - role: postfix
+      when: install_mailserver
+
+    - role: logwatch
+      when: install_logwatch
+
 
   tasks:
 
