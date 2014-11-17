@@ -2,8 +2,7 @@
 
 - hosts: all
   sudo: yes
-#  gather_facts: yes
-  gather_facts: no
+  gather_facts: yes
 
 
   pre_tasks:
@@ -26,7 +25,6 @@
         - build-essential
         - python-dev
         - python-pip
-        - mailutils
 
     - name: Ensure recent python-virtualenv
       pip: name=virtualenv
@@ -47,13 +45,15 @@
     - role: tersmitten.fail2ban
       when: install_fail2ban
 
-    # - role: plone
+    - role: plone
 
-    # - role: haproxy
-    #   when: install_loadbalancer
+    - role: haproxy
+      when: install_loadbalancer
 
-    # - role: varnish
-    #   when: install_proxycache
+    - role: varnish
+      when: install_proxycache
+
+    - role: postfix
 
   tasks:
 

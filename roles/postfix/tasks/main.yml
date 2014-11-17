@@ -3,13 +3,30 @@
 - name: Postfix present
   apt: pkg=postfix state=present
 
-- name: Set aliases
-  template:
-    src=aliases
-    dest=/etc/aliases
-    owner=root
-    group=root
-    mode=644
+- name: Set mynetworks_style to host (forward local only)
+  lineinfile:
+    dest=/etc/postfix/main.cf
+    state=present
+    line="mynetworks_style = host"
   notify:
-  - new aliases
+  - reload postfix
+
+# - name: Set aliases
+#   template:
+#     src=aliases
+#     dest=/etc/aliases
+#     owner=root
+#     group=root
+#     mode=644
+#   notify:
+#   - new aliases
+#   - reload postfix
+
+- name: Set admin email
+  lineinfile:
+    dest=/etc/aliases
+    state=present
+    regexp="^root.*$"
+    line="root{{:}} {{ admin_email }}"
+  notify:
   - reload postfix

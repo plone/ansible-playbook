@@ -70,6 +70,8 @@ autorun_buildout: yes
 
 buildout_cache: http://dist.plone.org/{{ plone_version }}/buildout-cache.tar.bz2
 
+buildout_cache_file:
+
 
 #######################################
 # Cron jobs

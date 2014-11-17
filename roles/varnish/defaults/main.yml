@@ -7,3 +7,11 @@ loadbalancer_port: 8080
 proxycache_method: malloc
 
 proxycache_size: 256m
+
+nocompress_ext: (jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)
+
+always_cache_ext: (pdf|asc|dat|txt|doc|xls|ppt|tgz|png|gif|jpeg|jpg|ico|swf|css|js)
+
+cache_sanitize_cookies: (statusmessages|__ac|_ZopeId|__cp)
+
+nocache_cookies: __ac(|_(name|password|persistent))
