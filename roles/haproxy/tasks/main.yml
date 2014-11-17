@@ -1,0 +1,28 @@
+---
+
+- name: haproxy installed
+  apt: pkg=haproxy state=present
+
+- name: haproxy enabled
+  copy:
+    src=haproxy_enabled
+    dest=/etc/default/haproxy
+    owner=root
+    group=root
+    mode=644
+
+- name: haproxy config
+  template:
+    src=haproxy.cfg.j2
+    dest=/etc/haproxy/haproxy.cfg
+    owner=root
+    group=root
+    mode=644
+    backup=true
+  sudo: yes
+
+- name: haproxy started
+  service: name=haproxy state=started
+
+- name: reload haproxy
+  service: name=haproxy state=reloaded

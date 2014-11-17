@@ -1,0 +1,15 @@
+---
+
+- name: Postfix present
+  apt: pkg=postfix state=present
+
+- name: Set aliases
+  template:
+    src=aliases
+    dest=/etc/aliases
+    owner=root
+    group=root
+    mode=644
+  notify:
+  - new aliases
+  - reload postfix

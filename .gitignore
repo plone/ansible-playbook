@@ -2,4 +2,6 @@
 docs/Makefile
 docs/_build/
 docs/conf.py
-roles/*
+roles/plone
+roles/jnv.unattended-upgrades
+roles/tersmitten.fail2ban

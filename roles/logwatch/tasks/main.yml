@@ -1,0 +1,11 @@
+---
+
+- name: logwatch package installed
+  apt: pkg=logwatch state=present
+
+- name: Custom logwatch files present
+  copy:
+    src=etc_logwatch/
+    dest=/etc/logwatch/
+    owner=root
+    group=root

@@ -1,0 +1,68 @@
+---
+
+- name: Munin-Node package present
+  apt: pkg=munin-node state=present
+
+- name: Configure munin-node
+  template:
+    src=munin-node.conf.j2
+    dest=/etc/munin/munin-node.conf
+    owner=root
+    group=root
+    mode=644
+  notify: restart munin-node
+
+- name: Add custom monitors
+  copy:
+    src=monitors/
+    dest=/etc/munin/plugins/
+  notify: restart munin-node
+
+- name: Deactivate unneeded monitors
+  file:
+    path="/etc/munin/plugins/{{ item }}"
+    state=absent
+  with_items:
+    - nfs4_client
+    - nfs_client
+    - nfsd
+    - nfsd4
+    - ntp_kernel_err
+    - ntp_kernel_pll_freq
+    - ntp_kernel_pll_off
+    - ntp_offset
+    - if_dummy0
+    - if_err_dummy0
+    - if_err_eth0
+    - if_err_gre0
+    - if_err_gretap0
+    - if_err_ip6gre0
+    - if_err_ip6tnl0
+    - if_err_ip6_vti0
+    - if_err_ip_vti0
+    - if_err_teql0
+    - if_err_tunl0
+    - if_gre0
+    - if_gretap0
+    - if_ip6gre0
+    - if_ip6tnl0
+    - if_ip6_vti0
+    - if_ip_vti0
+    - if_teql0
+    - if_tunl0
+    - irqstats
+    - users
+    - proc_pri
+  notify: restart munin-node
+
+- name: Add desired monitors
+  file:
+    path="/etc/munin/plugins/{{ item }}"
+    state=link
+    src="/usr/share/munin/plugins/{{ item }}"
+  with_items:
+    - apache_accesses
+    - apache_processes
+    - apache_volume
+    - http_loadtime
+  notify: restart munin-node

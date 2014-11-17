@@ -1,0 +1,10 @@
+# See man 5 aliases for format
+postmaster:    root
+abuse: root
+admin: root
+
+plone_daemon: root
+plone_buildout: root
+steve: root
+
+root: {{ admin_email }}

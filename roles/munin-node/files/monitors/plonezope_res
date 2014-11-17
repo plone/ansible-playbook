@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+# munin plugin to gather resident-size for
+# all specified user ids.
+
+import os
+import re
+import sys
+import subprocess
+
+users = os.environ.get('users') or 'plone_daemon'
+category = os.environ.get('category') or 'plone'
+
+ps_command = 'ps -ww -o rss= -o command= -U %s' % users
+# print ps_command
+command_re = re.compile(r'\s(\S+)(\.conf| fg)')
+pid_split = re.compile(r'^(\d+) +(.+)$')
+
+config = len(sys.argv) > 1 and sys.argv[1].lower() == 'config'
+if config:
+    print "graph_title %s resident memory" % users
+    print "graph_vlabel MB"
+    print "graph_category %s" % category
+    print "graph_scale no"
+
+ps_out = subprocess.Popen(
+    ps_command.split(),
+    stdout=subprocess.PIPE
+    ).stdout.read()
+
+for line in ps_out.split('\n'):
+    # print line
+    match = pid_split.match(line)
+    if match:
+        res, command = match.groups()
+        # print res, command
+        cmatch = command_re.search(command)
+        if cmatch:
+            cstr = cmatch.groups()[0].replace('/', '_'
+                ).replace('_parts', ''
+                ).replace('_etc', ''
+                ).replace('_zope', ''
+                ).replace('zeo_', ''
+                ).replace('zeocluster_', ''
+                ).replace('bin_', ''
+                ).replace('var_db_', ''
+                ).replace('opt_', ''
+                ).replace('usr_', ''
+                ).replace('local_', ''
+                ).replace('.', ''
+                ).strip('_'
+                ).lower()
+            if 'server' in cstr:
+                continue
+            if config:
+                print "%s.label %s" % (cstr, cstr)
+            else:
+                print "%s.value %d" % (cstr, int(res) / 1024)

@@ -1,0 +1,9 @@
+---
+
+proxycache_port: 6081
+
+loadbalancer_port: 8080
+
+proxycache_method: malloc
+
+proxycache_size: 256m

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/usr/lib/update-notifier/update-motd-updates-available
+
+/usr/lib/update-notifier/update-motd-reboot-required
+echo
+/usr/bin/supervisorctl status
+echo
