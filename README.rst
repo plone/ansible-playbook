@@ -347,13 +347,14 @@ client_max_memory
 
     client_max_memory: 800MB
 
-A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any client process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
+A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any Zope/Plone process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
 
 Defaults to ``0`` (turned off)
 
 .. note ::
 
-    This setting is used in configuration of the ``memmon`` monitor in the supervisor `superlance <http://superlance.readthedocs.org/en/latest>`_ plugin.
+    This setting is used in configuration of the ``memmon`` monitor in supervisor: `superlance <http://superlance.readthedocs.org/en/latest>`_ plugin.
+
 
 additional_eggs
 ~~~~~~~~~~~~~~~

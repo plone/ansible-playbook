@@ -100,6 +100,8 @@ install_loadbalancer: yes
 
 loadbalancer_port: 8080
 
+loadbalancer_monitor_port: 1080
+
 
 #######################################
 # Caching proxy options
@@ -107,6 +109,8 @@ loadbalancer_port: 8080
 install_proxycache: yes
 
 proxycache_port: 6081
+
+proxycache_method: malloc
 
 proxycache_size: 256m
 
@@ -141,3 +145,15 @@ muninnode_query_ips:
 install_logwatch: yes
 
 install_fail2ban: yes
+
+
+#########################
+# Supervisor options
+
+supervisor_config_dir: "/etc/supervisor/conf.d/"
+redirect_stderr: "false"
+autorestart: "unexpected"
+startsecs: 1
+stopwaitsecs: 10
+autostart: "true"
+task_env_vars: {}
