@@ -42,7 +42,7 @@ TL;DR
 
 3. Check out or download a copy of this package;
 
-4. Run ``ansible-galaxy -p roles -r requirements.txt`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
 
 5. Edit ``configure.yml`` to override settings;
 
@@ -135,7 +135,7 @@ Picking up required roles
 
 *Roles* are packages of Ansible settings and tasks. The Plone Playbook has separate roles for each of the major components it works with. These roles are not included with the playbook itself, but they are easy to install.
 
-To install the required roles, issue the command ``ansible-galaxy requirements.yml`` from the playbook directory. This will create a roles subdirectory and fill it with the required roles.
+To install the required roles, issue the command ``ansible-galaxy -p roles -r requirements.txt install`` from the playbook directory. This will create a roles subdirectory and fill it with the required roles.
 
 If you want to store your roles elsewhere, edit the ``ansible.cfg`` file in the playbook directory.
 

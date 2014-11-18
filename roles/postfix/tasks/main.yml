@@ -3,11 +3,13 @@
 - name: Postfix present
   apt: pkg=postfix state=present
 
-- name: Set mynetworks_style to host (forward local only)
-  lineinfile:
+- name: Configure Postfix as forward-only server
+  template:
+    src=main.cf.j2
     dest=/etc/postfix/main.cf
-    state=present
-    line="mynetworks_style = host"
+    owner=root
+    group=root
+    mode=644
   notify:
   - reload postfix
 

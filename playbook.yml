@@ -9,17 +9,38 @@
 
     - name: Include vars from configure.yml
       include_vars: configure.yml
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
       with_first_found:
        - local-configure.yml
        - null.yml
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
 
     - name: Fail if no administrative email set
       fail:
         msg: "You must set the admin_email variable."
       when: not admin_email
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
 
     - name: Update host
       apt: upgrade=dist update_cache=yes
@@ -42,6 +63,8 @@
 
 
   roles:
+
+    - role: ANXS.hostname
 
     - role: jnv.unattended-upgrades
       when: auto_upgrades
