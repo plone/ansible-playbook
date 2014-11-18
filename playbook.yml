@@ -64,6 +64,7 @@
 
   roles:
 
+    # set hostname from inventory
     - role: ANXS.hostname
 
     - role: jnv.unattended-upgrades
