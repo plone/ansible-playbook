@@ -53,23 +53,30 @@
 
     - role: tersmitten.fail2ban
       when: install_fail2ban
+      tags: fail2ban
 
     - role: plone
+      tags: plone
 
     - role: haproxy
       when: install_loadbalancer
+      tags: haproxy
 
     - role: varnish
       when: install_proxycache
+      tags: varnish
 
     - role: postfix
       when: install_mailserver
+      tags: postfix
 
     - role: logwatch
       when: install_logwatch
+      tags: logwatch
 
     - role: munin-node
       when: install_muninnode
+      tags: munin
 
 
   tasks:
