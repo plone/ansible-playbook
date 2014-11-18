@@ -21,8 +21,8 @@
         msg: "You must set the admin_email variable."
       when: not admin_email
 
-    # - name: Update host
-    #   apt: upgrade=dist update_cache=yes
+    - name: Update host
+      apt: upgrade=dist update_cache=yes
 
     - name: Ensure required packages
       apt: pkg={{ item }} state=present
@@ -30,6 +30,10 @@
         - build-essential
         - python-dev
         - python-pip
+
+    - name: Ensure optional packages
+      apt: pkg={{ item }} state=present
+      with_items: additional_packages
 
     - name: Ensure recent python-virtualenv
       pip: name=virtualenv

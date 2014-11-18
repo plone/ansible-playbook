@@ -22,8 +22,7 @@ motd: |
 
 auto_upgrades: yes
 
-# additional_packages:
-#    wget
+additional_packages: []
 
 
 #######################################

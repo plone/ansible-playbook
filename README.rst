@@ -230,7 +230,6 @@ additional_packages
 
     additional_packages:
         - sockstat
-        - wget
 
 List any additional operating system packages you wish to install. Default is empty.
 
