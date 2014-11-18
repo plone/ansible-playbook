@@ -14,7 +14,7 @@
 #######################################
 # System options
 
-admin_email: nobody
+admin_email:
 
 motd: |
     This server is configured via Ansible.
@@ -140,6 +140,8 @@ install_mailserver: yes
 # Monitoring options
 
 install_muninnode: yes
+
+munin_node_port: 4949
 
 muninnode_query_ips:
     - ^127\.0\.0\.1$

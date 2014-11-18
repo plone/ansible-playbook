@@ -1,0 +1,22 @@
+
+{{ motd }}
+Admin email: {{ admin_email }}
+Custom Services/Ports
+    ZEO server: 127.0.0.1:{{ zeo_port }}
+    ZEO Clients: {% for client in range(1, client_count + 1) %}{{ client_base_port + client }} {% endfor %}
+
+{% if install_loadbalancer %}
+    haproxy: {{ loadbalancer_port }}
+    haproxy monitor: 127.0.0.1:{{ loadbalancer_monitor_port }}
+{% endif %}
+{% if install_proxycache %}
+    varnish: 127.0.0.1:{{ proxycache_port }}
+    varnish admin: 127.0.0.1:{{ proxycache_port + 1 }}
+{% endif %}
+{% if install_muninnode %}
+    munin-node: {{ munin_node_port }}
+{% endif %}
+{% if install_mailserver %}
+    Postfix: 25 (host-only)
+{% endif %}
+
