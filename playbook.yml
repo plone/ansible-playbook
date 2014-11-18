@@ -24,48 +24,48 @@
     # - name: Update host
     #   apt: upgrade=dist update_cache=yes
 
-    # - name: Ensure required packages
-    #   apt: pkg={{ item }} state=present
-    #   with_items:
-    #     - build-essential
-    #     - python-dev
-    #     - python-pip
+    - name: Ensure required packages
+      apt: pkg={{ item }} state=present
+      with_items:
+        - build-essential
+        - python-dev
+        - python-pip
 
-    # - name: Ensure recent python-virtualenv
-    #   pip: name=virtualenv
-    #   # note that this installs to /usr/local/bin
-    #   # which is not automatically on the path
+    - name: Ensure recent python-virtualenv
+      pip: name=virtualenv
+      # note that this installs to /usr/local/bin
+      # which is not automatically on the path
 
 
   roles:
 
-  #   - role: jnv.unattended-upgrades
-  #     when: auto_upgrades
-  #     unattended_mail: root
-  #     unattended_origins_patterns:
-  #       - 'origin=${distro_id},archive=${distro_codename}-security'
-  #       - 'o=${distro_id},a=${distro_codename}'
-  #       - 'o=${distro_id},a=${distro_codename}-updates'
+    - role: jnv.unattended-upgrades
+      when: auto_upgrades
+      unattended_mail: root
+      unattended_origins_patterns:
+        - 'origin=${distro_id},archive=${distro_codename}-security'
+        - 'o=${distro_id},a=${distro_codename}'
+        - 'o=${distro_id},a=${distro_codename}-updates'
 
-  #   - role: tersmitten.fail2ban
-  #     when: install_fail2ban
+    - role: tersmitten.fail2ban
+      when: install_fail2ban
 
-  #   - role: plone
+    - role: plone
 
-  #   - role: haproxy
-  #     when: install_loadbalancer
+    - role: haproxy
+      when: install_loadbalancer
 
-  #   - role: varnish
-  #     when: install_proxycache
+    - role: varnish
+      when: install_proxycache
 
-  #   - role: postfix
-  #     when: install_mailserver
+    - role: postfix
+      when: install_mailserver
 
-  #   - role: logwatch
-  #     when: install_logwatch
+    - role: logwatch
+      when: install_logwatch
 
-    # - role: munin-node
-    #   when: install_muninnode
+    - role: munin-node
+      when: install_muninnode
 
 
   tasks:
