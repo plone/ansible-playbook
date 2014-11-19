@@ -600,19 +600,23 @@ Virtual hosting setup
 
 .. code-block:: yaml
 
-    virtual_hosts:
-        - hostname: plone.org
-          zodb_path: /Plone
-          port: 80
-          protocol: http
-        - hostname: plone.org
-          zodb_path: /Plone
-          port: 443
-          protocol: https
-          certificate_file: /thiscomputer/path/mycert.crt
-          key_file: /thiscomputer/path/mycert.key
+    webserver_virtualhosts:
+      - hostname: plone.org
+        aliases:
+          - www.plone.org
+        zodb_path: /Plone
+        port: 80
+        protocol: http
 
-Connects host names to paths in the ZODB.
+      - hostname: plone.org
+        zodb_path: /Plone
+        address: 92.168.1.150
+        port: 443
+        protocol: https
+        certificate_file: /thiscomputer/path/mycert.crt
+        key_file: /thiscomputer/path/mycert.key
+
+Connects host names to paths in the ZODB. The ``address`` and ``port`` are used to construct the ``listen`` directive. If no address is specified, "*" will be used. If no port is specified, 80 will be used for http or 443 for https.
 
 Default value:
 
@@ -624,12 +628,20 @@ Default value:
 
 .. note ::
 
-    If you are setting up and SSL sever, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
+    If you are setting up an https server, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
 
 .. warning ::
 
     Make sure that your source key file is not placed in a public location.
 
+Redirection setup
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    webserver_redirects:
+
+XXX
 
 Mail-server options
 ```````````````````

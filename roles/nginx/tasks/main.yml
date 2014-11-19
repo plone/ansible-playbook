@@ -1,0 +1,29 @@
+---
+
+- name: Install nginx
+  apt:
+    name=nginx
+    state=present
+
+# - name: nginx config
+#   template:
+#     src=default.conf.j2 dest=/etc/nginx/sites-available/default
+#     mode=644
+#     backup=yes
+#   notify: restart nginx
+
+- name: Create virtual hosts
+    template:
+      src: host.j2
+      dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
+  with_items: webserver_virtualhosts
+  notify: restart nginx
+
+- name: nginx started
+  service:
+    name=nginx
+    state=started
+    enabled=yes
+
+- name: nginx running
+  command: /usr/sbin/service nginx status
