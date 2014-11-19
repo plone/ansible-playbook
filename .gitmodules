@@ -1,3 +1,0 @@
-[submodule "roles/plone_server"]
-	path = roles/plone_server
-	url = git@github.com:plone/ansible.plone_server.git
