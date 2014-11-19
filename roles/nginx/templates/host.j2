@@ -2,6 +2,12 @@ server {
   listen {{ item.address|default('*') }}:{{ item.port|default('80') }};
   server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
 
+  {% for cname in item.get('cnames', []) %}
+  if ( $host != '{{ cname }}' ) {
+   rewrite ^/(.*)$ http://{{ item.hostname }}/$1 permanent;
+  }
+  {% endfor %}
+
   location / {
     rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}/VirtualHostRoot{{ zodb_path|default('/Plone') }}/$1 break;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
