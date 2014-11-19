@@ -17,6 +17,12 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
+- name: Make sure /etc/nginx/ssl exists
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0755
+
 - name: Create virtual hosts
   template:
     src: host.j2
@@ -24,6 +30,22 @@
     mode: 0644
   with_items: webserver_virtualhosts
   notify: restart nginx
+
+- name: Copy certificate files
+  copy:
+    src: "{{ item.certificate_file }}"
+    dest: "/etc/nginx/ssl/{{ item.hostname }}.crt"
+    mode: 0444
+  when: item.certificate_file is defined
+  with_items: webserver_virtualhosts
+
+- name: Copy key files
+  copy:
+    src: "{{ item.key_file }}"
+    dest: "/etc/nginx/ssl/{{ item.hostname }}.key"
+    mode: 0400
+  when: item.key_file is defined
+  with_items: webserver_virtualhosts
 
 - name: nginx started
   service:

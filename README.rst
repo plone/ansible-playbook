@@ -627,7 +627,6 @@ Default value:
 
     - hostname: localhost
       zodb_path: /Plone
-      port: 80
       aliases:
         - default
 

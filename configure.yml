@@ -126,7 +126,6 @@ webserver_virtualhosts:
     aliases:
       - default
     zodb_path: /Plone
-    port: 80
 
 
 #######################################
