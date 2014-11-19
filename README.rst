@@ -655,7 +655,7 @@ Do you want to install the Postfix mail server in a send-only configuration. Def
     If you choose not to install a mail server via this playbook, this becomes your responsibility.
 
 Relaying
-;;;;;;;;
+~~~~~~~~
 
 .. code-block:: yaml
 

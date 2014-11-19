@@ -5,17 +5,11 @@
     name=nginx
     state=present
 
-# - name: nginx config
-#   template:
-#     src=default.conf.j2 dest=/etc/nginx/sites-available/default
-#     mode=644
-#     backup=yes
-#   notify: restart nginx
-
-- name: Remove default host
+- name: Make sure sample host is absent
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+  notify: restart nginx
 
 - name: Make sure /etc/nginx/ssl exists
   file:
@@ -23,7 +17,7 @@
     state: directory
     mode: 0755
 
-- name: Create virtual hosts
+- name: Create zope-style virtual hosts
   template:
     src: host.j2
     dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
@@ -36,16 +30,18 @@
     src: "{{ item.certificate_file }}"
     dest: "/etc/nginx/ssl/{{ item.hostname }}.crt"
     mode: 0444
-  when: item.certificate_file is defined
   with_items: webserver_virtualhosts
+  when: item.certificate_file is defined
+  notify: restart nginx
 
 - name: Copy key files
   copy:
     src: "{{ item.key_file }}"
     dest: "/etc/nginx/ssl/{{ item.hostname }}.key"
     mode: 0400
-  when: item.key_file is defined
   with_items: webserver_virtualhosts
+  when: item.key_file is defined
+  notify: restart nginx
 
 - name: nginx started
   service:

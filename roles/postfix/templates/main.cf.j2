@@ -26,10 +26,10 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # information on enabling SSL in the smtp client.
 
 smtpd_relay_restrictions = permit_mynetworks
-myhostname = vagrant-ubuntu-trusty-32
+myhostname = {{ inventory_hostname }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = vagrant-ubuntu-trusty-32, localhost.localdomain, , localhost
+mydestination = {{ inventory_hostname }}, localhost.localdomain, , localhost
 mynetworks_style = host
 
 mailbox_size_limit = 0
