@@ -1,6 +1,6 @@
 server {
   listen {{ item.address|default('*') }}:{{ item.port|default('80') }};
-  server_name {{ item.hostname }} {% for alias in item.get(aliases, []) %}{{ alias }} {% endfor %};
+  server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
 
   location / {
     rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}/VirtualHostRoot{{ zodb_path|default('/Plone') }}/$1 break;

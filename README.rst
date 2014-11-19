@@ -616,7 +616,7 @@ Virtual hosting setup
         certificate_file: /thiscomputer/path/mycert.crt
         key_file: /thiscomputer/path/mycert.key
 
-Connects host names to paths in the ZODB. The ``address`` and ``port`` are used to construct the ``listen`` directive. If no address is specified, "*" will be used. If no port is specified, 80 will be used for http or 443 for https.
+Connects host names to paths in the ZODB. The ``address`` and ``port`` are used to construct the ``listen`` directive. If no address is specified, ``*`` will be used. If no port is specified, 80 will be used for http or 443 for https. If no protocol is specified, ``http`` will be used.
 
 Default value:
 
@@ -625,6 +625,8 @@ Default value:
     - hostname: localhost
       zodb_path: /Plone
       port: 80
+      aliases:
+        - default
 
 .. note ::
 

@@ -121,8 +121,10 @@ proxycache_size: 256m
 
 install_webserver: yes
 
-virtual_hosts:
+webserver_virtualhosts:
   - hostname: localhost
+    aliases:
+      - default
     zodb_path: /Plone
     port: 80
 

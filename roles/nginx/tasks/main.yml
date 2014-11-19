@@ -12,10 +12,16 @@
 #     backup=yes
 #   notify: restart nginx
 
+- name: Remove default host
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
 - name: Create virtual hosts
-    template:
-      src: host.j2
-      dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
+  template:
+    src: host.j2
+    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
+    mode: 0644
   with_items: webserver_virtualhosts
   notify: restart nginx
 
