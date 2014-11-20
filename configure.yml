@@ -28,17 +28,23 @@ additional_packages: []
 #######################################
 # Plone options
 
-target_path: /usr/local/plone
+plone_major_version: 4.3
+
+plone_version: 4.3.3
 
 python_version: 2.7
+
+target_path: /usr/local/plone-{{ plone_major_version }}
+
+var_path: /var/local/plone-{{ plone_major_version }}
+
+backup_path:
 
 instance_name: zeoserver
 
 buildout_git_repo: no
 
 buildout_git_version: master
-
-plone_version: 4.3.3
 
 initial_password: admin
 
@@ -63,11 +69,11 @@ zeo_port: 8100
 client_base_port: 8080
 
 environment_vars:
-  - "PYTHON_EGG_CACHE ${buildout:directory}/var/.python-eggs"
+  - "PYTHON_EGG_CACHE {{ var_path }}/.python-eggs"
 
 autorun_buildout: yes
 
-buildout_cache: http://dist.plone.org/{{ plone_version }}/buildout-cache.tar.bz2
+buildout_cache_url: http://dist.plone.org/release/{{ plone_version }}/buildout-cache.tar.bz2
 
 buildout_cache_file:
 
@@ -90,8 +96,6 @@ backup_at:
 keep_backups: 3
 
 keep_blob_days: 21
-
-backup_path: no
 
 
 #######################################
