@@ -10,6 +10,7 @@ Plone Ansible playbook
    :maxdepth: 1
 
    intro
+   choices
    system
    plone
    load_balancer
