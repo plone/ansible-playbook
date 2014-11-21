@@ -69,9 +69,6 @@ What about other apps?
 Major choices
 ^^^^^^^^^^^^^
 
-Apache or Nginx
-```````````````
-
 ZEO clients
 ```````````
 
@@ -807,6 +804,10 @@ A separate playbook, ``firewall.yml`` sets up a basic firewall that closes all p
 
 Passwords
 ^^^^^^^^^
+
+.. warning ::
+
+    If you did not change the ``plone_initial_password`` variable, then you new site may be managed from the Zope/Plone root via the default password. *Fix this.*
 
 Hotfixes, Updates, Upgrades
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

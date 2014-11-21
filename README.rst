@@ -43,9 +43,9 @@ TL;DR
 
 4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
 
-5. Edit ``configure.yml`` to override settings;
+5. Create a ``local-configure.yml`` file to override settings; use configure.yml as a model;
 
-6. To test in a local virtual machine, run ``vagrant up``;
+6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
 7. To deploy, create an Ansible inventory file for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost playbook.yml``;
 
