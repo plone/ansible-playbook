@@ -11,6 +11,9 @@ Plone Ansible playbook
 
    intro
    choices
+   preparing
+   vagrant
+   live
    system
    plone
    load_balancer
