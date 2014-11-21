@@ -4,9 +4,9 @@ loadbalancer_name: zeocluster
 
 loadbalancer_port: 8080
 
-client_count: 2
+plone_client_count: 2
 
-client_base_port: 8080
+plone_client_base_port: 8080
 
 loadbalancer_monitor_port: 1080
 

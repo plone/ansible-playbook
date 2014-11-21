@@ -32,70 +32,70 @@ plone_major_version: 4.3
 
 plone_version: 4.3.3
 
-python_version: 2.7
+plone_python_version: 2.7
 
-target_path: /usr/local/plone-{{ plone_major_version }}
+plone_target_path: /usr/local/plone-{{ plone_major_version }}
 
-var_path: /var/local/plone-{{ plone_major_version }}
+plone_var_path: /var/local/plone-{{ plone_major_version }}
 
-backup_path:
+plone_backup_path:
 
-instance_name: zeoserver
+plone_instance_name: zeoserver
 
-buildout_git_repo: no
+plone_buildout_git_repo: no
 
-buildout_git_version: master
+plone_buildout_git_version: master
 
-initial_password: admin
+plone_initial_password: admin
 
-client_count: 2
+plone_client_count: 2
 
-zodb_cache_size: 30000
+plone_zodb_cache_size: 30000
 
-zserver_threads: 1
+plone_zserver_threads: 1
 
-client_max_memory: 0
+plone_client_max_memory: 0
 
-# additional_eggs:
+# plone_additional_eggs:
 #     - Products.PloneFormGen
 
-# additional_versions:
+# plone_additional_versions:
 #      - "Products.PloneFormGen = 1.7.16"
 #      - "Products.PythonField = 1.1.3"
 #      - "Products.TALESField = 1.1.3"
 
-zeo_port: 8100
+plone_zeo_port: 8100
 
-client_base_port: 8080
+plone_client_base_port: 8080
 
-environment_vars:
-  - "PYTHON_EGG_CACHE {{ var_path }}/.python-eggs"
+plone_environment_vars:
+  - "PYTHON_EGG_CACHE {{ plone_var_path }}/.python-eggs"
 
-autorun_buildout: yes
+plone_autorun_buildout: yes
 
-buildout_cache_url: http://dist.plone.org/release/{{ plone_version }}/buildout-cache.tar.bz2
+plone_buildout_cache_url: http://dist.plone.org/release/{{ plone_version }}/buildout-cache.tar.bz2
 
-buildout_cache_file:
+plone_buildout_cache_file:
 
 
 #######################################
 # Cron jobs
 
-pack_at:
+plone_pack_at:
   minute: 30
   hour: 1
   weekday: 7
 
-keep_days: 3
+plone_keep_days: 3
 
-backup_at:
+plone_backup_at:
   minute: 30
   hour: 2
   weekday: "*"
 
-keep_backups: 3
+plone_keep_backups: 3
 
-keep_blob_days: 21
+plone_keep_blob_days: 21
 
 
 #######################################

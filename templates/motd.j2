@@ -2,8 +2,8 @@
 {{ motd }}
 Admin email: {{ admin_email }}
 Custom Services/Ports
-    ZEO server: 127.0.0.1:{{ zeo_port }}
-    ZEO Clients: {% for client in range(1, client_count + 1) %}{{ client_base_port + client }} {% endfor %}
+    ZEO server: 127.0.0.1:{{ plone_zeo_port }}
+    ZEO Clients: {% for client in range(1, plone_client_count + 1) %}{{ plone_client_base_port + client }} {% endfor %}
 
 {% if install_loadbalancer %}
     haproxy: {{ loadbalancer_port }}
