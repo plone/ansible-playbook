@@ -19,14 +19,9 @@ sub vcl_recv {
         } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
             set req.http.Accept-Encoding = "deflate";
         } else {
-            # unkown algorithm
+            # unknown algorithm
             remove req.http.Accept-Encoding;
         }
-    }
-
-    # Always cache these file types
-    if (req.url ~ "(?i)\.({{ always_cache_ext }})(\?.*)?$") {
-        unset req.http.Cookie;
     }
 
     # Handle special requests
@@ -42,17 +37,24 @@ sub vcl_recv {
            }
            return(lookup);
        }
-       # Do not cache the creation of objects in Plone
-       if (req.url ~ "createObject"){
-           return(pass);
-       }
     }
 
-    # Do cookie sanitization, so cookies do not destroy cacheable anonymous pages
+    # Do not cache the creation of objects in Plone
+    if (req.url ~ "createObject"){
+        return(pass);
+    }
+
+    # Don't allow basic auth via this route.
+    # If you want to login at the Zope root, use an ssh tunnel.
+    if (req.http.Authorization) {
+        unset req.http.Authorization;
+    }
+
+    # Sanitize cookies so they do not needlessly destroy cacheability for anonymous pages
     if (req.http.Cookie) {
         set req.http.Cookie = ";" + req.http.Cookie;
         set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
-        set req.http.Cookie = regsuball(req.http.Cookie, ";{{ cache_sanitize_cookies }}=", "; \1=");
+        set req.http.Cookie = regsuball(req.http.Cookie, ";{{ cache_sanitize_cookie_exceptions }}=", "; \1=");
         set req.http.Cookie = regsuball(req.http.Cookie, ";[^ ][^;]*", "");
         set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
 
@@ -61,19 +63,11 @@ sub vcl_recv {
         }
     }
 
-    # Don't cache authenticated requests
-    if (req.http.Cookie && req.http.Cookie ~ "{{ nocache_cookies }}=") {
-       # Force lookup of specific urls unlikely to need protection
-       if (req.url ~ "\.(gif|jpg|png|js|css|kss)") {
-           unset req.http.cookie;
-               return(lookup);
-       }
-       return(pass);
-   }
-
-    if (req.http.Authorization) {
-        unset req.http.Authorization;
+    # Annotate request with X-Anonymous header if anonymous
+    if (!(req.http.Cookie && req.http.Cookie ~ "{{ nonanonymous_cookies }}=")) {
+        set req.http.X-Anonymous = "True";
     }
+
    # The default vcl_recv is used from here.
 }
 
@@ -91,7 +85,7 @@ sub vcl_fetch {
     # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
     # This list of extensions appears twice, once here and again in vcl_recv so
     # make sure you edit both and keep them equal.
-    if (req.url ~ "(?i)\.{{ always_cache_ext }}(\?.*)?$") {
+    if (req.url ~ "(?i)\.{{ no_response_cookie_ext }}(\?.*)?$") {
       unset beresp.http.set-cookie;
     }
 

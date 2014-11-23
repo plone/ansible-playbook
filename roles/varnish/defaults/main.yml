@@ -8,10 +8,15 @@ proxycache_method: malloc
 
 proxycache_size: 256m
 
+# allow compression for all except these extensions
 nocompress_ext: (jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)
 
-always_cache_ext: (pdf|asc|dat|txt|doc|xls|ppt|tgz|png|gif|jpeg|jpg|ico|swf|css|js)
+# never set cookies on responses with these extensions
+no_response_cookie_ext: (pdf|asc|dat|txt|doc|xls|ppt|tgz|png|gif|jpeg|jpg|ico|swf|css|js)
 
-cache_sanitize_cookies: (statusmessages|__ac|_ZopeId|__cp)
+# To improve caching, on incoming requests remove all except these cookies
+cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp)
 
-nocache_cookies: __ac(|_(name|password|persistent))
+# When these cookies are not found, mark request with
+# X-Anonymous header to allow split caching.
+nonanonymous_cookies: __ac(|_(name|password|persistent))
