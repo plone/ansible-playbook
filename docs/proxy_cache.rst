@@ -43,7 +43,7 @@ Sets the Varnish cache size. Default is ``256m`` -- 256 megabytes.
 proxycache_method
 ~~~~~~~~~~~~~~~~~
 
-..code-block:: yaml
+.. code-block:: yaml
 
     proxycache_method: file
 
