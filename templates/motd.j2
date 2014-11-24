@@ -19,4 +19,7 @@ Custom Services/Ports
 {% if install_mailserver %}
     Postfix: 25 (host-only)
 {% endif %}
+{% if install_webserver %}
+    Nginx: {% for item in webserver_virtualhosts %}{% if item.get('protocol', 'http') == 'https' %}{{ item.address|default('*') }}:{{ item.port|default('443') }}{% else %}{{ item.address|default('*') }}:{{ item.port|default('80') }}{% endif %} {% endfor %}
+{% endif %}
 
