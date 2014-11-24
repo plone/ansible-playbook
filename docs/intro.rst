@@ -56,7 +56,7 @@ That doesn't mean you never log in to your provisioned server. It just means tha
 
 We chose Ansible for our provisioning tool because:
 
-1. It requires no client component on the remote machine. Everything is done via ssh.
+1) It requires no client component on the remote machine. Everything is done via ssh.
 
 2) It's YAML configuration files use structure and syntax that will be familiar to Python programmers. YAML basically represents a Python data structure in an outline. Conditional and loop expressions are in Python. Templating via Jinja2 is simple and clean.
 
