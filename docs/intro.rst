@@ -60,7 +60,7 @@ We chose Ansible for our provisioning tool because:
 
 2) It's YAML configuration files use structure and syntax that will be familiar to Python programmers. YAML basically represents a Python data structure in an outline. Conditional and loop expressions are in Python. Templating via Jinja2 is simple and clean.
 
-3) `Ansible's documentation <http://docs.ansible.com>` is excellent and complete.
+3) `Ansible's documentation <http://docs.ansible.com>`_ is excellent and complete.
 
 4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <http://galaxy.ansible.com>`_.
 
