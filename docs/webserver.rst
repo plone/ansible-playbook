@@ -26,8 +26,6 @@ Virtual hosting setup
         zodb_path: /Plone
         port: 80
         protocol: http
-        cnames:
-            - www.plone.org
       - hostname: plone.org
         zodb_path: /Plone
         address: 92.168.1.150
@@ -37,8 +35,6 @@ Virtual hosting setup
         key_file: /thiscomputer/path/mycert.key
 
 Connects host names to paths in the ZODB. The ``address`` and ``port`` are used to construct the ``listen`` directive. If no address is specified, ``*`` will be used. If no port is specified, 80 will be used for http or 443 for https. If no protocol is specified, ``http`` will be used.
-
-``cnames`` should be a list of hostname aliases that should be automatically redirected to the primary (or canonical). All the names on this list already should be in the aliases list.
 
 Default value:
 
@@ -57,3 +53,26 @@ Default value:
 
     Make sure that your source key file is not placed in a public location.
 
+
+Redirections, etc.
+~~~~~~~~~~~~~~~~~~
+
+If you do not specify a zodb_path, the webserver role will not automatically create a location stanza with a rewrite and proxy_pass directives.
+
+If you specify ``extra``, the value will be copied into the server stanza.
+
+Let's take a look at a common use for these options:
+
+.. code-block:: yaml
+
+    - hostname: plone.com
+      protocol: http
+      extra: return 301 https://$server_name$request_uri;
+
+This is a *redirect to https* setting.
+
+
+Status and monitoring
+~~~~~~~~~~~~~~~~~~~~~
+
+If you want to monitor your web server, make sure you have a "localhost" hostname or "default" alias with "http" protocol. This virtual server will have the status check set up on localhost.

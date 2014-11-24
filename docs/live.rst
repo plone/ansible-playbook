@@ -26,7 +26,21 @@ The ``--ask-sudo-pass`` option instructs Ansible to ask for your user password w
 Updating
 ^^^^^^^^
 
-Using tags for quick, partial updates
+Using tags for quick, partial updates.
+
+The following tags are set up in playbook.yml.
+
+- plone
+- haproxy
+- varnish
+- postfix
+- logwatch
+- munin
+- motd
+- nginx
+
+When you use one of these tags while running your playbook, only the bare minimum setup and the module named will be updated.
+
 
 Firewall
 ^^^^^^^^
