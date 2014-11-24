@@ -17,7 +17,7 @@ Plone's Ansible Playbook can completely provision a remote server to run a full-
 
 * Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_, `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_ and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
 
-* Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
+* Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `Vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
 An Ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
