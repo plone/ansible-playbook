@@ -11,7 +11,7 @@ Plone's Ansible Playbook can completely provision a remote server to run a full-
 
 * Caching with `Varnish <https://www.varnish-cache.org/>`_;
 
-* `Nginx <http://wiki.nginx.org/Main>`_ as a world-facing remote proxy and URL rewrite engine;
+* `Nginx <http://wiki.nginx.org/Main>`_ as a world-facing reverse proxy and URL rewrite engine;
 
 * An outgoing-mail-only mail server using `Postfix <http://www.postfix.org/>`_;
 
