@@ -16,6 +16,7 @@
         - postfix
         - logwatch
         - munin
+        - motd
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -29,6 +30,7 @@
         - postfix
         - logwatch
         - munin
+        - motd
 
     - name: Fail if no administrative email set
       fail:
@@ -96,6 +98,7 @@
   tasks:
 
     - name: Update MOTD
+      tags: motd
       template:
         dest: /etc/motd
         src: templates/motd.j2
