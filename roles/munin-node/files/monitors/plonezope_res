@@ -37,21 +37,12 @@ for line in ps_out.split('\n'):
         cmatch = command_re.search(command)
         if cmatch:
             cstr = cmatch.groups()[0].replace('/', '_'
-                ).replace('_parts', ''
-                ).replace('_etc', ''
+                ).replace('-', '_'
+                ).replace('.', '_'
                 ).replace('_zope', ''
-                ).replace('zeo_', ''
-                ).replace('zeocluster_', ''
-                ).replace('bin_', ''
-                ).replace('var_db_', ''
-                ).replace('opt_', ''
-                ).replace('usr_', ''
-                ).replace('local_', ''
-                ).replace('.', ''
+                ).replace('_etc', ''
                 ).strip('_'
-                ).lower()
-            if 'server' in cstr:
-                continue
+                ).lower().split('_')[-1]
             if config:
                 print "%s.label %s" % (cstr, cstr)
             else:

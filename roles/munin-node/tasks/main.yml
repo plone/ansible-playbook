@@ -1,7 +1,10 @@
 ---
 
 - name: Munin-Node package present
-  apt: pkg=munin-node state=present
+  apt: pkg={{ item }} state=present
+  with_items:
+    - munin-node
+    - libwww-perl
 
 - name: Configure munin-node
   template:
@@ -61,8 +64,7 @@
     state=link
     src="/usr/share/munin/plugins/{{ item }}"
   with_items:
-    - apache_accesses
-    - apache_processes
-    - apache_volume
     - http_loadtime
+    - nginx_request
+    - nginx_status
   notify: restart munin-node

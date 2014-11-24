@@ -29,4 +29,14 @@ server {
     {% endif %}
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
+
+  {% if item.get('protocol', 'http') == 'http' %}
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+  {% endif %}
+
 }

@@ -17,6 +17,7 @@
         - logwatch
         - munin
         - motd
+        - nginx
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -31,6 +32,7 @@
         - logwatch
         - munin
         - motd
+        - nginx
 
     - name: Fail if no administrative email set
       fail:
@@ -43,6 +45,8 @@
         - postfix
         - logwatch
         - munin
+        - motd
+        - nginx
 
     - name: Update host
       apt: upgrade=dist update_cache=yes
@@ -81,6 +85,7 @@
 
     - role: nginx
       when: install_webserver
+      tags: nginx
 
     - role: postfix
       when: install_mailserver
