@@ -39,12 +39,12 @@ Installing Ansible
 Setting up the Playbook
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Clone or branch-and-clone
-`````````````````````````
+Clone or fork-and-clone
+```````````````````````
 
 Take a few moments to think about how you're going to customize the Plone Playbook. Are you likely to make substantial changes? Or simply change the option settings?
 
-If you expect to make substantial changes, you'll want to create your own git branch of the Plone Playbook. Then, clone your branch. That way you'll be able to push changes back to your branch. We assume that you either know how to use git, or will learn, so we won't try to document this usage.
+If you expect to make substantial changes, you'll want to create your own git fork of the Plone Playbook. Then, clone your fork. That way you'll be able to push changes back to your fork. We assume that you either know how to use git, or will learn, so we won't try to document this usage.
 
 If you expect to change only option settings, then just clone the Plone Playbook to your local computer (not the target server)::
 
