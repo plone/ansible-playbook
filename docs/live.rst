@@ -33,11 +33,12 @@ Firewall
 
 The main playbook, ``playbook.yml``, does **not** configure your firewall.
 
-A separate playbook, ``firewall.yml`` sets up a basic firewall that closes all ports except ssh, http and https.
+A separate playbook, ``firewall.yml`` sets up a basic firewall that closes all ports except ssh, http and https. The munin-node port is also opened to your monitoring server(s).
 
 .. note ::
 
-    If you are using munin-node, you will need to add a rule to open your munin node monitor port to your munin server.
+    To reach other ports, use SSH tunnelling. In the default setup, you will have to use a tunnel and connect to the load-balancer port in order to get access to the Zope root. (The default proxy-cache setup blocks http basic authentication.)
+
 
 Passwords
 ^^^^^^^^^

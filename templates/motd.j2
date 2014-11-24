@@ -2,8 +2,8 @@
 {{ motd }}
 Admin email: {{ admin_email }}
 Custom Services/Ports
-    ZEO server: 127.0.0.1:{{ plone_zeo_port }}
-    ZEO Clients: {% for client in range(1, plone_client_count + 1) %}{{ plone_client_base_port + client }} {% endfor %}
+    zeo server: 127.0.0.1:{{ plone_zeo_port }}
+    zeo Clients: {% for client in range(1, plone_client_count + 1) %}{{ plone_client_base_port + client }} {% endfor %}
 
 {% if install_loadbalancer %}
     haproxy: {{ loadbalancer_port }}
@@ -17,9 +17,9 @@ Custom Services/Ports
     munin-node: {{ munin_node_port }}
 {% endif %}
 {% if install_mailserver %}
-    Postfix: 25 (host-only)
+    postfix: 25 (host-only)
 {% endif %}
 {% if install_webserver %}
-    Nginx: {% for item in webserver_virtualhosts %}{% if item.get('protocol', 'http') == 'https' %}{{ item.address|default('*') }}:{{ item.port|default('443') }}{% else %}{{ item.address|default('*') }}:{{ item.port|default('80') }}{% endif %} {% endfor %}
+    nginx: {% for item in webserver_virtualhosts %}{% if item.get('protocol', 'http') == 'https' %}{{ item.address|default('*') }}:{{ item.port|default('443') }}{% else %}{{ item.address|default('*') }}:{{ item.port|default('80') }}{% endif %} {% endfor %}
 {% endif %}
 
