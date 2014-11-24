@@ -76,3 +76,9 @@ Status and monitoring
 ~~~~~~~~~~~~~~~~~~~~~
 
 If you want to monitor your web server, make sure you have a "localhost" hostname or "default" alias with "http" protocol. This virtual server will have the status check set up on localhost.
+
+
+You should know
+~~~~~~~~~~~~~~~
+
+When you do specify a zodb_path, so that the webserver role knows that you're working with Plone, it will block URLs containing "/manage_" will block http basic authentication. This means that it will be difficult to use the Zope Management Interface via the web server reverse proxy. Instead, use an SSH tunnel to the load balancer. Remember, this is a production installation. It *should* be hard to use the ZMI via the public interface.

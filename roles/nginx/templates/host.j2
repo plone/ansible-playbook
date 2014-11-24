@@ -25,7 +25,7 @@ server {
     auth_basic off;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
-  location ~* /manage_[^/] {
+  location ~ /manage_ {
     deny all;
   }
   {% endif %}
