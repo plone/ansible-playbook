@@ -12,6 +12,7 @@ Plone Ansible playbook
    intro
    choices
    preparing
+   custom_playbook
    vagrant
    live
    system

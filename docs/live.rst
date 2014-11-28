@@ -44,7 +44,7 @@ Passwords
 
 .. warning ::
 
-    If you did not change the ``plone_initial_password`` variable, then you new site may be managed from the Zope/Plone root via the default password. *Fix this.*
+    If you did not change the ``plone_initial_password`` variable, then your new site may be managed from the Zope/Plone root via the default password. *Fix this.*
 
 Hotfixes, Updates, Upgrades
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
