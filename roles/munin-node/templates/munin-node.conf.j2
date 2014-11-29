@@ -34,7 +34,7 @@ ignore_file \.pod$
 allow ^127\.0\.0\.1$
 {% if muninnode_query_ips is defined %}
 {% for address in muninnode_query_ips %}
-allow {{ address }}
+allow {{ "^" + address.replace(".", "\\.") + "$" }}
 {% endfor %}
 {% endif %}
 

@@ -16,6 +16,8 @@
         - postfix
         - logwatch
         - munin
+        - motd
+        - nginx
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -29,6 +31,8 @@
         - postfix
         - logwatch
         - munin
+        - motd
+        - nginx
 
     - name: Fail if no administrative email set
       fail:
@@ -41,6 +45,8 @@
         - postfix
         - logwatch
         - munin
+        - motd
+        - nginx
 
     - name: Update host
       apt: upgrade=dist update_cache=yes
@@ -79,6 +85,7 @@
 
     - role: nginx
       when: install_webserver
+      tags: nginx
 
     - role: postfix
       when: install_mailserver
@@ -96,6 +103,7 @@
   tasks:
 
     - name: Update MOTD
+      tags: motd
       template:
         dest: /etc/motd
         src: templates/motd.j2

@@ -15,18 +15,33 @@ server {
 
   server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
 
-  {% for cname in item.get('cnames', []) %}
-  if ( $host != '{{ cname }}' ) {
-   rewrite ^/(.*)$ http://{{ item.hostname }}/$1 permanent;
-  }
-  {% endfor %}
-
+  {% if item.get('zodb_path') != None %}
   location / {
     {% if item.get('protocol', 'http') == 'https' %}
-    rewrite ^/(.*)$ /VirtualHostBase/https/{{ item.hostname }}:{{ item.port|default('443') }}/VirtualHostRoot{{ zodb_path|default('/Plone') }}/$1 break;
+    rewrite ^/(.*)$ /VirtualHostBase/https/{{ item.hostname }}:{{ item.port|default('443') }}/VirtualHostRoot{{ item.zodb_path }}/$1 break;
     {% else %}
-    rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}/VirtualHostRoot{{ zodb_path|default('/Plone') }}/$1 break;
+    rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}/VirtualHostRoot{{ item.zodb_path }}/$1 break;
     {% endif %}
+    auth_basic off;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
+  location ~ /manage_ {
+    deny all;
+  }
+  {% endif %}
+
+  {% if item.get('extra') != None %}
+  {{ item.extra }}
+  {% endif %}
+
+
+  {% if item.get('protocol', 'http') == 'http' and (item.hostname == 'localhost' or 'default' in item.get('aliases', [])) %}
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+  {% endif %}
+
 }

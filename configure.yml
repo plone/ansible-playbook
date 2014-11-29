@@ -30,7 +30,7 @@ additional_packages: []
 
 plone_major_version: 4.3
 
-plone_version: 4.3.3
+plone_version: 4.3.4
 
 plone_python_version: 2.7
 
@@ -66,7 +66,7 @@ plone_client_max_memory: 0
 
 plone_zeo_port: 8100
 
-plone_client_base_port: 8080
+plone_client_base_port: 8081
 
 plone_environment_vars:
   - "PYTHON_EGG_CACHE {{ plone_var_path }}/.python-eggs"
@@ -126,7 +126,7 @@ proxycache_size: 256m
 install_webserver: yes
 
 webserver_virtualhosts:
-  - hostname: localhost
+  - hostname: "{{ inventory_hostname }}"
     aliases:
       - default
     zodb_path: /Plone
@@ -153,8 +153,7 @@ install_muninnode: yes
 
 munin_node_port: 4949
 
-muninnode_query_ips:
-    - ^127\.0\.0\.1$
+muninnode_query_ips: []
 
 install_logwatch: yes
 

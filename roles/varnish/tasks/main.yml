@@ -15,7 +15,7 @@
   replace:
     dest=/etc/default/varnish
     regexp='-a .+ \\'
-    replace='-a localhost:{{ proxycache_port }} \\'
+    replace='-a *:{{ proxycache_port }} \\'
     backup=yes
   notify: restart varnish
 
