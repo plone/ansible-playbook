@@ -56,6 +56,6 @@ listen admin
 listen {{ loadbalancer_name }} *:{{ loadbalancer_port }}
     default-server maxconn 1 inter 10000 downinter 2000 rise 3 fall 2 on-error mark-down error-limit 15
 
-    {% for client in range(1, plone_client_count + 1) %}
+    {% for client in range(0, plone_client_count) %}
     server zeoclient{{ client }} 127.0.0.1:{{ plone_client_base_port + client }} check
     {% endfor %}
