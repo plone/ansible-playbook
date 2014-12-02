@@ -1,0 +1,45 @@
+---
+
+# This is a sample configuration. To use it, copy it to local-configure.yml
+# and edit.
+#
+# Medium configuration
+# --------------------
+#
+# This is a good start for larger configurations.
+# Just scale the client counts and cache/memory.
+#
+# This targets a medium server::
+#
+#     RAM: 2048MB
+#     Cores: 2
+
+
+# Things you MUST change
+# ----------------------
+
+admin_email:
+
+plone_initial_password:
+
+muninnode_query_ips:
+    - ip.of.munin.monitor
+
+# If you do not have a Munin monitor running, comment out the
+# muninnode_query_ips and uncomment the line below:
+
+# install_muninnode: no
+
+
+# Major settings
+# --------------
+
+# 2 clients
+plone_client_count: 2
+
+# smallish
+plone_zodb_cache_size: 15000
+
+# and enforce that with a memory-monitor
+plone_client_max_memory: 750MB
+

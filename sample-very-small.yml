@@ -1,0 +1,59 @@
+---
+
+# This is a sample configuration. To use it, copy it to local-configure.yml
+# and edit.
+#
+# Very-Small configuration
+# ------------------------
+#
+# This targets a very small server::
+#
+#     RAM: 512MB
+#     Cores: 1
+
+
+# Things you MUST change
+# ----------------------
+
+admin_email:
+
+plone_initial_password:
+
+muninnode_query_ips:
+    - ip.of.munin.monitor
+
+# If you do not have a Munin monitor running, comment out the
+# muninnode_query_ips and uncomment the line below:
+
+# install_muninnode: no
+
+
+# Major settings
+# --------------
+
+# With one core, we don't need multiple zeo clients
+plone_client_count: 1
+
+# instead, we'll run two Zope threads
+plone_zserver_threads: 2
+
+# but keep them small
+plone_zodb_cache_size: 5000
+
+# and enforce that with a memory-monitor
+plone_client_max_memory: 300MB
+
+# with only one zeo client, we don't need a load balancer
+install_loadbalancer: no
+
+# since we're not using a load balancer, put the zeo client
+# at what we'd ordinarily use for the load balancer.
+# That way, the proxy cache will know where to find it.
+plone_client_base_port: 8080
+
+# We'll use varnish, but since we're memory-limited, with a
+# file-based cache.
+proxycache_method: file
+
+
+

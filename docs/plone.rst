@@ -70,7 +70,7 @@ plone_initial_password
 
 Initial password of the Zope ``admin`` user. The initial password is used when the database is first created. Don't forget to change it.
 
-Defaults to ``admin``
+Defaults to ``""`` -- which will fail.
 
 
 plone_client_count

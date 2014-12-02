@@ -46,7 +46,7 @@ plone_buildout_git_repo: no
 
 plone_buildout_git_version: master
 
-plone_initial_password: admin
+plone_initial_password:
 
 plone_client_count: 2
 
