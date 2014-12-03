@@ -1,3 +1,7 @@
+Configuration options
+---------------------
+
+
 System options
 ``````````````
 
@@ -10,7 +14,7 @@ admin_email
 
 It is important that you update this setting. The admin_email address will receive system mail, some of which is vitally important.
 
-Defaults to an invalid address. Mail will not be delivered.
+If you don't set this variable, the playbook won't run.
 
 
 motd

@@ -21,6 +21,7 @@ To install the required roles, issue the command ``ansible-galaxy -p roles -r re
 
 If you want to store your roles elsewhere, edit the ``ansible.cfg`` file in the playbook directory.
 
+
 Customizing the deployment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -30,11 +31,12 @@ There are two major strategies for customization.
 
 **If you cloned or downloaded the master distribution**, you will probably want to avoid changing the files from the distribution. That would make it hard to update. Instead, create a new file ``local-configure.yml`` and put your custom option specifications in it. This file will not be overriden when you pull an update from the master.
 
+For a quick start, copy one of the ``sample*.yml`` files to ``local-configure.yml``, then customize.
+
 Using the local configuration strategy, copy from ``configure.yml`` only the options you wish to change to ``local-configure.yml``. Edit them there.
 
 Customizing buildout configuration
 ``````````````````````````````````
-
 Plone is typically installed using `buildout <http://www.buildout.org/en/latest/>`_ to manage Python dependencies. Plone's Ansible Playbook uses operating-system package managers to manage system-level dependencies and uses buildout to manage Python-package dependencies.
 
 Buildout cofiguration files are nearly always customized to meet the need of the particular Plone installation. At a minimum, the buildout configuration details Plone add ons for the install. It is nearly always additionally customized to meet performance and integration requirements.
@@ -52,4 +54,4 @@ If you use a buildout directory checkout, you must still specify in your Playboo
 The Configuration File
 ^^^^^^^^^^^^^^^^^^^^^^
 
-YAML
+The configuration file format is YAML with Jinja2 templating. It's well-documented at `docs.ansible.com <http://docs.ansible.com/YAMLSyntax.html>`_.

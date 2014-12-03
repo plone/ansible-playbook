@@ -1,6 +1,18 @@
 Plone options
 `````````````
 
+plone_initial_password
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_initial_password: alnv%r(ybs83nt
+
+Initial password of the Zope ``admin`` user. The initial password is used when the database is first created.
+
+Defaults to ``""`` -- which will fail.
+
+
 plone_target_path
 ~~~~~~~~~~~~~~~~~
 
@@ -60,18 +72,6 @@ plone_version
     plone_version: 4.3.3
 
 Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook.
-
-plone_initial_password
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: yaml
-
-    plone_initial_password: alnv%r(ybs83nt
-
-Initial password of the Zope ``admin`` user. The initial password is used when the database is first created. Don't forget to change it.
-
-Defaults to ``""`` -- which will fail.
-
 
 plone_client_count
 ~~~~~~~~~~~~~~~~~~

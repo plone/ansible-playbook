@@ -27,10 +27,4 @@ Your production-server requirements may vary widely. Perhaps the biggest variabl
 
 This playbook is trying to help you out at both extremes -- and in-between. To meet these varied needs requires that you make some important configuration choices. Fortunately, you're not stuck with them! If a server configuration doesn't meet your needs, scale up your server power and edit your playbook configuration.
 
-ZEO clients
-```````````
-
-Number and memory use
-
-Mail server issues
-``````````````````
+Take a look at the ``sample*.yml`` files for configuration examples. These present the most commonly changed configuration options.
