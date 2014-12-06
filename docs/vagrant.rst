@@ -23,7 +23,7 @@ Testing
 
 Vagrant maps host ports into the guest VirtualBox OS. The standard mapping takes host port 2222 to the guest's SSH port, 22.
 
-The Vagrantfile included with this kit maps several more ports. The general rule is to map each guest port to a host port 1000 higher:
+The Vagrantfile included with this kit maps several more ports. The general rule is to map each guest port to a host port 1000 higher::
 
   config.vm.network "forwarded_port", guest: 80, host: 1080
   config.vm.network "forwarded_port", guest: 1080, host: 2080
