@@ -1,4 +1,4 @@
-plone.plone_server,1.0b4
+plone.plone_server,1.0b5
 jnv.unattended-upgrades,v1.0.1
 tersmitten.fail2ban,v1.0.0
 ANXS.hostname,v1.0.4
