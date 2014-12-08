@@ -1,6 +1,6 @@
-======================
-Plone Ansible playbook
-======================
+==================================
+Full-stack deployment with Ansible
+==================================
 
 .. admonition:: Description
 
