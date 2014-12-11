@@ -64,3 +64,12 @@ We chose Ansible for our provisioning tool because:
 
 4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <http://galaxy.ansible.com>`_.
 
+
+If you need to log in
+^^^^^^^^^^^^^^^^^^^^^
+
+You should not need to. But if you do, you should know:
+
+1) The Plone zeoserver and zeoclient processes should be run under the plone_daemon login; they will normally be controlled via supervisor;
+
+2) Run buildout as plone_buildout.
