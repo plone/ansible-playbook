@@ -1,4 +1,8 @@
-1.0b2 -2014-12-08
+1.0b3 - 2014-12-17
+
+- Update plone_server role requirement to 1.0b6, which has a fix for bootstrap/setuptools problem.
+
+1.0b2 - 2014-12-08
 
 - Update for use with plone_server 1.0b5.
 
