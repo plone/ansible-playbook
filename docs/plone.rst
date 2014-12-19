@@ -86,7 +86,7 @@ Defaults to ``2``
 
 .. note ::
 
-    The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer. Use it for debugging, run scripts and quick testing.
+    The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer. Use it for debugging, running scripts and quick testing.
 
 
 plone_zodb_cache_size
@@ -102,7 +102,7 @@ Defaults to ``30000``
 
 .. Note ::
 
-    The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this is you have more than minimal memory.
+    The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this if you have more than minimal memory.
 
 
 plone_zserver_threads
@@ -141,7 +141,7 @@ plone_additional_eggs
     plone_additional_eggs:
         - Products.PloneFormGen
         - collective.cover
-        - webcourtier.dropdownmenus
+        - webcouturier.dropdownmenu
 
 List additional Python packages (beyond Plone and the Python Imaging Library) that you want available in the Python package environment.
 
@@ -328,7 +328,7 @@ How many generations of full backups do you wish to keep? Defaults to ``2``.
 
 .. note ::
 
-    Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However backups after a pack operation are complete (full) backups -- not difference operations. Thus, keeping two full backups means that you have backups for ``plone_keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.python.org/pypi/collective.recipe.backup>`_.
+    Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However, backups after a pack operation are complete (full) backups -- not incremental ones. Thus, keeping two full backups means that you have backups for ``plone_keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.python.org/pypi/collective.recipe.backup>`_.
 
 
 plone_keep_blob_days
