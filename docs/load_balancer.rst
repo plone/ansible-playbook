@@ -13,7 +13,7 @@ Do you want to use a load balancer? Defaults to ``yes``.
 
 .. note ::
 
-    If you decide not to use a load balancer, you will need to make sure that the ``loadbalancer_port`` setting points to your main ZEO client if you are using a proxy cache. If you are not using a proxy_cache, you must make sure that ``proxycache_port`` points to main ZEO client.
+    If you decide not to use a load balancer, you will need to make sure that the ``loadbalancer_port`` setting points to your main ZEO client if you are using a proxy cache. If you are not using a proxy_cache, you must make sure that ``proxycache_port`` points to the main ZEO client.
 
 Defaults to ``yes``.
 
