@@ -29,7 +29,7 @@ There are two major strategies for customization.
 
 **If you are working on your own branch**, it's yours. You may edit ``configure.yml`` to set options.
 
-**If you cloned or downloaded the master distribution**, you will probably want to avoid changing the files from the distribution. That would make it hard to update. Instead, create a new file ``local-configure.yml`` and put your custom option specifications in it. This file will not be overriden when you pull an update from the master.
+**If you cloned or downloaded the master distribution**, you will probably want to avoid changing the files from the distribution. That would make it hard to update. Instead, create a new file ``local-configure.yml`` and put your custom option specifications in it. This file will not be overridden when you pull an update from the master.
 
 For a quick start, copy one of the ``sample*.yml`` files to ``local-configure.yml``, then customize.
 
