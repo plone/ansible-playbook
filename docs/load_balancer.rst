@@ -29,4 +29,4 @@ The front-end port for the load balancer. Defaults to ``8080``.
 
 .. note ::
 
-    The haproxy stats page will be at ``http://localhost:1080/admin``. The administrative password is disabled on the assumption that the port will be firewalled and you will use any ssh tunnel to connect.
+    The haproxy stats page will be at ``http://localhost:1080/admin``. The administrative password is disabled on the assumption that the port will be firewalled and you will use an ssh tunnel to connect.
