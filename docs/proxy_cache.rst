@@ -13,7 +13,7 @@ Do you want to install the Varnish reverse-proxy cache? Default is ``yes``.
 
 .. note ::
 
-    If you decide not to use a proxy cache, you will need to make sure that the ``proxycache_port`` setting points to your load balancer front end. If you are not using a load balancer, you must make sure that ``proxycache_port`` points to main ZEO client.
+    If you decide not to use a proxy cache, you will need to make sure that the ``proxycache_port`` setting points to your load balancer front end. If you are not using a load balancer, you must make sure that ``proxycache_port`` points to the main ZEO client.
 
 
 proxycache_port
