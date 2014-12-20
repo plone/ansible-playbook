@@ -16,14 +16,14 @@ SSH access; sudo
 
 Beyond the basic platform, the only requirements are that you have ``ssh`` access to the remote server with full ``sudo`` rights.
 
-For local testing via virtual machine, any machine that support VirtualBox/Vagrant should be adequate.
+For local testing via virtual machine, any machine that supports VirtualBox/Vagrant should be adequate.
 
 Local setup
 ^^^^^^^^^^^
 
-On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <http://docs.ansible.com/intro_installation.html>`_ has throrough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development.
+On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <http://docs.ansible.com/intro_installation.html>`_ has thorough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development.
 
-Ansible's only dependenc is a recent version of Python 2.x. 2.6 or later.
+Ansible's only dependency is a recent version of Python 2.6 or later.
 
 You will also nearly certainly want git, both for cloning the playbook and for version-controlling your own work.
 
