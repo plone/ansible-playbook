@@ -15,6 +15,12 @@ server {
 
   server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
 
+  proxy_set_header X-Real-IP $remote_addr;
+  # Note that the setting below overrides any pre-existing X-Forwarded-For
+  # information. You'll want to change this is you have trustworthy incoming
+  # forward information.
+  proxy_set_header X-Forwarded-For $remote_addr;
+
   {% if item.get('zodb_path') != None %}
   location / {
     {% if item.get('protocol', 'http') == 'https' %}
