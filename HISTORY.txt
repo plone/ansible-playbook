@@ -1,3 +1,7 @@
+1.0b4 - 2015-01-07
+
+- Add X-Forwarded-For and X-Real-IP headers to Nginx setup.
+
 1.0b3 - 2014-12-17
 
 - Update plone_server role requirement to 1.0b6, which has a fix for bootstrap/setuptools problem.
