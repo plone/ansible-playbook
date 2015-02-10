@@ -86,7 +86,9 @@ Defaults to ``2``
 
 .. note ::
 
-    The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer. Use it for debugging, running scripts and quick testing.
+    The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer.
+    Use it for debugging, running scripts and quick testing.
+    If you need to remotely connect to the reserve client, you'll typically do that via an ssh tunnel.
 
 
 plone_zodb_cache_size
