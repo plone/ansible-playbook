@@ -20,11 +20,11 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 * Caching with `Varnish <https://www.varnish-cache.org/>`_;
 
-* `Nginx <http://wiki.nginx.org/Main>`_ or `Apache <http://httpd.apache.org/>`_ as a world-facing remote proxy and URL rewrite engine;
+* `Nginx <http://wiki.nginx.org/Main>`_ as a world-facing remote proxy and URL rewrite engine;
 
 * An outgoing-mail-only mail server using `Postfix <http://www.postfix.org/>`_;
 
-* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_ and `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_, logwatch and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
+* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_ and `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_ and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
 
 * Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
