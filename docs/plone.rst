@@ -159,7 +159,7 @@ plone_sources
 
 .. code-block:: yaml
 
-    plone_sources =
+    plone_sources:
       -  "my.package = svn http://example.com/svn/my.package/trunk update=true"
       -  "some.other.package = git git://example.com/git/some.other.package.git"
 
