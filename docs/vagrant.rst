@@ -1,4 +1,4 @@
-pTesting with Vagrant
+Testing with Vagrant
 --------------------
 
 This is really easy. Vagrant includes an Ansible provisioner and will run the playbook when you first run ``vagrant up`` and again when you run ``vagrant provision``.
