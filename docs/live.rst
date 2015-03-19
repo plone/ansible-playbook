@@ -41,6 +41,8 @@ The following tags are set up in playbook.yml.
 
 When you use one of these tags while running your playbook, only the bare minimum setup and the module named will be updated.
 
+Apply a tag using the `--tags` option. Example: `--tags="nginx"`
+
 
 Firewall
 ^^^^^^^^
