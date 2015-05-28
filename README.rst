@@ -41,13 +41,17 @@ TL;DR
 
 3. Check out or download a copy of this package;
 
-4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an Ansible inventory file for the remote host (look at vbox_host.cfg for an example) and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
+7. Create an Ansible inventory file for the remote host (look at vbox_host.cfg for an example)
+
+7.a To install python 2.7 on Ubuntu 15.04, which only comes with python 3, run ``ansible your_host_name -i myhost.cfg -m raw -a “apt-get -y install python-minimal"``;
+
+7.b To deploy, run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
 
 8. Set a real password for your Plone instance on the target server;
 
