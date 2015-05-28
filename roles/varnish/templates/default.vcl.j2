@@ -1,3 +1,5 @@
+vcl 4.0;
+
 backend default {
 	.host = "127.0.0.1";
 	.port = "{{ loadbalancer_port }}";
@@ -13,29 +15,29 @@ sub vcl_recv {
     if (req.http.Accept-Encoding) {
         if (req.url ~ "\.{{ nocompress_ext }}$") {
             # No point in compressing these
-            remove req.http.Accept-Encoding;
+            unset req.http.Accept-Encoding;
         } elsif (req.http.Accept-Encoding ~ "gzip") {
             set req.http.Accept-Encoding = "gzip";
         } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
             set req.http.Accept-Encoding = "deflate";
         } else {
             # unknown algorithm
-            remove req.http.Accept-Encoding;
+            unset req.http.Accept-Encoding;
         }
     }
 
     # Handle special requests
-    if (req.request != "GET" && req.request != "HEAD") {
+    if (req.method != "GET" && req.method != "HEAD") {
        # POST - Logins and edits
-       if (req.request == "POST") {
+       if (req.method == "POST") {
            return(pass);
        }
        # PURGE - The CacheFu product can invalidate updated URLs
-       if (req.request == "PURGE") {
+       if (req.method == "PURGE") {
            if (!client.ip ~ purge) {
-               error 405 "Not allowed.";
+               return( synth(405,"Not allowed."));
            }
-           return(lookup);
+           return(purge);
        }
     }
 
@@ -80,29 +82,15 @@ sub vcl_deliver {
     }
 }
 
-sub vcl_fetch {
+sub vcl_backend_response {
     # Don't allow static files to set cookies.
     # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
     # This list of extensions appears twice, once here and again in vcl_recv so
     # make sure you edit both and keep them equal.
-    if (req.url ~ "(?i)\.{{ no_response_cookie_ext }}(\?.*)?$") {
+    if (bereq.url ~ "(?i)\.{{ no_response_cookie_ext }}(\?.*)?$") {
       unset beresp.http.set-cookie;
     }
 
     # Allow items to be stale if needed.
     #set beresp.grace = 6h;
-}
-
-# Do the PURGE thing
-sub vcl_hit {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged";
-    }
-}
-sub vcl_miss {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged";
-    }
 }
