@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# This performs a more-or-less graceful restart of zope clients.
+# Strategy: For each client,
+#   1) Mark it down for maintenance in haproxy;
+#   2) stop client;
+#   3) start client; wait long enough for it to start listening
+#   4) Fetch the homepage directly from the client to load the cache.
+#      This will be the first request the client receives,
+#      since haproxy hasn't have marked it live yet.
+#      So, when haproxy marks it live, the cache will be warm.
+#   5) Mark the client available in haproxy.
+#
+#   Please regard this script as experimental. Before use, read it and make
+#   sure it's reasonable for your situation.
+#
+#   This script is meant to be run as root as it needs access to supervisor
+#   and the haproxy socket.
+
+{% for client in range(0, plone_client_count) %}
+
+{% if install_loadbalancer %}
+    echo "Marking client {{ client + 1 }} down for maintenance"
+    echo "disable server zeocluster/zeoclient{{ client }}" | socat /var/run/haproxy.sock stdio
+{% endif %}
+    echo Restarting client {{ client + 1 }}
+    supervisorctl stop zeoclient{{ client + 1 }}
+    echo Waiting a bit...
+    sleep 20
+    supervisorctl start zeoclient{{ client + 1 }}
+    echo Waiting a bit...
+    sleep 30
+{% if webserver_virtualhosts is defined %}
+    echo Fetching Plone site-home page
+{% for vh in webserver_virtualhosts %}
+{% if vh.get('zodb_path') %}
+    curl http://localhost:{{ plone_client_base_port + client + 1}}{{ vh.zodb_path }} -s -o - > /dev/null
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if install_loadbalancer %}
+    echo "Marking client {{ client + 1 }} available"
+    echo "enable server zeocluster/zeoclient{{ client }}" | socat /var/run/haproxy.sock stdio
+{% endif %}
+
+{% if client + 1 < plone_client_count %}
+echo "Waiting between clients"
+sleep 60
+{% endif %}
+
+{% endfor %}
+
+{% if install_proxycache %}
+echo Purging varnish cache
+varnishadm "ban.url ."
+{% endif %}
+
+echo Done

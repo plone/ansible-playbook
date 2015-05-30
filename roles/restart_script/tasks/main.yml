@@ -1,0 +1,17 @@
+---
+
+- name: Ensure we have socat if we're load balancing
+  when: install_loadbalancer
+  apt: pkg=socat state=present
+
+- name: Ensure we have curl
+  apt: pkg=curl state=present
+
+
+- name: Create restart script
+  template:
+    src=restart_clients.sh.j2
+    dest={{ plone_instance_home }}/scripts/restart_clients.sh
+    owner=root
+    group=root
+    mode=0755

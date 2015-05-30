@@ -1,3 +1,8 @@
+1.0b6 - unreleased
+
+- Add restart_script role. It creates a zeocluster restart script
+  at zeocluster/scripts/restart_clients.sh.
+
 1.0b5 - 2015-01-27
 
 - Bump plone_server requirement version.
