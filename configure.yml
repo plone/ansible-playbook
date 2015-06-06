@@ -30,7 +30,7 @@ additional_packages: []
 
 plone_major_version: 4.3
 
-plone_version: 4.3.4
+plone_version: 4.3.6
 
 plone_python_version: 2.7
 
