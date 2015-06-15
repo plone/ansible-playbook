@@ -83,7 +83,6 @@ sub vcl_deliver {
 sub vcl_fetch {
     # Don't allow static files to set cookies.
     # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
-    # This list of extensions appears twice, once here and again in vcl_recv so
     # make sure you edit both and keep them equal.
     if (req.url ~ "(?i)\.{{ no_response_cookie_ext }}(\?.*)?$") {
       unset beresp.http.set-cookie;
