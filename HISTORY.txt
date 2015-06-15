@@ -1,7 +1,11 @@
-1.0b6 - unreleased
+1.0 -2015-06-15
+
+- Update ansible galaxy requirement versions to latest.
 
 - Add restart_script role. It creates a zeocluster restart script
   at zeocluster/scripts/restart_clients.sh.
+
+- Update to use Plone 4.3.6.
 
 1.0b5 - 2015-01-27
 
