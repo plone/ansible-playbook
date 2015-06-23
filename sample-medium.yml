@@ -22,6 +22,8 @@ admin_email:
 
 plone_initial_password:
 
+timezone: "UTC\n"
+
 muninnode_query_ips:
     - ip.of.munin.monitor
 
