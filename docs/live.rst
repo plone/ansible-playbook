@@ -10,7 +10,7 @@ Create a file with a name like ``myhost.cfg`` that follows the pattern:
 
 .. code-block:: ini
 
-    plone.com --ansible_ssh_user=stevem ansible_ssh_host=192.168.1.50 ansible_ssh_port=5555
+    plone.com ansible_ssh_user=stevem ansible_ssh_host=192.168.1.50 ansible_ssh_port=5555
 
 You may leave off the ``ansible_ssh_host`` setting if the hostname is real. However, when doing early provisioning, it's often not available. ``ansible_ssh_port`` is only required if you want to use a non-standard ssh port. ``ansible_ssh_user`` should be the login id on the remote machine. That user must have sudo rights.
 
