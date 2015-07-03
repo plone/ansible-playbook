@@ -18,6 +18,7 @@
         - munin
         - motd
         - nginx
+        - timezone
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -33,6 +34,7 @@
         - munin
         - motd
         - nginx
+        - timezone
 
     - name: Fail if no administrative email set
       fail:
@@ -109,3 +111,19 @@
       template:
         dest: /etc/motd
         src: templates/motd.j2
+
+    - name: Set timezone variables
+      tags: timezone
+      copy: content={{ timezone }}
+            dest=/etc/timezone
+            owner=root
+            group=root
+            mode=0644
+            backup=yes
+      notify:
+        - update timezone
+
+  handlers:
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
+
