@@ -24,6 +24,7 @@ auto_upgrades: yes
 
 additional_packages: []
 
+timezone: "UTC\n"
 
 #######################################
 # Plone options
