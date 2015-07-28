@@ -1,4 +1,7 @@
-Unreleased
+1.1.1 2015-07-28
+
+- Updated plone.plone_server requirement to 1.1.1.
+  Version for the full kit updated to match.
 
 - Add a task to set the timezone.
 
