@@ -17,6 +17,19 @@ If you've installed Ansible globally, no other steps are necessary. If you wish 
 
     bin/ansible-playbook-vagrant playbook.yml
 
+Common errors
+-------------
+
+ssh stores host keys and checks them every time you try to reconnect to the same address.
+Since your Vagrant installs are always at the same host and port (127.0.0.1:2222), you will receive `SSH Error: Host key verification failed while connecting to 127.0.0.1:2222` error messages each time you install and connect with a new virtual box.
+
+To resolve these errors, use the command::
+
+.. code-block:: console
+
+    ssh-keygen -f "~/.ssh/known_hosts" -R [127.0.0.1]:2222
+
+to remove the old host key, then try again.
 
 Testing
 -------
