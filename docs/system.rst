@@ -67,3 +67,16 @@ List any additional operating system packages you wish to install. Default is em
 
     The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
 
+
+timezone
+~~~~~~~~
+
+.. code-block:: yaml
+
+    timezone: "America/Los_Angeles\n"
+
+Specify the timezone that should be set on the server.  Default is "UTC\n".
+
+.. note::
+
+    The timezone string must be terminated with a newline character (\n).
