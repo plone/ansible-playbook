@@ -81,4 +81,4 @@ If you want to monitor your web server, make sure you have a "localhost" hostnam
 You should know
 ~~~~~~~~~~~~~~~
 
-When you do specify a zodb_path, so that the webserver role knows that you're working with Plone, it will block URLs containing "/manage_" and will block http basic authentication. This means that it will be difficult to use the Zope Management Interface via the web server reverse proxy. Instead, use an SSH tunnel to the load balancer. Remember, this is a production installation. It *should* be hard to use the ZMI via the public interface.
+When you do specify a zodb_path, so that the webserver role knows that you're working with Plone, it will block URLs containing "/manage\_" and will block http basic authentication. This means that it will be difficult to use the Zope Management Interface via the web server reverse proxy. Instead, use an SSH tunnel to the load balancer. Remember, this is a production installation. It *should* be hard to use the ZMI via the public interface.

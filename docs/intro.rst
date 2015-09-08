@@ -23,7 +23,7 @@ An Ansible playbook and roles describe the desired condition of the server. The 
 
 .. note ::
 
-    If you want to take more control of your playbook, the `Plone server role <https://github.com/plone/ansible.plone_server>`_ is available by itself, and is listed on `Ansible Galaxy <https://galaxy.ansible.com/list#/roles/2212>`_.
+    If you want to take more control of your playbook, the `Plone server role <https://github.com/plone/ansible.plone_server>`_ is available by itself, and is listed on `Ansible Galaxy <https://galaxy.ansible.com/list#/roles/2212>`__.
 
 TL;DR
 ^^^^^
@@ -62,7 +62,7 @@ We chose Ansible for our provisioning tool because:
 
 3) `Ansible's documentation <http://docs.ansible.com>`_ is excellent and complete.
 
-4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <http://galaxy.ansible.com>`_.
+4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <http://galaxy.ansible.com>`__.
 
 
 If you need to log in
