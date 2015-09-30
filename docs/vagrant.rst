@@ -23,9 +23,9 @@ Common errors
 ssh stores host keys and checks them every time you try to reconnect to the same address.
 Since your Vagrant installs are always at the same host and port (127.0.0.1:2222), you will receive `SSH Error: Host key verification failed while connecting to 127.0.0.1:2222` error messages each time you install and connect with a new virtual box.
 
-To resolve these errors, use the command::
+To resolve these errors, use the command:
 
-.. code-block:: console
+.. code-block:: bash
 
     ssh-keygen -f "~/.ssh/known_hosts" -R [127.0.0.1]:2222
 
