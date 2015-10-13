@@ -62,16 +62,16 @@ plone_major_version
 
 .. code-block:: yaml
 
-    plone_version: 4.3
+    plone_version: '5.0'
 
 plone_version
 ~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
-    plone_version: 4.3.3
+    plone_version: '5.0'
 
-Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook.
+Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both plone_major_version and plone_version should be quoted so that they will be interpreted as strings.
 
 plone_client_count
 ~~~~~~~~~~~~~~~~~~

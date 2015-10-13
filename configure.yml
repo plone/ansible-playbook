@@ -29,9 +29,9 @@ timezone: "UTC\n"
 #######################################
 # Plone options
 
-plone_major_version: 4.3
+plone_major_version: '5.0'
 
-plone_version: 4.3.6
+plone_version: '5.0'
 
 plone_python_version: 2.7
 
