@@ -26,6 +26,7 @@ Virtual hosting setup
         zodb_path: /Plone
         port: 80
         protocol: http
+        client_max_body_size: 4M
       - hostname: plone.org
         zodb_path: /Plone
         address: 92.168.1.150
@@ -40,10 +41,11 @@ Default value:
 
 .. code-block:: yaml
 
-    - hostname: localhost
-      zodb_path: /Plone
-      aliases:
-        - default
+    webserver_virtualhosts:
+      - hostname: localhost
+        zodb_path: /Plone
+        aliases:
+          - default
 
 .. note ::
 

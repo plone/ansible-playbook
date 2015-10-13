@@ -1,5 +1,7 @@
 1.1.2 unreleased
 
+- Set client_max_body for nginx to 2M, allow override.
+
 - Fail if Ansible version is < 1.2. We might work with earlier,
   but haven't tested.
 
