@@ -1,3 +1,8 @@
+1.1.2 unreleased
+
+- Updated plone.plone_server requirement to 1.1.3.
+  Version for the full kit updated to match.
+
 1.1.1 2015-07-28
 
 - Updated plone.plone_server requirement to 1.1.1.
