@@ -34,6 +34,11 @@ muninnode_query_ips:
 # Major settings
 # --------------
 
+# Plone 4.3.x and 5.0 are currently tested and working.
+# Make sure this setting is quoted so that it's interpreted as a string.
+plone_major_version: '5.0'
+plone_version: '5.0'
+
 # 2 clients
 plone_client_count: 2
 
