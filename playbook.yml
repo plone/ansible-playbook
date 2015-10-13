@@ -7,6 +7,11 @@
 
   pre_tasks:
 
+    - name: Fail if Ansible is old
+      fail:
+        msg: "We have only tested with Ansible version 1.2+. Please update Ansible"
+      when: ansible_product_version < '1.2'
+
     - name: Include vars from configure.yml
       include_vars: configure.yml
       tags:
