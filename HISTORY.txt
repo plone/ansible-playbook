@@ -1,4 +1,4 @@
-1.1.2 unreleased
+1.1.2 2015-10-13
 
 - Set client_max_body for nginx to 2M, allow override.
 
