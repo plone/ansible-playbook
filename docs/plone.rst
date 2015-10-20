@@ -161,9 +161,13 @@ plone_sources
 
     plone_sources:
       -  "my.package = svn http://example.com/svn/my.package/trunk update=true"
-      -  "some.other.package = git git://example.com/git/some.other.package.git"
+      -  "some.other.package = git git://example.com/git/some.other.package.git rev=1.1.5"
 
-Source specifications, a list of strings in [mr.developer](https://pypi.python.org/pypi/mr.developer) format. If you specify plone_sources, the mr.developer extension will be used with auto-checkout set to "*".
+This setting allows you to check out and include repository-based sources in your buildout.
+
+Source specifications, a list of strings in `mr.developer <https://pypi.python.org/pypi/mr.developer>`_ sources format. If you specify plone_sources, the mr.developer extension will be used with auto-checkout set to "*" and git_clone_depth set to "1".
+
+Private repository source present a special challenge. The typical solution will be to set up a repository user with the ssh public key for the plone_buildout user.
 
 
 plone_zcml_slugs
