@@ -284,6 +284,19 @@ plone_buildout_cache_file
 The full local (host) filepath of a buildout egg cache. Defaults to none. Should not be used at the same time as plone_buildout_cache_url.
 
 
+supervisor_instance_discriminator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    supervisor_instance_discriminator: customer_15
+
+Optionally use this variable when you're installing multiple plone servers on the same machine.
+The value for supervisor_instance_discriminator will be set as a prefix to all supervisor jobs for this plone server.
+
+You do not need to set a supervisor_instance_discriminator if the servers have different instance names.
+
+
 Cron jobs
 ~~~~~~~~~
 
