@@ -1,6 +1,6 @@
 ---
 
-loadbalancer_name: zeocluster
+loadbalancer_name: zeoserver
 
 loadbalancer_port: 8080
 
@@ -10,3 +10,25 @@ plone_client_base_port: 8081
 
 loadbalancer_monitor_port: 1080
 
+loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+
+# Set default options for all the backend servers below.
+# maxconn 4          = maximum of 4 connections that will be queued to this backend
+#                      (set higher than the # of Zope threads, as it will stream
+#                      blobs using additional threads)
+# check              = perform health checks
+# inter 10000        = Do a health check every 10 seconds when the server is up.
+# downinter 2000     = Do a health check every 2 seconds when the server is down.
+# rise               = number of consecutive health checks that must succeed
+#                      before a down backend is considered up
+# fall               = number of consecutive health checks that must fail
+#                      before an up backend is considered down
+# on-error mark-down = Consider the backend down if (error_limit) connection failures occur.
+# error-limit 5      = Perform the on-error action after 5 consecutive failures.
+
+cluster:
+  - name: "{{ loadbalancer_name }}"
+    port: "{{ loadbalancer_port }}"
+    client_count: "{{ plone_client_count }}"
+    client_base_port: "{{ plone_client_base_port }}"
+    options: "{{ loadbalancer_options }}"

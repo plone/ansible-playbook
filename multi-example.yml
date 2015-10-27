@@ -1,0 +1,139 @@
+---
+
+- hosts: all
+  sudo: yes
+  gather_facts: yes
+
+
+  pre_tasks:
+
+    - name: Fail if Ansible is old
+      fail:
+        msg: "We have only tested with Ansible version 1.2+. Please update Ansible"
+      when: ansible_product_version < '1.2'
+
+    - name: Include vars from configure.yml
+      include_vars: configure.yml
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
+        - motd
+        - nginx
+        - timezone
+
+    - name: Include vars from local-configure.yml if found
+      include_vars: "{{ item }}"
+      with_first_found:
+       - local-configure.yml
+       - null.yml
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
+        - motd
+        - nginx
+        - timezone
+
+    - name: Fail if no administrative email set
+      fail:
+        msg: "You must set the admin_email variable."
+      when: not admin_email
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - postfix
+        - logwatch
+        - munin
+        - motd
+        - nginx
+
+    - name: Update host
+      apt: upgrade=dist update_cache=yes
+
+    - name: Ensure optional packages
+      apt: pkg={{ item }} state=present
+      with_items: additional_packages
+
+
+  roles:
+
+    - role: ANXS.hostname
+
+    - role: jnv.unattended-upgrades
+      when: auto_upgrades
+      unattended_mail: root
+      unattended_origins_patterns:
+        - 'origin=${distro_id},archive=${distro_codename}-security'
+        - 'o=${distro_id},a=${distro_codename}'
+        - 'o=${distro_id},a=${distro_codename}-updates'
+
+    - role: tersmitten.fail2ban
+      when: install_fail2ban
+      tags: fail2ban
+
+    - role: plone.plone_server
+      tags: plone
+
+    - role: haproxy
+      when: install_loadbalancer
+      tags: haproxy
+      cluster:
+        - name: mybalancer
+          port: 8080
+          client_count: 3
+          client_base_port: 8081
+
+    - role: varnish
+      when: install_proxycache
+      tags: varnish
+
+    - role: nginx
+      when: install_webserver
+      tags: nginx
+
+    - role: postfix
+      when: install_mailserver
+      tags: postfix
+
+    - role: logwatch
+      when: install_logwatch
+      tags: logwatch
+
+    - role: munin-node
+      when: install_muninnode
+      tags: munin
+
+    - role: restart_script
+      tags: restart_script
+
+  tasks:
+
+    - name: Update MOTD
+      tags: motd
+      template:
+        dest: /etc/motd
+        src: templates/motd.j2
+
+    - name: Set timezone variables
+      tags: timezone
+      copy: content={{ timezone }}
+            dest=/etc/timezone
+            owner=root
+            group=root
+            mode=0644
+            backup=yes
+      notify:
+        - update timezone
+
+  handlers:
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
+
