@@ -80,47 +80,72 @@
       tags: fail2ban
 
     - role: plone.plone_server
-      tags: plone
+      plone_instance_name: primary_plone
+      plone_target_path: /opt/primary_plone
+      plone_var_path: /var/local/primary_plone
+      plone_major_version: '5.0'
+      plone_version: '5.0'
+      plone_initial_password: admin
+      plone_zeo_port: 5100
+      plone_client_base_port: 5081
+      plone_client_count: 2
+      plone_create_site: no
+
+    - role: plone.plone_server
+      plone_instance_name: secondary_plone
+      plone_target_path: /opt/secondary_plone
+      plone_var_path: /var/local/secondary_plone
+      plone_major_version: '4.3'
+      plone_version: '4.3.7'
+      plone_initial_password: admin
+      plone_zeo_port: 4100
+      plone_client_base_port: 4081
+      plone_client_count: 3
+      plone_create_site: no
 
     - role: haproxy
       when: install_loadbalancer
       tags: haproxy
       cluster:
         - name: mybalancer
-          port: 8080
+          port: 5080
+          client_base_port: 5081
+          client_count: 2
+        - name: mybalancer1
+          port: 4080
+          client_base_port: 4081
           client_count: 3
-          client_base_port: 8081
 
-    - role: varnish
-      when: install_proxycache
-      tags: varnish
+    # - role: varnish
+    #   when: install_proxycache
+    #   tags: varnish
 
-    - role: nginx
-      when: install_webserver
-      tags: nginx
+    # - role: nginx
+    #   when: install_webserver
+    #   tags: nginx
 
-    - role: postfix
-      when: install_mailserver
-      tags: postfix
+    # - role: postfix
+    #   when: install_mailserver
+    #   tags: postfix
 
-    - role: logwatch
-      when: install_logwatch
-      tags: logwatch
+    # - role: logwatch
+    #   when: install_logwatch
+    #   tags: logwatch
 
-    - role: munin-node
-      when: install_muninnode
-      tags: munin
+    # - role: munin-node
+    #   when: install_muninnode
+    #   tags: munin
 
-    - role: restart_script
-      tags: restart_script
+    # - role: restart_script
+    #   tags: restart_script
 
   tasks:
 
-    - name: Update MOTD
-      tags: motd
-      template:
-        dest: /etc/motd
-        src: templates/motd.j2
+    # - name: Update MOTD
+    #   tags: motd
+    #   template:
+    #     dest: /etc/motd
+    #     src: templates/motd.j2
 
     - name: Set timezone variables
       tags: timezone
