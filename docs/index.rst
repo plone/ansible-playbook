@@ -22,4 +22,5 @@ Full-stack deployment with Ansible
    webserver
    mailserver
    monitoring
+   multiserver
 
