@@ -106,23 +106,21 @@
     - role: haproxy
       when: install_loadbalancer
       tags: haproxy
-      cluster:
+      loadbalancer_clusters:
         - name: plone5_cluster
           port: 5080
           client_base_port: 5081
           client_count: 1
-          plone_zodb_cache_size: 5000
         - name: plone4_cluster
           port: 4080
           client_base_port: 4081
           client_count: 1
-          plone_zodb_cache_size: 5000
 
     - role: varnish
       when: install_proxycache
       tags: varnish
       proxycache_method: file
-      backends:
+      proxycache_backends:
         - name: plone5
           port: 5080
           hostnames:

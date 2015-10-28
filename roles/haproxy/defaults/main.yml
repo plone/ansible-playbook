@@ -26,7 +26,7 @@ loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-err
 # on-error mark-down = Consider the backend down if (error_limit) connection failures occur.
 # error-limit 5      = Perform the on-error action after 5 consecutive failures.
 
-cluster:
+loadbalancer_clusters:
   - name: "{{ loadbalancer_name }}"
     port: "{{ loadbalancer_port }}"
     client_count: "{{ plone_client_count }}"

@@ -39,7 +39,7 @@ listen admin
     # We're only connecting via ssh
     # stats auth haproxy:{{ admin_secret|default('notsosecret') }}
 
-{% for front_end in cluster %}
+{% for front_end in loadbalancer_clusters %}
 listen {{ front_end.name }} *:{{ front_end.port }}
     {{ front_end.options|default(loadbalancer_options) }}
 {% for client in range(0, front_end.client_count|int) %}
