@@ -1,13 +1,28 @@
-backend default {
+{% for backend in backends %}
+backend {{ backend.name }} {
 	.host = "127.0.0.1";
-	.port = "{{ loadbalancer_port }}";
+	.port = "{{ backend.port }}";
 }
+{% endfor %}
 
 acl purge {
 	"localhost";
 }
 
 sub vcl_recv {
+
+{% if backends|length > 1 %}
+{% for backend in backends %}
+{% for hostname in backend.hostnames %}
+    if (req.url ~ "/{{ hostname }}:80/") {
+        set req.backend = {{ backend.name }};
+    }
+{% endfor %}
+{% endfor %}
+    else {
+        set req.backend = {{ backends[0].name }};
+    }
+{% endif %}
 
     # Sanitize compression handling
     if (req.http.Accept-Encoding) {
