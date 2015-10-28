@@ -20,3 +20,7 @@ cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp|beaker\.sess
 # When these cookies are not found, mark request with
 # X-Anonymous header to allow split caching.
 nonanonymous_cookies: __ac(|_(name|password|persistent))
+
+proxycache_backends:
+  - name: "default"
+    port: "{{ loadbalancer_port }}"

@@ -58,16 +58,37 @@ These settings fine-tune the cache rules.
 
     # allow compression for all except these extensions
     nocompress_ext: (jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)
-    
+
     # never set cookies on responses with these extensions
     no_response_cookie_ext: (pdf|asc|dat|txt|doc|xls|ppt|tgz|png|gif|jpeg|jpg|ico|swf|css|js)
-    
+
     # To improve caching, on incoming requests remove all except these cookies
     cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp)
-    
+
     # When these cookies are not found, mark request with
     # X-Anonymous header to allow split caching.
     nonanonymous_cookies: __ac(|_(name|password|persistent))
 
 Defaults are as indicated in the example. Don't change these without giving it some thought.
 
+
+Multiple servers
+````````````````
+
+If you are setting up multiple Plone servers, you may specify multiple Varnish backends and determine which backend is used by hostname. Instead of the proxycache_* options listed above, specify the backends as a list:
+
+.. code-block:: yaml
+
+    proxycache_backends:
+      - name: plone5
+        port: 5080
+        hostnames:
+          - www.plone5site.org
+          - www.plone5site.com
+      - name: plone4
+        port: 4080
+        hostnames:
+          - www.plone4site.org
+          - www.plone4site.com
+
+The ports would typically be load-balancer ports. Hostnames are matched against the incoming URL. The first backend is set as default in case no hostname is matched.

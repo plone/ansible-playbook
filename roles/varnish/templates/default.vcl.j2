@@ -1,13 +1,28 @@
-backend default {
+{% for backend in proxycache_backends %}
+backend {{ backend.name }} {
 	.host = "127.0.0.1";
-	.port = "{{ loadbalancer_port }}";
+	.port = "{{ backend.port }}";
 }
+{% endfor %}
 
 acl purge {
 	"localhost";
 }
 
 sub vcl_recv {
+
+{% if proxycache_backends|length > 1 %}
+{% for backend in proxycache_backends %}
+{% for hostname in backend.hostnames %}
+    if (req.url ~ "/{{ hostname }}:80/") {
+        set req.backend = {{ backend.name }};
+    }
+{% endfor %}
+{% endfor %}
+    else {
+        set req.backend = {{ proxycache_backends[0].name }};
+    }
+{% endif %}
 
     # Sanitize compression handling
     if (req.http.Accept-Encoding) {

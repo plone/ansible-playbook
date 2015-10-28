@@ -39,24 +39,11 @@ listen admin
     # We're only connecting via ssh
     # stats auth haproxy:{{ admin_secret|default('notsosecret') }}
 
-# Set default options for all the backend servers below.
-# maxconn 4          = maximum of 4 connections that will be queued to this backend
-#                      (set higher than the # of Zope threads, as it will stream
-#                      blobs using additional threads)
-# check              = perform health checks
-# inter 10000        = Do a health check every 10 seconds when the server is up.
-# downinter 2000     = Do a health check every 2 seconds when the server is down.
-# rise               = number of consecutive health checks that must succeed
-#                      before a down backend is considered up
-# fall               = number of consecutive health checks that must fail
-#                      before an up backend is considered down
-# on-error mark-down = Consider the backend down if (error_limit) connection failures occur.
-# error-limit 5      = Perform the on-error action after 5 consecutive failures.
+{% for front_end in loadbalancer_clusters %}
+listen {{ front_end.name }} *:{{ front_end.port }}
+    {{ front_end.options|default(loadbalancer_options) }}
+{% for client in range(0, front_end.client_count|int) %}
+    server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.client_base_port|int + client) }} check
+{% endfor %}
 
-
-listen {{ loadbalancer_name }} *:{{ loadbalancer_port }}
-    default-server maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15
-
-    {% for client in range(0, plone_client_count) %}
-    server zeoclient{{ client }} 127.0.0.1:{{ plone_client_base_port + client }} check
-    {% endfor %}
+{% endfor %}
