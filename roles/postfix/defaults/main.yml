@@ -1,0 +1,11 @@
+---
+
+install_mailserver: yes
+
+mailserver_relayhost:
+
+mailserver_relayport:
+
+mailserver_relayuser:
+
+mailserver_relaypassword:
