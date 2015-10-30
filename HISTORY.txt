@@ -1,5 +1,9 @@
 1.1.3 unreleased
 
+- Fix firewall.yml to work without configure.yml.
+
+- Refactor haproxy and varnish roles to allow support for multiple Plone backends.
+
 - Factor all defaults into roles or jinja2 default filters.
   The goal is to make Ansible's inventory variables scheme work as an alternative to local-configure.yml.
 

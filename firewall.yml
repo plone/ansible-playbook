@@ -6,9 +6,6 @@
 
   tasks:
 
-  - name: Include vars from configure.yml
-    include_vars: configure.yml
-
   - name: Include vars from local-configure.yml if found
     include_vars: "{{ item }}"
     with_first_found:
@@ -31,7 +28,7 @@
     ufw: rule=allow port=443 proto=tcp
 
   - name: 4949 (munin-node) is open to monitor(s)
-    when: install_muninnode
-    ufw: rule=allow port=4949 proto=tcp from_ip=50.1.20.251
-    with_items: muninnode_query_ips
+    when: install_muninnode|default(True)
+    ufw: rule=allow port=4949 proto=tcp from_ip={{ item }}
+    with_items: muninnode_query_ips|default([])
 
