@@ -12,19 +12,6 @@
         msg: "We have only tested with Ansible version 1.2+. Please update Ansible"
       when: ansible_product_version < '1.2'
 
-    - name: Include vars from configure.yml
-      include_vars: configure.yml
-      tags:
-        - plone
-        - haproxy
-        - varnish
-        - postfix
-        - logwatch
-        - munin
-        - motd
-        - nginx
-        - timezone
-
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
       with_first_found:
@@ -68,7 +55,7 @@
     - role: ANXS.hostname
 
     - role: jnv.unattended-upgrades
-      when: auto_upgrades
+      when: auto_upgrades|default(True)
       unattended_mail: root
       unattended_origins_patterns:
         - 'origin=${distro_id},archive=${distro_codename}-security'
@@ -76,50 +63,48 @@
         - 'o=${distro_id},a=${distro_codename}-updates'
 
     - role: tersmitten.fail2ban
-      when: install_fail2ban
+      when: install_fail2ban|default(True)
       tags: fail2ban
 
     - role: plone.plone_server
       tags: plone
 
     - role: haproxy
-      when: install_loadbalancer
+      when: install_loadbalancer|default(True)
       tags: haproxy
 
     - role: varnish
-      when: install_proxycache
+      when: install_proxycache|default(True)
       tags: varnish
 
     - role: nginx
-      when: install_webserver
+      when: install_webserver|default(True)
       tags: nginx
 
     - role: postfix
-      when: install_mailserver
+      when: install_mailserver|default(True)
       tags: postfix
 
     - role: logwatch
-      when: install_logwatch
+      when: install_logwatch|default(True)
       tags: logwatch
 
     - role: munin-node
-      when: install_muninnode
+      when: install_muninnode|default(True)
       tags: munin
 
     - role: restart_script
       tags: restart_script
 
-  tasks:
-
-    - name: Update MOTD
+    - role: motd
+      when: install_motd|default(True)
       tags: motd
-      template:
-        dest: /etc/motd
-        src: templates/motd.j2
+
+  tasks:
 
     - name: Set timezone variables
       tags: timezone
-      copy: content={{ timezone }}
+      copy: content={{ timezone|default("UTC\n") }}
             dest=/etc/timezone
             owner=root
             group=root

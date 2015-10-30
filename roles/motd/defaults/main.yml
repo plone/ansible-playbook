@@ -1,0 +1,16 @@
+---
+
+motd: |
+    This server is configured via Ansible.
+    Do not change configuration settings directly.
+
+install_loadbalancer: yes
+install_proxycache: yes
+install_muninnode: yes
+install_mailserver: yes
+install_webserver: yes
+webserver_virtualhosts:
+  - hostname: "{{ inventory_hostname }}"
+    aliases:
+      - default
+    zodb_path: /Plone

@@ -1,0 +1,7 @@
+---
+
+- name: Update MOTD
+  tags: motd
+  template:
+    dest: /etc/motd
+    src: motd.j2
