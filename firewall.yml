@@ -1,5 +1,8 @@
 ---
 
+# NOTE: This playbook *adds* rules.
+# It does not delete existing rules.
+
 - hosts: all
   sudo: yes
   gather_facts: no
