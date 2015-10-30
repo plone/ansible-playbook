@@ -2,10 +2,32 @@
 
 install_loadbalancer: yes
 
+loadbalancer_name: zeoserver
+
 install_proxycache: yes
 
-webserver_virtualhosts:
-  - hostname: "{{ inventory_hostname }}"
-    aliases:
-      - default
-    zodb_path: /Plone
+plone_target_path: /usr/local/plone-{{ plone_major_version }}
+
+plone_instance_name: zeoserver
+
+plone_client_count: 2
+
+plone_client_base_port: 8081
+
+# webserver_virtualhosts:
+#   - hostname: "{{ inventory_hostname }}"
+#     aliases:
+#       - default
+#     zodb_path: /Plone
+
+restart_nodes:
+  - plone_target_path: "{{ plone_target_path }}"
+    plone_instance_name: "{{ plone_instance_name }}"
+    loadbalancer_name: "{{ loadbalancer_name }}"
+    plone_client_count: "{{ plone_client_count }}"
+    plone_client_base_port: "{{ plone_client_base_port }}"
+    fetch_paths:
+      - /Plone
+
+
+
