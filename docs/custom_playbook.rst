@@ -25,15 +25,24 @@ If you want to store your roles elsewhere, edit the ``ansible.cfg`` file in the 
 Customizing the deployment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-There are two major strategies for customization.
+There are three major strategies for customization: branching, a local configuration file and Ansible inventory variables.
 
-**If you are working on your own branch**, it's yours. You may edit ``configure.yml`` to set options.
+**If you are working on your own branch**, it's yours. You may set variables inside the playbook.
 
 **If you cloned or downloaded the master distribution**, you will probably want to avoid changing the files from the distribution. That would make it hard to update. Instead, create a new file ``local-configure.yml`` and put your custom option specifications in it. This file will not be overridden when you pull an update from the master.
 
 For a quick start, copy one of the ``sample*.yml`` files to ``local-configure.yml``, then customize.
 
-Using the local configuration strategy, copy from ``configure.yml`` only the options you wish to change to ``local-configure.yml``. Edit them there.
+Using the local configuration strategy, add only the options you wish to change to ``local-configure.yml``. Edit them there.
+
+Ansible inventory variables
+```````````````````````````
+
+Ansible allows you to set variables for particular hosts or groups of hosts. Check the Ansible documentation on `Inventory variables <http://docs.ansible.com/ansible/intro_inventory.html>`_ for details. This is a particularly good approach if you are hoping to support multiple hosts, as different variables may be set for different hosts.
+
+If you use inventory variables, note that any variable you set in ``local-configure.yml`` will override your inventory variables.
+
+Inventory variables are not as practical for use with Vagrant. You'll probably wish to use the ``local-configure`` scheme for Vagrant testing.
 
 Customizing buildout configuration
 ``````````````````````````````````
