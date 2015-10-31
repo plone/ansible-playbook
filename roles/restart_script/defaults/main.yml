@@ -4,6 +4,17 @@ install_loadbalancer: yes
 
 loadbalancer_name: zeoserver
 
+loadbalancer_port: 8080
+
+plone_client_count: 2
+
+plone_client_base_port: 8081
+
+loadbalancer_clusters:
+  - name: "{{ loadbalancer_name }}"
+    client_count: "{{ plone_client_count }}"
+    client_base_port: "{{ plone_client_base_port }}"
+
 install_proxycache: yes
 
 plone_target_path: /usr/local/plone-{{ plone_major_version }}
@@ -24,10 +35,7 @@ restart_nodes:
   - plone_target_path: "{{ plone_target_path }}"
     plone_instance_name: "{{ plone_instance_name }}"
     loadbalancer_name: "{{ loadbalancer_name }}"
-    plone_client_count: "{{ plone_client_count }}"
-    plone_client_base_port: "{{ plone_client_base_port }}"
     fetch_paths:
       - /Plone
 
-
-
+playbook_plones: "{{ [] }}"

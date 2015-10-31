@@ -17,11 +17,13 @@
 #   This script is meant to be run as root as it needs access to supervisor
 #   and the haproxy socket.
 
-{% for client in range(0, item.plone_client_count) %}
+{% for cluster in loadbalancer_clusters %}{% if cluster.name == item.loadbalancer_name %}
+
+{% for client in range(0, cluster.client_count) %}
 
 {% if install_loadbalancer %}
 echo "Marking client {{ client + 1 }} down for maintenance"
-echo "disable server zeocluster/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
+echo "disable server {{ item.loadbalancer_name }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
 {% endif %}
 echo Restarting client {{ client + 1 }}
 supervisorctl stop {{ item.plone_instance_name }}_zeoclient{{ client + 1 }}
@@ -33,12 +35,12 @@ sleep 30
 {% if item.fetch_paths is defined %}
 echo Fetching Plone site-home page
 {% for fetch_path in item.fetch_paths %}
-curl http://localhost:{{ item.plone_client_base_port + client }}{{ fetch_path }} -s -o - > /dev/null
+curl http://localhost:{{ cluster.client_base_port + client }}{{ fetch_path }} -s -o - > /dev/null
 {% endfor %}
 {% endif %}
 {% if install_loadbalancer %}
 echo "Marking client {{ client + 1 }} available"
-echo "enable server zeocluster/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
+echo "enable server {{ item.loadbalancer_name }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
 {% endif %}
 
 {% if client + 1 < item.plone_client_count %}
@@ -54,3 +56,4 @@ varnishadm "ban.url ."
 {% endif %}
 
 echo Done
+{% endif %}{% endfor %}

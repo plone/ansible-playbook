@@ -15,3 +15,5 @@
     group=root
     mode=0755
   with_items: restart_nodes
+
+- debug: var=playbook_plones
