@@ -11,6 +11,8 @@
     group=root
     mode=644
 
+- debug: var=playbook_plones
+
 - name: haproxy config
   template:
     src=haproxy.cfg.j2

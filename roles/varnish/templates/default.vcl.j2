@@ -1,7 +1,7 @@
-{% for backend in proxycache_backends %}
-backend {{ backend.name }} {
+{% for backend in playbook_plones %}
+backend {{ backend.plone_instance_name }} {
 	.host = "127.0.0.1";
-	.port = "{{ backend.port }}";
+	.port = "{{ backend.loadbalancer_port }}";
 }
 {% endfor %}
 
@@ -11,16 +11,16 @@ acl purge {
 
 sub vcl_recv {
 
-{% if proxycache_backends|length > 1 %}
-{% for backend in proxycache_backends %}
-{% for hostname in backend.hostnames %}
-    if (req.url ~ "/{{ hostname }}:80/") {
-        set req.backend = {{ backend.name }};
+{% if playbook_plones|length > 1 %}
+{% for backend in playbook_plones %}
+{% for site in backend.webserver_virtualhosts|default([{'hostname':'default'}]) %}
+    if (req.url ~ "/{{ site.hostname }}:80/") {
+        set req.backend = {{ backend.plone_instance_name }};
     }
 {% endfor %}
 {% endfor %}
     else {
-        set req.backend = {{ proxycache_backends[0].name }};
+        set req.backend = {{ playbook_plones[0].plone_instance_name }};
     }
 {% endif %}
 

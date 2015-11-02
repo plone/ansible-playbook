@@ -39,11 +39,11 @@ listen admin
     # We're only connecting via ssh
     # stats auth haproxy:{{ admin_secret|default('notsosecret') }}
 
-{% for front_end in loadbalancer_clusters %}
-listen {{ front_end.name }} *:{{ front_end.port }}
+{% for front_end in playbook_plones %}
+listen {{ front_end.plone_instance_name }} *:{{ front_end.loadbalancer_port }}
     {{ front_end.options|default(loadbalancer_options) }}
-{% for client in range(0, front_end.client_count|int) %}
-    server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.client_base_port|int + client) }} check
+{% for client in range(0, front_end.plone_client_count|int) %}
+    server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.plone_client_base_port|int + client) }} check
 {% endfor %}
 
 {% endfor %}

@@ -2,7 +2,7 @@
 
 proxycache_port: 6081
 
-loadbalancer_port: 8080
+# loadbalancer_port: 8080
 
 proxycache_method: malloc
 
@@ -21,6 +21,12 @@ cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp|beaker\.sess
 # X-Anonymous header to allow split caching.
 nonanonymous_cookies: __ac(|_(name|password|persistent))
 
-proxycache_backends:
-  - name: "default"
-    port: "{{ loadbalancer_port }}"
+# proxycache_backends:
+#   - name: "default"
+#     port: "{{ loadbalancer_port }}"
+
+# playbook_plones:
+#   - plone_instance_name: "{{ plone_instance_name|default('zeoserver') }}"
+#     loadbalancer_port: "{{ loadbalancer_port|default(plone_client_base_port-1) }}"
+#     sites:
+#       - hostname: default

@@ -1,7 +1,7 @@
 ---
 
-webserver_virtualhosts:
-  - hostname: "{{ inventory_hostname }}"
-    aliases:
-      - default
-    zodb_path: /Plone
+# webserver_virtualhosts:
+#   - hostname: "{{ inventory_hostname }}"
+#     aliases:
+#       - default
+#     zodb_path: /Plone

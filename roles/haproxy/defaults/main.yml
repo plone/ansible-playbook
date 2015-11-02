@@ -1,12 +1,12 @@
 ---
 
-loadbalancer_name: zeoserver
+# loadbalancer_name: zeoserver
 
-loadbalancer_port: 8080
+# loadbalancer_port: 8080
 
-plone_client_count: 2
+# plone_client_count: 2
 
-plone_client_base_port: 8081
+# plone_client_base_port: 8081
 
 loadbalancer_monitor_port: 1080
 
@@ -26,9 +26,15 @@ loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-err
 # on-error mark-down = Consider the backend down if (error_limit) connection failures occur.
 # error-limit 5      = Perform the on-error action after 5 consecutive failures.
 
-loadbalancer_clusters:
-  - name: "{{ loadbalancer_name }}"
-    port: "{{ loadbalancer_port }}"
-    client_count: "{{ plone_client_count }}"
-    client_base_port: "{{ plone_client_base_port }}"
-    options: "{{ loadbalancer_options }}"
+# loadbalancer_clusters:
+#   - name: "{{ loadbalancer_name }}"
+#     port: "{{ loadbalancer_port }}"
+#     client_count: "{{ plone_client_count }}"
+#     client_base_port: "{{ plone_client_base_port }}"
+#     options: "{{ loadbalancer_options }}"
+
+# playbook_plones:
+#   - plone_instance_name: "{{ plone_instance_name|default('zeoserver') }}"
+#     plone_client_base_port: "{{ plone_client_base_port|default(8081) }}"
+#     plone_client_count: "{{ plone_client_count|default(2) }}"
+#     loadbalancer_port: "{{ loadbalancer_port|default(plone_client_base_port-1) }}"
