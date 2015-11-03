@@ -21,6 +21,7 @@
         - plone
         - haproxy
         - varnish
+        - restart_script
         - postfix
         - logwatch
         - munin
@@ -36,6 +37,7 @@
         - plone
         - haproxy
         - varnish
+        - restart_script
         - postfix
         - logwatch
         - munin
@@ -66,6 +68,18 @@
       when: install_fail2ban|default(True)
       tags: fail2ban
 
+    - role: default_config
+      tags:
+        - plone
+        - haproxy
+        - varnish
+        - restart_script
+        - nginx
+        - postfix
+        - logwatch
+        - munin
+        - motd
+
     - role: plone.plone_server
       tags: plone
 
@@ -81,6 +95,9 @@
       when: install_webserver|default(True)
       tags: nginx
 
+    - role: restart_script
+      tags: restart_script
+
     - role: postfix
       when: install_mailserver|default(True)
       tags: postfix
@@ -92,9 +109,6 @@
     - role: munin-node
       when: install_muninnode|default(True)
       tags: munin
-
-    - role: restart_script
-      tags: restart_script
 
     - role: motd
       when: install_motd|default(True)

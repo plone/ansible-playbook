@@ -1,7 +1,5 @@
 ---
 
-- debug: var=playbook_plones
-
 - name: Update MOTD
   tags: motd
   template:

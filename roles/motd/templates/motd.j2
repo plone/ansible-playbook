@@ -3,15 +3,15 @@
 Admin email: {{ admin_email }}
 Custom Services/Ports
 {% for aplone in playbook_plones %}
-{{ aplone.plone_instance_name }}: {{ aplone.plone_instance_home }}
+{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ aplone.plone_instance_home|default(plone_instance_home) }}
 {% for webserver in aplone.webserver_virtualhosts %}
     {{ webserver.zodb_path }}: {{ webserver.hostname }} {{ webserver.aliases }}
 {% endfor %}
-    zeo server: 127.0.0.1:{{ aplone.plone_zeo_port }}
+    zeo server: 127.0.0.1:{{ aplone.plone_zeo_port|default(plone_zeo_port) }}
 {% if install_loadbalancer %}
-    haproxy front end: {{ aplone.loadbalancer_port }}
+    haproxy front end: {{ aplone.loadbalancer_port|default(loadbalancer_port) }}
 {% endif %}
-    zeo clients: {% for client in range(0, aplone.plone_client_count|int) %}127.0.0.1:{{ plone_client_base_port|int + client}} {% endfor %}
+    zeo clients: {% for client in range(0, aplone.plone_client_count|default(plone_client_count)|int) %}127.0.0.1:{{ plone_client_base_port|default(plone_client_base_port)|int + client}} {% endfor %}
 
 {% endfor %}
 {% if install_loadbalancer %}

@@ -20,7 +20,7 @@
 - name: Create zope-style virtual hosts
   template:
     src: host.j2
-    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
+    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}
     mode: 0644
   with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   notify: restart nginx
