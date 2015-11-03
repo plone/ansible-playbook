@@ -9,8 +9,6 @@ install_muninnode: yes
 install_mailserver: yes
 install_webserver: yes
 
-additional_packages:
-
 loadbalancer_port: "{{ plone_client_base_port|int - 1 }}"
 
 webserver_virtualhosts:
