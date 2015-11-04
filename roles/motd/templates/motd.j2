@@ -3,9 +3,9 @@
 Admin email: {{ admin_email }}
 Custom Services/Ports
 {% for aplone in playbook_plones %}
-{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ aplone.plone_instance_home|default(plone_instance_home) }}
+{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ plone_config.plone_target_path|default(plone_target_path) }}/{{ plone_config.plone_instance_name|default(plone_instance_name) }}
 {% for webserver in aplone.webserver_virtualhosts %}
-    {{ webserver.zodb_path }}: {{ webserver.hostname }} {{ webserver.aliases }}
+    {{ webserver.zodb_path }}: {{ webserver.hostname }} {{ webserver.aliases|default([]) }}
 {% endfor %}
     zeo server: 127.0.0.1:{{ aplone.plone_zeo_port|default(plone_zeo_port) }}
 {% if install_loadbalancer %}

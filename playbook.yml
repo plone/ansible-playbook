@@ -81,6 +81,12 @@
         - motd
 
     - role: plone.plone_server
+      plone_config: "{{ playbook_plones[0] }}"
+      tags: plone
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[1] }}"
+      when: "{{ playbook_plones|length() > 1 }}"
       tags: plone
 
     - role: haproxy

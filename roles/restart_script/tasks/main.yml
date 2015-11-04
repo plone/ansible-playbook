@@ -10,7 +10,7 @@
 - name: Create restart script
   template:
     src=restart_clients.sh.j2
-    dest={{ item.plone_instance_home|default(plone_instance_home) }}/scripts/restart_clients.sh
+    dest={{ item.plone_target_path|default(plone_target_path) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_clients.sh
     owner=root
     group=root
     mode=0755
