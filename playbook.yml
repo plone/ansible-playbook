@@ -18,7 +18,12 @@
        - local-configure.yml
        - null.yml
       tags:
+        - update_packages
         - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
         - haproxy
         - varnish
         - restart_script
@@ -35,6 +40,10 @@
       when: not admin_email
       tags:
         - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
         - haproxy
         - varnish
         - restart_script
@@ -46,6 +55,8 @@
 
     - name: Update host
       apt: upgrade=dist update_cache=yes
+      tags:
+        - update_packages
 
     - name: Ensure optional packages
       apt: pkg={{ item }} state=present
@@ -71,6 +82,10 @@
     - role: default_config
       tags:
         - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
         - haproxy
         - varnish
         - restart_script
@@ -83,11 +98,25 @@
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[0] }}"
       tags: plone
+      tags: plone1
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[1] }}"
       when: "{{ playbook_plones|length() > 1 }}"
       tags: plone
+      tags: plone2
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[2] }}"
+      when: "{{ playbook_plones|length() > 2 }}"
+      tags: plone
+      tags: plone3
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[3] }}"
+      when: "{{ playbook_plones|length() > 3 }}"
+      tags: plone
+      tags: plone4
 
     - role: haproxy
       when: install_loadbalancer|default(True)
