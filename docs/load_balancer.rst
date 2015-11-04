@@ -40,24 +40,3 @@ loadbalancer_options
     loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
 
 Use this variable to customize backend options for haproxy.
-
-
-Multiple servers
-````````````````
-
-If you are setting up multiple Plone servers, you may specify multiple haproxy balanced clusters. Instead of the loadbalancer_* options listed above, specify the cluster as a list:
-
-.. code-block:: yaml
-
-    loadbalancer_clusters:
-      - name: plone5_cluster
-        port: 5080
-        client_base_port: 5081
-        client_count: 2
-      - name: plone4_cluster
-        port: 4080
-        client_base_port: 4081
-        client_count: 4
-        options: "maxconn 2 inter 20000 downinter 4000 rise 1 fall 2 on-error mark-down error-limit 15"
-
-Each item in the clusters list must have `name`, `port`, `client_base_port` and `client_count` specified. Setting `options` is optional. If options are not specified, the value of `loadbalancer_options` will be used.

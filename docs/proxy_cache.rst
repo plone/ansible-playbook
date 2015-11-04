@@ -70,25 +70,3 @@ These settings fine-tune the cache rules.
     nonanonymous_cookies: __ac(|_(name|password|persistent))
 
 Defaults are as indicated in the example. Don't change these without giving it some thought.
-
-
-Multiple servers
-````````````````
-
-If you are setting up multiple Plone servers, you may specify multiple Varnish backends and determine which backend is used by hostname. Instead of the proxycache_* options listed above, specify the backends as a list:
-
-.. code-block:: yaml
-
-    proxycache_backends:
-      - name: plone5
-        port: 5080
-        hostnames:
-          - www.plone5site.org
-          - www.plone5site.com
-      - name: plone4
-        port: 4080
-        hostnames:
-          - www.plone4site.org
-          - www.plone4site.com
-
-The ports would typically be load-balancer ports. Hostnames are matched against the incoming URL. The first backend is set as default in case no hostname is matched.
