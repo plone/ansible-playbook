@@ -1,0 +1,60 @@
+    >>> import subprocess
+
+    >>> sample = 'sample-medium.yml'
+    >>> extras = r"""
+    ... admin_email: test@example.com
+    ... plone_initial_password: admin
+    ... additional_packages:
+    ...   - curl
+    ...   - sockstat
+    ... """
+    >>> with open(sample, 'r') as f:
+    ...     with open('local-configure.yml', 'w') as g:
+    ...         g.write(f.read() + extras)
+
+    >>> def ssh_run(cmd):
+    ...     return subprocess.check_output("""vagrant ssh -c '%s'""" % cmd, shell=True)
+
+    >>> subprocess.check_call("vagrant up", shell=True)
+    0
+
+    >>> subprocess.check_call("vagrant provision", shell=True)
+    0
+
+    >>> print ssh_run('sudo sockstat -U plone_daemon | grep LISTEN | sort')
+    plone_da python2.7            ...    tcp4   127.0.0.1:8081            *:*                       LISTEN
+    plone_da python2.7            ...    tcp4   127.0.0.1:8082            *:*                       LISTEN
+    plone_da zeoserver            ...    tcp4   127.0.0.1:8100            *:*                       LISTEN
+
+    >>> print ssh_run('sudo sockstat -l | grep haproxy | sort')
+    root     haproxy              ...     tcp4   *:1080                    *:*                       LISTEN
+    root     haproxy              ...     tcp4   *:8080                    *:*                       LISTEN
+
+    >>> print ssh_run('sudo sockstat -l | grep varnish | sort')
+    root     varnishd             ...    tcp4   127.0.0.1:6082            *:*                       LISTEN
+    root     varnishd             ...    tcp4   *:6081                    *:*                       LISTEN
+
+    >>> print ssh_run('sudo sockstat -l | grep nginx | sort')
+    root     nginx                ...    tcp4   *:80                      *:*                       LISTEN
+    ...
+
+    >>> print ssh_run('sudo sockstat -l | grep ":25" | sort')
+    root     master               ...    tcp4   *:25                      *:*                       LISTEN
+
+    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnish|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
+    fail2ban-server root     root
+    haproxy         haproxy  haproxy
+    memmon          root     root
+    munin-node      root     root
+    nginx           root     root
+    nginx           www-data www-data
+    nginx           www-data www-data
+    nginx           www-data www-data
+    nginx           www-data www-data
+    pickup          postfix  postfix
+    python2.7       plone_d+ plone_group
+    python2.7       plone_d+ plone_group
+    qmgr            postfix  postfix
+    supervisord     root     root
+    varnishd        nobody   nogroup
+    varnishd        root     root
