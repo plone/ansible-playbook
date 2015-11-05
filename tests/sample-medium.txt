@@ -1,4 +1,5 @@
     >>> import subprocess
+    >>> import sys
 
     >>> sample = 'sample-medium.yml'
     >>> extras = r"""
@@ -18,7 +19,8 @@
     >>> subprocess.check_call("vagrant up", shell=True)
     0
 
-    >>> subprocess.check_call("vagrant provision", shell=True)
+    >>> if '-f' in sys.argv:
+    ...     subprocess.check_call("vagrant provision", shell=True)
     0
 
     >>> print ssh_run('sudo sockstat -U plone_daemon | grep LISTEN | sort')
