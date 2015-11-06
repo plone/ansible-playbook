@@ -61,3 +61,21 @@
     supervisord     root     root
     varnishd        nobody   nogroup
     varnishd        root     root
+
+    >>> print ssh_run('curl -I -s http://localhost')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    X-Varnish: ...
+    Age: 0
+    Via: 1.1 varnish
+    X-Varnish-Cache: MISS
+
+    >>> print ssh_run('curl -I -s http://localhost/logo.png > /dev/null')
+    >>> print ssh_run('curl -I -s http://localhost/logo.png')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    Content-Type: image/png
+    ...
+    X-Varnish-Cache: HIT
