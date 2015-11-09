@@ -21,7 +21,7 @@
 
 {% if install_loadbalancer %}
 echo "Marking client {{ client + 1 }} down for maintenance"
-echo "disable server {{ item.plone_instance_name|default(plone_instance_name) }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
+echo "disable server {{ item.plone_instance_name|default(plone_instance_name) }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio > /dev/null
 {% endif %}
 echo Restarting client {{ client + 1 }}
 supervisorctl stop {{ item.plone_instance_name|default(plone_instance_name) }}_zeoclient{{ client + 1 }}
@@ -37,20 +37,28 @@ curl http://localhost:{{ item.plone_client_base_port|default(plone_client_base_p
 {% endif %}
 {% if install_loadbalancer %}
 echo "Marking client {{ client + 1 }} available"
-echo "enable server {{ item.plone_instance_name|default(plone_instance_name) }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio
+echo "enable server {{ item.plone_instance_name|default(plone_instance_name) }}/client{{ client + 1 }}" | socat /var/run/haproxy.sock stdio > /dev/null
 {% endif %}
 {% endfor %}
 
 {% if client + 1 < item.plone_client_count|default(plone_client_count) %}
+echo
 echo "Waiting between clients"
 sleep 60
+echo
 {% endif %}
 
 {% endfor %}
 
 {% if install_proxycache %}
-echo Purging varnish cache
-varnishadm "ban.url ."
+{% for vhost in item.webserver_virtualhosts %}
+echo Purging varnish cache for {{ vhost.hostname }}
+{% if vhost.get('protocol', 'http') == 'https' %}
+varnishadm "ban req.url ~ /VirtualHostBase/https/{{ vhost.hostname }}:{{ vhost.port|default('443') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
+{% else %}
+varnishadm "ban req.url ~ /VirtualHostBase/http/{{ vhost.hostname }}:{{ vhost.port|default('80') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
+{% endif %}
+{% endfor %}
 {% endif %}
 
 echo Done

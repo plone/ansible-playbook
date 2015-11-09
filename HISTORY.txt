@@ -3,6 +3,7 @@
 TODO:
  - varnish purge limitation in restart
  - nginx list in motd
+ - restart script failing on secondary
 
 - Add test framework.
 

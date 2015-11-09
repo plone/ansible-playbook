@@ -64,11 +64,13 @@ playbook_plones:
           - default
         zodb_path: /Plone
   - plone_instance_name: secondary
+    plone_target_path: /usr/local/plone4
+    plone_version: '4.3.7'
     plone_zeo_port: 7100
-    plone_client_base_port: 8081
-    loadbalancer_port: 8080
+    plone_client_base_port: 7081
+    loadbalancer_port: 7080
     webserver_virtualhosts:
-      - hostname: www.plone.org
+      - hostname: localhost
         zodb_path: /Plone
 
 
