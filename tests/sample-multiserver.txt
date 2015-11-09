@@ -1,0 +1,239 @@
+    >>> import subprocess
+    >>> import sys
+
+Set up local-configure.yml by copying our sample.
+Append admin email and password.
+
+    >>> sample = 'sample-multiserver.yml'
+    >>> extras = r"""
+    ... admin_email: test@example.com
+    ... plone_initial_password: admin
+    ... additional_packages:
+    ...   - curl
+    ...   - sockstat
+    ... muninnode_query_ips:
+    ...     - 127.0.0.1
+    ... """
+    >>> with open(sample, 'r') as f:
+    ...     with open('local-configure.yml', 'w') as g:
+    ...         g.write(f.read() + extras)
+
+Convenience items for testing.
+
+    >>> devnull = open('/dev/null', 'w')
+
+    >>> def ssh_run(cmd):
+    ...     return subprocess.check_output("""vagrant ssh -c '%s'""" % cmd, shell=True, stderr=devnull).replace('^@', '')
+
+Vagrant up
+
+    >>> print >> sys.stderr, "vagrant up"
+    >>> o = subprocess.check_output("vagrant up", shell=True, stderr=devnull)
+
+Vagrant provision -- unless contraindicated.
+
+    >>> if '-f' in sys.argv and '-np' not in sys.argv:
+    ...     print >> sys.stderr, "vagrant provision"
+    ...     o = subprocess.check_output("vagrant provision", shell=True)
+    ... else:
+    ...     print >> sys.stderr, "Skipping provisioning"
+
+And, now run tests against the box.
+
+    >>> print >> sys.stderr, "Running tests against box"
+
+Use sockstat to make sure we are listening on all expected ports.
+
+    >>> print ssh_run('sudo sockstat -U plone_daemon | grep LISTEN | sort -k 5')
+    plone_da python2.7 ... tcp4   127.0.0.1:7081 ...
+    plone_da python2.7 ... tcp4   127.0.0.1:7082 ...
+    plone_da zeoserver ... tcp4   127.0.0.1:7100 ...
+    plone_da python2.7 ... tcp4   127.0.0.1:8081 ...
+    plone_da python2.7 ... tcp4   127.0.0.1:8082 ...
+    plone_da zeoserver ... tcp4   127.0.0.1:8100 ...
+
+    >>> print ssh_run('sudo sockstat -l | grep haproxy | sort -k 5')
+    root     haproxy ... tcp4 *:1080 ...
+    root     haproxy ... tcp4 *:8080 ...
+
+    >>> print ssh_run('sudo sockstat -l | grep varnish | sort -k 5')
+    root     varnishd ... tcp4 127.0.0.1:6082 ...
+    root     varnishd ... tcp4 *:6081         ...
+
+    >>> print ssh_run('sudo sockstat -l | grep nginx')
+    root     nginx ... tcp4 *:80 ...
+    ...
+
+    >>> print ssh_run('sudo sockstat -l | grep ":25"')
+    root     master ... tcp4 *:25 ...
+
+Check the process list.
+
+    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnish|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
+    fail2ban-server root     root
+    haproxy         haproxy  haproxy
+    memmon          root     root
+    memmon          root     root
+    munin-node      root     root
+    nginx           root     root
+    nginx           www-data www-data
+    nginx           www-data www-data
+    nginx           www-data www-data
+    nginx           www-data www-data
+    pickup          postfix  postfix
+    python2.7       plone_d+ plone_group
+    python2.7       plone_d+ plone_group
+    python2.7       plone_d+ plone_group
+    python2.7       plone_d+ plone_group
+    qmgr            postfix  postfix
+    supervisord     root     root
+    varnishd        nobody   nogroup
+    varnishd        root     root
+
+
+Primary instance tests
+----------------------
+
+We should be able to get a page on port 80.
+
+    >>> print ssh_run('curl -I -s http://default')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    X-Varnish: ...
+    Age: 0
+    Via: 1.1 varnish
+    X-Varnish-Cache: MISS
+
+Let's prove to ourselves that this is Plone 5:
+
+    >>> output = ssh_run('curl http://default')
+    >>> output.find('barceloneta') >= 0
+    True
+
+Asking twice for a static resource should result in a cache hit.
+
+    >>> print ssh_run('curl -I -s http://default/logo.png > /dev/null')
+    >>> print ssh_run('curl -I -s http://default/logo.png')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    Content-Type: image/png
+    ...
+    X-Varnish-Cache: HIT
+
+The restart script exercises our control of the supervisor
+processes, haproxy and varnish.
+
+    >>> print ssh_run('sudo /usr/local/plone-5.0/primary/scripts/restart_clients.sh')
+    Marking client 1 down for maintenance
+    Restarting client 1
+    primary_zeoclient1: stopped
+    Waiting a bit...
+    primary_zeoclient1: started
+    Waiting a bit...
+    Fetching Plone site-home page
+    Marking client 1 available
+    <BLANKLINE>
+    Waiting between clients
+    <BLANKLINE>
+    Marking client 2 down for maintenance
+    Restarting client 2
+    primary_zeoclient2: stopped
+    Waiting a bit...
+    primary_zeoclient2: started
+    Waiting a bit...
+    Fetching Plone site-home page
+    Marking client 2 available
+    Purging varnish cache for default
+    <BLANKLINE>
+    Done
+
+The varnish cache for this host should now be empty.
+
+    >>> print ssh_run('curl -I -s http://default/logo.png')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    Content-Type: image/png
+    ...
+    X-Varnish-Cache: MISS
+
+
+Secondary instance tests
+------------------------
+
+We should be able to get a page on port 80.
+
+    >>> print ssh_run('curl -I -s http://localhost')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    X-Varnish: ...
+    Age: 0
+    Via: 1.1 varnish
+    X-Varnish-Cache: MISS
+
+Let's prove to ourselves that this is not Plone 5:
+
+    >>> output = ssh_run('curl http://localhost')
+    >>> output.find('barceloneta') >= 0
+    False
+
+Asking twice for a static resource should result in a cache hit.
+
+    >>> print ssh_run('curl -I -s http://localhost/logo.png > /dev/null')
+    >>> print ssh_run('curl -I -s http://localhost/logo.png')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    Content-Type: image/png
+    ...
+    X-Varnish-Cache: HIT
+
+The restart script exercises our control of the supervisor
+processes, haproxy and varnish.
+
+    >>> print ssh_run('sudo /usr/local/plone4/secondary/scripts/restart_clients.sh')
+    Marking client 1 down for maintenance
+    Restarting client 1
+    secondary_zeoclient1: stopped
+    Waiting a bit...
+    secondary_zeoclient1: started
+    Waiting a bit...
+    Fetching Plone site-home page
+    Marking client 1 available
+    <BLANKLINE>
+    Waiting between clients
+    <BLANKLINE>
+    Marking client 2 down for maintenance
+    Restarting client 2
+    secondary_zeoclient2: stopped
+    Waiting a bit...
+    secondary_zeoclient2: started
+    Waiting a bit...
+    Fetching Plone site-home page
+    Marking client 2 available
+    Purging varnish cache for localhost
+    <BLANKLINE>
+    Done
+
+The varnish cache for this host should now be empty.
+
+    >>> print ssh_run('curl -I -s http://localhost/logo.png')
+    HTTP/1.1 200 OK
+    Server: nginx/...
+    Date: ...
+    Content-Type: image/png
+    ...
+    X-Varnish-Cache: MISS
+
+Clean up our vagrant box.
+
+    >>> if '-f' not in sys.argv:
+    ...     print >> sys.stderr, "vagrant provision"
+    ...     o = subprocess.check_output("vagrant destroy -f", shell=True, stderr=devnull)
+    ... else:
+    ...     print >> sys.stderr, "Vagrant box left running."
+
+    >>> print >> sys.stderr, "Done"

@@ -65,6 +65,7 @@ playbook_plones:
         zodb_path: /Plone
   - plone_instance_name: secondary
     plone_target_path: /usr/local/plone4
+    plone_var_path: /var/local/plone4
     plone_version: '4.3.7'
     plone_zeo_port: 7100
     plone_client_base_port: 7081
