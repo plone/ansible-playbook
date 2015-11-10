@@ -18,23 +18,16 @@ Append admin email and password.
     ...     with open('local-configure.yml', 'w') as g:
     ...         g.write(f.read() + extras)
 
-Convenience items for testing.
-
-    >>> devnull = open('/dev/null', 'w')
-
-    >>> def ssh_run(cmd):
-    ...     return subprocess.check_output("""vagrant ssh -c '%s'""" % cmd, shell=True, stderr=devnull).replace('^@', '')
-
 Vagrant up
 
     >>> print >> sys.stderr, "vagrant up"
-    >>> o = subprocess.check_output("vagrant up", shell=True, stderr=devnull)
+    >>> run("vagrant up")
 
 Vagrant provision -- unless contraindicated.
 
     >>> if '-f' in sys.argv and '-np' not in sys.argv:
     ...     print >> sys.stderr, "vagrant provision"
-    ...     o = subprocess.check_output("vagrant provision", shell=True, stderr=devnull)
+    ...     run("vagrant provision")
     ... else:
     ...     print >> sys.stderr, "Skipping provisioning"
 
