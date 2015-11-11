@@ -1,10 +1,9 @@
-    >>> import subprocess
-    >>> import sys
-
-Set up local-configure.yml by copying our sample.
-Append admin email and password.
+---------------------------------------
+Test the "medium" sample specification.
+---------------------------------------
 
     >>> sample = 'sample-medium.yml'
+
     >>> extras = r"""
     ... admin_email: test@example.com
     ... plone_initial_password: admin
@@ -14,6 +13,13 @@ Append admin email and password.
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... """
+
+    >>> import subprocess
+    >>> import sys
+
+Set up local-configure.yml by copying our sample.
+Append admin email and password.
+
     >>> with open(sample, 'r') as f:
     ...     with open('local-configure.yml', 'w') as g:
     ...         g.write(f.read() + extras)
@@ -21,15 +27,15 @@ Append admin email and password.
 Vagrant up
 
     >>> print >> sys.stderr, "vagrant up"
-    >>> run("vagrant up")
+    >>> o = subprocess.check_output("vagrant up --no-provision", shell=True, stderr=devnull)
 
 Vagrant provision -- unless contraindicated.
 
-    >>> if '-f' in sys.argv and '-np' not in sys.argv:
-    ...     print >> sys.stderr, "vagrant provision"
-    ...     run("vagrant provision")
-    ... else:
+    >>> if skip_provisioning:
     ...     print >> sys.stderr, "Skipping provisioning"
+    ... else:
+    ...     print >> sys.stderr, "vagrant provision"
+    ...     o = subprocess.check_output("vagrant provision", shell=True)
 
 And, now run tests against the box.
 
@@ -138,10 +144,11 @@ The varnish cache for this host should now be empty.
 
 Clean up our vagrant box.
 
-    >>> if '-f' not in sys.argv:
+    >>> if not forcing:
     ...     print >> sys.stderr, "vagrant provision"
     ...     o = subprocess.check_output("vagrant destroy -f", shell=True, stderr=devnull)
     ... else:
     ...     print >> sys.stderr, "Vagrant box left running."
 
     >>> print >> sys.stderr, "Done"
+

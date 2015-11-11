@@ -97,26 +97,30 @@
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[0] }}"
-      tags: plone
-      tags: plone1
+      tags:
+        - plone
+        - plone1
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[1] }}"
       when: "{{ playbook_plones|length() > 1 }}"
-      tags: plone
-      tags: plone2
+      tags:
+        - plone
+        - plone2
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[2] }}"
       when: "{{ playbook_plones|length() > 2 }}"
-      tags: plone
-      tags: plone3
+      tags:
+        - plone
+        - plone3
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[3] }}"
       when: "{{ playbook_plones|length() > 3 }}"
-      tags: plone
-      tags: plone4
+      tags:
+        - plone
+        - plone4
 
     - role: haproxy
       when: install_loadbalancer|default(True)
