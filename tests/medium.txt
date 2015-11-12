@@ -146,7 +146,7 @@ Clean up our vagrant box.
 
     >>> if not forcing:
     ...     print >> sys.stderr, "Destroying Vagrant box."
-    ...     o = subprocess.check_output("vagrant destroy -f", shell=True, stderr=devnull)
+    ...     run("vagrant destroy -f")
     ... else:
     ...     print >> sys.stderr, "Vagrant box left running."
 
