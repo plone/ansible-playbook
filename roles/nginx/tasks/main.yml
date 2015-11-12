@@ -20,9 +20,9 @@
 - name: Create zope-style virtual hosts
   template:
     src: host.j2
-    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|replace('.', '_') }}
+    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}
     mode: 0644
-  with_items: webserver_virtualhosts
+  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   notify: restart nginx
 
 - name: Copy certificate files
@@ -30,7 +30,7 @@
     src: "{{ item.certificate_file }}"
     dest: "/etc/nginx/ssl/{{ item.hostname }}.crt"
     mode: 0444
-  with_items: webserver_virtualhosts
+  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   when: item.certificate_file is defined
   notify: restart nginx
 
@@ -39,7 +39,7 @@
     src: "{{ item.key_file }}"
     dest: "/etc/nginx/ssl/{{ item.hostname }}.key"
     mode: 0400
-  with_items: webserver_virtualhosts
+  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   when: item.key_file is defined
   notify: restart nginx
 

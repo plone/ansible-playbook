@@ -1,3 +1,11 @@
+1.2.0 (unreleased)
+
+- Add test framework.
+
+- Refactor to allow multiple plone instances per server. Document.
+  Involved changes in several included roles.
+  Requires plone.plone_server 1.2.0+.
+
 1.1.3 unreleased
 
 - Fix firewall.yml to work without configure.yml.

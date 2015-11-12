@@ -1,0 +1,19 @@
+---
+
+# Default variables that are shared by more than one role
+# in the Plone Ansible Playbook.
+
+install_loadbalancer: yes
+install_proxycache: yes
+install_muninnode: yes
+install_mailserver: yes
+install_webserver: yes
+
+loadbalancer_port: "{{ plone_client_base_port|int - 1 }}"
+
+webserver_virtualhosts:
+  - hostname: "{{ inventory_hostname }}"
+    aliases:
+      - default
+    zodb_path: /Plone
+playbook_plones: "{{ [{'webserver_virtualhosts':webserver_virtualhosts}] }}"

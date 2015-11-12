@@ -1,0 +1,76 @@
+---
+
+# This is a sample configuration. To use it, copy it to local-configure.yml
+# and edit.
+#
+# Multiserver configuration
+# -------------------------
+#
+# This is an example of the techniquest you may use to install multiple,
+# separate Plone instances to the same server.
+#
+# Unlike with other examples, you're unlikely to use this without
+# major changes to reflect your server needs.
+
+
+# Things you MUST change
+# ----------------------
+
+admin_email:
+
+plone_initial_password:
+
+muninnode_query_ips:
+    - ip.of.munin.monitor
+
+# If you do not have a Munin monitor running, comment out the
+# muninnode_query_ips and uncomment the line below:
+
+# install_muninnode: no
+
+
+# Major settings
+# --------------
+
+# Plone 4.3.x and 5.0 are currently tested and working.
+# Make sure this setting is quoted so that it's interpreted as a string.
+plone_version: '5.0'
+
+# 2 clients
+plone_client_count: 2
+
+# smallish
+plone_zodb_cache_size: 15000
+
+# and enforce that with a memory-monitor
+plone_client_max_memory: 750MB
+
+# Plone instance settings
+# -----------------------
+# Most settings can be either global or specific to a particular install.
+# Specify specific settings in the "playbook_plones list".
+# You must, at a minimum, specify specifics for plone_instance_name, which
+# is used to distinguish instances, and the ZEO/ZEO client ports.
+
+playbook_plones:
+  - plone_instance_name: primary
+    plone_zeo_port: 8100
+    plone_client_base_port: 8081
+    loadbalancer_port: 8080
+    webserver_virtualhosts:
+      - hostname: "{{ inventory_hostname }}"
+        aliases:
+          - default
+        zodb_path: /Plone
+  - plone_instance_name: secondary
+    plone_target_path: /usr/local/plone4
+    plone_var_path: /var/local/plone4
+    plone_version: '4.3.7'
+    plone_zeo_port: 7100
+    plone_client_base_port: 7081
+    loadbalancer_port: 7080
+    webserver_virtualhosts:
+      - hostname: localhost
+        zodb_path: /Plone
+
+

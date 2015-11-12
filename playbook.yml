@@ -18,9 +18,15 @@
        - local-configure.yml
        - null.yml
       tags:
+        - update_packages
         - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
         - haproxy
         - varnish
+        - restart_script
         - postfix
         - logwatch
         - munin
@@ -34,8 +40,13 @@
       when: not admin_email
       tags:
         - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
         - haproxy
         - varnish
+        - restart_script
         - postfix
         - logwatch
         - munin
@@ -44,10 +55,12 @@
 
     - name: Update host
       apt: upgrade=dist update_cache=yes
+      tags:
+        - update_packages
 
     - name: Ensure optional packages
       apt: pkg={{ item }} state=present
-      with_items: additional_packages
+      with_items: "{{ additional_packages|default([]) }}"
 
 
   roles:
@@ -66,8 +79,48 @@
       when: install_fail2ban|default(True)
       tags: fail2ban
 
+    - role: default_config
+      tags:
+        - plone
+        - plone1
+        - plone2
+        - plone3
+        - plone4
+        - haproxy
+        - varnish
+        - restart_script
+        - nginx
+        - postfix
+        - logwatch
+        - munin
+        - motd
+
     - role: plone.plone_server
-      tags: plone
+      plone_config: "{{ playbook_plones[0] }}"
+      tags:
+        - plone
+        - plone1
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[1] }}"
+      when: "{{ playbook_plones|length() > 1 }}"
+      tags:
+        - plone
+        - plone2
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[2] }}"
+      when: "{{ playbook_plones|length() > 2 }}"
+      tags:
+        - plone
+        - plone3
+
+    - role: plone.plone_server
+      plone_config: "{{ playbook_plones[3] }}"
+      when: "{{ playbook_plones|length() > 3 }}"
+      tags:
+        - plone
+        - plone4
 
     - role: haproxy
       when: install_loadbalancer|default(True)
@@ -81,6 +134,9 @@
       when: install_webserver|default(True)
       tags: nginx
 
+    - role: restart_script
+      tags: restart_script
+
     - role: postfix
       when: install_mailserver|default(True)
       tags: postfix
@@ -92,9 +148,6 @@
     - role: munin-node
       when: install_muninnode|default(True)
       tags: munin
-
-    - role: restart_script
-      tags: restart_script
 
     - role: motd
       when: install_motd|default(True)
