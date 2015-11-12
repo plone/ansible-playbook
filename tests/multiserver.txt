@@ -124,20 +124,20 @@ Is everything where we expect it to be?
 
     >>> print ssh_run('ls -la /var/local/plone-5.0/')
     total ...
-    drwxr-xr-x 4 root         ...         ... .
-    drwxrwsr-x 4 root         ...         ... ..
-    drwxrws--- 8 plone_daemon plone_group ... primary
-    drwxr-xr-x 2 plone_daemon plone_group ... .python-eggs
+    drwxr-xr-x ... root         ...         ... .
+    drwxrwsr-x ... root         ...         ... ..
+    drwxrws--- ... plone_daemon plone_group ... primary
 
     >>> print ssh_run('sudo ls -la /var/local/plone-5.0/primary/')
     total ...
     drwxrws--- ... plone_daemon   plone_group ... .
-    drwxr-xr-x ... root           ...       ... ..
+    drwxr-xr-x ... root           ...         ... ..
     drwx--S--- ... plone_daemon   plone_group ... blobstorage
     drwxrws--- ... plone_buildout plone_group ... client1
     drwxrws--- ... plone_buildout plone_group ... client2
     drwxrws--- ... plone_buildout plone_group ... client_reserved
     drwxrws--- ... plone_buildout plone_group ... filestorage
+    drwxr-sr-x ... plone_daemon plone_group   ... .python-eggs
     drwxrws--- ... plone_buildout plone_group ... zeoserver
 
     >>> print ssh_run('sudo ls -la /var/local/plone-5.0/primary/filestorage')
@@ -223,7 +223,7 @@ Secondary instance tests
     drwxr-xr-x ... root           ...         ... .
     drwxr-xr-x ... root           ...         ... ..
     drwxr-xr-x ... plone_buildout plone_group ... buildout-cache
-    drwxr-xr-x ... plone_buildout plone_group ... primary
+    drwxr-xr-x ... plone_buildout plone_group ... secondary
 
     >>> print ssh_run('ls -la /usr/local/plone4/secondary')
     total ...
@@ -248,8 +248,7 @@ Secondary instance tests
     total ...
     drwxr-xr-x ... root         ...         ... .
     drwxrwsr-x ... root         ...         ... ..
-    drwxr-xr-x ... plone_daemon plone_group ... .python-eggs
-    drwxrws--- ... plone_daemon plone_group ... primary
+    drwxrws--- ... plone_daemon plone_group ... secondary
 
     >>> print ssh_run('sudo ls -la /var/local/plone4/secondary/')
     total ...
@@ -260,6 +259,7 @@ Secondary instance tests
     drwxrws--- ... plone_buildout plone_group ... client2
     drwxrws--- ... plone_buildout plone_group ... client_reserved
     drwxrws--- ... plone_buildout plone_group ... filestorage
+    drwxr-sr-x ... plone_daemon   plone_group ... .python-eggs
     drwxrws--- ... plone_buildout plone_group ... zeoserver
 
     >>> print ssh_run('sudo ls -la /var/local/plone4/secondary/filestorage')
