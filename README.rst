@@ -52,3 +52,7 @@ TL;DR
 8. Set a real password for your Plone instance on the target server;
 
 9. Set up appropriate firewalls.
+
+.. warning::
+
+    This version of the playbook requires that the plone.plone_server role be 1.2.0+.
