@@ -27,7 +27,7 @@ Append admin email and password.
 Vagrant up
 
     >>> print >> sys.stderr, "vagrant up"
-    >>> o = subprocess.check_output("vagrant up --no-provision", shell=True, stderr=devnull)
+    >>> run("vagrant up --no-provision")
 
 Vagrant provision -- unless contraindicated.
 
@@ -35,7 +35,7 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Skipping provisioning"
     ... else:
     ...     print >> sys.stderr, "vagrant provision"
-    ...     o = subprocess.check_output("vagrant provision", shell=True)
+    ...     o = run("vagrant provision")
 
 And, now run tests against the box.
 
@@ -145,7 +145,7 @@ The varnish cache for this host should now be empty.
 Clean up our vagrant box.
 
     >>> if not forcing:
-    ...     print >> sys.stderr, "vagrant provision"
+    ...     print >> sys.stderr, "Destroying Vagrant box."
     ...     o = subprocess.check_output("vagrant destroy -f", shell=True, stderr=devnull)
     ... else:
     ...     print >> sys.stderr, "Vagrant box left running."

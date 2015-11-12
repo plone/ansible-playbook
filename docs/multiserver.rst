@@ -81,4 +81,4 @@ Nearly all the plone_* variables, and a few others like loadbalancer_port and we
 Moving beyond four
 ------------------
 
-Ansible doesn't offer a way to iterate a role over a sequence, so the max count of four is hard-coded into the playbook. Read the playbook and it will be completely obvious how to change the limit by editing it.
+Ansible doesn't offer a way to iterate a role over a sequence, so the max count of four is hard-coded into the playbook. Read the playbook and it will be obvious how to change the limit by editing it.
