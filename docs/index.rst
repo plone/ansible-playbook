@@ -1,13 +1,9 @@
-==================================
-Full-stack deployment with Ansible
-==================================
-
 .. admonition:: Description
 
     Use Ansible to provision a full-stack Plone server
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    intro
    choices
@@ -23,4 +19,3 @@ Full-stack deployment with Ansible
    mailserver
    monitoring
    multiserver
-
