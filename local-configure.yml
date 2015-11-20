@@ -1,0 +1,63 @@
+---
+
+# plone.org configuration
+#
+# This currently targets::
+#
+#     RAM: 2048MB
+#     Cores: 2
+
+# Update to admins@plone.org for live
+admin_email: stevem@plone.org
+
+plone_initial_password: admin
+
+muninnode_query_ips:
+    - 50.1.20.238
+
+
+# Major settings
+# --------------
+
+plone_version: '5.0'
+
+plone_client_count: 2
+plone_zodb_cache_size: 15000
+plone_client_max_memory: 750MB
+
+plone_additional_eggs:
+  - ploneorg.core
+  - authomatic
+  - pas.plugins.authomatic
+  - collective.workspace
+
+plone_sources:
+  - "ploneorg.theme = git git://github.com/plone/ploneorg.theme.git pushurl=git@github.com:plone/ploneorg.theme.git"
+  - "plone.themepreview = git https://github.com/plone/plone.themepreview egg=false"
+  - "Py-StackExchange = git git://github.com/lucjon/Py-StackExchange.git"
+  - "plone.app.vulnerabilities = git git://github.com/plone/plone.app.vulnerabilities.git pushurl=git@github.com:plone/plone.app.vulnerabilities.git"
+  - "plone.app.users = git git://github.com/plone/plone.app.users.git pushurl=git@github.com:plone/plone.app.users.git"
+  - "pas.plugins.authomatic = git git://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
+  - "collective.workspace = git git://github.com/collective/collective.workspace.git pushurl=git@github.com:collective/collective.workspace.git"
+  - "collective.roster = git git://github.com/collective/collective.roster.git pushurl=git@github.com:collective/collective.roster.git"
+  - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
+
+plone_additional_versions:
+  - "check-manifest = 0.25"
+  - "collective.jsonmigrator = 0.2"
+  - "corneti.recipes.codeintel = 0.3"
+  - "flake8 = 2.4.1"
+  - "MarkupSafe = 0.23"
+  - "mccabe = 0.3.1"
+  - "plone.app.transmogrifier = 1.3"
+  - "plone.recipe.codeanalysis = 2.1"
+  - "pycountry = 1.17"
+  - "pyflakes = 0.8.1"
+  - "PyGithub = 1.25.2"
+  - "requests = 2.8.1"
+  - "setuptools = "
+  - "transmogrify.dexterity = 1.6.1"
+  - "twitter = 1.17.1"
+  - "z3c.jbot = 0.7.2"
+  - "zc.buildout = "
+  - "Authomatic = 0.1.0.post1"

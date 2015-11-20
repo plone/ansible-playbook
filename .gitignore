@@ -1,4 +1,4 @@
-local-configure.yml
+# local-configure.yml
 .vagrant/
 docs/_build/
 roles/plone.plone_server
