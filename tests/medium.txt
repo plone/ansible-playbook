@@ -65,9 +65,9 @@ Use sockstat to make sure we are listening on all expected ports.
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnish|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
+    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
     fail2ban-server root     root
-    haproxy         haproxy  haproxy
+    haproxy         haproxy  haproxy...
     memmon          root     root
     munin-node      root     root
     nginx           root     root
@@ -91,7 +91,7 @@ We should be able to get a page on port 80.
     Date: ...
     X-Varnish: ...
     Age: 0
-    Via: 1.1 varnish
+    Via: 1.1 varnish...
     X-Varnish-Cache: MISS
 
 Asking twice for a static resource should result in a cache hit.

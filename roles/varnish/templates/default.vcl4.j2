@@ -8,6 +8,7 @@ backend {{ backend.plone_instance_name|default(plone_instance_name) }} {
 {% endfor %}
 
 acl purge {
+    "127.0.0.1";
 	"localhost";
 }
 
@@ -89,22 +90,10 @@ sub vcl_recv {
 }
 
 sub vcl_deliver {
-    if (obj.hits > 0) {
+    if (resp.http.Age != "0") {
         set resp.http.X-Varnish-Cache = "HIT";
-    }
-    else {
+    } else {
         set resp.http.X-Varnish-Cache = "MISS";
     }
 }
 
-sub vcl_backend_response {
-    # Don't allow static files to set cookies.
-    # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
-    # make sure you edit both and keep them equal.
-    if (bereq.url ~ "(?i)\.{{ no_response_cookie_ext }}(\?.*)?$") {
-      unset beresp.http.set-cookie;
-    }
-
-    # Allow items to be stale if needed.
-    #set beresp.grace = 6h;
-}
