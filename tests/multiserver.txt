@@ -99,14 +99,12 @@ Is everything where we expect it to be?
     >>> print ssh_run('ls -la /usr/local/plone-5.0')
     total ...
     drwxr-xr-x ... root           ...         ... .
-    drwxr-xr-x ... root           ...         ... ..
+    ...        ... root           ...         ... ..
     drwxr-xr-x ... plone_buildout plone_group ... buildout-cache
     drwxr-xr-x ... plone_buildout plone_group ... primary
 
     >>> print ssh_run('ls -la /usr/local/plone-5.0/primary')
     total ...
-    drwxr-xr-x ... plone_buildout plone_group ... .
-    drwxr-xr-x ... root           ...         ... ..
     drwxr-xr-x ... plone_buildout plone_group ... bin
     -rw-r--r-- ... plone_buildout plone_group ... bootstrap.py
     -rw-r--r-- ... plone_buildout plone_group ... buildout.cfg
@@ -125,25 +123,21 @@ Is everything where we expect it to be?
     >>> print ssh_run('ls -la /var/local/plone-5.0/')
     total ...
     drwxr-xr-x ... root         ...         ... .
-    drwxrwsr-x ... root         ...         ... ..
+    ...        ... root         ...         ... ..
     drwxrws--- ... plone_daemon plone_group ... primary
 
     >>> print ssh_run('sudo ls -la /var/local/plone-5.0/primary/')
     total ...
-    drwxrws--- ... plone_daemon   plone_group ... .
-    drwxr-xr-x ... root           ...         ... ..
     drwx--S--- ... plone_daemon   plone_group ... blobstorage
     drwxrws--- ... plone_buildout plone_group ... client1
     drwxrws--- ... plone_buildout plone_group ... client2
     drwxrws--- ... plone_buildout plone_group ... client_reserved
     drwxrws--- ... plone_buildout plone_group ... filestorage
-    drwxr-sr-x ... plone_daemon plone_group   ... .python-eggs
+    drwx------ ... plone_daemon plone_group   ... .python-eggs
     drwxrws--- ... plone_buildout plone_group ... zeoserver
 
-    >>> print ssh_run('sudo ls -la /var/local/plone-5.0/primary/filestorage')
+    >>> print ssh_run('sudo ls -l /var/local/plone-5.0/primary/filestorage')
     total ...
-    drwxrws--- ... plone_buildout plone_group ... .
-    drwxrws--- ... plone_daemon   plone_group ... ..
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.index
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.lock
@@ -221,14 +215,12 @@ Secondary instance tests
     >>> print ssh_run('ls -la /usr/local/plone4')
     total ...
     drwxr-xr-x ... root           ...         ... .
-    drwxr-xr-x ... root           ...         ... ..
+    ...        ... root           ...         ... ..
     drwxr-xr-x ... plone_buildout plone_group ... buildout-cache
     drwxr-xr-x ... plone_buildout plone_group ... secondary
 
     >>> print ssh_run('ls -la /usr/local/plone4/secondary')
     total ...
-    drwxr-xr-x ... plone_buildout plone_group ... .
-    drwxr-xr-x ... root           ...         ... ..
     drwxr-xr-x ... plone_buildout plone_group ... bin
     -rw-r--r-- ... plone_buildout plone_group ... bootstrap.py
     -rw-r--r-- ... plone_buildout plone_group ... buildout.cfg
@@ -247,25 +239,21 @@ Secondary instance tests
     >>> print ssh_run('ls -la /var/local/plone4/')
     total ...
     drwxr-xr-x ... root         ...         ... .
-    drwxrwsr-x ... root         ...         ... ..
+    ...        ... root         ...         ... ..
     drwxrws--- ... plone_daemon plone_group ... secondary
 
     >>> print ssh_run('sudo ls -la /var/local/plone4/secondary/')
     total ...
-    drwxrws--- ... plone_daemon   plone_group ... .
-    drwxr-xr-x ... root           ...       ... ..
     drwx--S--- ... plone_daemon   plone_group ... blobstorage
     drwxrws--- ... plone_buildout plone_group ... client1
     drwxrws--- ... plone_buildout plone_group ... client2
     drwxrws--- ... plone_buildout plone_group ... client_reserved
     drwxrws--- ... plone_buildout plone_group ... filestorage
-    drwxr-sr-x ... plone_daemon   plone_group ... .python-eggs
+    drwx------ ... plone_daemon   plone_group ... .python-eggs
     drwxrws--- ... plone_buildout plone_group ... zeoserver
 
-    >>> print ssh_run('sudo ls -la /var/local/plone4/secondary/filestorage')
+    >>> print ssh_run('sudo ls -l /var/local/plone4/secondary/filestorage')
     total ...
-    drwxrws--- ... plone_buildout plone_group ... .
-    drwxrws--- ... plone_daemon   plone_group ... ..
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.index
     -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.lock
