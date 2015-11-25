@@ -18,12 +18,12 @@ sub vcl_recv {
 {% for backend in playbook_plones %}
 {% for site in backend.webserver_virtualhosts|default([{'hostname':'default'}]) %}
     if (req.url ~ "/{{ site.hostname }}:80/") {
-        set req.backend = {{ backend.plone_instance_name|default(plone_instance_name) }};
+        set req.backend_hint = {{ backend.plone_instance_name|default(plone_instance_name) }};
     }
 {% endfor %}
 {% endfor %}
     else {
-        set req.backend = {{ playbook_plones[0].plone_instance_name|default(plone_instance_name) }};
+        set req.backend_hint = {{ playbook_plones[0].plone_instance_name|default(plone_instance_name) }};
     }
 {% endif %}
 

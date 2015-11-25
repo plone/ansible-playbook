@@ -71,7 +71,7 @@ Check the process list.
 
     >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnish|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
     fail2ban-server root     root
-    haproxy         haproxy  haproxy
+    haproxy         haproxy  haproxy...
     memmon          root     root
     memmon          root     root
     munin-node      root     root
@@ -88,7 +88,7 @@ Check the process list.
     qmgr            postfix  postfix
     supervisord     root     root
     varnishd        nobody   nogroup
-    varnishd        root     root
+    varnishd        root     root...
 
 
 Primary instance tests
@@ -157,7 +157,7 @@ We should be able to get a page on port 80.
     Date: ...
     X-Varnish: ...
     Age: 0
-    Via: 1.1 varnish
+    Via: 1.1 varnish...
     X-Varnish-Cache: MISS
 
 Let's prove to ourselves that this is Plone 5:
@@ -280,7 +280,7 @@ We should be able to get a page on port 80.
     Date: ...
     X-Varnish: ...
     Age: 0
-    Via: 1.1 varnish
+    Via: 1.1 varnish...
     X-Varnish-Cache: MISS
 
 Let's prove to ourselves that this is not Plone 5:
