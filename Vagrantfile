@@ -4,7 +4,6 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty32"
 
   config.vm.network "forwarded_port", guest: 80, host: 1080
   config.vm.network "forwarded_port", guest: 1080, host: 2080
@@ -20,5 +19,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
   end
+
+  config.vm.define "trusty", primary: true do |myhost|
+      myhost.vm.box = "ubuntu/trusty32"
+  end
+
+  config.vm.define "vivid", autostart: false do |myhost|
+      myhost.vm.box = "ubuntu/vivid64"
+  end
+
+  config.vm.define "wheezy", autostart: false do |myhost|
+      myhost.vm.box = "debian/wheezy64"
+  end
+
+  config.vm.define "jessie", autostart: false do |myhost|
+      myhost.vm.box = "debian/jessie64"
+  end
+
 
 end

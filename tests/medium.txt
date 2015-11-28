@@ -27,7 +27,7 @@ Append admin email and password.
 Vagrant up
 
     >>> print >> sys.stderr, "vagrant up"
-    >>> run("vagrant up --no-provision")
+    >>> run("vagrant up %s --no-provision" % box)
 
 Vagrant provision -- unless contraindicated.
 
@@ -35,37 +35,51 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Skipping provisioning"
     ... else:
     ...     print >> sys.stderr, "vagrant provision"
-    ...     o = run("vagrant provision")
+    ...     o = run("vagrant provision %s" % box)
 
 And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"
 
-Use sockstat to make sure we are listening on all expected ports.
+Use lsof to make sure we are listening on all expected ports
+in all expected ways.
 
-    >>> print ssh_run('sudo sockstat -U plone_daemon | grep LISTEN | sort -k 5')
-    plone_da python2.7 ... tcp4 127.0.0.1:8081 ...
-    plone_da python2.7 ... tcp4 127.0.0.1:8082 ...
-    plone_da zeoserver ... tcp4 127.0.0.1:8100 ...
+    >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
+    >>> listeners = cut(rez, [0, 2, 8])
 
-    >>> print ssh_run('sudo sockstat -l | grep haproxy | sort -k 5')
-    root     haproxy ... tcp4 *:1080 ...
-    root     haproxy ... tcp4 *:8080 ...
+    >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
+    python2.7       plone_daemon    127.0.0.1:8081
+    python2.7       plone_daemon    127.0.0.1:8082
+    zeoserver       plone_daemon    127.0.0.1:8100
 
-    >>> print ssh_run('sudo sockstat -l | grep varnish | sort -k 5')
-    root     varnishd ... tcp4 127.0.0.1:6082 ...
-    root     varnishd ... tcp4 *:6081         ...
+    >>> print "\n".join([s for s in listeners if 'haproxy' in s])
+    haproxy haproxy *:1080
+    haproxy haproxy *:8080
 
-    >>> print ssh_run('sudo sockstat -l | grep nginx')
-    root     nginx ... tcp4 *:80 ...
-    ...
+    >>> print "\n".join([s for s in listeners if 'varnishd' in s])
+    varnishd        nobody  *:6081
+    varnishd        root    127.0.0.1:6082
 
-    >>> print ssh_run('sudo sockstat -l | grep ":25"')
-    root     master ... tcp4 *:25 ...
+    >>> print "\n".join([s for s in listeners if 'nginx' in s])
+    nginx   root    *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+
+    # smtpd
+    >>> print "\n".join([s for s in listeners if ':25' in s])
+    master  root    *:25
+
+    >>> rez = ssh_run('sudo lsof -i6 -sTCP:LISTEN -Pn | tail -n +2')
+    >>> listeners = cut(rez, [0, 2, 8])
+
+    >>> print "\n".join([s for s in listeners if 'munin' in s])
+    munin-nod  root *:4949
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
+    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
     fail2ban-server root     root
     haproxy         haproxy  haproxy...
     memmon          root     root
@@ -76,8 +90,8 @@ Check the process list.
     nginx           www-data www-data
     nginx           www-data www-data
     pickup          postfix  postfix
-    python2.7       plone_d+ plone_group
-    python2.7       plone_d+ plone_group
+    python2.7       plone_daemon plone_group
+    python2.7       plone_daemon plone_group
     qmgr            postfix  postfix
     supervisord     root     root
     varnishd        nobody   nogroup
@@ -128,7 +142,7 @@ processes, haproxy and varnish.
     Waiting a bit...
     Fetching Plone site-home page
     Marking client 2 available
-    Purging varnish cache for default
+    Purging varnish cache
     <BLANKLINE>
     Done
 
@@ -146,9 +160,9 @@ Clean up our vagrant box.
 
     >>> if not forcing:
     ...     print >> sys.stderr, "Destroying Vagrant box."
-    ...     run("vagrant destroy -f")
+    ...     run("vagrant destroy %s -f" % box)
     ... else:
-    ...     print >> sys.stderr, "Vagrant box left running."
+    ...     print >> sys.stderr, "Vagrant box %s left running." % box
 
     >>> print >> sys.stderr, "Done"
 

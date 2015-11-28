@@ -42,30 +42,41 @@ And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"
 
-Use sockstat to make sure we are listening on all expected ports.
+Use lsof to make sure we are listening on all expected ports
+in all expected ways.
 
-    >>> print ssh_run('sudo sockstat -U plone_daemon | grep LISTEN | sort -k 5')
-    plone_da python2.7 ... tcp4   127.0.0.1:7081 ...
-    plone_da python2.7 ... tcp4   127.0.0.1:7082 ...
-    plone_da zeoserver ... tcp4   127.0.0.1:7100 ...
-    plone_da python2.7 ... tcp4   127.0.0.1:8081 ...
-    plone_da python2.7 ... tcp4   127.0.0.1:8082 ...
-    plone_da zeoserver ... tcp4   127.0.0.1:8100 ...
+    >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
+    >>> listeners = cut(rez, [0, 2, 8])
 
-    >>> print ssh_run('sudo sockstat -l | grep haproxy | sort -k 5')
-    root     haproxy ... tcp4 *:1080 ...
-    root     haproxy ... tcp4 *:8080 ...
+    >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
+    python2.7       plone_daemon    127.0.0.1:8081
+    python2.7       plone_daemon    127.0.0.1:8082
+    zeoserver       plone_daemon    127.0.0.1:8100
 
-    >>> print ssh_run('sudo sockstat -l | grep varnish | sort -k 5')
-    root     varnishd ... tcp4 127.0.0.1:6082 ...
-    root     varnishd ... tcp4 *:6081         ...
+    >>> print "\n".join([s for s in listeners if 'haproxy' in s])
+    haproxy haproxy *:1080
+    haproxy haproxy *:8080
 
-    >>> print ssh_run('sudo sockstat -l | grep nginx')
-    root     nginx ... tcp4 *:80 ...
-    ...
+    >>> print "\n".join([s for s in listeners if 'varnishd' in s])
+    varnishd        nobody  *:6081
+    varnishd        root    127.0.0.1:6082
 
-    >>> print ssh_run('sudo sockstat -l | grep ":25"')
-    root     master ... tcp4 *:25 ...
+    >>> print "\n".join([s for s in listeners if 'nginx' in s])
+    nginx   root    *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+    nginx   www-data        *:80
+
+    # smtpd
+    >>> print "\n".join([s for s in listeners if ':25' in s])
+    master  root    *:25
+
+    >>> rez = ssh_run('sudo lsof -i6 -sTCP:LISTEN -Pn | tail -n +2')
+    >>> listeners = cut(rez, [0, 2, 8])
+
+    >>> print "\n".join([s for s in listeners if 'munin' in s])
+    munin-nod  root *:4949
 
 Check the process list.
 

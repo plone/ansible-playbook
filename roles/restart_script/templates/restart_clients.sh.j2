@@ -52,7 +52,7 @@ echo
 
 {% if install_proxycache %}
 {% for vhost in item.webserver_virtualhosts %}
-echo Purging varnish cache for {{ vhost.hostname }}
+echo Purging varnish cache
 {% if vhost.get('protocol', 'http') == 'https' %}
 varnishadm "ban req.url ~ /VirtualHostBase/https/{{ vhost.hostname }}:{{ vhost.port|default('443') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
 {% else %}
