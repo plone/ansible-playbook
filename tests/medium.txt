@@ -26,7 +26,7 @@ Append admin email and password.
 
 Vagrant up
 
-    >>> print >> sys.stderr, "vagrant up"
+    >>> print >> sys.stderr, "Bringing up %s" % box
     >>> run("vagrant up %s --no-provision" % box)
 
 Vagrant provision -- unless contraindicated.
@@ -34,7 +34,7 @@ Vagrant provision -- unless contraindicated.
     >>> if skip_provisioning:
     ...     print >> sys.stderr, "Skipping provisioning"
     ... else:
-    ...     print >> sys.stderr, "vagrant provision"
+    ...     print >> sys.stderr, "Provisioning"
     ...     o = run("vagrant provision %s" % box)
 
 And, now run tests against the box.
@@ -48,17 +48,17 @@ in all expected ways.
     >>> listeners = cut(rez, [0, 2, 8])
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    python2.7       plone_daemon    127.0.0.1:8081
-    python2.7       plone_daemon    127.0.0.1:8082
-    zeoserver       plone_daemon    127.0.0.1:8100
+    zeoserver   plone_daemon    127.0.0.1:8100
+    python2.7   plone_daemon    127.0.0.1:8081
+    python2.7   plone_daemon    127.0.0.1:8082
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
     haproxy haproxy *:8080
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd        nobody  *:6081
     varnishd        root    127.0.0.1:6082
+    varnishd        nobody  *:6081
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
     nginx   root    *:80
@@ -156,13 +156,6 @@ The varnish cache for this host should now be empty.
     ...
     X-Varnish-Cache: MISS
 
-Clean up our vagrant box.
 
-    >>> if not forcing:
-    ...     print >> sys.stderr, "Destroying Vagrant box."
-    ...     run("vagrant destroy %s -f" % box)
-    ... else:
-    ...     print >> sys.stderr, "Vagrant box %s left running." % box
-
-    >>> print >> sys.stderr, "Done"
+    >>> print >> sys.stderr, "Tests done"
 

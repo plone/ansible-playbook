@@ -7,6 +7,8 @@ doctest files are in the tests/ directory.
 Note that when writing new test files, it will be convenient to use the -f and -np flags to avoid time-consuming reprovisioning.
 """
 
+from sys import stderr
+
 import argparse
 import doctest
 import glob
@@ -85,14 +87,22 @@ def run(cmd):
     return None
 
 
-def cut(s, columns):
+def cut(s, columns, sort=False):
     """
         returns a list of lines reduced to the chosen columns
     """
     #
     lines = s.split('\n')
     line_lists = [l.split() for l in lines if l]
-    return sorted(["\t".join([col[coln] for coln in columns]) for col in line_lists])
+    rez = ["\t".join([col[coln] for coln in columns if coln < len(col)]) for col in line_lists]
+    if sort:
+        return sorted(rez)
+    else:
+        return rez
+
+
+def joined_cut(s, columns, sort=False):
+    return "\n".join(cut(s, columns, sort))
 
 
 for abox in boxes:
@@ -101,6 +111,7 @@ for abox in boxes:
         'ssh_run': ssh_run,
         'run': run,
         'cut': cut,
+        'joined_cut': joined_cut,
         'skip_provisioning': args.no_provision,
         'forcing': args.force,
         'box': box,
@@ -109,8 +120,8 @@ for abox in boxes:
     if not args.force:
         output = subprocess.check_output("vagrant status %s" % box, shell=True)
         if re.search(r"%s\s+not created" % box, output) is None:
-            print "Vagrant box already exists. Destroy it or use '-f' to skip this test."
-            print "Use '-f' in combination with '-np' to skip provisioning."
+            print >> stderr, "Vagrant box already exists. Destroy it or use '-f' to skip this test."
+            print >> stderr, "Use '-f' in combination with '-np' to skip provisioning."
             exit(1)
 
     if args.file is None:
@@ -119,6 +130,8 @@ for abox in boxes:
         files = [args.file]
 
     for fn in files:
+        print >> stderr, "%s / %s" % (box, fn)
+
         print '*' * 50
         print box
         print '*' * 50
@@ -126,4 +139,15 @@ for abox in boxes:
         print '*' * 50
         failure_count, test_count = doctest.testfile(fn, optionflags=options, globs=globs)
         if failure_count > 0:
+            print >> stderr, "Test failures occurred. Stopping tests and leaving vagrant box %s running." % box
             exit(1)
+
+        # Clean up our vagrant box.
+
+        if not args.force:
+            print "Destroying %s" % box
+            run("vagrant destroy %s -f" % box)
+        else:
+            print "Vagrant box %s left running." % box
+
+

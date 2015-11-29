@@ -27,34 +27,38 @@ Append admin email and password.
 
 Vagrant up
 
-    >>> print >> sys.stderr, "vagrant up"
-    >>> run("vagrant up --no-provision")
+    >>> print >> sys.stderr, "Bringing up %s" % box
+    >>> run("vagrant up %s --no-provision" % box)
 
 Vagrant provision -- unless contraindicated.
 
     >>> if skip_provisioning:
     ...     print >> sys.stderr, "Skipping provisioning"
     ... else:
-    ...     print >> sys.stderr, "vagrant provision"
-    ...     run("vagrant provision")
+    ...     print >> sys.stderr, "Provisioning"
+    ...     run("vagrant provision %s" % box)
 
 And, now run tests against the box.
 
-    >>> print >> sys.stderr, "Running tests against box"
+    >>> print >> sys.stderr, "Running tests against %s" % box
 
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
     >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
-    >>> listeners = cut(rez, [0, 2, 8])
+    >>> listeners = cut(rez, [0, 2, 8], sort=True)
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    python2.7       plone_daemon    127.0.0.1:8081
-    python2.7       plone_daemon    127.0.0.1:8082
-    zeoserver       plone_daemon    127.0.0.1:8100
+    python2.7   plone_daemon    127.0.0.1:7081
+    python2.7   plone_daemon    127.0.0.1:7082
+    python2.7   plone_daemon    127.0.0.1:8081
+    python2.7   plone_daemon    127.0.0.1:8082
+    zeoserver   plone_daemon    127.0.0.1:7100
+    zeoserver   plone_daemon    127.0.0.1:8100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
+    haproxy haproxy *:7080
     haproxy haproxy *:8080
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
@@ -107,56 +111,51 @@ Primary instance tests
 
 Is everything where we expect it to be?
 
-    >>> print ssh_run('ls -la /usr/local/plone-5.0')
-    total ...
-    drwxr-xr-x ... root           ...         ... .
-    ...        ... root           ...         ... ..
-    drwxr-xr-x ... plone_buildout plone_group ... buildout-cache
-    drwxr-xr-x ... plone_buildout plone_group ... primary
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.0 | tail -n +2'), [0, 2, 3, 8])
+    drwxr-xr-x root           root        .
+    ...
+    drwxr-xr-x plone_buildout plone_group buildout-cache
+    drwxr-xr-x plone_buildout plone_group primary
 
-    >>> print ssh_run('ls -la /usr/local/plone-5.0/primary')
-    total ...
-    drwxr-xr-x ... plone_buildout plone_group ... bin
-    -rw-r--r-- ... plone_buildout plone_group ... bootstrap.py
-    -rw-r--r-- ... plone_buildout plone_group ... buildout.cfg
-    drwxr-xr-x ... plone_buildout plone_group ... develop-eggs
-    drwxr-xr-x ... plone_buildout plone_group ... include
-    -rw------- ... plone_buildout plone_group ... .installed.cfg
-    drwxr-xr-x ... plone_buildout plone_group ... lib
-    drwxr-xr-x ... plone_buildout plone_group ... local
-    drwxr-xr-x ... plone_buildout plone_group ... parts
-    -rw-r--r-- ... plone_buildout plone_group ... pip-selfcheck.json
-    drwxr-xr-x ... plone_buildout plone_group ... products
-    drwxr-xr-x ... root           ...         ... scripts
-    drwxr-xr-x ... plone_buildout plone_group ... src
-    drwxr-xr-x ... plone_buildout plone_group ... var
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.0/primary | tail -n +4'), [0, 2, 3, 8])
+    drwxr-xr-x  plone_buildout  plone_group bin
+    -rw-r--r--  plone_buildout  plone_group bootstrap.py
+    -rw-r--r--  plone_buildout  plone_group buildout.cfg
+    drwxr-xr-x  plone_buildout  plone_group develop-eggs
+    drwxr-xr-x  plone_buildout  plone_group include
+    -rw-------  plone_buildout  plone_group .installed.cfg
+    drwxr-xr-x  plone_buildout  plone_group lib
+    drwxr-xr-x  plone_buildout  plone_group local
+    drwxr-xr-x  plone_buildout  plone_group parts
+    -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
+    drwxr-xr-x  plone_buildout  plone_group products
+    drwxr-xr-x  root    root    scripts
+    drwxr-xr-x  plone_buildout  plone_group src
+    drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print ssh_run('ls -la /var/local/plone-5.0/')
-    total ...
-    drwxr-xr-x ... root         ...         ... .
-    ...        ... root         ...         ... ..
-    drwxrws--- ... plone_daemon plone_group ... primary
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.0/ | tail -n +2'), [0, 2, 3, 8])
+    drwxr-xr-x root         ...         .
+    ...
+    drwxrws--- plone_daemon plone_group primary
 
-    >>> print ssh_run('sudo ls -la /var/local/plone-5.0/primary/')
-    total ...
-    drwx--S--- ... plone_daemon   plone_group ... blobstorage
-    drwxrws--- ... plone_buildout plone_group ... client1
-    drwxrws--- ... plone_buildout plone_group ... client2
-    drwxrws--- ... plone_buildout plone_group ... client_reserved
-    drwxrws--- ... plone_buildout plone_group ... filestorage
-    drwx------ ... plone_daemon plone_group   ... .python-eggs
-    drwxrws--- ... plone_buildout plone_group ... zeoserver
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.0/primary | tail -n +4'), [0, 2, 3, 8])
+    drwx--S---  plone_daemon    plone_group blobstorage
+    drwxrws---  plone_buildout  plone_group client1
+    drwxrws---  plone_buildout  plone_group client2
+    drwxrws---  plone_buildout  plone_group client_reserved
+    drwxrws---  plone_buildout  plone_group filestorage
+    drwx------  plone_daemon    plone_group .python-eggs
+    drwxrws---  plone_buildout  plone_group zeoserver
 
-    >>> print ssh_run('sudo ls -l /var/local/plone-5.0/primary/filestorage')
-    total ...
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.index
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.lock
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.tmp
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.0/primary/filestorage | tail -n +2'), [0, 2, 3, 8])
+    -rw-r--r--  plone_daemon    plone_group Data.fs
+    -rw-r--r--  plone_daemon    plone_group Data.fs.index
+    -rw-r--r--  plone_daemon    plone_group Data.fs.lock
+    -rw-r--r--  plone_daemon    plone_group Data.fs.tmp
 
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl -I -s http://default')
+    >>> print ssh_run('curl -I -s http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -167,14 +166,14 @@ We should be able to get a page on port 80.
 
 Let's prove to ourselves that this is Plone 5:
 
-    >>> output = ssh_run('curl http://default')
+    >>> output = ssh_run('curl http://%s' % box)
     >>> output.find('barceloneta') >= 0
     True
 
 Asking twice for a static resource should result in a cache hit.
 
-    >>> print ssh_run('curl -I -s http://default/logo.png > /dev/null')
-    >>> print ssh_run('curl -I -s http://default/logo.png')
+    >>> print ssh_run('curl -I -s http://%s/logo.png > /dev/null' % box)
+    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -205,13 +204,13 @@ processes, haproxy and varnish.
     Waiting a bit...
     Fetching Plone site-home page
     Marking client 2 available
-    Purging varnish cache for default
+    Purging varnish cache
     <BLANKLINE>
     Done
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl -I -s http://default/logo.png')
+    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -223,52 +222,47 @@ The varnish cache for this host should now be empty.
 Secondary instance tests
 ------------------------
 
-    >>> print ssh_run('ls -la /usr/local/plone4')
-    total ...
-    drwxr-xr-x ... root           ...         ... .
-    ...        ... root           ...         ... ..
-    drwxr-xr-x ... plone_buildout plone_group ... buildout-cache
-    drwxr-xr-x ... plone_buildout plone_group ... secondary
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone4 | tail -n +2'), [0, 2, 3, 8])
+    drwxr-xr-x  root    root    .
+    ...                         ..
+    drwxr-xr-x  plone_buildout  plone_group buildout-cache
+    drwxr-xr-x  plone_buildout  plone_group secondary
 
-    >>> print ssh_run('ls -la /usr/local/plone4/secondary')
-    total ...
-    drwxr-xr-x ... plone_buildout plone_group ... bin
-    -rw-r--r-- ... plone_buildout plone_group ... bootstrap.py
-    -rw-r--r-- ... plone_buildout plone_group ... buildout.cfg
-    drwxr-xr-x ... plone_buildout plone_group ... develop-eggs
-    drwxr-xr-x ... plone_buildout plone_group ... include
-    -rw------- ... plone_buildout plone_group ... .installed.cfg
-    drwxr-xr-x ... plone_buildout plone_group ... lib
-    drwxr-xr-x ... plone_buildout plone_group ... local
-    drwxr-xr-x ... plone_buildout plone_group ... parts
-    -rw-r--r-- ... plone_buildout plone_group ... pip-selfcheck.json
-    drwxr-xr-x ... plone_buildout plone_group ... products
-    drwxr-xr-x ... root           ...         ... scripts
-    drwxr-xr-x ... plone_buildout plone_group ... src
-    drwxr-xr-x ... plone_buildout plone_group ... var
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone4/secondary | tail -n +4'), [0, 2, 3, 8])
+    drwxr-xr-x  plone_buildout  plone_group bin
+    -rw-r--r--  plone_buildout  plone_group bootstrap.py
+    -rw-r--r--  plone_buildout  plone_group buildout.cfg
+    drwxr-xr-x  plone_buildout  plone_group develop-eggs
+    drwxr-xr-x  plone_buildout  plone_group include
+    -rw-------  plone_buildout  plone_group .installed.cfg
+    drwxr-xr-x  plone_buildout  plone_group lib
+    drwxr-xr-x  plone_buildout  plone_group local
+    drwxr-xr-x  plone_buildout  plone_group parts
+    -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
+    drwxr-xr-x  plone_buildout  plone_group products
+    drwxr-xr-x  root    root    scripts
+    drwxr-xr-x  plone_buildout  plone_group src
+    drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print ssh_run('ls -la /var/local/plone4/')
-    total ...
-    drwxr-xr-x ... root         ...         ... .
-    ...        ... root         ...         ... ..
-    drwxrws--- ... plone_daemon plone_group ... secondary
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone4 | tail -n +2'), [0, 2, 3, 8])
+    drwxr-xr-x  root    staff   .
+    ...                         ..
+    drwxrws---  plone_daemon    plone_group secondary
 
-    >>> print ssh_run('sudo ls -la /var/local/plone4/secondary/')
-    total ...
-    drwx--S--- ... plone_daemon   plone_group ... blobstorage
-    drwxrws--- ... plone_buildout plone_group ... client1
-    drwxrws--- ... plone_buildout plone_group ... client2
-    drwxrws--- ... plone_buildout plone_group ... client_reserved
-    drwxrws--- ... plone_buildout plone_group ... filestorage
-    drwx------ ... plone_daemon   plone_group ... .python-eggs
-    drwxrws--- ... plone_buildout plone_group ... zeoserver
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone4/secondary/ | tail -n +4'), [0, 2, 3, 8])
+    drwx--S---  plone_daemon    plone_group blobstorage
+    drwxrws---  plone_buildout  plone_group client1
+    drwxrws---  plone_buildout  plone_group client2
+    drwxrws---  plone_buildout  plone_group client_reserved
+    drwxrws---  plone_buildout  plone_group filestorage
+    drwx------  plone_daemon    plone_group .python-eggs
+    drwxrws---  plone_buildout  plone_group zeoserver
 
-    >>> print ssh_run('sudo ls -l /var/local/plone4/secondary/filestorage')
-    total ...
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.index
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.lock
-    -rw-r--r-- ... plone_daemon   plone_group ... Data.fs.tmp
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone4/secondary/filestorage | tail -n +2'), [0, 2, 3, 8])
+    -rw-r--r--  plone_daemon    plone_group Data.fs
+    -rw-r--r--  plone_daemon    plone_group Data.fs.index
+    -rw-r--r--  plone_daemon    plone_group Data.fs.lock
+    -rw-r--r--  plone_daemon    plone_group Data.fs.tmp
 
 
 We should be able to get a page on port 80.
@@ -322,7 +316,7 @@ processes, haproxy and varnish.
     Waiting a bit...
     Fetching Plone site-home page
     Marking client 2 available
-    Purging varnish cache for localhost
+    Purging varnish cache
     <BLANKLINE>
     Done
 
@@ -336,12 +330,6 @@ The varnish cache for this host should now be empty.
     ...
     X-Varnish-Cache: MISS
 
-Clean up our vagrant box.
 
-    >>> if not forcing:
-    ...     print >> sys.stderr, "Destroying Vagrant box."
-    ...     run("vagrant destroy -f")
-    ... else:
-    ...     print >> sys.stderr, "Vagrant box left running."
+    >>> print >> sys.stderr, "Tests done"
 
-    >>> print >> sys.stderr, "Done"
