@@ -56,6 +56,33 @@ Default value:
     Make sure that your source key file is not placed in a public location.
 
 
+Certificates
+~~~~~~~~~~~~
+
+Certificate files may be specified in two ways.
+
+To copy certificate files from the machine running Ansible, use the format:
+
+.. code-block:: yaml
+
+    webserver_virtualhosts:
+      - hostname: ...
+        ...
+        certificate_file: /thiscomputer/path/mycert.crt
+        key_file: /thiscomputer/path/mycert.key
+
+To use files that already exist on the controlled server, use:
+
+.. code-block:: yaml
+
+    webserver_virtualhosts:
+      - hostname: ...
+        ...
+        certificate:
+          key: /etc/ssl/private/ssl-cert-snakeoil.key
+          crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
+
+
 Redirections, etc.
 ~~~~~~~~~~~~~~~~~~
 

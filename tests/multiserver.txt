@@ -9,7 +9,7 @@ Test with the "multiserver" sample.
     ... plone_initial_password: admin
     ... additional_packages:
     ...   - curl
-    ...   - sockstat
+    ...   - ssl-cert
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... """
@@ -84,26 +84,31 @@ in all expected ways.
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser,egroup | egrep "(python|varnish|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
-    fail2ban-server root     root
-    haproxy         haproxy  haproxy...
-    memmon          root     root
-    memmon          root     root
-    munin-node      root     root
-    nginx           root     root
-    nginx           www-data www-data
-    nginx           www-data www-data
-    nginx           www-data www-data
-    nginx           www-data www-data
-    pickup          postfix  postfix
-    python2.7       plone_d+ plone_group
-    python2.7       plone_d+ plone_group
-    python2.7       plone_d+ plone_group
-    python2.7       plone_d+ plone_group
-    qmgr            postfix  postfix
-    supervisord     root     root
-    varnishd        nobody   nogroup
-    varnishd        root     root...
+    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq')
+    fail2ban-server root            root
+    haproxy         haproxy         haproxy
+    memmon          root            root
+    munin-node      root            root
+    nginx           root            root
+    nginx           www-data        www-data
+    pickup          postfix         postfix
+    python2.7       plone_daemon    plone_group
+    qmgr            postfix         postfix
+    supervisord     root            root
+    varnishd        nobody          nogroup
+    varnishd        root            root
+
+Check supervisor's job list.
+
+    >>> print joined_cut(ssh_run('sudo supervisorctl status'), [0, 1], True)
+    primary_memmon                   RUNNING
+    primary_zeoclient1               RUNNING
+    primary_zeoclient2               RUNNING
+    primary_zeoserver                RUNNING
+    secondary_memmon                 RUNNING
+    secondary_zeoclient1             RUNNING
+    secondary_zeoclient2             RUNNING
+    secondary_zeoserver              RUNNING
 
 
 Primary instance tests
@@ -112,7 +117,7 @@ Primary instance tests
 Is everything where we expect it to be?
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.0 | tail -n +2'), [0, 2, 3, 8])
-    drwxr-xr-x root           root        .
+    drwxr-xr-x root           ...        .
     ...
     drwxr-xr-x plone_buildout plone_group buildout-cache
     drwxr-xr-x plone_buildout plone_group primary
@@ -163,6 +168,20 @@ We should be able to get a page on port 80.
     Age: 0
     Via: 1.1 varnish...
     X-Varnish-Cache: MISS
+
+And, we should have gzip encoding available:
+
+    >>> print ssh_run('curl -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    HTTP/1.1 200 OK
+    ...
+    Content-Encoding: gzip
+    ...
+
+SSL should work. Note that we're testing with a self-signed certificate:
+
+    >>> print ssh_run('curl --insecure -I -s http://%s' % box)
+    HTTP/1.1 200 OK
+    ...
 
 Let's prove to ourselves that this is Plone 5:
 
@@ -223,7 +242,7 @@ Secondary instance tests
 ------------------------
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone4 | tail -n +2'), [0, 2, 3, 8])
-    drwxr-xr-x  root    root    .
+    drwxr-xr-x  root    ...     .
     ...                         ..
     drwxr-xr-x  plone_buildout  plone_group buildout-cache
     drwxr-xr-x  plone_buildout  plone_group secondary
@@ -276,11 +295,19 @@ We should be able to get a page on port 80.
     Via: 1.1 varnish...
     X-Varnish-Cache: MISS
 
-Let's prove to ourselves that this is not Plone 5:
+And, we should have gzip encoding available:
+
+    >>> print ssh_run('curl -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    HTTP/1.1 200 OK
+    ...
+    Content-Encoding: gzip
+    ...
+
+Let's prove to ourselves that this is Plone 4:
 
     >>> output = ssh_run('curl http://localhost')
-    >>> output.find('barceloneta') >= 0
-    False
+    >>> output.find('sunburst') >= 0
+    True
 
 Asking twice for a static resource should result in a cache hit.
 

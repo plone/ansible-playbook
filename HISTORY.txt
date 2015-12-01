@@ -1,3 +1,14 @@
+1.2.1 (unreleased)
+
+- Add mechanism for specifying already placed certificate files for nginx.
+  [smcmahon]
+
+- Add support for Debian Jessie and Ubuntu Vivid. This includes Varnish 4.0.x.
+  [smcmahon]
+
+- Improved test framework to automate tests of multiple boxes.
+  [smcmahon]
+
 1.2.0 2015-11-15
 
 - Add test framework.

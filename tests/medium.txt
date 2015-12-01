@@ -16,6 +16,7 @@ Test the "medium" sample specification.
 
     >>> import subprocess
     >>> import sys
+    >>> import time
 
 Set up local-configure.yml by copying our sample.
 Append admin email and password.
@@ -79,27 +80,32 @@ in all expected ways.
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | grep -v egrep | sort')
+    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq')
     fail2ban-server root     root
-    haproxy         haproxy  haproxy...
+    haproxy         haproxy  haproxy
     memmon          root     root
     munin-node      root     root
     nginx           root     root
     nginx           www-data www-data
-    nginx           www-data www-data
-    nginx           www-data www-data
-    nginx           www-data www-data
     pickup          postfix  postfix
-    python2.7       plone_daemon plone_group
     python2.7       plone_daemon plone_group
     qmgr            postfix  postfix
     supervisord     root     root
     varnishd        nobody   nogroup
     varnishd        root     root
 
+Check supervisor's job list.
+
+    >>> print joined_cut(ssh_run('sudo supervisorctl status'), [0, 1], True)
+    zeoserver_memmon    RUNNING
+    zeoserver_zeoclient1    RUNNING
+    zeoserver_zeoclient2    RUNNING
+    zeoserver_zeoserver RUNNING
+
+
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl -I -s http://localhost')
+    >>> print ssh_run('curl -I -s http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -108,10 +114,18 @@ We should be able to get a page on port 80.
     Via: 1.1 varnish...
     X-Varnish-Cache: MISS
 
+And, we should have gzip encoding available:
+
+    >>> print ssh_run('curl -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    HTTP/1.1 200 OK
+    ...
+    Content-Encoding: gzip
+    ...
+
 Asking twice for a static resource should result in a cache hit.
 
-    >>> print ssh_run('curl -I -s http://localhost/logo.png > /dev/null')
-    >>> print ssh_run('curl -I -s http://localhost/logo.png')
+    >>> print ssh_run('curl -I -s http://%s/logo.png > /dev/null' % box)
+    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -148,7 +162,7 @@ processes, haproxy and varnish.
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl -I -s http://localhost/logo.png')
+    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...

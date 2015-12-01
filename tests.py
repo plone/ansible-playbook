@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """
-Runs a doctest against a Vagrant box.
+Runs doctests against Vagrant boxes defined in Vagrant file.
 doctest files are in the tests/ directory.
 
-Note that when writing new test files, it will be convenient to use the -f and -np flags to avoid time-consuming reprovisioning.
+Note that when writing new test files, it will be convenient to use the command-line flags to avoid time-consuming reprovisioning or to target particular boxes or tests.
 """
 
 from sys import stderr
@@ -32,6 +32,11 @@ parser.add_argument(
     '-np', '--no-provision',
     action='store_true',
     help="Skip provisioning."
+    )
+parser.add_argument(
+    '--haltonfail',
+    action='store_true',
+    help="Stop multibox tests after a fail; leave box running."
     )
 parser.add_argument(
     '--file',
@@ -138,16 +143,16 @@ for abox in boxes:
         print fn
         print '*' * 50
         failure_count, test_count = doctest.testfile(fn, optionflags=options, globs=globs)
-        if failure_count > 0:
+        if args.haltonfail and failure_count > 0:
             print >> stderr, "Test failures occurred. Stopping tests and leaving vagrant box %s running." % box
             exit(1)
 
         # Clean up our vagrant box.
 
         if not args.force:
-            print "Destroying %s" % box
+            print >> stderr, "Destroying %s" % box
             run("vagrant destroy %s -f" % box)
         else:
-            print "Vagrant box %s left running." % box
+            print >> stderr, "Vagrant box %s left running." % box
 
 
