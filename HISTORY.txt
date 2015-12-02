@@ -1,5 +1,8 @@
 1.2.1 (unreleased)
 
+- Change varnish to run as varnish:varnish rather than nobody:nogroup. Does anybody like nobody?
+  [smcmahon]
+
 - Add mechanism for specifying already placed certificate files for nginx.
   [smcmahon]
 

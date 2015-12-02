@@ -15,41 +15,11 @@
   ignore_errors: yes
   register: sysd_varnish
 
-- name: Set cache method/size
+- name: init.d setup
   when: sysd_varnish.rc > 0
-  replace:
+  template:
+    src=varnish.j2
     dest=/etc/default/varnish
-    regexp='-s .+"'
-    replace='-s {{ proxycache_method }},{{ proxycache_size }}"'
-    backup=yes
-  notify: restart varnish
-
-- name: Set Varnish front-end port
-  when: sysd_varnish.rc > 0
-  replace:
-    dest=/etc/default/varnish
-    regexp='-a .+ \\'
-    replace='-a *:{{ proxycache_port }} \\'
-    backup=yes
-  notify: restart varnish
-
-- name: Set Varnish admin port to proxycache_port + 1
-  when: sysd_varnish.rc > 0
-  replace:
-    dest=/etc/default/varnish
-    regexp='-T .+ \\'
-    replace='-T localhost:{{ proxycache_port + 1}} \\'
-    backup=yes
-  notify: restart varnish
-
-# We're firewalling off the admin port,
-# so we don't need a secret.
-- name: Turn off secret
-  when: sysd_varnish.rc > 0
-  lineinfile:
-    dest=/etc/default/varnish
-    regexp="^\s+-S .*$"
-    state=absent
     backup=yes
   notify: restart varnish
 

@@ -46,20 +46,20 @@ Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
     >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
-    >>> listeners = set(cut(rez, [0, 2, 8], True))
+    >>> listeners = sorted(set(cut(rez, [0, 2, 8])))
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    zeoserver   plone_daemon    127.0.0.1:8100
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
+    zeoserver   plone_daemon    127.0.0.1:8100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
     haproxy haproxy *:8080
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd    varnish *:6081
     varnishd    root    127.0.0.1:6082
+    varnishd    varnish *:6081
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
     nginx   root    *:80
