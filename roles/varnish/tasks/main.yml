@@ -10,7 +10,13 @@
 - set_fact:
     varnish_major_version: "{{ varnish_major_version.stdout }}"
 
+- name: Using systemd?
+  shell: "which systemctl && systemctl is-enabled varnish.service"
+  ignore_errors: yes
+  register: sysd_varnish
+
 - name: Set cache method/size
+  when: sysd_varnish.rc > 0
   replace:
     dest=/etc/default/varnish
     regexp='-s .+"'
@@ -19,6 +25,7 @@
   notify: restart varnish
 
 - name: Set Varnish front-end port
+  when: sysd_varnish.rc > 0
   replace:
     dest=/etc/default/varnish
     regexp='-a .+ \\'
@@ -27,6 +34,7 @@
   notify: restart varnish
 
 - name: Set Varnish admin port to proxycache_port + 1
+  when: sysd_varnish.rc > 0
   replace:
     dest=/etc/default/varnish
     regexp='-T .+ \\'
@@ -37,12 +45,25 @@
 # We're firewalling off the admin port,
 # so we don't need a secret.
 - name: Turn off secret
+  when: sysd_varnish.rc > 0
   lineinfile:
     dest=/etc/default/varnish
     regexp="^\s+-S .*$"
     state=absent
     backup=yes
   notify: restart varnish
+
+- name: systemd setup
+  when: sysd_varnish.rc == 0
+  ini_file:
+    dest=/etc/systemd/system/multi-user.target.wants/varnish.service
+    section=Service
+    option=ExecStart
+    value="/usr/sbin/varnishd -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} -u varnish -g varnish"
+    backup=yes
+  notify:
+    - systemd daemon reload
+    - restart varnish
 
 - name: Set default.vcl from our template (vcl 3)
   when: varnish_major_version == '3'

@@ -46,7 +46,7 @@ Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
     >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
-    >>> listeners = cut(rez, [0, 2, 8])
+    >>> listeners = set(cut(rez, [0, 2, 8], True))
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     zeoserver   plone_daemon    127.0.0.1:8100
@@ -58,14 +58,11 @@ in all expected ways.
     haproxy haproxy *:8080
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd        root    127.0.0.1:6082
-    varnishd        nobody  *:6081
+    varnishd    varnish *:6081
+    varnishd    root    127.0.0.1:6082
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
     nginx   root    *:80
-    nginx   www-data        *:80
-    nginx   www-data        *:80
-    nginx   www-data        *:80
     nginx   www-data        *:80
 
     # smtpd
@@ -91,8 +88,8 @@ Check the process list.
     python2.7       plone_daemon plone_group
     qmgr            postfix  postfix
     supervisord     root     root
-    varnishd        nobody   nogroup
     varnishd        root     root
+    varnishd        varnish  varnish
 
 Check supervisor's job list.
 
@@ -119,8 +116,7 @@ And, we should have gzip encoding available:
     >>> print ssh_run('curl -H "Accept-Encoding:gzip" -I -s http://%s' % box)
     HTTP/1.1 200 OK
     ...
-    Content-Encoding: gzip
-    ...
+    Content-Encoding: gzip...
 
 Asking twice for a static resource should result in a cache hit.
 
