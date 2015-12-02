@@ -1,4 +1,7 @@
-1.2.1 (unreleased)
+1.2.1 2015-12-02
+
+- Advance Plone role requirement to 1.2.1.
+  [smcmahon]
 
 - Change varnish to run as varnish:varnish rather than nobody:nogroup. Does anybody like nobody?
   [smcmahon]
