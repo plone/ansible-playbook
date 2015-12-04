@@ -50,10 +50,8 @@ plone_client_max_memory: 600MB
 # with only one zeo client, we don't need a load balancer
 install_loadbalancer: no
 
-# since we're not using a load balancer, put the zeo client
-# at what we'd ordinarily use for the load balancer.
-# That way, the proxy cache will know where to find it.
-plone_client_base_port: 8080
+# since we're not using a load balancer, tell Varnish to look at client1.
+loadbalancer_port: 8081
 
 # We'll use varnish, but since we're memory-limited, with a
 # file-based cache.

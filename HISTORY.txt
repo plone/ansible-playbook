@@ -1,3 +1,8 @@
+1.2.2 (unreleased)
+
+- Fix backend port error in small & very small examples.
+  [smcmahon]
+
 1.2.1 2015-12-02
 
 - Advance Plone role requirement to 1.2.1.
