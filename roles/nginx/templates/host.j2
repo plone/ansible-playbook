@@ -28,23 +28,27 @@ server {
   # forward information.
   proxy_set_header X-Forwarded-For $remote_addr;
 
+{% if item.get('protocol', 'http') == 'https' %}
+   set $vh_protocol "https";
+   set $vh_port "{{ item.port|default('443') }}";
+{% else %}
+   set $vh_protocol "http";
+   set $vh_port "{{ item.port|default('80') }}";
+ {% endif %}
+
+{% if item.get('extra') != None %}
+  {{ item.extra }}
+{% endif %}
+
 {% if item.get('zodb_path') != None %}
   location / {
-{% if item.get('protocol', 'http') == 'https' %}
-    rewrite ^/(.*)$ /VirtualHostBase/https/{{ item.hostname }}:{{ item.port|default('443') }}{{ item.zodb_path }}/VirtualHostRoot/$1 break;
-{% else %}
-    rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}{{ item.zodb_path }}/VirtualHostRoot/$1 break;
-    {% endif %}
+    rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
     auth_basic off;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
   location ~ /manage_ {
     deny all;
   }
-{% endif %}
-
-{% if item.get('extra') != None %}
-  {{ item.extra }}
 {% endif %}
 
 {% if item.get('protocol', 'http') == 'http' and (item.hostname == 'localhost' or 'default' in item.get('aliases', [])) %}
