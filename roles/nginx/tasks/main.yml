@@ -49,5 +49,6 @@
     state=started
     enabled=yes
 
-- name: nginx running
-  command: /usr/sbin/service nginx status
+- name: Assure nginx running at end of playbook
+  command: /bin/true
+  notify: nginx started

@@ -1,10 +1,15 @@
 server {
-  {% if item.get('protocol', 'http') == 'https' %}
+{% if item.get('protocol', 'http') == 'https' %}
   listen {{ item.address|default('*') }}:{{ item.port|default('443') }};
 
   ssl on;
+{% if item.get('certificate') %}
+  ssl_certificate {{ item.certificate.crt }};
+  ssl_certificate_key {{ item.certificate.key }};
+{% else %}
   ssl_certificate /etc/nginx/ssl/{{ item.hostname }}.crt;
   ssl_certificate_key /etc/nginx/ssl/{{ item.hostname }}.key;
+{% endif %}
   ssl_session_timeout 5m;
   ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
@@ -19,36 +24,40 @@ server {
 
   proxy_set_header X-Real-IP $remote_addr;
   # Note that the setting below overrides any pre-existing X-Forwarded-For
-  # information. You'll want to change this is you have trustworthy incoming
+  # information. You'll want to change this if you have trustworthy incoming
   # forward information.
   proxy_set_header X-Forwarded-For $remote_addr;
 
-  {% if item.get('zodb_path') != None %}
+{% if item.get('protocol', 'http') == 'https' %}
+   set $vh_protocol "https";
+   set $vh_port "{{ item.port|default('443') }}";
+{% else %}
+   set $vh_protocol "http";
+   set $vh_port "{{ item.port|default('80') }}";
+ {% endif %}
+
+{% if item.get('extra') != None %}
+  {{ item.extra }}
+{% endif %}
+
+{% if item.get('zodb_path') != None %}
   location / {
-    {% if item.get('protocol', 'http') == 'https' %}
-    rewrite ^/(.*)$ /VirtualHostBase/https/{{ item.hostname }}:{{ item.port|default('443') }}{{ item.zodb_path }}/VirtualHostRoot/$1 break;
-    {% else %}
-    rewrite ^/(.*)$ /VirtualHostBase/http/{{ item.hostname }}:{{ item.port|default('80') }}{{ item.zodb_path }}/VirtualHostRoot/$1 break;
-    {% endif %}
+    rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
     auth_basic off;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
   location ~ /manage_ {
     deny all;
   }
-  {% endif %}
+{% endif %}
 
-  {% if item.get('extra') != None %}
-  {{ item.extra }}
-  {% endif %}
-
-  {% if item.get('protocol', 'http') == 'http' and (item.hostname == 'localhost' or 'default' in item.get('aliases', [])) %}
+{% if item.get('protocol', 'http') == 'http' and (item.hostname == 'localhost' or 'default' in item.get('aliases', [])) %}
   location /nginx_status {
     stub_status on;
     access_log off;
     allow 127.0.0.1;
     deny all;
   }
-  {% endif %}
+{% endif %}
 
 }

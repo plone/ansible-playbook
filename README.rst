@@ -35,7 +35,7 @@ See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.rea
 TL;DR
 ^^^^^
 
-1. Install a current version of Ansible;
+1. Install a *current* version of Ansible (use virtualenv and pip -- not your OS package manager);
 
 2. If you wish to test locally, install Vagrant and VirtualBox;
 

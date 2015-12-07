@@ -1,3 +1,28 @@
+1.2.2 (unreleased)
+
+- Fix errors in restart script and motd that would cause them to fail for virtual hosts with no zodb path. Error was added in 1.2.0.
+  [smcmahon]
+
+- Fix backend port error in small & very small examples.
+  [smcmahon]
+
+1.2.1 2015-12-02
+
+- Advance Plone role requirement to 1.2.1.
+  [smcmahon]
+
+- Change varnish to run as varnish:varnish rather than nobody:nogroup. Does anybody like nobody?
+  [smcmahon]
+
+- Add mechanism for specifying already placed certificate files for nginx.
+  [smcmahon]
+
+- Add support for Debian Jessie and Ubuntu Vivid. This includes Varnish 4.0.x.
+  [smcmahon]
+
+- Improved test framework to automate tests of multiple boxes.
+  [smcmahon]
+
 1.2.0 2015-11-15
 
 - Add test framework.

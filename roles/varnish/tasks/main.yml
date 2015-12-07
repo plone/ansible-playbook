@@ -3,43 +3,54 @@
 - name: varnish package present
   apt: pkg=varnish state=present
 
-- name: Set cache method/size
-  replace:
+- name: Determine varnish major version
+  shell: 'dpkg --status varnish | grep "^Version:" | sed -r "s/Version: ([0-9]).+/\1/"'
+  register: varnish_major_version
+
+- set_fact:
+    varnish_major_version: "{{ varnish_major_version.stdout }}"
+
+- name: Using systemd?
+  shell: "which systemctl && systemctl is-enabled varnish.service"
+  ignore_errors: yes
+  register: sysd_varnish
+
+- name: init.d setup
+  when: sysd_varnish.rc > 0
+  template:
+    src=varnish.j2
     dest=/etc/default/varnish
-    regexp='-s .+"'
-    replace='-s {{ proxycache_method }},{{ proxycache_size }}"'
     backup=yes
   notify: restart varnish
 
-- name: Set Varnish front-end port
-  replace:
-    dest=/etc/default/varnish
-    regexp='-a .+ \\'
-    replace='-a *:{{ proxycache_port }} \\'
+- name: systemd setup
+  when: sysd_varnish.rc == 0
+  ini_file:
+    dest=/etc/systemd/system/multi-user.target.wants/varnish.service
+    section=Service
+    option=ExecStart
+    value="/usr/sbin/varnishd -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} -u varnish -g varnish"
     backup=yes
-  notify: restart varnish
+  notify:
+    - systemd daemon reload
+    - restart varnish
 
-- name: Set Varnish admin port to proxycache_port + 1
-  replace:
-    dest=/etc/default/varnish
-    regexp='-T .+ \\'
-    replace='-T localhost:{{ proxycache_port + 1}} \\'
-    backup=yes
-  notify: restart varnish
-
-# We're firewalling off the admin port,
-# so we don't need a secret.
-- name: Turn off secret
-  lineinfile:
-    dest=/etc/default/varnish
-    regexp="^\s+-S .*$"
-    state=absent
-    backup=yes
-  notify: restart varnish
-
-- name: Set default.vcl from our template
+- name: Set default.vcl from our template (vcl 3)
+  when: varnish_major_version == '3'
   template:
     src=default.vcl.j2
     dest=/etc/varnish/default.vcl
     backup=yes
   notify: restart varnish
+
+- name: Set default.vcl from our template (vcl 4)
+  when: varnish_major_version == '4'
+  template:
+    src=default.vcl4.j2
+    dest=/etc/varnish/default.vcl
+    backup=yes
+  notify: restart varnish
+
+- name: Assure varnish running at end of playbook
+  command: /bin/true
+  notify: varnish started

@@ -1,15 +1,14 @@
 ---------------------------------------
-Test the "medium" sample specification.
+Test the "small" sample specification.
 ---------------------------------------
 
-    >>> sample = 'sample-medium.yml'
+    >>> sample = 'sample-small.yml'
 
     >>> extras = r"""
     ... admin_email: test@example.com
     ... plone_initial_password: admin
     ... additional_packages:
     ...   - curl
-    ...   - sockstat
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... """
@@ -50,12 +49,10 @@ in all expected ways.
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:8081
-    python2.7   plone_daemon    127.0.0.1:8082
     zeoserver   plone_daemon    127.0.0.1:8100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
-    haproxy haproxy *:1080
-    haproxy haproxy *:8080
+    <BLANKLINE>
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
     varnishd    root    127.0.0.1:6082
@@ -79,7 +76,6 @@ Check the process list.
 
     >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq')
     fail2ban-server root     root
-    haproxy         haproxy  haproxy
     memmon          root     root
     munin-node      root     root
     nginx           root     root
@@ -96,7 +92,6 @@ Check supervisor's job list.
     >>> print joined_cut(ssh_run('sudo supervisorctl status'), [0, 1], True)
     zeoserver_memmon    RUNNING
     zeoserver_zeoclient1    RUNNING
-    zeoserver_zeoclient2    RUNNING
     zeoserver_zeoserver RUNNING
 
 
@@ -133,25 +128,12 @@ The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
     >>> print ssh_run('sudo /usr/local/plone-5.0/zeoserver/scripts/restart_clients.sh')
-    Marking client 1 down for maintenance
     Restarting client 1
     zeoserver_zeoclient1: stopped
     Waiting a bit...
     zeoserver_zeoclient1: started
     Waiting a bit...
     Fetching Plone site-home page
-    Marking client 1 available
-    <BLANKLINE>
-    Waiting between clients
-    <BLANKLINE>
-    Marking client 2 down for maintenance
-    Restarting client 2
-    zeoserver_zeoclient2: stopped
-    Waiting a bit...
-    zeoserver_zeoclient2: started
-    Waiting a bit...
-    Fetching Plone site-home page
-    Marking client 2 available
     Purging varnish cache
     <BLANKLINE>
     Done

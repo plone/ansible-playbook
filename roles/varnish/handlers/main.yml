@@ -1,4 +1,10 @@
 ---
 
+- name: systemd daemon reload
+  command: systemctl daemon-reload
+
 - name: restart varnish
   service: name=varnish state=restarted
+
+- name: varnish started
+  service: name=varnish state=started
