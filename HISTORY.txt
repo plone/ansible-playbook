@@ -1,5 +1,8 @@
 1.2.2 (unreleased)
 
+- Add nginx default_server option in virtual host specification.
+  [smcmahon]
+
 - Fix errors in restart script and motd that would cause them to fail for virtual hosts with no zodb path. Error was added in 1.2.0.
   [smcmahon]
 
