@@ -21,6 +21,7 @@ Virtual hosting setup
 
     webserver_virtualhosts:
       - hostname: plone.org
+        default_server: yes
         aliases:
           - www.plone.org
         zodb_path: /Plone
@@ -42,7 +43,8 @@ Default value:
 .. code-block:: yaml
 
     webserver_virtualhosts:
-      - hostname: localhost
+      - hostname: "{{ inventory_hostname }}"
+        default_server: yes
         zodb_path: /Plone
         aliases:
           - default
@@ -59,7 +61,7 @@ Default value:
 Certificates
 ~~~~~~~~~~~~
 
-Certificate files may be specified in two ways.
+Certificate files may be specified in one of two ways.
 
 To copy certificate files from the machine running Ansible, use the format:
 
@@ -88,7 +90,7 @@ Redirections, etc.
 
 If you do not specify a zodb_path, the webserver role will not automatically create a location stanza with a rewrite and proxy_pass directives.
 
-If you specify ``extra``, the value will be copied into the server stanza.
+If you specify ``extra``, the value will be copied into the server stanza before the ``location`` setions.
 
 Let's take a look at a common use for these options:
 

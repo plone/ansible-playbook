@@ -31,7 +31,7 @@ postfix: 25 (host-only)
 nginx:
 {% for aplone in playbook_plones %}
 {% for item in aplone.webserver_virtualhosts %}
-- {{ item.hostname }}: {% if item.get('protocol', 'http') == 'https' %}{{ item.address|default('*') }}:{{ item.port|default('443') }}{% else %}{{ item.address|default('*') }}:{{ item.port|default('80') }}{% endif %}
+- {{ item.hostname }}: {% if item.get('protocol', 'http') == 'https' %}{{ item.address|default('*') }}:{{ item.port|default('443') }}{% else %}{{ item.address|default('*') }}:{{ item.port|default('80') }}{% endif %}{% if item.get('default_server') %} default_server{% endif %}
 
 {% endfor %}
 {% endfor %}

@@ -1,6 +1,6 @@
 server {
 {% if item.get('protocol', 'http') == 'https' %}
-  listen {{ item.address|default('*') }}:{{ item.port|default('443') }};
+  listen {{ item.address|default('*') }}:{{ item.port|default('443') }} {% if item.get('default_server') %}default_server{% endif %};
 
   ssl on;
 {% if item.get('certificate') %}
@@ -15,7 +15,7 @@ server {
   ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
   ssl_prefer_server_ciphers on;
   {% else %}
-  listen {{ item.address|default('*') }}:{{ item.port|default('80') }};
+  listen {{ item.address|default('*') }}:{{ item.port|default('80') }} {% if item.get('default_server') %}default_server{% endif %};
   {% endif %}
 
   server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};

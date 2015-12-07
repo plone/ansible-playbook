@@ -13,6 +13,7 @@ loadbalancer_port: "{{ plone_client_base_port|int - 1 }}"
 
 webserver_virtualhosts:
   - hostname: "{{ inventory_hostname }}"
+    default_server: yes
     aliases:
       - default
     zodb_path: /Plone
