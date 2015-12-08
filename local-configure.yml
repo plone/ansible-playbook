@@ -16,7 +16,7 @@ muninnode_query_ips:
     - 50.1.20.238
 
 
-# Major settings
+# Plone settings
 # --------------
 
 plone_version: '5.0'
@@ -61,3 +61,15 @@ plone_additional_versions:
   - "z3c.jbot = 0.7.2"
   - "zc.buildout = "
   - "Authomatic = 0.1.0.post1"
+
+
+# Nginx settings
+
+webserver_virtualhosts:
+  - hostname: barcelona.plone.org
+    zodb_path: /Plone
+  - hostname: plone.org
+    default_server: yes
+    zodb_path: /Plone
+  - hostname: www.plone.org
+    extra: return 301 https://plone.org$request_uri;
