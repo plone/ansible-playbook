@@ -72,6 +72,8 @@ plone_additional_versions:
 webserver_virtualhosts:
   - hostname: barcelona.plone.org
     zodb_path: /Plone
+  - hostname: barcelona_direct.plone.org
+    zodb_path: /Plone
   - hostname: plone.org
     default_server: yes
     zodb_path: /Plone
