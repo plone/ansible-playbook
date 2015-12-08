@@ -30,6 +30,7 @@ plone_additional_eggs:
   - authomatic
   - pas.plugins.authomatic
   - collective.workspace
+  - Products.PloneHotfix20151208
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
@@ -65,6 +66,7 @@ plone_additional_versions:
   - "z3c.jbot = 0.7.2"
   - "zc.buildout = "
   - "Authomatic = 0.1.0.post1"
+  - "Products.PloneHotfix20151208 = 1.0"
 
 
 # Nginx settings
