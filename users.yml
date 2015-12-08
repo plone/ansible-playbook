@@ -1,0 +1,42 @@
+---
+
+# Create users and add their public keys.
+# Users are created without initial passwords, so they'll need
+# their private keys to log in. Following login, they will need
+# to set a password before using sudo.
+
+- hosts: all
+  sudo: yes
+  gather_facts: no
+
+  vars:
+    users:
+      - name: steve
+        groups: sudo
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6IMFOP2K/n2UbtP29d9hU1Ae9vkxpCtd87H7PX5xBfjsh1Tkvq3rRE+Jr6pzPja4gPRCikLm3fV3PdEp4eh1OaSP4SnuBFWcHOpxdDuU+pjNdGMBZlQqjzC0cxjAvW7ZtnT7YHYzH6zHr+t7Z8IESsnw7idDUCupr4Zqot7PaylnI4NLb1zQQxyD+XnjPRu8Ne/0JSyKizkCkXhUuYDbvRYFAs/jFm3pmurodrOx62cwVpdztsHiK5mdTwIQhObzSb3ZnDLNNfXO3yUcX9kWJ6eQ9iP5whw2OBddf+2EoCZtshYIqtGNYaFFdf8tGF5ZwugCHxe/gzlzDMVb9ZM49w== steve@dcn.org
+
+  tasks:
+
+    - name: Add users
+      user:
+        name={{ item.name }}
+        groups={{ item.groups }}
+        shell=/bin/bash
+        password=
+      with_items: users
+
+    - name: Add .ssh directories
+      file:
+        path=/home/{{ item.name }}/.ssh
+        state=directory
+        owner={{ item.name }}
+      with_items: users
+
+    - name: Add keys
+      lineinfile:
+        dest=/home/{{ item.name }}/.ssh/authorized_keys
+        state=present
+        create=yes
+        line="{{ item.auth_key }}"
+        owner={{ item.name }}
+      with_items: users
