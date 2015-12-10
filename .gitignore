@@ -7,3 +7,7 @@ roles/tersmitten.fail2ban
 roles/ANXS.hostname
 roles/ANXS.apt
 ._*
+bin
+include
+local
+lib
