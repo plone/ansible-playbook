@@ -47,6 +47,7 @@ plone_sources:
   - "collective.badge = git https://github.com/collective/collective.badge.git"
 
 plone_additional_versions:
+  - "Products.PloneHotfix20151208 = 1.0"
   - "check-manifest = 0.25"
   - "collective.jsonmigrator = 0.2"
   - "corneti.recipes.codeintel = 0.3"
@@ -65,7 +66,9 @@ plone_additional_versions:
   - "z3c.jbot = 0.7.2"
   - "zc.buildout = "
   - "Authomatic = 0.1.0.post1"
-  - "Products.PloneHotfix20151208 = 1.0"
+  - "pas.plugins.authomatic = 1.0a5"
+  - "plone.app.content = 3.0.14"
+  - "plone.app.vocabularies = 2.2.1"
 
 
 # Nginx settings
