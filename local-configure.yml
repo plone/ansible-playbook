@@ -34,17 +34,16 @@ plone_additional_eggs:
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
-  - "ploneorg.theme = git https://github.com/plone/ploneorg.theme.git"
-  - "plone.themepreview = git https://github.com/plone/plone.themepreview egg=false"
+  - "ploneorg.theme = git https://github.com/plone/ploneorg.theme.git pushurl=git@github.com:plone/ploneorg.theme.git"
   - "Py-StackExchange = git https://github.com/lucjon/Py-StackExchange.git"
-  - "plone.app.vulnerabilities = git https://github.com/plone/plone.app.vulnerabilities.git"
-  - "plone.app.users = git https://github.com/plone/plone.app.users.git"
-  - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git"
-  - "collective.workspace = git https://github.com/collective/collective.workspace.git"
-  - "collective.roster = git https://github.com/collective/collective.roster.git"
-  - "ploneorg.migration = git https://github.com/collective/ploneorg.migration.git"
-  - "collective.transmogrifier = git https://github.com/collective/collective.transmogrifier.git"
-  - "quintagroup.transmogrifier = git https://github.com/collective/quintagroup.transmogrifier.git branch=plone5"
+  - "plone.app.vulnerabilities = git https://github.com/plone/plone.app.vulnerabilities.git pushurl=git@github.com:plone/plone.app.vulnerabilities.git"
+  - "plone.app.users = git https://github.com/plone/plone.app.users.git pushurl=git@github.com:plone/plone.app.users.git"
+  - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
+  - "collective.workspace = git https://github.com/collective/collective.workspace.git pushurl=git@github.com:collective/collective.workspace.git branch=plone5"
+  - "collective.roster = git https://github.com/collective/collective.roster.git pushurl=git@github.com:collective/collective.roster.git"
+  - "ploneorg.migration = git https://github.com/collective/ploneorg.migration.git pushurl=git@github.com:collective/ploneorg.migration.git"
+  - "collective.transmogrifier = git https://github.com/collective/collective.transmogrifier.git pushurl=git@github.com:collective/collective.transmogrifier.git"
+  - "quintagroup.transmogrifier = git https://github.com/collective/quintagroup.transmogrifier.git branch=plone5 pushurl=git@github.com:collective/quintagroup.transmogrifier.git branch=plone5"
   - "collective.badge = git https://github.com/collective/collective.badge.git"
 
 plone_additional_versions:
