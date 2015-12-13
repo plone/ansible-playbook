@@ -1,0 +1,8 @@
+- src: https://github.com/collective/ploneorg.ansible_role.git
+  name: plone.plone_server
+- src: jnv.unattended-upgrades
+  version: v1.1.0
+- src: tersmitten.fail2ban
+  version: v1.2.0
+- src: ANXS.hostname
+  version: v1.1.0
