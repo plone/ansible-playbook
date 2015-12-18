@@ -1,4 +1,12 @@
-1.2.2 (unreleased)
+1.2.3 unreleased
+
+- Backport fulv's plone.org branch addition of authomatic to preserved cookies default in varnish role.
+  [smcmahon]
+
+1.2.2 2015-12-08
+
+- Requirements update to plone_server 1.2.2 (hotfix 20121208)
+  [smcmahon]
 
 - Add nginx default_server option in virtual host specification.
   [smcmahon]
