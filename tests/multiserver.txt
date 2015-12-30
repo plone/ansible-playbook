@@ -240,13 +240,13 @@ The varnish cache for this host should now be empty.
 Secondary instance tests
 ------------------------
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone4 | tail -n +2'), [0, 2, 3, 8])
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8])
     drwxr-xr-x  root    ...     .
     ...                         ..
     drwxr-xr-x  plone_buildout  plone_group buildout-cache
     drwxr-xr-x  plone_buildout  plone_group secondary
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone4/secondary | tail -n +4'), [0, 2, 3, 8])
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8])
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
@@ -262,12 +262,12 @@ Secondary instance tests
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone4 | tail -n +2'), [0, 2, 3, 8])
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8])
     drwxr-xr-x  root    staff   .
     ...                         ..
     drwxrws---  plone_daemon    plone_group secondary
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone4/secondary/ | tail -n +4'), [0, 2, 3, 8])
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3/secondary/ | tail -n +4'), [0, 2, 3, 8])
     drwx--S---  plone_daemon    plone_group blobstorage
     drwxrws---  plone_buildout  plone_group client1
     drwxrws---  plone_buildout  plone_group client2
@@ -276,7 +276,7 @@ Secondary instance tests
     drwx------  plone_daemon    plone_group .python-eggs
     drwxrws---  plone_buildout  plone_group zeoserver
 
-    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone4/secondary/filestorage | tail -n +2'), [0, 2, 3, 8])
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-4.3/secondary/filestorage | tail -n +2'), [0, 2, 3, 8])
     -rw-r--r--  plone_daemon    plone_group Data.fs
     -rw-r--r--  plone_daemon    plone_group Data.fs.index
     -rw-r--r--  plone_daemon    plone_group Data.fs.lock
@@ -321,7 +321,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone4/secondary/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-4.3/secondary/scripts/restart_clients.sh')
     Marking client 1 down for maintenance
     Restarting client 1
     secondary_zeoclient1: stopped
