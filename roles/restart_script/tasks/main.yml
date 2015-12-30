@@ -7,11 +7,6 @@
 - name: Ensure we have curl
   apt: pkg=curl state=present
 
-- debug:
-    var="{{ item.plone_target_path|default('/usr/local/plone-' + item.plone_version|default(plone_version)|truncate(length=3, killwords=true, end='')) }}"
-  with_items: playbook_plones
-
-
 - name: Create restart script
   template:
     src=restart_clients.sh.j2
