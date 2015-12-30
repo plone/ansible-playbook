@@ -42,7 +42,7 @@ Ansible allows you to set variables for particular hosts or groups of hosts. Che
 
 If you use inventory variables, note that any variable you set in ``local-configure.yml`` will override your inventory variables.
 
-Inventory variables are not as practical for use with Vagrant. You'll probably wish to use the ``local-configure`` scheme for Vagrant testing.
+Inventory variables are not as practical for use with Vagrant if you're using ``vagrant up`` to provision. Instead, use ``vagrant up --no-provision`` to bring up the box, then use ``ansible-playbook`` to provision.
 
 Customizing buildout configuration
 ``````````````````````````````````

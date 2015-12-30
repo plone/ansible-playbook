@@ -1,5 +1,8 @@
 1.2.3 unreleased
 
+- Instance path fouled up for three-decimal versions. Thanks, oggers.
+  [smcmahon]
+
 - Backport fulv's plone.org branch addition of authomatic to preserved cookies default in varnish role.
   [smcmahon]
 
