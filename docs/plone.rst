@@ -254,6 +254,38 @@ plone_client1_extras
 Extra text to add to only the first client buildout part. Defaults to "".
 
 
+plone_extra_parts
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_extra_parts:
+      zopepy: |
+        recipe = zc.recipe.egg
+        eggs = ${buildout:eggs}
+        interpreter = zopepy
+        scripts = zopepy
+      diazotools: |
+        recipe = zc.recipe.egg
+        eggs = diazo
+
+Extra parts to add to the automatically generated buildout. These should be in a key/value format with the key being the part name and the value being the text of the part. Defaults to ``{}``.
+
+
+plone_buildout_extra
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra: |
+      allow-picked-versions = false
+      socket-timeout = 5
+
+Allows you to add settings to the automatically generated buildout. Any text specified this way is inserted at the end of the ``[buildout]`` part and before any of the other parts. Defaults to empty.
+
+Use this variable to add or override controlling settings to buildout. If you need to add parts, use ``plone_extra_parts`` for better maintainability.
+
+
 plone_autorun_buildout
 ~~~~~~~~~~~~~~~~~~~~~~
 
