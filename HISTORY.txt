@@ -1,5 +1,8 @@
 1.2.3 unreleased
 
+- Use plone_server 1.2.3.
+  [smcmahon]
+
 - Instance path fouled up for three-decimal versions. Thanks, oggers.
   [smcmahon]
 
