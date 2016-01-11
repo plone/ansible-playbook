@@ -19,7 +19,7 @@ muninnode_query_ips:
 # Plone settings
 # --------------
 
-plone_version: '5.0'
+plone_version: '5.0.2'
 
 plone_client_count: 2
 plone_zodb_cache_size: 15000
@@ -36,11 +36,9 @@ plone_sources:
   - "ploneorg.theme = git https://github.com/plone/ploneorg.theme.git pushurl=git@github.com:plone/ploneorg.theme.git"
   - "Py-StackExchange = git https://github.com/lucjon/Py-StackExchange.git"
   - "plone.app.vulnerabilities = git https://github.com/plone/plone.app.vulnerabilities.git pushurl=git@github.com:plone/plone.app.vulnerabilities.git"
-  - "plone.app.users = git https://github.com/plone/plone.app.users.git pushurl=git@github.com:plone/plone.app.users.git"
-  - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
   - "collective.workspace = git https://github.com/collective/collective.workspace.git pushurl=git@github.com:collective/collective.workspace.git branch=plone5"
   - "collective.roster = git https://github.com/collective/collective.roster.git pushurl=git@github.com:collective/collective.roster.git"
-  - "plone.app.querystring = git https://github.com/plone/plone.app.querystring.git"
+  - "collective.badge = git https://github.com/collective/collective.badge.git pushurl=git@github.com:collective/collective.badge.git"
 
 plone_additional_versions:
   - "check-manifest = 0.25"
@@ -61,10 +59,7 @@ plone_additional_versions:
   - "z3c.jbot = 0.7.2"
   - "zc.buildout = "
   - "Authomatic = 0.1.0.post1"
-  - "pas.plugins.authomatic = 1.0a5"
-  - "plone.app.content = 3.0.14"
-  - "plone.app.vocabularies = 2.2.1"
-
+  - "pas.plugins.authomatic = 1.0a6"
 
 # Nginx settings
 
