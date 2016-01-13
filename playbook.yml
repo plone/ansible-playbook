@@ -189,5 +189,5 @@
   handlers:
     - name: update timezone
       when: ansible_os_family == 'RedHat'
-      file: src=/usr/share/zoneinfo/{{ timezone }}  dest=/etc/localtime state=link force=yes
+      file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
 
