@@ -9,6 +9,7 @@ Test with the "multiserver" sample.
     ... plone_initial_password: admin
     ... additional_packages:
     ...   - curl
+    ...   - lsof
     ...   - ssl-cert
     ... muninnode_query_ips:
     ...     - 127.0.0.1

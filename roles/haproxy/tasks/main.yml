@@ -6,7 +6,12 @@
   when: ansible_distribution_release == "wheezy"
 
 - name: haproxy installed
+  when: ansible_os_family == 'Debian'
   apt: pkg=haproxy state=present
+
+- name: haproxy installed
+  when: ansible_os_family == 'RedHat'
+  yum: name=haproxy state=present
 
 - name: haproxy enabled
   copy:
