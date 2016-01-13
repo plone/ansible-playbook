@@ -1,8 +1,13 @@
 # munin-node config
 
 log_level 4
+{% if ansible_os_family == 'Debian' %}
 log_file /var/log/munin/munin-node.log
 pid_file /var/run/munin/munin-node.pid
+{% else %}
+log_file /var/log/munin-node/munin-node.log
+pid_file /var/run/munin/munin-node.pid
+{% endif %}
 
 background 1
 setsid 1

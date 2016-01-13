@@ -64,6 +64,14 @@
       apt: pkg={{ item }} state=present
       with_items: "{{ additional_packages|default([]) }}"
 
+    - name: Enable aditional repos for CentOS
+      yum: pkg={{ item }} state=present
+      when: ansible_distribution == 'CentOS'
+      with_items:
+        - epel-release
+      tags:
+        - munin
+
     - name: Ensure optional packages
       when: ansible_os_family == 'RedHat'
       yum: name={{ item }} state=present update_cache=yes
