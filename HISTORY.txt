@@ -9,6 +9,9 @@
 - Backport fulv's plone.org branch addition of authomatic to preserved cookies default in varnish role.
   [smcmahon]
 
+- Add initial support for CentOS
+  [fulv]
+
 1.2.2 2015-12-08
 
 - Requirements update to plone_server 1.2.2 (hotfix 20121208)
