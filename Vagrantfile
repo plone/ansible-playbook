@@ -36,8 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       myhost.vm.box = "debian/jessie64"
   end
 
-  config.vm.define "centos7", autostart: false do |myhost|
-      myhost.vm.box = "centos/7"
+  config.vm.define "centos71", autostart: false do |myhost|
+      myhost.vm.box = "bento/centos-7.1"
   end
 
 end

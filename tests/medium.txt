@@ -9,7 +9,6 @@ Test the "medium" sample specification.
     ... plone_initial_password: admin
     ... additional_packages:
     ...   - curl
-    ...   - sockstat
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... """
