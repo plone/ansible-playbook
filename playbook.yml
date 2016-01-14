@@ -53,13 +53,13 @@
         - motd
         - nginx
 
-    - name: Update host
+    - name: Update packages via apt
       when: ansible_os_family == 'Debian'
       apt: upgrade=dist update_cache=yes
       tags:
         - update_packages
 
-    - name: Ensure optional packages
+    - name: Ensure optional packages via apt
       when: ansible_os_family == 'Debian'
       apt: pkg={{ item }} state=present
       with_items: "{{ additional_packages|default([]) }}"
@@ -71,8 +71,9 @@
         - epel-release
       tags:
         - munin
+        - varnish
 
-    - name: Ensure optional packages
+    - name: Ensure optional packages via yum
       when: ansible_os_family == 'RedHat'
       yum: name={{ item }} state=present update_cache=yes
       with_items: "{{ additional_packages|default([]) }}"
