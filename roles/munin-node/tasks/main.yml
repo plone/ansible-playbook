@@ -75,3 +75,7 @@
     - nginx_request
     - nginx_status
   notify: restart munin-node
+
+- name: Assure munin running at end of playbook
+  command: /bin/true
+  notify: munin-node started
