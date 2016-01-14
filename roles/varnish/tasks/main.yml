@@ -9,7 +9,7 @@
   yum: name=varnish state=present
 
 - name: Determine varnish major version
-  shell: 'dpkg --status varnish | grep "^Version:" | sed -r "s/Version: ([0-9]).+/\1/"'
+  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9]).+/\1/"'
   register: varnish_major_version
 
 - set_fact:
