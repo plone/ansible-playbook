@@ -21,15 +21,15 @@
   register: sysd_varnish
 
 - name: init.d setup
-  when: sysd_varnish.rc > 0
+  when: sysd_varnish.rc > 0 and ansible_os_family == 'Debian'
   template:
     src=varnish.j2
     dest=/etc/default/varnish
     backup=yes
   notify: restart varnish
 
-- name: systemd setup
-  when: sysd_varnish.rc == 0
+- name: systemd setup - debian
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian'
   ini_file:
     dest=/etc/systemd/system/multi-user.target.wants/varnish.service
     section=Service
@@ -39,6 +39,14 @@
   notify:
     - systemd daemon reload
     - restart varnish
+
+- name: Setup - CentOS
+  when: ansible_os_family == 'RedHat'
+  template:
+    src=varnish.params.j2
+    dest=/etc/varnish/varnish.params
+    backup=yes
+  notify: restart varnish
 
 - name: Set default.vcl from our template (vcl 3)
   when: varnish_major_version == '3'
