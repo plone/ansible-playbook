@@ -45,32 +45,44 @@ And, now run tests against the box.
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
-    >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
+ip4 listeners
+
+    >>> rez = ssh_run('sudo lsof -i4 -i6 -sTCP:LISTEN -Pn | tail -n +2')
     >>> listeners = sorted(set(cut(rez, [0, 2, 8])))
+
+Zope
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
     zeoserver   plone_daemon    127.0.0.1:8100
 
+haproxy
+
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
     haproxy haproxy *:8080
+
+varnish
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
     varnishd    root    127.0.0.1:6082
     varnishd    varnish *:6081
 
+Nginx (nginx groups are different in different OS flavors)
+
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
-    nginx   root    *:80
-    nginx   www-data        *:80
+    nginx   ...     *:80
+    nginx   ...     *:80
+
+Postfix
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
     master  root    *:25
+    master  root    [::1]:25
 
-    >>> rez = ssh_run('sudo lsof -i6 -sTCP:LISTEN -Pn | tail -n +2')
-    >>> listeners = cut(rez, [0, 2, 8])
+Munin
 
     >>> print "\n".join([s for s in listeners if 'munin' in s])
     munin-nod  root *:4949
@@ -98,7 +110,6 @@ Check supervisor's job list.
     zeoserver_zeoclient1    RUNNING
     zeoserver_zeoclient2    RUNNING
     zeoserver_zeoserver RUNNING
-
 
 We should be able to get a page on port 80.
 
@@ -128,6 +139,7 @@ Asking twice for a static resource should result in a cache hit.
     Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
+
 
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.

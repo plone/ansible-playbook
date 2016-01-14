@@ -59,16 +59,17 @@ devnull = open('/dev/null', 'w')
 
 mplatform = None
 
-def get_mplatform():
-    global mplatform
 
-    if mplatform is None:
-        mplatform = subprocess.check_output(
-            """vagrant ssh %s -c 'python -mplatform'""" % box,
-            shell=True,
-            stderr=devnull
-            )
-    return mplatform
+# def get_mplatform():
+#     global mplatform
+
+#     if mplatform is None:
+#         mplatform = subprocess.check_output(
+#             """vagrant ssh %s -c 'python -mplatform'""" % box,
+#             shell=True,
+#             stderr=devnull
+#             )
+#     return mplatform
 
 
 def ssh_run(cmd):
@@ -77,16 +78,11 @@ def ssh_run(cmd):
         Return the output.
     """
 
-    rez = subprocess.check_output(
+    return subprocess.check_output(
         """vagrant ssh %s -c '%s'""" % (box, cmd),
         shell=True,
         stderr=devnull
         ).replace('^@', '')
-
-    if 'centos' in get_mplatform():
-        return rez.replace('nginx', 'www-data')
-    else:
-        return rez
 
 
 def run(cmd):
