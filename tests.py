@@ -114,7 +114,6 @@ def cut(s, columns, sort=False):
     lines = s.split('\n')
     line_lists = [l.split() for l in lines if l]
     rez = ["\t".join([col[coln] for coln in columns if coln < len(col)]) for col in line_lists]
-    import pdb; pdb.set_trace()
     if sort:
         return sorted(rez)
     else:

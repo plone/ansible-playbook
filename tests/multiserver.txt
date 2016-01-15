@@ -126,7 +126,7 @@ Is everything where we expect it to be?
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
-    drwxr-xr-x  plone_buildout  plone_group lib
+    drwxr-xr-x  plone_buildout  plone_group lib...
     drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
     -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
@@ -251,7 +251,7 @@ Secondary instance tests
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
-    drwxr-xr-x  plone_buildout  plone_group lib
+    drwxr-xr-x  plone_buildout  plone_group lib...
     drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
     -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
