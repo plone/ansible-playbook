@@ -60,12 +60,13 @@ in all expected ways.
     varnishd    varnish *:6081
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
-    nginx   root    *:80
-    nginx   www-data        *:80
+    nginx   ... *:80
+    nginx   ... *:80
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
     master  root    *:25
+    master  root    [::1]:25
 
     >>> rez = ssh_run('sudo lsof -i6 -sTCP:LISTEN -Pn | tail -n +2')
     >>> listeners = cut(rez, [0, 2, 8])
