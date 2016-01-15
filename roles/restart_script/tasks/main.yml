@@ -1,11 +1,20 @@
 ---
 
 - name: Ensure we have socat if we're load balancing
-  when: install_loadbalancer
+  when: install_loadbalancer and ansible_os_family == 'Debian'
   apt: pkg=socat state=present
 
+- name: Ensure we have socat if we're load balancing
+  when: install_loadbalancer and ansible_os_family == 'RedHat'
+  yum: name=socat state=present
+
 - name: Ensure we have curl
+  when: ansible_os_family == 'Debian'
   apt: pkg=curl state=present
+
+- name: Ensure we have curl
+  when: ansible_os_family == 'RedHat'
+  yum: name=curl state=present
 
 - name: Create restart script
   template:

@@ -67,9 +67,8 @@ playbook_plones:
         aliases:
           - default
         zodb_path: /Plone
-        certificate:
-          key: /etc/ssl/private/ssl-cert-snakeoil.key
-          crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
+        certificate_file: tests/snakeoil.pem
+        key_file: tests/snakeoil.pem
   - plone_instance_name: secondary
     plone_version: '4.3.7'
     plone_zeo_port: 7100

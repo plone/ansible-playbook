@@ -53,13 +53,29 @@
         - motd
         - nginx
 
-    - name: Update host
+    - name: Update packages via apt
+      when: ansible_os_family == 'Debian'
       apt: upgrade=dist update_cache=yes
       tags:
         - update_packages
 
-    - name: Ensure optional packages
+    - name: Ensure optional packages via apt
+      when: ansible_os_family == 'Debian'
       apt: pkg={{ item }} state=present
+      with_items: "{{ additional_packages|default([]) }}"
+
+    - name: Enable aditional repos for CentOS
+      yum: pkg={{ item }} state=present
+      when: ansible_distribution == 'CentOS'
+      with_items:
+        - epel-release
+      tags:
+        - munin
+        - varnish
+
+    - name: Ensure optional packages via yum
+      when: ansible_os_family == 'RedHat'
+      yum: name={{ item }} state=present update_cache=yes
       with_items: "{{ additional_packages|default([]) }}"
 
 
@@ -68,7 +84,7 @@
     - role: ANXS.hostname
 
     - role: jnv.unattended-upgrades
-      when: auto_upgrades|default(True)
+      when: auto_upgrades|default(True) and ansible_os_family == 'Debian'
       unattended_mail: root
       unattended_origins_patterns:
         - 'origin=${distro_id},archive=${distro_codename}-security'
@@ -76,7 +92,7 @@
         - 'o=${distro_id},a=${distro_codename}-updates'
 
     - role: tersmitten.fail2ban
-      when: install_fail2ban|default(True)
+      when: install_fail2ban|default(True) and ansible_os_family == 'Debian'
       tags: fail2ban
 
     - role: default_config
@@ -168,5 +184,11 @@
 
   handlers:
     - name: update timezone
+      when: ansible_os_family == 'Debian'
       command: dpkg-reconfigure --frontend noninteractive tzdata
+
+  handlers:
+    - name: update timezone
+      when: ansible_os_family == 'RedHat'
+      file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
 

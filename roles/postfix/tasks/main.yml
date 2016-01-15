@@ -1,7 +1,12 @@
 ---
 
 - name: Postfix present
+  when: ansible_os_family == 'Debian'
   apt: pkg=postfix state=present
+
+- name: Postfix present
+  when: ansible_os_family == 'RedHat'
+  yum: name=postfix state=present
 
 - name: Configure Postfix as forward-only server
   template:

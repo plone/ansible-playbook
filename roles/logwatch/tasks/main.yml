@@ -1,7 +1,12 @@
 ---
 
 - name: logwatch package installed
+  when: ansible_os_family == 'Debian'
   apt: pkg=logwatch state=present
+
+- name: logwatch package installed
+  when: ansible_os_family == 'RedHat'
+  yum: name=logwatch state=present
 
 - name: Custom logwatch files present
   copy:

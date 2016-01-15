@@ -1,3 +1,11 @@
+1.2.5 unreleased
+
+- Add CentOS 7.1 as a viable target. fail2ban not yet done.
+  [fulv, smcmahon]
+
+- Specifying the "file" cache method did not work with Varnish 4. Fixed.
+  [smcmahon]
+
 1.2.4 2015-01-10
 
 - Use plone_server 1.2.4; make default Plone version 5.0.2.
@@ -13,6 +21,9 @@
 
 - Backport fulv's plone.org branch addition of authomatic to preserved cookies default in varnish role.
   [smcmahon]
+
+- Add initial support for CentOS
+  [fulv]
 
 1.2.2 2015-12-08
 

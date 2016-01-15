@@ -57,6 +57,20 @@ box = None
 
 devnull = open('/dev/null', 'w')
 
+mplatform = None
+
+
+# def get_mplatform():
+#     global mplatform
+
+#     if mplatform is None:
+#         mplatform = subprocess.check_output(
+#             """vagrant ssh %s -c 'python -mplatform'""" % box,
+#             shell=True,
+#             stderr=devnull
+#             )
+#     return mplatform
+
 
 def ssh_run(cmd):
     """

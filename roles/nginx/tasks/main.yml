@@ -1,13 +1,28 @@
 ---
 
 - name: Install nginx
+  when: ansible_os_family == 'Debian'
   apt:
     name=nginx
     state=present
 
+- name: Install nginx
+  when: ansible_os_family == 'RedHat'
+  yum:
+    name=nginx
+    state=present
+
 - name: Make sure sample host is absent
+  when: ansible_os_family == 'Debian'
   file:
     path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+
+- name: Make sure sample host is absent
+  when: ansible_os_family == 'RedHat'
+  file:
+    path: /etc/nginx/conf.d/default.conf
     state: absent
   notify: restart nginx
 
@@ -18,9 +33,19 @@
     mode: 0755
 
 - name: Create zope-style virtual hosts
+  when: ansible_os_family == 'Debian'
   template:
     src: host.j2
     dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}
+    mode: 0644
+  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
+  notify: restart nginx
+
+- name: Create zope-style virtual hosts
+  when: ansible_os_family == 'RedHat'
+  template:
+    src: host.j2
+    dest: /etc/nginx/conf.d/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}.conf
     mode: 0644
   with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   notify: restart nginx
