@@ -20,6 +20,14 @@
   ignore_errors: yes
   register: sysd_varnish
 
+- name: Assure file cache directory exists
+  when: varnish_major_version != '3' and proxycache_method == 'file'
+  file:
+    path=/var/lib/varnish
+    state=directory
+    owner=varnish
+    group=varnish
+
 - name: init.d setup
   when: sysd_varnish.rc > 0 and ansible_os_family == 'Debian'
   template:

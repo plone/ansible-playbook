@@ -19,7 +19,11 @@ VARNISH_SECRET_FILE=/etc/varnish/secret
 
 # Backend storage specification, see Storage Types in the varnishd(5)
 # man page for details.
+{% if varnish_major_version != '3' and proxycache_method == 'file' %}
+VARNISH_STORAGE="{{ proxycache_method }},/var/lib/varnish/varnish_storage.bin,{{ proxycache_size }}"
+{% else %}
 VARNISH_STORAGE="{{ proxycache_method }},{{ proxycache_size }}"
+{% endif %}
 
 # Default TTL used when the backend does not specify one
 VARNISH_TTL=120
