@@ -11,3 +11,4 @@ bin/
 lib/
 include/
 local/
+tests.out
