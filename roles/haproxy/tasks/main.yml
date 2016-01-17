@@ -14,12 +14,17 @@
   yum: name=haproxy state=present
 
 - name: haproxy enabled
+  when: ansible_os_family == 'Debian'
   copy:
     src=haproxy_enabled
     dest=/etc/default/haproxy
     owner=root
     group=root
     mode=644
+
+- name: haproxy enabled
+  command: systemctl enable haproxy.service
+  ignore_errors: yes
 
 - name: haproxy config
   template:

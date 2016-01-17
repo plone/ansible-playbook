@@ -12,6 +12,10 @@
     name=nginx
     state=present
 
+- name: Enable nginx to start on boot
+  shell: "systemctl enable nginx.service"
+  ignore_errors: yes
+
 - name: Make sure sample host is absent
   when: ansible_os_family == 'Debian'
   file:

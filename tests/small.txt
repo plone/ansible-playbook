@@ -38,6 +38,17 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Provisioning"
     ...     o = run("vagrant provision %s" % box)
 
+Reboot the box. We only care about what survives a restart.
+
+    >>> print >> sys.stderr, "Poweroff %s" % box
+    >>> p = subprocess.call('vagrant ssh %s -c "sudo poweroff"' % box, shell=True)
+
+    >>> time.sleep(10)
+    >>> print >> sys.stderr, "Bringing %s back up" % box
+    >>> run("vagrant up %s --no-provision" % box)
+    >>> print >> sys.stderr, "Waiting for services to start..."
+    >>> time.sleep(60)
+
 And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"

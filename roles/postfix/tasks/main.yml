@@ -8,6 +8,10 @@
   when: ansible_os_family == 'RedHat'
   yum: name=postfix state=present
 
+- name: Enable Postfix to start on boot
+  shell: "which systemctl && systemctl enable postfix.service"
+  ignore_errors: yes
+
 - name: Configure Postfix as forward-only server
   template:
     src=main.cf.j2

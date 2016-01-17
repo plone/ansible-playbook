@@ -28,9 +28,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       myhost.vm.box = "ubuntu/vivid64"
   end
 
-  config.vm.define "wheezy", autostart: false do |myhost|
-      myhost.vm.box = "debian/wheezy64"
-  end
+  # config.vm.define "wheezy", autostart: false do |myhost|
+  #     myhost.vm.box = "debian/wheezy64"
+  # end
 
   config.vm.define "jessie", autostart: false do |myhost|
       myhost.vm.box = "debian/jessie64"

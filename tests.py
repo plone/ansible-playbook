@@ -20,7 +20,7 @@ options = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
 
 # find all our available boxes
 with open('Vagrantfile', 'r') as f:
-    boxes = re.findall(r'config.vm.define "(.+?)"', f.read())
+    boxes = re.findall(r'^\s+config.vm.define "(.+?)"', f.read(), re.MULTILINE)
 
 parser = argparse.ArgumentParser(description='Run playbook tests.')
 parser.add_argument(
@@ -169,4 +169,5 @@ for abox in boxes:
         else:
             print >> stderr, "Vagrant box %s left running." % box
 
-
+        # We may want to read tests while other boxes are running
+        sys.stdout.flush()

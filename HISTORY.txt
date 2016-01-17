@@ -1,5 +1,11 @@
 1.2.5 unreleased
 
+- Make sure added services are enabled via systemctl. Several CentOS packages don't do that on install.
+  [smcmahon]
+
+- Add reboot to tests. Only what survives a reboot is real.
+  [smcmahon]
+
 - Add CentOS 7.1 as a viable target. fail2ban not yet done.
   [fulv, smcmahon]
 
