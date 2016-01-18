@@ -77,8 +77,7 @@ haproxy
 varnish
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd    root    127.0.0.1:6082
-    varnishd    root    [::1]:6082
+    varnishd    root    127.0.0.1:6082...
     varnishd    varnish *:6081
 
 Nginx (nginx groups are different in different OS flavors)
@@ -91,8 +90,7 @@ Postfix
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
-    master  root    *:25
-    master  root    [::1]:25
+    master  root    *:25...
 
 Munin
 

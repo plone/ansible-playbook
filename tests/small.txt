@@ -67,7 +67,7 @@ in all expected ways.
     <BLANKLINE>
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd    root    127.0.0.1:6082
+    varnishd    root    127.0.0.1:6082...
     varnishd    varnish *:6081
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
@@ -76,8 +76,7 @@ in all expected ways.
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
-    master  root    *:25
-    master  root    [::1]:25
+    master  root    *:25...
 
     >>> print "\n".join([s for s in listeners if 'munin' in s])
     munin-nod  root *:4949

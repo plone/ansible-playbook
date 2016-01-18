@@ -17,6 +17,7 @@ Test with the "multiserver" sample.
 
     >>> import subprocess
     >>> import sys
+    >>> import time
 
 Set up local-configure.yml by copying our sample.
 Append admin email and password.
@@ -73,7 +74,7 @@ in all expected ways.
     haproxy haproxy *:8080
 
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd        root    127.0.0.1:6082
+    varnishd        root    127.0.0.1:6082...
     varnishd        varnish *:6081
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
@@ -84,8 +85,7 @@ in all expected ways.
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
-    master  root    *:25
-    master  root    [::1]:25
+    master  root    *:25...
 
     >>> print "\n".join([s for s in listeners if 'munin' in s])
     munin-nod  root *:4949
@@ -138,7 +138,6 @@ Is everything where we expect it to be?
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib...
-    drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
     -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
@@ -263,7 +262,6 @@ Secondary instance tests
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib...
-    drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
     -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
