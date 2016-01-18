@@ -1,30 +1,25 @@
 ---
 
-# - hosts: all
-#   sudo: yes
-#   gather_facts: no
+# NOTE: This playbook *adds* rules.
+# It does not delete existing rules.
 
-#   tasks:
+# Strategy:
+# Use "dmz" zone and add http/https and munin-node.
+# Make dmz the default policy.
 
-  # - name: Include vars from local-configure.yml if found
-  #   include_vars: "{{ item }}"
-  #   with_first_found:
-  #    - local-configure.yml
-  #    - null.yml
+- name: Enable firewalld
+  service: name=firewalld state=started enabled=yes
 
-  - name: Enable firewalld
-    service: name=firewalld state=started enabled=yes
+- name: Set dmz as default policy
+  command: firewall-cmd --set-default-zone=dmz
 
-  - name: Set dmz as default policy
-    command: firewall-cmd --set-default-zone=dmz
+- name: Allow http/https
+  command: firewall-cmd --zone=dmz --permanent --add-service=http --add-service=https
 
-  - name: Allow http/https
-    command: firewall-cmd --zone=dmz --permanent --add-service=http --add-service=https
+- name: 4949 (munin-node) is open to monitor(s)
+  when: install_muninnode|default(True)
+  command: firewall-cmd --permanent --zone=dmz --add-rich-rule='rule family="ipv4" source address="{{ item }}/32" port port=4949 protocol="tcp" accept'
+  with_items: muninnode_query_ips|default([])
 
-  - name: 4949 (munin-node) is open to monitor(s)
-    when: install_muninnode|default(True)
-    command: firewall-cmd --permanent --zone=dmz --add-rich-rule='rule family="ipv4" source address="{{ item }}/32" port port=4949 protocol="tcp" accept'
-    with_items: muninnode_query_ips|default([])
-
-  - name: Bounce firewalld
-    service: name=firewalld state=restarted
+- name: Bounce firewalld
+  service: name=firewalld state=restarted

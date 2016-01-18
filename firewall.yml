@@ -1,7 +1,11 @@
 ---
 
-# NOTE: This playbook *adds* rules.
-# It does not delete existing rules.
+# Make sure you read and understand the rules applied for your platform.
+# You can easily lock yourself out of a server with the wrong rule set.
+#
+# Debian/Ubuntu rules: firewalls/debian-ufw.yml
+# RedHat/CentOS rules: firewalls/centos-firewalld.yml
+
 
 - hosts: all
   sudo: yes
