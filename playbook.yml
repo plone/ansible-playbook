@@ -118,21 +118,21 @@
         - plone1
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[1] }}"
+      plone_config: "{{ playbook_plones[1]|default({}) }}"
       when: "{{ playbook_plones|length() > 1 }}"
       tags:
         - plone
         - plone2
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[2] }}"
+      plone_config: "{{ playbook_plones[2]|default({}) }}"
       when: "{{ playbook_plones|length() > 2 }}"
       tags:
         - plone
         - plone3
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[3] }}"
+      plone_config: "{{ playbook_plones[3]|default({}) }}"
       when: "{{ playbook_plones|length() > 3 }}"
       tags:
         - plone
@@ -187,7 +187,6 @@
       when: ansible_os_family == 'Debian'
       command: dpkg-reconfigure --frontend noninteractive tzdata
 
-  handlers:
     - name: update timezone
       when: ansible_os_family == 'RedHat'
       file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes

@@ -1,5 +1,8 @@
 1.2.5 unreleased
 
+- Set empty dict defaults for unused plone_config items to work around unneeded evaluation of "count" in with_sequence in Ansible 2.0.
+  [smcmahon]
+
 - Make sure added services are enabled via systemctl. Several CentOS packages don't do that on install.
   [smcmahon]
 
