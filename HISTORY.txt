@@ -1,4 +1,6 @@
-1.2.5 unreleased
+1.2.5 2016-01-24
+
+- Require plone_server role v 1.2.5.
 
 - Regularize handling of enables on CentOS with Ansible's service module.
   [smcmahon]
