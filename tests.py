@@ -169,5 +169,3 @@ for abox in boxes:
         else:
             print >> stderr, "Vagrant box %s left running." % box
 
-        # We may want to read tests while other boxes are running
-        sys.stdout.flush()

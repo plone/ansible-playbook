@@ -5,15 +5,15 @@
   apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main' state=present
   when: ansible_distribution_release == "wheezy"
 
-- name: haproxy installed
+- name: haproxy installed - Debian
   when: ansible_os_family == 'Debian'
   apt: pkg=haproxy state=present
 
-- name: haproxy installed
+- name: haproxy installed - CentOS
   when: ansible_os_family == 'RedHat'
   yum: name=haproxy state=present
 
-- name: haproxy enabled
+- name: haproxy enabled - Debian
   when: ansible_os_family == 'Debian'
   copy:
     src=haproxy_enabled
@@ -22,9 +22,11 @@
     group=root
     mode=644
 
-- name: haproxy enabled
-  command: systemctl enable haproxy.service
-  ignore_errors: yes
+- name: haproxy enabled - CentOS
+  service:
+    name=haproxy
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
 
 - name: haproxy config
   template:

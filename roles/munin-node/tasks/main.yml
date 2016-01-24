@@ -13,9 +13,10 @@
   with_items:
     - munin-node
 
-- name: Enable munin-node to start on boot
-  shell: "which systemctl && systemctl enable munin-node.service"
-  ignore_errors: yes
+- name: Enable munin-node to start on boot - CentOS
+  service:
+    name=munin-node
+    enabled=yes
 
 - name: Configure munin-node
   template:

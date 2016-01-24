@@ -8,9 +8,11 @@
   when: ansible_os_family == 'RedHat'
   yum: name=varnish state=present
 
-- name: Enable varnish to start on boot
-  shell: "which systemctl && systemctl enable varnish.service"
-  ignore_errors: yes
+- name: Enable varnish to start on boot - CentOS
+  service:
+    name=varnish
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
 
 - name: Determine varnish major version
   shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9]).+/\1/"'

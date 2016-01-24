@@ -12,9 +12,11 @@
     name=nginx
     state=present
 
-- name: Enable nginx to start on boot
-  shell: "systemctl enable nginx.service"
-  ignore_errors: yes
+- name: Enable nginx to start on boot - CentOS
+  service:
+    name=nginx
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
 
 - name: Make sure sample host is absent
   when: ansible_os_family == 'Debian'
