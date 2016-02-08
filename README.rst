@@ -56,3 +56,8 @@ TL;DR
 .. warning::
 
     This version of the playbook requires that the plone.plone_server role be 1.2.0+.
+
+License
+-------
+
+BSD-3-Clause
