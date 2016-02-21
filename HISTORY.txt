@@ -1,5 +1,8 @@
 1.2.6 unreleased
 
+- Turn on SELinux haproxy_connect_any and httpd_can_network_connect when selinux is enabled.
+  [jpgimenez]
+
 - Relicense as BSD-3-Clause.
 
 1.2.5 2016-01-24
