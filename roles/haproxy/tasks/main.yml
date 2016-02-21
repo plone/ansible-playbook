@@ -28,6 +28,10 @@
     enabled=yes
   when: ansible_os_family == 'RedHat'
 
+- name: Enable selinux boolean haproxy_connect_any
+  when: ansible_selinux
+  seboolean: name=haproxy_connect_any state=yes persistent=yes
+
 - name: haproxy config
   template:
     src=haproxy.cfg.j2

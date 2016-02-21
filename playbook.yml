@@ -83,14 +83,9 @@
       yum: name={{ item }} state=present update_cache=yes
       with_items:
         - libsemanage-python
-
-    - name: Enable selinux boolean haproxy_connect_any
-      when: ansible_selinux
-      seboolean: name=haproxy_connect_any state=yes persistent=yes
-
-    - name: Enable selinux boolean httpd_can_network_connect
-      when: ansible_selinux
-      seboolean: name=httpd_can_network_connect state=yes persistent=yes
+      tags:
+        - nginx
+        - haproxy
 
   roles:
 

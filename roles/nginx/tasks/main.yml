@@ -12,6 +12,10 @@
     name=nginx
     state=present
 
+- name: Enable selinux boolean httpd_can_network_connect
+  when: ansible_selinux
+  seboolean: name=httpd_can_network_connect state=yes persistent=yes
+
 - name: Enable nginx to start on boot - CentOS
   service:
     name=nginx
