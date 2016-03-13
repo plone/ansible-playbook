@@ -1,5 +1,11 @@
 1.2.6 unreleased
 
+- Update to use plone_server role 1.2.6.
+  [smcmahon]
+
+- Switch to using requirements.yml (rather than requirements.txt).
+  [smcmahon]
+
 - Turn on SELinux haproxy_connect_any and httpd_can_network_connect when selinux is enabled.
   [jpgimenez]
 

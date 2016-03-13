@@ -43,6 +43,6 @@ Ansible role requirements
 
 We have a few Ansible role dependencies which you may fulfill via Ansible Galaxy with the command:
 
-    ansible-galaxy -r requirements.txt -p roles install
+    ansible-galaxy -r requirements.yml -p roles install
 
 This should be executed in your playbook directory. Downloaded requirements will be dropped into the ``roles`` directory there.
