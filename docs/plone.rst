@@ -286,6 +286,18 @@ Allows you to add settings to the automatically generated buildout. Any text spe
 Use this variable to add or override controlling settings to buildout. If you need to add parts, use ``plone_extra_parts`` for better maintainability.
 
 
+plone_buildout_extra_dir
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra_dir: local_path
+
+Copies the *contents* of a local directory into the buildout directory on the remote server.
+
+Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory.
+
+
 plone_autorun_buildout
 ~~~~~~~~~~~~~~~~~~~~~~
 

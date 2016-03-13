@@ -1,5 +1,8 @@
 1.2.6 unreleased
 
+- Document plone_buildout_extra_dir (from plone_server).
+  [smcmahon]
+
 - Update to use plone_server role 1.2.6.
   [smcmahon]
 
