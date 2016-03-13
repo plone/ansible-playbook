@@ -21,23 +21,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "trusty", primary: true do |myhost|
-      myhost.vm.box = "ubuntu/trusty32"
+      myhost.vm.box = "ubuntu/trusty64"
   end
 
   config.vm.define "vivid", autostart: false do |myhost|
       myhost.vm.box = "ubuntu/vivid64"
   end
 
-  # config.vm.define "wheezy", autostart: false do |myhost|
-  #     myhost.vm.box = "debian/wheezy64"
-  # end
+  config.vm.define "wheezy", autostart: false do |myhost|
+      myhost.vm.box = "debian/wheezy64"
+      myhost.vm.synced_folder ".", "/vagrant", disabled: true
+  end
 
   config.vm.define "jessie", autostart: false do |myhost|
       myhost.vm.box = "debian/jessie64"
   end
 
-  config.vm.define "centos71", autostart: false do |myhost|
-      myhost.vm.box = "bento/centos-7.1"
+  config.vm.define "centos7", autostart: false do |myhost|
+      myhost.vm.box = "centos/7"
+      myhost.vm.synced_folder ".", "/vagrant", disabled: true
   end
 
 end
