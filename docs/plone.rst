@@ -411,3 +411,12 @@ plone_backup_path
     plone_backup_path: /mnt/backup/plone
 
 Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
+
+plone_rsync_backup_options
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_rsync_backup_options: --perms --chmod=ug+rx
+
+Rsync options set within the backup scripts (see [collective.recipe.backup](https://pypi.python.org/pypi/collective.recipe.backup#supported-options)). This can be used (for example) to change permissions on backups so they can be downloaded more easily. Defaults to empty.

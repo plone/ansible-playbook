@@ -1,5 +1,8 @@
 1.2.6 2016-03-13
 
+- Document plone_rsync_backup_options (from plone_server 1.2.7).
+  [smcmahon]
+
 - Document plone_buildout_extra_dir (from plone_server).
   [smcmahon]
 
