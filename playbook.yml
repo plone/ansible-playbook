@@ -1,16 +1,16 @@
 ---
 
 - hosts: all
-  sudo: yes
+  become: yes
+  become_method: sudo
   gather_facts: yes
 
 
   pre_tasks:
 
-    - name: Fail if Ansible is old
-      fail:
-        msg: "We have only tested with Ansible version 1.2+. Please update Ansible"
-      when: ansible_product_version < '1.2'
+    - name: Fail if Ansible is ancient
+      fail: msg="We need Ansible >= 2.0. Please update your kit. 'pip install -U Ansible'"
+      when: ansible_version.major < 2
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"

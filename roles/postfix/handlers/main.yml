@@ -2,8 +2,6 @@
 
 - name: new aliases
   shell: newaliases
-  sudo: yes
 
 - name: reload postfix
   shell: postfix reload
-  sudo: yes

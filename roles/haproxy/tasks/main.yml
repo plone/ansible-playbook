@@ -40,7 +40,6 @@
     group=root
     mode=644
     backup=true
-  sudo: yes
 
 - name: haproxy started
   service: name=haproxy state=started
