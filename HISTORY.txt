@@ -1,5 +1,8 @@
 1.2.7 (unreleased)
 
+- Port doc updates from plone_server role.
+  [smcmahon]
+
 - Use plone_server 1.2.7.
   [smcmahon]
 

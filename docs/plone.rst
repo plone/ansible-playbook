@@ -197,6 +197,26 @@ plone_additional_versions
 The version pins you specify here will be added to the ``[versions]`` section of your buildout. The default list is empty.
 
 
+plone_install_zeoserver
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_install_zeoserver: no
+
+Allows you to turn on and off the creation of a zeoserver. Defaults to `yes`. Useful if the zeoserver is not on the same machine as the clients.
+
+
+plone_zeo_ip
+~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_zeo_ip: 192.168.1.100
+
+The ip address for the Zope database server. Defaults to `127.0.0.1`. Useful if the zeoserver is not on the same machine as the clients.
+
+
 plone_zeo_port
 ~~~~~~~~~~~~~~
 
@@ -296,9 +316,11 @@ plone_buildout_extra_dir
 
     plone_buildout_extra_dir: local_path
 
-Copies the *contents* of a local directory into the buildout directory on the remote server.
+Copies a local directory or the *contents* of a directory into the buildout directory on the remote server.
 
-Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory.
+Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory. Put a "/" on the end of the local path if you wish to copy the contents of the directory. Leave of the trailing "/" to copy the directory itself.
+
+If the copied files change, buildout will be run if plone_autorun_buildout is true (the default). However, the autorun mechanism is not able to detect any other kind of change. For example, if you've used this setting, then remove it, the autorun will not be triggered.
 
 
 plone_autorun_buildout
@@ -406,6 +428,7 @@ plone_keep_blob_days
 
 How many days of blob backups do you wish to keep? This is typically set to `keep_backups * days_between_packs`` days. Default is ``14``.
 
+
 plone_backup_path
 ~~~~~~~~~~~~~~~~~
 
@@ -414,6 +437,7 @@ plone_backup_path
     plone_backup_path: /mnt/backup/plone
 
 Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
+
 
 plone_rsync_backup_options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
