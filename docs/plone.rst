@@ -254,6 +254,50 @@ plone_client1_extras
 Extra text to add to only the first client buildout part. Defaults to "".
 
 
+plone_extra_parts
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_extra_parts:
+      zopepy: |
+        recipe = zc.recipe.egg
+        eggs = ${buildout:eggs}
+        interpreter = zopepy
+        scripts = zopepy
+      diazotools: |
+        recipe = zc.recipe.egg
+        eggs = diazo
+
+Extra parts to add to the automatically generated buildout. These should be in a key/value format with the key being the part name and the value being the text of the part. Defaults to ``{}``.
+
+
+plone_buildout_extra
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra: |
+      allow-picked-versions = false
+      socket-timeout = 5
+
+Allows you to add settings to the automatically generated buildout. Any text specified this way is inserted at the end of the ``[buildout]`` part and before any of the other parts. Defaults to empty.
+
+Use this variable to add or override controlling settings to buildout. If you need to add parts, use ``plone_extra_parts`` for better maintainability.
+
+
+plone_buildout_extra_dir
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra_dir: local_path
+
+Copies the *contents* of a local directory into the buildout directory on the remote server.
+
+Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory.
+
+
 plone_autorun_buildout
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -367,3 +411,12 @@ plone_backup_path
     plone_backup_path: /mnt/backup/plone
 
 Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
+
+plone_rsync_backup_options
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_rsync_backup_options: --perms --chmod=ug+rx
+
+Rsync options set within the backup scripts (see [collective.recipe.backup](https://pypi.python.org/pypi/collective.recipe.backup#supported-options)). This can be used (for example) to change permissions on backups so they can be downloaded more easily. Defaults to empty.

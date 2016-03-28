@@ -1,4 +1,75 @@
-1.2.2 (unreleased)
+1.2.7 (unreleased)
+
+- Use "become" rather than "sudo".
+  [smcmahon]
+
+- We need Ansible >= 2.0.
+  [smcmahon]
+
+- Document plone_rsync_backup_options (from plone_server 1.2.7).
+  [smcmahon]
+
+1.2.6 2016-03-13
+
+- Document plone_buildout_extra_dir (from plone_server).
+  [smcmahon]
+
+- Update to use plone_server role 1.2.6.
+  [smcmahon]
+
+- Switch to using requirements.yml (rather than requirements.txt).
+  [smcmahon]
+
+- Turn on SELinux haproxy_connect_any and httpd_can_network_connect when selinux is enabled.
+  [jpgimenez]
+
+- Relicense as BSD-3-Clause.
+
+1.2.5 2016-01-24
+
+- Require plone_server role v 1.2.5.
+
+- Regularize handling of enables on CentOS with Ansible's service module.
+  [smcmahon]
+
+- Set empty dict defaults for unused plone_config items to work around unneeded evaluation of "count" in with_sequence in Ansible 2.0.
+  [smcmahon]
+
+- Make sure added services are enabled via systemctl. Several CentOS packages don't do that on install.
+  [smcmahon]
+
+- Add reboot to tests. Only what survives a reboot is real.
+  [smcmahon]
+
+- Add CentOS 7.1 as a viable target. fail2ban not yet done.
+  [fulv, smcmahon]
+
+- Specifying the "file" cache method did not work with Varnish 4. Fixed.
+  [smcmahon]
+
+1.2.4 2015-01-10
+
+- Use plone_server 1.2.4; make default Plone version 5.0.2.
+  [smcmahon]
+
+1.2.3 unreleased
+
+- Use plone_server 1.2.3.
+  [smcmahon]
+
+- Instance path fouled up for three-decimal versions. Thanks, oggers.
+  [smcmahon]
+
+- Backport fulv's plone.org branch addition of authomatic to preserved cookies default in varnish role.
+  [smcmahon]
+
+- Add initial support for CentOS
+  [fulv]
+
+1.2.2 2015-12-08
+
+- Requirements update to plone_server 1.2.2 (hotfix 20121208)
+  [smcmahon]
 
 - Add nginx default_server option in virtual host specification.
   [smcmahon]

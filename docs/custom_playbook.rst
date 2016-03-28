@@ -17,7 +17,7 @@ Picking up required roles
 
 *Roles* are packages of Ansible settings and tasks. The Plone Playbook has separate roles for each of the major components it works with. These roles are not included with the playbook itself, but they are easy to install.
 
-To install the required roles, issue the command ``ansible-galaxy -p roles -r requirements.txt install`` from the playbook directory. This will create a roles subdirectory and fill it with the required roles.
+To install the required roles, issue the command ``ansible-galaxy -p roles -r requirements.yml install`` from the playbook directory. This will create a roles subdirectory and fill it with the required roles.
 
 If you want to store your roles elsewhere, edit the ``ansible.cfg`` file in the playbook directory.
 
@@ -42,7 +42,7 @@ Ansible allows you to set variables for particular hosts or groups of hosts. Che
 
 If you use inventory variables, note that any variable you set in ``local-configure.yml`` will override your inventory variables.
 
-Inventory variables are not as practical for use with Vagrant. You'll probably wish to use the ``local-configure`` scheme for Vagrant testing.
+Inventory variables are not as practical for use with Vagrant if you're using ``vagrant up`` to provision. Instead, use ``vagrant up --no-provision`` to bring up the box, then use ``ansible-playbook`` to provision.
 
 Customizing buildout configuration
 ``````````````````````````````````

@@ -1,17 +1,28 @@
 ---
 
 - name: Ensure we have socat if we're load balancing
-  when: install_loadbalancer
+  when: install_loadbalancer and ansible_os_family == 'Debian'
   apt: pkg=socat state=present
 
+- name: Ensure we have socat if we're load balancing
+  when: install_loadbalancer and ansible_os_family == 'RedHat'
+  yum: name=socat state=present
+
 - name: Ensure we have curl
+  when: ansible_os_family == 'Debian'
   apt: pkg=curl state=present
+
+- name: Ensure we have curl
+  when: ansible_os_family == 'RedHat'
+  yum: name=curl state=present
 
 - name: Create restart script
   template:
     src=restart_clients.sh.j2
-    dest={{ item.plone_target_path|default(plone_target_path) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_clients.sh
+    dest="{{ item.plone_target_path|default('/usr/local/plone-' + item.plone_version|default(plone_version)|truncate(length=3, killwords=true, end='')) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_clients.sh"
     owner=root
     group=root
     mode=0755
   with_items: playbook_plones
+
+

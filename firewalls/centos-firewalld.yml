@@ -1,0 +1,25 @@
+---
+
+# NOTE: This playbook *adds* rules.
+# It does not delete existing rules.
+
+# Strategy:
+# Use "dmz" zone and add http/https and munin-node.
+# Make dmz the default policy.
+
+- name: Enable firewalld
+  service: name=firewalld state=started enabled=yes
+
+- name: Set dmz as default policy
+  command: firewall-cmd --set-default-zone=dmz
+
+- name: Allow http/https
+  command: firewall-cmd --zone=dmz --permanent --add-service=http --add-service=https
+
+- name: 4949 (munin-node) is open to monitor(s)
+  when: install_muninnode|default(True)
+  command: firewall-cmd --permanent --zone=dmz --add-rich-rule='rule family="ipv4" source address="{{ item }}/32" port port=4949 protocol="tcp" accept'
+  with_items: muninnode_query_ips|default([])
+
+- name: Bounce firewalld
+  service: name=firewalld state=restarted

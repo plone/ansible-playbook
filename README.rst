@@ -41,7 +41,7 @@ TL;DR
 
 3. Check out or download a copy of this package;
 
-4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 
@@ -56,3 +56,8 @@ TL;DR
 .. warning::
 
     This version of the playbook requires that the plone.plone_server role be 1.2.0+.
+
+License
+-------
+
+BSD-3-Clause

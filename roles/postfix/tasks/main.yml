@@ -1,7 +1,18 @@
 ---
 
 - name: Postfix present
+  when: ansible_os_family == 'Debian'
   apt: pkg=postfix state=present
+
+- name: Postfix present
+  when: ansible_os_family == 'RedHat'
+  yum: name=postfix state=present
+
+- name: Enable Postfix to start on boot - CentOS
+  service:
+    name=postfix
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
 
 - name: Configure Postfix as forward-only server
   template:

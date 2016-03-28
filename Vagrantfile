@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 6081, host: 7081
   config.vm.network "forwarded_port", guest: 8080, host: 9080
   config.vm.network "forwarded_port", guest: 4949, host: 5949
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
@@ -21,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "trusty", primary: true do |myhost|
-      myhost.vm.box = "ubuntu/trusty32"
+      myhost.vm.box = "ubuntu/trusty64"
   end
 
   config.vm.define "vivid", autostart: false do |myhost|
@@ -36,5 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       myhost.vm.box = "debian/jessie64"
   end
 
+  config.vm.define "centos7", autostart: false do |myhost|
+      myhost.vm.box = "centos/7"
+  end
 
 end

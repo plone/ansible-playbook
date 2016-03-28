@@ -1,10 +1,21 @@
 ---
 
 - name: varnish package present
+  when: ansible_os_family == 'Debian'
   apt: pkg=varnish state=present
 
+- name: varnish package present
+  when: ansible_os_family == 'RedHat'
+  yum: name=varnish state=present
+
+- name: Enable varnish to start on boot - CentOS
+  service:
+    name=varnish
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
+
 - name: Determine varnish major version
-  shell: 'dpkg --status varnish | grep "^Version:" | sed -r "s/Version: ([0-9]).+/\1/"'
+  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9]).+/\1/"'
   register: varnish_major_version
 
 - set_fact:
@@ -15,16 +26,24 @@
   ignore_errors: yes
   register: sysd_varnish
 
+- name: Assure file cache directory exists
+  when: varnish_major_version != '3' and proxycache_method == 'file'
+  file:
+    path=/var/lib/varnish
+    state=directory
+    owner=varnish
+    group=varnish
+
 - name: init.d setup
-  when: sysd_varnish.rc > 0
+  when: sysd_varnish.rc > 0 and ansible_os_family == 'Debian'
   template:
     src=varnish.j2
     dest=/etc/default/varnish
     backup=yes
   notify: restart varnish
 
-- name: systemd setup
-  when: sysd_varnish.rc == 0
+- name: systemd setup - debian
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian'
   ini_file:
     dest=/etc/systemd/system/multi-user.target.wants/varnish.service
     section=Service
@@ -34,6 +53,14 @@
   notify:
     - systemd daemon reload
     - restart varnish
+
+- name: Setup - CentOS
+  when: ansible_os_family == 'RedHat'
+  template:
+    src=varnish.params.j2
+    dest=/etc/varnish/varnish.params
+    backup=yes
+  notify: restart varnish
 
 - name: Set default.vcl from our template (vcl 3)
   when: varnish_major_version == '3'

@@ -1,11 +1,15 @@
 ---
 
-# NOTE: This playbook *adds* rules.
-# It does not delete existing rules.
+# Make sure you read and understand the rules applied for your platform.
+# You can easily lock yourself out of a server with the wrong rule set.
+#
+# Debian/Ubuntu rules: firewalls/debian-ufw.yml
+# RedHat/CentOS rules: firewalls/centos-firewalld.yml
+
 
 - hosts: all
-  sudo: yes
-  gather_facts: no
+  become: yes
+  gather_facts: yes
 
   tasks:
 
@@ -15,23 +19,9 @@
      - local-configure.yml
      - null.yml
 
-  - name: Enable ufw
-    ufw: state=enabled policy=allow
+  - include: firewalls/debian-ufw.yml
+    when: ansible_os_family == 'Debian'
 
-  - name: Disable default in
-    ufw: direction=incoming policy=deny
-
-  - name: Allow ssh in
-    ufw: rule=limit name=OpenSSH
-
-  - name: 80 is open
-    ufw: rule=allow port=80 proto=tcp
-
-  - name: 443 is open
-    ufw: rule=allow port=443 proto=tcp
-
-  - name: 4949 (munin-node) is open to monitor(s)
-    when: install_muninnode|default(True)
-    ufw: rule=allow port=4949 proto=tcp from_ip={{ item }}
-    with_items: muninnode_query_ips|default([])
+  - include: firewalls/centos-firewalld.yml
+    when: ansible_os_family == 'RedHat'
 

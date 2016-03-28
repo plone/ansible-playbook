@@ -9,7 +9,7 @@ Test the "medium" sample specification.
     ... plone_initial_password: admin
     ... additional_packages:
     ...   - curl
-    ...   - sockstat
+    ...   - lsof
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... """
@@ -38,6 +38,17 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Provisioning"
     ...     o = run("vagrant provision %s" % box)
 
+Reboot the box. We only care about what survives a restart.
+
+    >>> print >> sys.stderr, "Poweroff %s" % box
+    >>> p = subprocess.call('vagrant ssh %s -c "sudo poweroff"' % box, shell=True)
+
+    >>> time.sleep(10)
+    >>> print >> sys.stderr, "Bringing %s back up" % box
+    >>> run("vagrant up %s --no-provision" % box)
+    >>> print >> sys.stderr, "Waiting for services to start..."
+    >>> time.sleep(60)
+
 And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"
@@ -45,32 +56,43 @@ And, now run tests against the box.
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
-    >>> rez = ssh_run('sudo lsof -i4 -sTCP:LISTEN -Pn | tail -n +2')
+ip4 listeners
+
+    >>> rez = ssh_run('sudo lsof -i4 -i6 -sTCP:LISTEN -Pn | tail -n +2')
     >>> listeners = sorted(set(cut(rez, [0, 2, 8])))
+
+Zope
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
     zeoserver   plone_daemon    127.0.0.1:8100
 
+haproxy
+
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
     haproxy haproxy *:8080
 
+varnish
+
     >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd    root    127.0.0.1:6082
+    varnishd    root    127.0.0.1:6082...
     varnishd    varnish *:6081
 
+Nginx (nginx groups are different in different OS flavors)
+
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
-    nginx   root    *:80
-    nginx   www-data        *:80
+    nginx   ...     *:80
+    nginx   ...     *:80
+
+Postfix
 
     # smtpd
     >>> print "\n".join([s for s in listeners if ':25' in s])
-    master  root    *:25
+    master  root    *:25...
 
-    >>> rez = ssh_run('sudo lsof -i6 -sTCP:LISTEN -Pn | tail -n +2')
-    >>> listeners = cut(rez, [0, 2, 8])
+Munin
 
     >>> print "\n".join([s for s in listeners if 'munin' in s])
     munin-nod  root *:4949
@@ -99,10 +121,9 @@ Check supervisor's job list.
     zeoserver_zeoclient2    RUNNING
     zeoserver_zeoserver RUNNING
 
-
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl -I -s http://%s' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -113,21 +134,22 @@ We should be able to get a page on port 80.
 
 And, we should have gzip encoding available:
 
-    >>> print ssh_run('curl -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s' % box)
     HTTP/1.1 200 OK
     ...
     Content-Encoding: gzip...
 
 Asking twice for a static resource should result in a cache hit.
 
-    >>> print ssh_run('curl -I -s http://%s/logo.png > /dev/null' % box)
-    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
     Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
+
 
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
@@ -158,7 +180,7 @@ processes, haproxy and varnish.
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
