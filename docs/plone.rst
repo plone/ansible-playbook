@@ -57,12 +57,14 @@ plone_buildout_git_repo
 
     If you use your own buildout, all Plone settings except ``plone_client_count``, ``plone_client_base_port``, and ``plone_client_max_memory`` are ignored.
 
+
 plone_major_version
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
     plone_version: '5.0'
+
 
 plone_version
 ~~~~~~~~~~~~~
@@ -72,6 +74,7 @@ plone_version
     plone_version: '5.0'
 
 Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both plone_major_version and plone_version should be quoted so that they will be interpreted as strings.
+
 
 plone_client_count
 ~~~~~~~~~~~~~~~~~~
