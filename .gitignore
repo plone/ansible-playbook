@@ -12,3 +12,4 @@ lib/
 include/
 local/
 tests.out
+*.retry
