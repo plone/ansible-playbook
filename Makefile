@@ -8,10 +8,7 @@ help :
 	@echo "After install, use bin/ansible-playbook or activate virtualenv."
 	@echo ""
 
-all : bin/ansible roles/plone.plone_server local-configure.yml
-
-local-configure.yml :
-	cp -i sample-medium.yml local-configure.yml
+all : bin/ansible roles/plone.plone_server
 
 roles/plone.plone_server : | bin/ansible
 	bin/ansible-galaxy install -p roles -r requirements.yml --ignore-errors
