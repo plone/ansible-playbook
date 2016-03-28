@@ -1,4 +1,4 @@
-1.2.7 (unreleased)
+1.2.7 2016-03-28
 
 - Port doc updates from plone_server role.
   [smcmahon]
