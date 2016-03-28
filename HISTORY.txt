@@ -1,4 +1,10 @@
-1.2.7 (unreleased)
+1.2.7 2016-03-28
+
+- Port doc updates from plone_server role.
+  [smcmahon]
+
+- Use plone_server 1.2.7.
+  [smcmahon]
 
 - Use "become" rather than "sudo".
   [smcmahon]
