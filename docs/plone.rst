@@ -353,6 +353,47 @@ plone_buildout_cache_file
 The full local (host) filepath of a buildout egg cache. Defaults to none. Should not be used at the same time as plone_buildout_cache_url.
 
 
+plone_create_site
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_create_site: no
+
+Should we create a Plone site in the ZODB when it's first initialized? Defaults to 'yes'.
+
+
+plone_site_id
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_site_id: client55
+
+If we're creating a Plone site, what should the id be? Defaults to 'Plone'.
+
+
+plone_extension_profiles
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_extension_profiles:
+        - jarn.jsi18n:default
+
+List additional Plone profiles which should be activated in the new Plone site.  These are only activated if the plone_create_site variable is set. Defaults to empty.
+
+
+plone_default_language
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_default_language: es
+
+If we're creating a Plone site, what should be the default language? Defaults to 'en'.
+
+
 supervisor_instance_discriminator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -364,6 +405,18 @@ Optionally use this variable when you're installing multiple plone servers on th
 The value for supervisor_instance_discriminator will be set as a prefix to all supervisor jobs for this plone server.
 
 You do not need to set a supervisor_instance_discriminator if the servers have different instance names.
+
+
+plone_restart_after_buildout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_restart_after_buildout: yes
+
+When set to `yes` (the default), the role will restart the clients that are running under supervisor whenever buildout runs. This may be undesirable in situations where uptime is a high priority and clients are slow to start serving requests.
+
+The full Plone Ansible Playbook has a nice alternative in such cases: a restart script that removes clients from the load-balancer cluster and doesn't return them until after priming caches.
 
 
 Cron jobs

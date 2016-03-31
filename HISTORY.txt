@@ -1,3 +1,7 @@
+1.2.8 (unreleased)
+
+- Document several variables related to plone site creation. Fixes #74.
+
 1.2.7 2016-03-28
 
 - Port doc updates from plone_server role.
