@@ -3,7 +3,7 @@
 Admin email: {{ admin_email }}
 Custom Services/Ports
 {% for aplone in playbook_plones %}
-{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ plone_config.plone_target_path|default(plone_target_path) }}/{{ plone_config.plone_instance_name|default(plone_instance_name) }}
+{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ aplone.plone_target_path|default(plone_target_path) }}/{{ aplone.plone_instance_name|default(plone_instance_name) }}
 {% for webserver in aplone.webserver_virtualhosts %}
     {{ webserver.zodb_path|default('No Path Specified') }}: {{ webserver.hostname }} {{ webserver.aliases|default([]) }}
 {% endfor %}
@@ -11,7 +11,7 @@ Custom Services/Ports
 {% if install_loadbalancer %}
     haproxy front end: {{ aplone.loadbalancer_port|default(loadbalancer_port) }}
 {% endif %}
-    zeo clients: {% for client in range(0, aplone.plone_client_count|default(plone_client_count)|int) %}127.0.0.1:{{ plone_client_base_port|default(plone_client_base_port)|int + client}} {% endfor %}
+    zeo clients: {% for client in range(0, aplone.plone_client_count|default(plone_client_count)|int) %}127.0.0.1:{{ aplone.plone_client_base_port|default(plone_client_base_port)|int + client}} {% endfor %}
 
 {% endfor %}
 {% if install_loadbalancer %}
