@@ -1,5 +1,7 @@
 1.2.8 (unreleased)
 
+- Update samples to use Plone 5.0.4.
+
 - Document several variables related to plone site creation. Fixes #74.
 
 1.2.7 2016-03-28
