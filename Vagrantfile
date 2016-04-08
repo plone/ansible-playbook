@@ -25,8 +25,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       myhost.vm.box = "ubuntu/trusty64"
   end
 
-  config.vm.define "vivid", autostart: false do |myhost|
-      myhost.vm.box = "ubuntu/vivid64"
+  config.vm.define "wily", autostart: false do |myhost|
+      myhost.vm.box = "ubuntu/wily64"
+  end
+
+  config.vm.define "xenial", autostart: false do |myhost|
+      myhost.vm.box = "ubuntu/xenial64"
   end
 
   config.vm.define "wheezy", autostart: false do |myhost|
