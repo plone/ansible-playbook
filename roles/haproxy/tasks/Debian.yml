@@ -6,11 +6,9 @@
   when: ansible_distribution_release == "wheezy"
 
 - name: haproxy installed - Debian
-  when: ansible_os_family == 'Debian'
   apt: pkg=haproxy state=present
 
 - name: haproxy enabled - Debian
-  when: ansible_os_family == 'Debian'
   copy:
     src=haproxy_enabled
     dest=/etc/default/haproxy
