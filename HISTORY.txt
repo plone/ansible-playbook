@@ -1,8 +1,13 @@
 1.2.8 (unreleased)
 
+- Split os-family-specific plays into separate include files in haproxy role.
+  [cleberjsantos]
+
 - Update samples to use Plone 5.0.4.
+  [smcmahon]
 
 - Document several variables related to plone site creation. Fixes #74.
+  [smcmahon]
 
 1.2.7 2016-03-28
 

@@ -1,0 +1,17 @@
+---
+
+# if wheezy, we're going to need backports
+- name: Add wheezy-backports repo
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main' state=present
+  when: ansible_distribution_release == "wheezy"
+
+- name: haproxy installed - Debian
+  apt: pkg=haproxy state=present
+
+- name: haproxy enabled - Debian
+  copy:
+    src=haproxy_enabled
+    dest=/etc/default/haproxy
+    owner=root
+    group=root
+    mode=644

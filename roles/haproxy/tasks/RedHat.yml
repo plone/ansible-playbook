@@ -1,0 +1,9 @@
+---
+
+- name: haproxy installed - CentOS
+  yum: name=haproxy state=present
+
+- name: haproxy enabled - CentOS
+  service:
+    name=haproxy
+    enabled=yes
