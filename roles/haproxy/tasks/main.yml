@@ -1,6 +1,6 @@
 ---
 
-- include: {{ ansible_os_family }}.yml
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Enable selinux boolean haproxy_connect_any
   when: ansible_selinux
