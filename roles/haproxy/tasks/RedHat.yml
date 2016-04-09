@@ -1,0 +1,11 @@
+---
+
+- name: haproxy installed - CentOS
+  when: ansible_os_family == 'RedHat'
+  yum: name=haproxy state=present
+
+- name: haproxy enabled - CentOS
+  service:
+    name=haproxy
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
