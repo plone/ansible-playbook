@@ -1,0 +1,7 @@
+---
+
+- name: Ensure we have socat if we're load balancing
+  apt: pkg=socat state=present
+
+- name: Ensure we have curl
+  apt: pkg=curl state=present
