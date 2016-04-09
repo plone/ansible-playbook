@@ -1,22 +1,6 @@
 ---
 
-- name: Munin-Node package present
-  when: ansible_os_family == 'Debian'
-  apt: pkg={{ item }} state=present
-  with_items:
-    - munin-node
-    - libwww-perl
-
-- name: Munin-Node package present
-  when: ansible_os_family == 'RedHat'
-  yum: name={{ item }} state=present update_cache=yes
-  with_items:
-    - munin-node
-
-- name: Enable munin-node to start on boot - CentOS
-  service:
-    name=munin-node
-    enabled=yes
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Configure munin-node
   template:

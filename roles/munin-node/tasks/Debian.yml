@@ -1,0 +1,7 @@
+---
+
+- name: Munin-Node package present
+  apt: pkg={{ item }} state=present
+  with_items:
+    - munin-node
+    - libwww-perl

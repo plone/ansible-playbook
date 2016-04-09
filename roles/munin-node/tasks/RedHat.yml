@@ -1,0 +1,12 @@
+---
+
+- name: Munin-Node package present
+  when: ansible_os_family == 'RedHat'
+  yum: name={{ item }} state=present update_cache=yes
+  with_items:
+    - munin-node
+
+- name: Enable munin-node to start on boot - CentOS
+  service:
+    name=munin-node
+    enabled=yes
