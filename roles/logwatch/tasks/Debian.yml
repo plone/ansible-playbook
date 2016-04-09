@@ -1,0 +1,4 @@
+---
+
+- name: logwatch package installed
+  apt: pkg=logwatch state=present

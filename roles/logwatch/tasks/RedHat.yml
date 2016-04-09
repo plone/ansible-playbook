@@ -1,0 +1,4 @@
+---
+
+- name: logwatch package installed
+  yum: name=logwatch state=present
