@@ -1,7 +1,6 @@
 ---
 
 - name: Munin-Node package present
-  when: ansible_os_family == 'RedHat'
   yum: name={{ item }} state=present update_cache=yes
   with_items:
     - munin-node
