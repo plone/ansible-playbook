@@ -19,7 +19,7 @@ muninnode_query_ips:
 # Plone settings
 # --------------
 
-plone_version: '5.0.2'
+plone_version: '5.0.4'
 
 plone_client_count: 2
 plone_zodb_cache_size: 15000
@@ -60,7 +60,6 @@ plone_additional_versions:
   - "z3c.jbot = 0.7.2"
   - "zc.buildout = "
   - "Authomatic = 0.1.0.post1"
-  - "plone.app.theming = 1.2.17"
 #  - "pas.plugins.authomatic = 1.0a6"
 
 # Nginx settings
