@@ -76,3 +76,8 @@ webserver_virtualhosts:
     zodb_path: /ploneorg
   - hostname: www.plone.org
     extra: return 301 https://plone.org$request_uri;
+
+additional_packages:
+  - nodejs-legacy
+  - nodejs
+  - npm
