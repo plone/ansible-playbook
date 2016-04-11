@@ -1,5 +1,8 @@
 1.2.8 (unreleased)
 
+- Establish a STABLE branch to clearly separate the last-released branch from the development branch (master).
+  [smcmahon]
+
 - Split os-family-specific plays into separate include files in roles.
   [cleberjsantos]
 

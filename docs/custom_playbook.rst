@@ -10,7 +10,9 @@ If you expect to make substantial changes, you'll want to create your own git br
 
 If you expect to change only option settings, then just clone the Plone Playbook to your local computer (not the target server)::
 
-    git clone https://github.com/plone/ansible-playbook.git
+    git clone https://github.com/plone/ansible-playbook.git -b STABLE
+
+Note that this clones from the ``STABLE`` branch. That's likely what you want unless your helping with development. ``master`` is the development branch.
 
 Picking up required roles
 `````````````````````````

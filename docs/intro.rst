@@ -32,7 +32,7 @@ TL;DR
 
 2. If you wish to test locally, install Vagrant and VirtualBox;
 
-3. Check out or download a copy of this package;
+3. Check out or download a copy of `the STABLE branch of this package <https://github.com/plone/ansible-playbook>`_;
 
 4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
 

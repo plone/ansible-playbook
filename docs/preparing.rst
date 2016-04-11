@@ -34,9 +34,28 @@ Ansible's only dependency is a recent version of Python 2.6 or later.
 
 You will also nearly certainly want git, both for cloning the playbook and for version-controlling your own work.
 
-To clone the master branch of the playbook, use the command:
+To clone the stable branch of the playbook, use the command:
 
-    git clone https://github.com/plone/ansible-playbook.git
+    git clone https://github.com/plone/ansible-playbook.git -b STABLE
+
+Quick setup
+^^^^^^^^^^^
+
+If you're using a machine with the following installed:
+
+    - Python 2.7
+    - virtualenv 2.7
+    - make
+
+you may install quickly by cloning the playbook and using the commands:
+
+    git clone https://github.com/plone/ansible-playbook.git -b STABLE
+    cd ansible-playbook
+    make all
+
+This will install Ansible in the ``ansible-playbook`` directory via virtualenv and install role requirements.
+
+Use ``bin/ansible-playbook`` in place of ``ansible-playbook`` to run your playbook.
 
 Ansible role requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
