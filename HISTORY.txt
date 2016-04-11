@@ -1,6 +1,6 @@
 1.2.8 (unreleased)
 
-- Split os-family-specific plays into separate include files in haproxy role.
+- Split os-family-specific plays into separate include files in roles.
   [cleberjsantos]
 
 - Update samples to use Plone 5.0.4.
