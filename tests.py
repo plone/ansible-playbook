@@ -45,11 +45,12 @@ parser.add_argument(
 parser.add_argument(
     '--box',
     help="Specify a particular target box from:\n    %s" % boxes,
+    action="append",
     )
 
 args = parser.parse_args()
 if args.box:
-    boxes = [args.box]
+    boxes = args.box
 box = None
 
 # Convenience items for testing.
