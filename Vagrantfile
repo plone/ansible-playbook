@@ -33,9 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "xenial", autostart: false do |myhost|
       myhost.vm.box = "ubuntu/xenial64"
-
       myhost.vm.provision "shell", inline: "apt-get install -y python"
-
       myhost.vm.provision "ansible" do |ansible|
         ansible.playbook = "playbook.yml"
       end
