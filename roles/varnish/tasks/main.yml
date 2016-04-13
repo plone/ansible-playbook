@@ -14,12 +14,12 @@
     enabled=yes
   when: ansible_os_family == 'RedHat'
 
-- name: Determine varnish major version
-  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9]).+/\1/"'
-  register: varnish_major_version
+- name: Determine varnish version
+  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9.]+) .+/\1/"'
+  register: varnish_version
 
 - set_fact:
-    varnish_major_version: "{{ varnish_major_version.stdout }}"
+    varnish_version: "{{ varnish_version.stdout }}"
 
 - name: Using systemd?
   shell: "which systemctl && systemctl is-enabled varnish.service"
@@ -27,7 +27,7 @@
   register: sysd_varnish
 
 - name: Assure file cache directory exists
-  when: varnish_major_version != '3' and proxycache_method == 'file'
+  when: varnish_version < '4' and proxycache_method == 'file'
   file:
     path=/var/lib/varnish
     state=directory
@@ -43,12 +43,24 @@
   notify: restart varnish
 
 - name: systemd setup - debian
-  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian'
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian' and varnish_version < '4.1'
   ini_file:
     dest=/etc/systemd/system/multi-user.target.wants/varnish.service
     section=Service
     option=ExecStart
     value="/usr/sbin/varnishd -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} -u varnish -g varnish"
+    backup=yes
+  notify:
+    - systemd daemon reload
+    - restart varnish
+
+- name: systemd setup - xenial
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian' and varnish_version >= '4.1'
+  ini_file:
+    dest=/etc/systemd/system/multi-user.target.wants/varnish.service
+    section=Service
+    option=ExecStart
+    value="/usr/sbin/varnishd  -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }}"
     backup=yes
   notify:
     - systemd daemon reload
@@ -63,7 +75,7 @@
   notify: restart varnish
 
 - name: Set default.vcl from our template (vcl 3)
-  when: varnish_major_version == '3'
+  when: varnish_version < '4'
   template:
     src=default.vcl.j2
     dest=/etc/varnish/default.vcl
@@ -71,7 +83,7 @@
   notify: restart varnish
 
 - name: Set default.vcl from our template (vcl 4)
-  when: varnish_major_version == '4'
+  when: varnish_version >= '4'
   template:
     src=default.vcl4.j2
     dest=/etc/varnish/default.vcl
@@ -80,4 +92,4 @@
 
 - name: Assure varnish running at end of playbook
   command: /bin/true
-  notify: varnish started
+  notify: varnish running

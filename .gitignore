@@ -13,3 +13,4 @@ include/
 local/
 tests.out
 *.retry
+*.log

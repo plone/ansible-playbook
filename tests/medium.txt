@@ -123,7 +123,7 @@ Check supervisor's job list.
 
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s' % box)
+    >>> print ssh_run('curl --connect-timeout 10 --ipv4 -I -s http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -149,6 +149,7 @@ Asking twice for a static resource should result in a cache hit.
     Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
+    ...
 
 
 The restart script exercises our control of the supervisor
@@ -177,6 +178,8 @@ processes, haproxy and varnish.
     Purging varnish cache
     <BLANKLINE>
     Done
+
+    >>> time.sleep(30)
 
 The varnish cache for this host should now be empty.
 
