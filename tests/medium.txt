@@ -8,7 +8,7 @@ Test the "medium" sample specification.
     ... admin_email: test@example.com
     ... plone_initial_password: admin
     ... additional_packages:
-    ...   - curl
+    ...   - wget
     ...   - lsof
     ... muninnode_query_ips:
     ...     - 127.0.0.1
@@ -122,27 +122,32 @@ Check supervisor's job list.
     zeoserver_zeoserver RUNNING
 
 We should be able to get a page on port 80.
+wget -4 -q --delete-after -S http://
+print ssh_run('curl --ipv4 -I -s http://%s; echo $?' % box)
 
-    >>> print ssh_run('curl --connect-timeout 10 --ipv4 -I -s http://%s' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
+    ...
     X-Varnish: ...
     Age: 0
     Via: 1.1 varnish...
     X-Varnish-Cache: MISS
+    ...
 
 And, we should have gzip encoding available:
 
-    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S --header "Accept-Encoding:gzip" http://%s' % box)
     HTTP/1.1 200 OK
     ...
-    Content-Encoding: gzip...
+    Content-Encoding: gzip
+    ...
 
 Asking twice for a static resource should result in a cache hit.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S http://%s/logo.png > /dev/null' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S  http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
@@ -183,13 +188,14 @@ processes, haproxy and varnish.
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
     Content-Type: image/png
     ...
     X-Varnish-Cache: MISS
+    ...
 
 
     >>> print >> sys.stderr, "Tests done"
