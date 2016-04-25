@@ -7,16 +7,14 @@ Target server
 Supported platforms
 ```````````````````
 
-At the moment, while the environment with the fullest support for the target server is Debian/Ubuntu, some initial support is available for CentOS.  This is simply because the expertise of the initial authors is with the .deb world. Adding RPM environments should not be difficult, but we need help. Your pull requests are welcome.
-
 At the moment, we are testing with Ubuntu 14 (Trusty) LTS, Ubuntu 15 (Vivid) and with Debian wheezy, Debian jessy, and CentOS 7.
 
 The following components are currently not supported for the CentOS environment:
 
   - ``jnv.unattended-upgrades``
   - ``tersmitten.fail2ban``
-  - The ``firewall.yml`` playbook.
 
+This means that installation of unattended upgrades and the fail2ban service do not occur on CentOS.
 
 SSH access; sudo
 ````````````````
