@@ -9,6 +9,6 @@
     owner=root
     group=root
     mode=0755
-  with_items: playbook_plones
+  with_items: "{{ playbook_plones }}"
 
 

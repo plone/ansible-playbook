@@ -8,7 +8,7 @@ Test the "medium" sample specification.
     ... admin_email: test@example.com
     ... plone_initial_password: admin
     ... additional_packages:
-    ...   - curl
+    ...   - wget
     ...   - lsof
     ... muninnode_query_ips:
     ...     - 127.0.0.1
@@ -76,9 +76,10 @@ haproxy
 
 varnish
 
-    >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd    root    127.0.0.1:6082...
-    varnishd    varnish *:6081
+    >>> listening_on = ['127.0.0.1:6082', '*:6081']
+    >>> rez = "\n".join([s for s in listeners if 'varnishd' in s])
+    >>> [s for s in listening_on if s not in rez]
+    []
 
 Nginx (nginx groups are different in different OS flavors)
 
@@ -97,21 +98,12 @@ Munin
     >>> print "\n".join([s for s in listeners if 'munin' in s])
     munin-nod  root *:4949
 
-Check the process list.
+Check the process list for all the daemons we expect.
 
-    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq')
-    fail2ban-server root     root
-    haproxy         haproxy  haproxy
-    memmon          root     root
-    munin-node      root     root
-    nginx           root     root
-    nginx           www-data www-data
-    pickup          postfix  postfix
-    python2.7       plone_daemon plone_group
-    qmgr            postfix  postfix
-    supervisord     root     root
-    varnishd        root     root
-    varnishd        varnish  varnish
+    >>> we_expect = ['fail2ban-server', 'haproxy', 'memmon', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
+    >>> rez = ssh_run('ps  -eo comm')
+    >>> [s for s in we_expect if s not in rez]
+    []
 
 Check supervisor's job list.
 
@@ -122,33 +114,37 @@ Check supervisor's job list.
     zeoserver_zeoserver RUNNING
 
 We should be able to get a page on port 80.
+wget -4 -q --delete-after -S http://
+print ssh_run('curl --ipv4 -I -s http://%s; echo $?' % box)
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S http://%s' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
+    ...
     X-Varnish: ...
     Age: 0
     Via: 1.1 varnish...
     X-Varnish-Cache: MISS
+    ...
 
 And, we should have gzip encoding available:
 
-    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s' % box)
-    HTTP/1.1 200 OK
-    ...
-    Content-Encoding: gzip...
+    >>> rez = ssh_run('wget -4 -q --delete-after -S --header "Accept-Encoding:gzip" http://%s' % box)
+    >>> "Content-Encoding: gzip" in rez
+    True
 
 Asking twice for a static resource should result in a cache hit.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
+    >>> discard = ssh_run('wget -4 -q --delete-after -S http://%s/logo.png' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S  http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
     Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
+    ...
 
 
 The restart script exercises our control of the supervisor
@@ -180,13 +176,14 @@ processes, haproxy and varnish.
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('wget -4 -q --delete-after -S http://%s/logo.png' % box)
     HTTP/1.1 200 OK
     Server: nginx/...
     Date: ...
     Content-Type: image/png
     ...
     X-Varnish-Cache: MISS
+    ...
 
 
     >>> print >> sys.stderr, "Tests done"
