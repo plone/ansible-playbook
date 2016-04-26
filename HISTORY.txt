@@ -1,4 +1,12 @@
-1.2.8 (unreleased)
+1.2.9 (unreleased)
+
+- Doc update to clarify platform support. Fixes #42.
+  [smcmahon]
+
+1.2.8 2016-04-25
+
+- Use plone server 1.2.8.
+  [smcmahon]
 
 - Establish a STABLE branch to clearly separate the last-released branch from the development branch (master).
   [smcmahon]
