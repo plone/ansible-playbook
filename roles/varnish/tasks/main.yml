@@ -92,4 +92,4 @@
 
 - name: Assure varnish running at end of playbook
   command: /bin/true
-  notify: varnish running
+  notify: varnish started
