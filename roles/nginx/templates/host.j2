@@ -37,14 +37,22 @@ server {
  {% endif %}
 
 {% if item.get('extra') != None %}
-  {{ item.extra }}
+  {% if item.extra is not string %}
+    {% for extra in item.extra %}
+      {{ extra }}
+    {% endfor %}
+  {% else %}
+    {{ item.extra }}
+  {% endif %}
 {% endif %}
 
 {% if item.get('zodb_path') != None %}
   location / {
     rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
     auth_basic off;
-    proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
+    # proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
+    # Temporary bypass Varnish
+    proxy_pass http://localhost:8080;
   }
   location ~ /manage_ {
     deny all;
