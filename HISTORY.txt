@@ -1,5 +1,8 @@
 1.2.9 (unreleased)
 
+- Updated Postfix role to limit mydestination setting to localhost. Otherwise it would not be able to mail to its own hostname, even if that hostname had another MX.
+  [smcmahon]
+
 - Doc update to clarify platform support. Fixes #42.
   [smcmahon]
 
