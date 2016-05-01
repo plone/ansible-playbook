@@ -1,7 +1,6 @@
 ---
 
-- name: Postfix present
-  apt: pkg=postfix state=present
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Configure Postfix as forward-only server
   template:

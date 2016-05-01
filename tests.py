@@ -20,7 +20,7 @@ options = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
 
 # find all our available boxes
 with open('Vagrantfile', 'r') as f:
-    boxes = re.findall(r'config.vm.define "(.+?)"', f.read())
+    boxes = re.findall(r'^\s+config.vm.define "(.+?)"', f.read(), re.MULTILINE)
 
 parser = argparse.ArgumentParser(description='Run playbook tests.')
 parser.add_argument(
@@ -45,17 +45,32 @@ parser.add_argument(
 parser.add_argument(
     '--box',
     help="Specify a particular target box from:\n    %s" % boxes,
+    action="append",
     )
 
 args = parser.parse_args()
 if args.box:
-    boxes = [args.box]
+    boxes = args.box
 box = None
 
 # Convenience items for testing.
 # We'll pass these as globals to the doctests.
 
 devnull = open('/dev/null', 'w')
+
+mplatform = None
+
+
+# def get_mplatform():
+#     global mplatform
+
+#     if mplatform is None:
+#         mplatform = subprocess.check_output(
+#             """vagrant ssh %s -c 'python -mplatform'""" % box,
+#             shell=True,
+#             stderr=devnull
+#             )
+#     return mplatform
 
 
 def ssh_run(cmd):
@@ -154,5 +169,4 @@ for abox in boxes:
             run("vagrant destroy %s -f" % box)
         else:
             print >> stderr, "Vagrant box %s left running." % box
-
 

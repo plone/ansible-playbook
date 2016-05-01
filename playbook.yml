@@ -1,16 +1,16 @@
 ---
 
 - hosts: all
-  sudo: yes
+  become: yes
+  become_method: sudo
   gather_facts: yes
 
 
   pre_tasks:
 
-    - name: Fail if Ansible is old
-      fail:
-        msg: "We have only tested with Ansible version 1.2+. Please update Ansible"
-      when: ansible_product_version < '1.2'
+    - name: Fail if Ansible is ancient
+      fail: msg="We need Ansible >= 2.0. Please update your kit. 'pip install -U Ansible'"
+      when: ansible_version.major < 2
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -53,22 +53,46 @@
         - motd
         - nginx
 
-    - name: Update host
+    - name: Update packages via apt
+      when: ansible_os_family == 'Debian'
       apt: upgrade=dist update_cache=yes
       tags:
         - update_packages
 
-    - name: Ensure optional packages
+    - name: Ensure optional packages via apt
+      when: ansible_os_family == 'Debian'
       apt: pkg={{ item }} state=present
       with_items: "{{ additional_packages|default([]) }}"
 
+    - name: Enable aditional repos for CentOS
+      yum: pkg={{ item }} state=present
+      when: ansible_distribution == 'CentOS'
+      with_items:
+        - epel-release
+      tags:
+        - munin
+        - varnish
+
+    - name: Ensure optional packages via yum
+      when: ansible_os_family == 'RedHat'
+      yum: name={{ item }} state=present update_cache=yes
+      with_items: "{{ additional_packages|default([]) }}"
+
+    - name: Ensure selinux packages via yum
+      when: ansible_os_family == 'RedHat' and ansible_selinux
+      yum: name={{ item }} state=present update_cache=yes
+      with_items:
+        - libsemanage-python
+      tags:
+        - nginx
+        - haproxy
 
   roles:
 
     - role: ANXS.hostname
 
     - role: jnv.unattended-upgrades
-      when: auto_upgrades|default(True)
+      when: auto_upgrades|default(True) and ansible_os_family == 'Debian'
       unattended_mail: root
       unattended_origins_patterns:
         - 'origin=${distro_id},archive=${distro_codename}-security'
@@ -76,7 +100,7 @@
         - 'o=${distro_id},a=${distro_codename}-updates'
 
     - role: tersmitten.fail2ban
-      when: install_fail2ban|default(True)
+      when: install_fail2ban|default(True) and ansible_os_family == 'Debian'
       tags: fail2ban
 
     - role: default_config
@@ -102,21 +126,21 @@
         - plone1
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[1] }}"
+      plone_config: "{{ playbook_plones[1]|default({}) }}"
       when: "{{ playbook_plones|length() > 1 }}"
       tags:
         - plone
         - plone2
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[2] }}"
+      plone_config: "{{ playbook_plones[2]|default({}) }}"
       when: "{{ playbook_plones|length() > 2 }}"
       tags:
         - plone
         - plone3
 
     - role: plone.plone_server
-      plone_config: "{{ playbook_plones[3] }}"
+      plone_config: "{{ playbook_plones[3]|default({}) }}"
       when: "{{ playbook_plones|length() > 3 }}"
       tags:
         - plone
@@ -168,5 +192,10 @@
 
   handlers:
     - name: update timezone
+      when: ansible_os_family == 'Debian'
       command: dpkg-reconfigure --frontend noninteractive tzdata
+
+    - name: update timezone
+      when: ansible_os_family == 'RedHat'
+      file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
 

@@ -1,10 +1,6 @@
 ---
 
-- name: Munin-Node package present
-  apt: pkg={{ item }} state=present
-  with_items:
-    - munin-node
-    - libwww-perl
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Configure munin-node
   template:
@@ -68,3 +64,7 @@
     - nginx_request
     - nginx_status
   notify: restart munin-node
+
+- name: Assure munin running at end of playbook
+  command: /bin/true
+  notify: munin-node started

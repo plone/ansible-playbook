@@ -1,20 +1,10 @@
 ---
 
-# if wheezy, we're going to need backports
-- name: Add wheezy-backports repo
-  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main' state=present
-  when: ansible_distribution_release == "wheezy"
+- include: "{{ ansible_os_family }}.yml"
 
-- name: haproxy installed
-  apt: pkg=haproxy state=present
-
-- name: haproxy enabled
-  copy:
-    src=haproxy_enabled
-    dest=/etc/default/haproxy
-    owner=root
-    group=root
-    mode=644
+- name: Enable selinux boolean haproxy_connect_any
+  when: ansible_selinux
+  seboolean: name=haproxy_connect_any state=yes persistent=yes
 
 - name: haproxy config
   template:
@@ -24,7 +14,6 @@
     group=root
     mode=644
     backup=true
-  sudo: yes
 
 - name: haproxy started
   service: name=haproxy state=started

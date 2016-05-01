@@ -31,9 +31,9 @@ muninnode_query_ips:
 # Major settings
 # --------------
 
-# Plone 4.3.x and 5.0 are currently tested and working.
+# Plone 4.3.x and 5.0.x are currently tested and working.
 # Make sure this setting is quoted so that it's interpreted as a string.
-plone_version: '5.0'
+plone_version: '5.0.4'
 
 # With one core, we don't need multiple zeo clients
 plone_client_count: 1

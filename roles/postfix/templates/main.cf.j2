@@ -29,7 +29,7 @@ smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
 myhostname = {{ inventory_hostname }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = {{ inventory_hostname }}, localhost.localdomain, , localhost
+mydestination = localhost, localhost.localdomain
 mynetworks_style = host
 
 mailbox_size_limit = 0

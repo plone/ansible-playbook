@@ -1,0 +1,7 @@
+---
+
+- name: Ensure we have socat if we're load balancing
+  yum: name=socat state=present
+
+- name: Ensure we have curl
+  yum: name=curl state=present

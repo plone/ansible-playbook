@@ -30,6 +30,8 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
+We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 14 (Trusty) LTS, Ubuntu 15, Debian wheezy, Debian jessy, and CentOS 7. Support for Ubuntu Xenial 16.0.4 is currently under development.
+
 See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.readthedocs.org/en/latest/>`_ for complete documentation.
 
 TL;DR
@@ -39,9 +41,9 @@ TL;DR
 
 2. If you wish to test locally, install Vagrant and VirtualBox;
 
-3. Check out or download a copy of this package;
+3. Check out or download a copy of `the STABLE branch of this package <https://github.com/plone/ansible-playbook>`_;
 
-4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 
@@ -56,3 +58,8 @@ TL;DR
 .. warning::
 
     This version of the playbook requires that the plone.plone_server role be 1.2.0+.
+
+License
+-------
+
+BSD-3-Clause

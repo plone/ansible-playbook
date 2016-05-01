@@ -32,9 +32,9 @@ muninnode_query_ips:
 # Major settings
 # --------------
 
-# Plone 4.3.x and 5.0 are currently tested and working.
+# Plone 4.3.x and 5.0.x are currently tested and working.
 # Make sure this setting is quoted so that it's interpreted as a string.
-plone_version: '5.0'
+plone_version: '5.0.4'
 
 # 2 clients
 plone_client_count: 2
@@ -67,12 +67,9 @@ playbook_plones:
         aliases:
           - default
         zodb_path: /Plone
-        certificate:
-          key: /etc/ssl/private/ssl-cert-snakeoil.key
-          crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
+        certificate_file: tests/snakeoil.pem
+        key_file: tests/snakeoil.pem
   - plone_instance_name: secondary
-    plone_target_path: /usr/local/plone4
-    plone_var_path: /var/local/plone4
     plone_version: '4.3.7'
     plone_zeo_port: 7100
     plone_client_base_port: 7081

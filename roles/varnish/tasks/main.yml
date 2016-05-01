@@ -1,30 +1,49 @@
 ---
 
 - name: varnish package present
+  when: ansible_os_family == 'Debian'
   apt: pkg=varnish state=present
 
-- name: Determine varnish major version
-  shell: 'dpkg --status varnish | grep "^Version:" | sed -r "s/Version: ([0-9]).+/\1/"'
-  register: varnish_major_version
+- name: varnish package present
+  when: ansible_os_family == 'RedHat'
+  yum: name=varnish state=present
+
+- name: Enable varnish to start on boot - CentOS
+  service:
+    name=varnish
+    enabled=yes
+  when: ansible_os_family == 'RedHat'
+
+- name: Determine varnish version
+  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9.]+) .+/\1/"'
+  register: varnish_version
 
 - set_fact:
-    varnish_major_version: "{{ varnish_major_version.stdout }}"
+    varnish_version: "{{ varnish_version.stdout }}"
 
 - name: Using systemd?
   shell: "which systemctl && systemctl is-enabled varnish.service"
   ignore_errors: yes
   register: sysd_varnish
 
+- name: Assure file cache directory exists
+  when: varnish_version < '4' and proxycache_method == 'file'
+  file:
+    path=/var/lib/varnish
+    state=directory
+    owner=varnish
+    group=varnish
+
 - name: init.d setup
-  when: sysd_varnish.rc > 0
+  when: sysd_varnish.rc > 0 and ansible_os_family == 'Debian'
   template:
     src=varnish.j2
     dest=/etc/default/varnish
     backup=yes
   notify: restart varnish
 
-- name: systemd setup
-  when: sysd_varnish.rc == 0
+- name: systemd setup - debian
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian' and varnish_version < '4.1'
   ini_file:
     dest=/etc/systemd/system/multi-user.target.wants/varnish.service
     section=Service
@@ -35,8 +54,28 @@
     - systemd daemon reload
     - restart varnish
 
+- name: systemd setup - xenial
+  when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian' and varnish_version >= '4.1'
+  ini_file:
+    dest=/etc/systemd/system/multi-user.target.wants/varnish.service
+    section=Service
+    option=ExecStart
+    value="/usr/sbin/varnishd  -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }}"
+    backup=yes
+  notify:
+    - systemd daemon reload
+    - restart varnish
+
+- name: Setup - CentOS
+  when: ansible_os_family == 'RedHat'
+  template:
+    src=varnish.params.j2
+    dest=/etc/varnish/varnish.params
+    backup=yes
+  notify: restart varnish
+
 - name: Set default.vcl from our template (vcl 3)
-  when: varnish_major_version == '3'
+  when: varnish_version < '4'
   template:
     src=default.vcl.j2
     dest=/etc/varnish/default.vcl
@@ -44,7 +83,7 @@
   notify: restart varnish
 
 - name: Set default.vcl from our template (vcl 4)
-  when: varnish_major_version == '4'
+  when: varnish_version >= '4'
   template:
     src=default.vcl4.j2
     dest=/etc/varnish/default.vcl

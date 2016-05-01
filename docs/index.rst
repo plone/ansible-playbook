@@ -3,7 +3,7 @@ Plone's Ansible Playbook
 
 .. admonition:: Description
 
-    Use Ansible to provision a full-stack Plone server
+    Use Ansible to provision a full-stack Plone server on Ubuntu/Debian or CentOS servers.
 
 .. toctree::
    :maxdepth: 2

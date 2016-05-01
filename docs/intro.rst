@@ -19,6 +19,8 @@ Plone's Ansible Playbook can completely provision a remote server to run a full-
 
 * Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `Vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
+We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 14 (Trusty) LTS, Ubuntu 15, Debian wheezy, Debian jessy, and CentOS 7. Support for Ubuntu Xenial 16.0.4 is currently under development.
+
 An Ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
 .. note ::
@@ -32,9 +34,9 @@ TL;DR
 
 2. If you wish to test locally, install Vagrant and VirtualBox;
 
-3. Check out or download a copy of this package;
+3. Check out or download a copy of `the STABLE branch of this package <https://github.com/plone/ansible-playbook>`_;
 
-4. Run ``ansible-galaxy -p roles -r requirements.txt install`` to install required roles;
+4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 

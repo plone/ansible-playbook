@@ -55,9 +55,9 @@ echo
 {% if vhost.zodb_path is defined %}
 echo Purging varnish cache
 {% if vhost.get('protocol', 'http') == 'https' %}
-varnishadm "ban req.url ~ /VirtualHostBase/https/{{ vhost.hostname }}:{{ vhost.port|default('443') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
+sudo varnishadm "ban req.url ~ /VirtualHostBase/https/{{ vhost.hostname }}:{{ vhost.port|default('443') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
 {% else %}
-varnishadm "ban req.url ~ /VirtualHostBase/http/{{ vhost.hostname }}:{{ vhost.port|default('80') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
+sudo varnishadm "ban req.url ~ /VirtualHostBase/http/{{ vhost.hostname }}:{{ vhost.port|default('80') }}{{ vhost.zodb_path }}/VirtualHostRoot/"
 {% endif %}
 {% endif %}
 {% endfor %}

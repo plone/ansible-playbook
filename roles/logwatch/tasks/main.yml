@@ -1,7 +1,6 @@
 ---
 
-- name: logwatch package installed
-  apt: pkg=logwatch state=present
+- include: "{{ ansible_os_family }}.yml" 
 
 - name: Custom logwatch files present
   copy:

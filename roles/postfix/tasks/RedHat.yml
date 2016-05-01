@@ -1,0 +1,9 @@
+---
+
+- name: Postfix present
+  yum: name=postfix state=present
+
+- name: Enable Postfix to start on boot - CentOS
+  service:
+    name=postfix
+    enabled=yes

@@ -57,12 +57,14 @@ plone_buildout_git_repo
 
     If you use your own buildout, all Plone settings except ``plone_client_count``, ``plone_client_base_port``, and ``plone_client_max_memory`` are ignored.
 
+
 plone_major_version
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
     plone_version: '5.0'
+
 
 plone_version
 ~~~~~~~~~~~~~
@@ -72,6 +74,7 @@ plone_version
     plone_version: '5.0'
 
 Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both plone_major_version and plone_version should be quoted so that they will be interpreted as strings.
+
 
 plone_client_count
 ~~~~~~~~~~~~~~~~~~
@@ -194,6 +197,26 @@ plone_additional_versions
 The version pins you specify here will be added to the ``[versions]`` section of your buildout. The default list is empty.
 
 
+plone_install_zeoserver
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_install_zeoserver: no
+
+Allows you to turn on and off the creation of a zeoserver. Defaults to `yes`. Useful if the zeoserver is not on the same machine as the clients.
+
+
+plone_zeo_ip
+~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_zeo_ip: 192.168.1.100
+
+The ip address for the Zope database server. Defaults to `127.0.0.1`. Useful if the zeoserver is not on the same machine as the clients.
+
+
 plone_zeo_port
 ~~~~~~~~~~~~~~
 
@@ -254,6 +277,52 @@ plone_client1_extras
 Extra text to add to only the first client buildout part. Defaults to "".
 
 
+plone_extra_parts
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_extra_parts:
+      zopepy: |
+        recipe = zc.recipe.egg
+        eggs = ${buildout:eggs}
+        interpreter = zopepy
+        scripts = zopepy
+      diazotools: |
+        recipe = zc.recipe.egg
+        eggs = diazo
+
+Extra parts to add to the automatically generated buildout. These should be in a key/value format with the key being the part name and the value being the text of the part. Defaults to ``{}``.
+
+
+plone_buildout_extra
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra: |
+      allow-picked-versions = false
+      socket-timeout = 5
+
+Allows you to add settings to the automatically generated buildout. Any text specified this way is inserted at the end of the ``[buildout]`` part and before any of the other parts. Defaults to empty.
+
+Use this variable to add or override controlling settings to buildout. If you need to add parts, use ``plone_extra_parts`` for better maintainability.
+
+
+plone_buildout_extra_dir
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_buildout_extra_dir: local_path
+
+Copies a local directory or the *contents* of a directory into the buildout directory on the remote server.
+
+Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory. Put a "/" on the end of the local path if you wish to copy the contents of the directory. Leave of the trailing "/" to copy the directory itself.
+
+If the copied files change, buildout will be run if plone_autorun_buildout is true (the default). However, the autorun mechanism is not able to detect any other kind of change. For example, if you've used this setting, then remove it, the autorun will not be triggered.
+
+
 plone_autorun_buildout
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -284,6 +353,47 @@ plone_buildout_cache_file
 The full local (host) filepath of a buildout egg cache. Defaults to none. Should not be used at the same time as plone_buildout_cache_url.
 
 
+plone_create_site
+~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_create_site: no
+
+Should we create a Plone site in the ZODB when it's first initialized? Defaults to 'yes'.
+
+
+plone_site_id
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_site_id: client55
+
+If we're creating a Plone site, what should the id be? Defaults to 'Plone'.
+
+
+plone_extension_profiles
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_extension_profiles:
+        - jarn.jsi18n:default
+
+List additional Plone profiles which should be activated in the new Plone site.  These are only activated if the plone_create_site variable is set. Defaults to empty.
+
+
+plone_default_language
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_default_language: es
+
+If we're creating a Plone site, what should be the default language? Defaults to 'en'.
+
+
 supervisor_instance_discriminator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -295,6 +405,18 @@ Optionally use this variable when you're installing multiple plone servers on th
 The value for supervisor_instance_discriminator will be set as a prefix to all supervisor jobs for this plone server.
 
 You do not need to set a supervisor_instance_discriminator if the servers have different instance names.
+
+
+plone_restart_after_buildout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_restart_after_buildout: yes
+
+When set to `yes` (the default), the role will restart the clients that are running under supervisor whenever buildout runs. This may be undesirable in situations where uptime is a high priority and clients are slow to start serving requests.
+
+The full Plone Ansible Playbook has a nice alternative in such cases: a restart script that removes clients from the load-balancer cluster and doesn't return them until after priming caches.
 
 
 Cron jobs
@@ -359,6 +481,7 @@ plone_keep_blob_days
 
 How many days of blob backups do you wish to keep? This is typically set to `keep_backups * days_between_packs`` days. Default is ``14``.
 
+
 plone_backup_path
 ~~~~~~~~~~~~~~~~~
 
@@ -367,3 +490,13 @@ plone_backup_path
     plone_backup_path: /mnt/backup/plone
 
 Where do you want to put your backups? The destination must be writable by the ``plone_daemon`` user. Defaults to ``./var`` inside your buildout directory. Subdirectories are created for blob and filestorage backups.
+
+
+plone_rsync_backup_options
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_rsync_backup_options: --perms --chmod=ug+rx
+
+Rsync options set within the backup scripts (see [collective.recipe.backup](https://pypi.python.org/pypi/collective.recipe.backup#supported-options)). This can be used (for example) to change permissions on backups so they can be downloaded more easily. Defaults to empty.
