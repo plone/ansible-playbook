@@ -32,6 +32,7 @@ plone_additional_eggs:
   - collective.workspace
   - collective.isotope
   - Products.PloneFormGen
+  - collective.recaptcha
   - simplejson
   - Products.PloneHotfix20160419
 
@@ -93,13 +94,15 @@ webserver_virtualhosts:
     zodb_path: /ploneorg
   - hostname: new.plone.org
     zodb_path: /ploneorg
-  - hostname: plone.org
-    default_server: yes
-    zodb_path: /ploneorg
   - hostname: www.plone.org
     extra:
       - return 301 https://plone.org$request_uri;
-      - return 301 https://plone2.org$request_uri;
+  - hostname: plone.org
+    default_server: yes
+    zodb_path: /ploneorg
+    extra:
+      - rewrite /help /support redirect;
+      - rewrite /edu /community/edu redirect;
 
 additional_packages:
   - nodejs-legacy
