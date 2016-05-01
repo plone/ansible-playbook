@@ -11,16 +11,27 @@
 
   vars:
     users:
-      - name: steve
+      # - name: steve
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6IMFOP2K/n2UbtP29d9hU1Ae9vkxpCtd87H7PX5xBfjsh1Tkvq3rRE+Jr6pzPja4gPRCikLm3fV3PdEp4eh1OaSP4SnuBFWcHOpxdDuU+pjNdGMBZlQqjzC0cxjAvW7ZtnT7YHYzH6zHr+t7Z8IESsnw7idDUCupr4Zqot7PaylnI4NLb1zQQxyD+XnjPRu8Ne/0JSyKizkCkXhUuYDbvRYFAs/jFm3pmurodrOx62cwVpdztsHiK5mdTwIQhObzSb3ZnDLNNfXO3yUcX9kWJ6eQ9iP5whw2OBddf+2EoCZtshYIqtGNYaFFdf8tGF5ZwugCHxe/gzlzDMVb9ZM49w== steve@dcn.org
+      # - name: fulvio
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA7GERk76wrx4ih37ulyRZwFRhT4HvhKXUadqQ1cmosEQfOA9Z7SQDxqMjzNvxakuF+4RiZd0NpmenN/R1yg1+PN0pzPd5W0xNpqKUJE5C+l6bFoeCkFhCqOlVSn1JigBNXkeQ0AlweIhhb3RPbPP1iYX0sLidBmmRnq+4+1+AFHLDWsj2jI7nyvpDfU5nM0BNQJHqsedkQkbYSrPtGK4ZnnLXqdLI4qGtomvMa4yu3G9Cn71Sfr6wFaPQ7mE0o66/NiSR3d0f92Ek6KEvn7Yqcysd2zf9Gm4coi3NfIdtVkkbBAKD2W6RnDipma/mN/1kbqzVqpn/lOn9lTnpRGVNUw== fulvio@Macintosh-2.local
+      # - name: tkimnguyen
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9jnh/9e38IzpuaFz35a/ddn5ilZifqgCk4/rsWyLQ2facSxOkAHW89bNNlnwILYyyKXoJP42h2HMmh+dTakrYeZl2dSAILScEkPJ2kQPYwQEHAH++fuYRE2uw6KShnB7siSPpjoF1Or6PrN5cnazViXbRdelxGEBBu+JZUUhD0l5DbCMWNh1QwQssaMY8dOFfkB32o/c6pZtMYiX8O8LhZsqgerLqfsVOqiC1IMbMZi89BXBKKe5tFGY1oFzBiJX9JfIpEaTZ8iw11XaA2Y36Gjt4O7WPswTbpmbfdYapf5cUPMDntSh2kZX6dzjkqAnIXTXyBX7C55uFyCkv+bFz kim@TKNMBP2.local
+      # - name: polyester
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBrFIlKFImbrLyBAdrDNRi0aRsM/d5ZfZgW4deW0l10m5CXgiSEp3U/9mO4RWBDEu6U6bmibGW04OedFYUwfy90SAfcAnJGLOuspc7lSH7vyH6bgCKX0BsVZ0tPw4LUjfhLhjCt5kSYchsFuLZMGIVLEzsIhHwq0JI9aIL9I1/kNMmY9MW3IEcsJ+Wm81UrkMxDCaLKWFWMi9VH3S3QxnLqRl8tdVQ6sxFN9XIaPl4wX98iTBDndwAAaqBlcUor/ZCQ4cbwSy4qKBzkh67Q5FDGJGOq8UVZjMtpyvXi1ExiZ0OAPRwAsCXt7PghYLrj2pBGB1U3ZZT/LGfXs2jX8qvcCK10g3UfnxmO00pbE9y/uCUb8/CSySyion249BE3a7BUntlZgrdu7UsuYLsQqLFJlAzNwUiOtUESyYrkSBhU+VTg0MlSuEUDXXM39SUOD6fUlijOfPrmMpDSFuEHmjbuK57piio3iviztMJuih+Jm7FMaoQcUcx+xZEXQ6S1bOQ+n7GYDI3i6JQ/ZBuO9q4J7eyOJfjRMjbLMQvwQeO2lQKJszFntVFwomuwCVjnlxvWRqh7wEjcEjNzOE7au1Ge8pjub1as1BYNyiw1Am8QhVdOU+YIR53tyeuT9+z09inoDM08NU0aahXudh6X/8wJYWDilY7fGOacbdY53PugQ== polyester@itsibitsi
+      # - name: gforcada
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwB5WFHMS/tLEtc7bvTFxZsVKqJ73gzd+MoTay3R1Ymgq951N3OTC8YoPDKoEtxkU/QTRfcR8XuL7UaMzq4FE4MSdUXa2B8coAnj0xSw9Is/+CpJBN/rOXwaJc9oX6wC63LayvCYByLU5qNfp37tw3Y2ld754JrP5yWVy57hr18+WlGYJuKOs9vZxBk0c8ATCoGAxcpYJl5nOTbK33A4IH2eDgeJvPkAoKBWvPgk6GDz3Qhj1D45nJ74nSo5eyMgVA8Cm6IO5TIB8/tJS6MBofoWx436kVXrCi8KJjrjyHakTolFj3efepOJG7TmC+E+s5trwVBMwYuoFiHIpvnBYVQ== gil@trastu
+      - name: esteele
         groups: sudo
-        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6IMFOP2K/n2UbtP29d9hU1Ae9vkxpCtd87H7PX5xBfjsh1Tkvq3rRE+Jr6pzPja4gPRCikLm3fV3PdEp4eh1OaSP4SnuBFWcHOpxdDuU+pjNdGMBZlQqjzC0cxjAvW7ZtnT7YHYzH6zHr+t7Z8IESsnw7idDUCupr4Zqot7PaylnI4NLb1zQQxyD+XnjPRu8Ne/0JSyKizkCkXhUuYDbvRYFAs/jFm3pmurodrOx62cwVpdztsHiK5mdTwIQhObzSb3ZnDLNNfXO3yUcX9kWJ6eQ9iP5whw2OBddf+2EoCZtshYIqtGNYaFFdf8tGF5ZwugCHxe/gzlzDMVb9ZM49w== steve@dcn.org
-      - name: fulvio
-        groups: sudo
-        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA7GERk76wrx4ih37ulyRZwFRhT4HvhKXUadqQ1cmosEQfOA9Z7SQDxqMjzNvxakuF+4RiZd0NpmenN/R1yg1+PN0pzPd5W0xNpqKUJE5C+l6bFoeCkFhCqOlVSn1JigBNXkeQ0AlweIhhb3RPbPP1iYX0sLidBmmRnq+4+1+AFHLDWsj2jI7nyvpDfU5nM0BNQJHqsedkQkbYSrPtGK4ZnnLXqdLI4qGtomvMa4yu3G9Cn71Sfr6wFaPQ7mE0o66/NiSR3d0f92Ek6KEvn7Yqcysd2zf9Gm4coi3NfIdtVkkbBAKD2W6RnDipma/mN/1kbqzVqpn/lOn9lTnpRGVNUw== fulvio@Macintosh-2.local
-      - name: sneridagh
-        groups: sudo
-        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1Sy0WqIJ5axkJybkN128krc4nJAUtcYidh+VHZYAGCH7xezrI3cB87CWQfI5ALCzrhLsPiquceuuWhca9WPtvP0SdP05Vs+djtzSgKbgmSdAhcefT5tlKH775XCcesqK64YZU+FXm1+LUIST7yXU+fXHSlBsWd2c59clj9mMEmqUdHDH2HrRZC2xzveR22XfKlKkxMrTmhwofkp+g9PYoeJjfXUCYX4Ia/vbCQoKPcovMEQH0BEQ+GOGKxV0W1oFtu3X4f3dl/TwC6Mz/8ESe2cQ7Ae7q99o+pl3NEMjiZQFonszidB26QoXXmjI1n/pc0mwm8INsL1GcPJEFEJedw== sneridagh@gmail.com
-
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAodkXjc114otwM9BybMox9DG5ICUnlwhks0bXydfumpA5uOoAKMcsDl/PrJzLBMrW2AGsxvHUb2bDfMIo+4BHHdM1Z8dH5ifFozBedsPaRsGf8WACmfoZjB00jOHYFpvc05C0ccalFGuoVfYiR97vdNnqZvQqpKBjvA5tWgEwjOeUx7XwRZKOksESpMkoFOcH0Z3khCNTR3ItasjXIp27K5oUCJMzN3Wey2luRH2FTMKZXDJpkPnu5McwE1xuod6CwmmBd6r+BR/WTA7PB1Xh1WNQ5ZbRXa14N7KhNFUgQfl3Rxta9/IWMcTm3ggWjK+MAyKnW3tGun+oqOJq2d68lw== ems174@psu.edu
+      # - name: sneridagh
+      #   groups: sudo
+      #   auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1Sy0WqIJ5axkJybkN128krc4nJAUtcYidh+VHZYAGCH7xezrI3cB87CWQfI5ALCzrhLsPiquceuuWhca9WPtvP0SdP05Vs+djtzSgKbgmSdAhcefT5tlKH775XCcesqK64YZU+FXm1+LUIST7yXU+fXHSlBsWd2c59clj9mMEmqUdHDH2HrRZC2xzveR22XfKlKkxMrTmhwofkp+g9PYoeJjfXUCYX4Ia/vbCQoKPcovMEQH0BEQ+GOGKxV0W1oFtu3X4f3dl/TwC6Mz/8ESe2cQ7Ae7q99o+pl3NEMjiZQFonszidB26QoXXmjI1n/pc0mwm8INsL1GcPJEFEJedw== sneridagh@gmail.com
 
   tasks:
 
