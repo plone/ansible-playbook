@@ -90,6 +90,20 @@ plone_additional_versions:
 webserver_virtualhosts:
   - hostname: barcelona.plone.org
     zodb_path: /ploneorg
+  - hostname: barcelona.plone.org
+    zodb_path: /ploneorg
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
+  - hostname: barcelona_direct.plone.org
+    zodb_path: /ploneorg
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
   - hostname: barcelona_direct.plone.org
     zodb_path: /ploneorg
   - hostname: new.plone.org
@@ -100,6 +114,17 @@ webserver_virtualhosts:
   - hostname: plone.org
     default_server: yes
     zodb_path: /ploneorg
+    extra:
+      - rewrite /help /support redirect;
+      - rewrite /edu /community/edu redirect;
+  - hostname: plone.org
+    default_server: yes
+    zodb_path: /ploneorg
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
     extra:
       - rewrite /help /support redirect;
       - rewrite /edu /community/edu redirect;
