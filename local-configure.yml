@@ -100,8 +100,8 @@ webserver_virtualhosts:
       key: /etc/nginx/ssl/wildcard.key
       crt: /etc/nginx/ssl/wildcard.crt
     extra:
-      - rewrite /help /support redirect;
-      - rewrite /edu /community/edu redirect;
+      - rewrite ^/help /support redirect;
+      - rewrite ^/edu /community/edu redirect;
 
   - hostname: barcelona_direct.plone.org
     zodb_path: /ploneorg
@@ -111,14 +111,14 @@ webserver_virtualhosts:
       key: /etc/nginx/ssl/wildcard.key
       crt: /etc/nginx/ssl/wildcard.crt
     extra:
-      - rewrite /help /support redirect;
-      - rewrite /edu /community/edu redirect;
+      - rewrite ^/help /support redirect;
+      - rewrite ^/edu /community/edu redirect;
 
   - hostname: barcelona_direct.plone.org
     zodb_path: /ploneorg
     extra:
-      - rewrite /help /support redirect;
-      - rewrite /edu /community/edu redirect;
+      - rewrite ^/help /support redirect;
+      - rewrite ^/edu /community/edu redirect;
 
   - hostname: new.plone.org
     zodb_path: /ploneorg
@@ -139,8 +139,8 @@ webserver_virtualhosts:
       key: /etc/nginx/ssl/wildcard.key
       crt: /etc/nginx/ssl/wildcard.crt
     extra:
-      - rewrite /help /support redirect;
-      - rewrite /edu /community/edu redirect;
+      - rewrite ^/help /support redirect;
+      - rewrite ^/edu /community/edu redirect;
 
 additional_packages:
   - nodejs-legacy
