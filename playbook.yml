@@ -11,6 +11,8 @@
     - name: Fail if Ansible is ancient
       fail: msg="We need Ansible >= 2.0. Please update your kit. 'pip install -U Ansible'"
       when: ansible_version.major < 2
+      tags:
+        - always
 
     - name: Include vars from local-configure.yml if found
       include_vars: "{{ item }}"
@@ -198,4 +200,3 @@
     - name: update timezone
       when: ansible_os_family == 'RedHat'
       file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
-
