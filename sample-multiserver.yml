@@ -70,7 +70,7 @@ playbook_plones:
         certificate_file: tests/snakeoil.pem
         key_file: tests/snakeoil.pem
   - plone_instance_name: secondary
-    plone_version: '4.3.7'
+    plone_version: '4.3.9'
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080

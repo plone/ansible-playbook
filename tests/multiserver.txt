@@ -54,6 +54,37 @@ And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against %s" % box
 
+Check our motd.
+
+    >>> print ssh_run('cat /etc/motd')
+    <BLANKLINE>
+    This server is configured via Ansible.
+    Do not change configuration settings directly.
+    <BLANKLINE>
+    Admin email: test@example.com
+    Custom Services/Ports
+    primary: /usr/local/plone-5.0/primary
+        /Plone: trusty [u'default']
+        /Plone: trusty [u'default']
+        zeo server: 127.0.0.1:8100
+        haproxy front end: 8080
+        zeo clients: 127.0.0.1:8081 127.0.0.1:8082
+    secondary: /usr/local/plone-5.0/secondary
+        /Plone: localhost []
+        zeo server: 127.0.0.1:7100
+        haproxy front end: 7080
+        zeo clients: 127.0.0.1:7081 127.0.0.1:7082
+    haproxy monitor: 127.0.0.1:1080
+    varnish: 127.0.0.1:6081
+    varnish admin: 127.0.0.1:6082
+    munin-node: 4949
+    postfix: 25 (host-only)
+    nginx:
+    - trusty: *:80
+    - trusty: *:443
+    - localhost: *:80
+    <BLANKLINE>
+
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
@@ -61,10 +92,10 @@ in all expected ways.
     >>> listeners = sorted(set(cut(rez, [0, 2, 8])))
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    python2.7   plone_daemon    127.0.0.1:7081
-    python2.7   plone_daemon    127.0.0.1:7082
-    python2.7   plone_daemon    127.0.0.1:8081
-    python2.7   plone_daemon    127.0.0.1:8082
+    python...   plone_daemon    127.0.0.1:7081
+    python...   plone_daemon    127.0.0.1:7082
+    python...   plone_daemon    127.0.0.1:8081
+    python...   plone_daemon    127.0.0.1:8082
     zeoserver   plone_daemon    127.0.0.1:7100
     zeoserver   plone_daemon    127.0.0.1:8100
 
@@ -92,7 +123,7 @@ in all expected ways.
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq')
+    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq').replace('python2.7', 'python   ')
     fail2ban-server root            root
     haproxy         haproxy         haproxy
     memmon          root            root
@@ -100,7 +131,7 @@ Check the process list.
     nginx           root            root
     nginx           www-data        www-data
     pickup          postfix         postfix
-    python2.7       plone_daemon    plone_group
+    python          plone_daemon    plone_group
     qmgr            postfix         postfix
     supervisord     root            root
     varnishd        root            root
@@ -252,6 +283,7 @@ Secondary instance tests
     drwxr-xr-x  root    ...     .
     ...                         ..
     drwxr-xr-x  plone_buildout  plone_group buildout-cache
+    drwxr-xr-x  root    root    Python-2.7
     drwxr-xr-x  plone_buildout  plone_group secondary
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
@@ -259,9 +291,7 @@ Secondary instance tests
     -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
-    drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
-    drwxr-xr-x  plone_buildout  plone_group lib...
     drwxr-xr-x  plone_buildout  plone_group parts
     -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
