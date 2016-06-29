@@ -102,6 +102,15 @@ Let's take a look at a common use for these options:
 
 This is a *redirect to https* setting.
 
+``location_extra`` may be used to add directives *within* the location block:
+
+.. code-block:: yaml
+
+    - hostname: plone.com
+      protocol: http
+      location_extra: |
+        auth_basic "Private Demo - please enter your credentials";
+        auth_basic_user_file /etc/nginx/htpasswd;
 
 Status and monitoring
 ~~~~~~~~~~~~~~~~~~~~~

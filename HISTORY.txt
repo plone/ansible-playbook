@@ -1,5 +1,8 @@
 1.2.9 (unreleased)
 
+- Add location_extra webserver option. Fixes #35.
+  [smcmahon]
+
 - Always run Ansible version check.
   [djowett]
 

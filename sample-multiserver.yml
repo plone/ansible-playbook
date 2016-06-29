@@ -77,5 +77,7 @@ playbook_plones:
     webserver_virtualhosts:
       - hostname: localhost
         zodb_path: /Plone
+        extra: "# test comment here; added via extra"
+        location_extra: "# test comment here; added via location_extra"
 
 
