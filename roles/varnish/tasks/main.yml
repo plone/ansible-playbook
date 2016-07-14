@@ -14,6 +14,10 @@
     enabled=yes
   when: ansible_os_family == 'RedHat'
 
+- name: Enable selinux boolean varnishd_connect_any
+  when: ansible_selinux
+  seboolean: name=varnishd_connect_any state=yes persistent=yes
+
 - name: Determine varnish version
   shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9.]+) .+/\1/"'
   register: varnish_version
@@ -27,12 +31,16 @@
   register: sysd_varnish
 
 - name: Assure file cache directory exists
-  when: varnish_version < '4' and proxycache_method == 'file'
+  when: proxycache_method == 'file'
   file:
     path=/var/lib/varnish
     state=directory
     owner=varnish
     group=varnish
+
+- name: Set cache file path for Varnish 4+
+  when: proxycache_method == 'file' and varnish_version >= '4'
+  set_fact: proxycache_method="{{ proxycache_method }},/var/lib/varnish"
 
 - name: init.d setup
   when: sysd_varnish.rc > 0 and ansible_os_family == 'Debian'

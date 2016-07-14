@@ -1,5 +1,11 @@
 1.2.9 (unreleased)
 
+- Set selinux varnishd_connect_any to true on RedHat. Otherwise, Varnish can only connect to 8080.
+  [smcmahon]
+
+- Use plone_server role 1.2.9. Update to use Plone 5.0.5.
+  [smcmahon]
+
 - Add location_extra webserver option. Fixes #35.
   [smcmahon]
 
