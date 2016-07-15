@@ -34,7 +34,7 @@ muninnode_query_ips:
 
 # Plone 4.3.x and 5.0.x are currently tested and working.
 # Make sure this setting is quoted so that it's interpreted as a string.
-plone_version: '5.0.4'
+plone_version: '5.0.5'
 
 # 2 clients
 plone_client_count: 2
@@ -70,7 +70,7 @@ playbook_plones:
         certificate_file: tests/snakeoil.pem
         key_file: tests/snakeoil.pem
   - plone_instance_name: secondary
-    plone_version: '4.3.9'
+    plone_version: '4.3.10'
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080

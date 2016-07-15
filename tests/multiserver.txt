@@ -64,8 +64,8 @@ Check our motd.
     Admin email: test@example.com
     Custom Services/Ports
     primary: /usr/local/plone-5.0/primary
-        /Plone: trusty [u'default']
-        /Plone: trusty [u'default']
+        /Plone: ... [u'default']
+        /Plone: ... [u'default']
         zeo server: 127.0.0.1:8100
         haproxy front end: 8080
         zeo clients: 127.0.0.1:8081 127.0.0.1:8082
@@ -80,8 +80,8 @@ Check our motd.
     munin-node: 4949
     postfix: 25 (host-only)
     nginx:
-    - trusty: *:80
-    - trusty: *:443
+    - ...: *:80
+    - ...: *:443
     - localhost: *:80
     <BLANKLINE>
 
@@ -170,7 +170,6 @@ Is everything where we expect it to be?
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib...
     drwxr-xr-x  plone_buildout  plone_group parts
-    -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
     drwxr-xr-x  root    root    scripts
     drwxr-xr-x  plone_buildout  plone_group src
@@ -293,14 +292,13 @@ Secondary instance tests
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group parts
-    -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
     drwxr-xr-x  root    root    scripts
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
 
     >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
-    drwxr-xr-x  root    staff   .
+    drwxr-xr-x  root    ...   .
     ...                         ..
     drwxrws---  plone_daemon    plone_group secondary
 

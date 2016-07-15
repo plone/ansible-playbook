@@ -1,5 +1,8 @@
 1.2.9 (unreleased)
 
+- Document use of ansible_ssh_pipelining in plone role.
+  [smcmahon]
+
 - Set selinux varnishd_connect_any to true on RedHat. Otherwise, Varnish can only connect to 8080.
   [smcmahon]
 
