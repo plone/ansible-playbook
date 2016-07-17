@@ -104,9 +104,10 @@ in all expected ways.
     haproxy haproxy *:7080
     haproxy haproxy *:8080
 
-    >>> print "\n".join([s for s in listeners if 'varnishd' in s])
-    varnishd        root    127.0.0.1:6082...
-    varnishd        varnish *:6081
+    >>> listening_on = ['127.0.0.1:6082', '*:6081']
+    >>> rez = "\n".join([s for s in listeners if 'varnishd' in s])
+    >>> [s for s in listening_on if s not in rez]
+    []
 
     >>> print "\n".join([s for s in listeners if 'nginx' in s])
     nginx   ... *:443
@@ -123,19 +124,13 @@ in all expected ways.
 
 Check the process list.
 
-    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "(python|varnishd|nginx|haproxy|supervisor|memmon|munin|post|fail2ban)" | egrep -v "(egrep|systemd)" | sort | uniq').replace('python2.7', 'python   ')
-    fail2ban-server root            root
-    haproxy         haproxy         haproxy
-    memmon          root            root
-    munin-node      root            root
-    nginx           root            root
-    nginx           www-data        www-data
-    pickup          postfix         postfix
-    python          plone_daemon    plone_group
-    qmgr            postfix         postfix
-    supervisord     root            root
-    varnishd        root            root
-    varnishd        varnish         varnish
+    >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "plone" | egrep -v "(egrep|systemd)" | sort')
+    python2.7       plone_daemon    plone_group
+    python2.7       plone_daemon    plone_group
+    python2.7       plone_daemon    plone_group
+    python2.7       plone_daemon    plone_group
+    zeoserver       plone_daemon    plone_group
+    zeoserver       plone_daemon    plone_group
 
 Check supervisor's job list.
 
@@ -169,7 +164,7 @@ Is everything where we expect it to be?
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib...
-    drwxr-xr-x  plone_buildout  plone_group parts
+    drwxr-xr-x  plone_buildout  plone_group parts...
     drwxr-xr-x  plone_buildout  plone_group products
     drwxr-xr-x  root    root    scripts
     drwxr-xr-x  plone_buildout  plone_group src
@@ -197,21 +192,24 @@ Is everything where we expect it to be?
 
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"' % box)
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
-    X-Varnish: ...
-    Age: 0
-    Via: 1.1 varnish...
+    Content-Type: text/html;charset=utf-8
     X-Varnish-Cache: MISS
 
 And, we should have gzip encoding available:
 
-    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s | egrep "^(HTTP|Content-Encoding)"' % box)
     HTTP/1.1 200 OK
-    ...
-    Content-Encoding: gzip...
+    Content-Encoding: gzip
+
+Asking twice for a static resource should result in a cache hit.
+
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"' % box)
+    HTTP/1.1 200 OK
+    Content-Type: image/png
+    X-Varnish-Cache: HIT
 
 SSL should work. Note that we're testing with a self-signed certificate:
 
@@ -291,7 +289,7 @@ Secondary instance tests
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     -rw-------  plone_buildout  plone_group .installed.cfg
-    drwxr-xr-x  plone_buildout  plone_group parts
+    drwxr-xr-x  plone_buildout  plone_group parts...
     drwxr-xr-x  plone_buildout  plone_group products
     drwxr-xr-x  root    root    scripts
     drwxr-xr-x  plone_buildout  plone_group src
@@ -320,21 +318,16 @@ Secondary instance tests
 
 We should be able to get a page on port 80.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://localhost')
+    >>> print ssh_run('curl --ipv4 -I -s http://localhost | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
-    X-Varnish: ...
-    Age: 0
-    Via: 1.1 varnish...
+    Content-Type: text/html;charset=utf-8
     X-Varnish-Cache: MISS
 
 And, we should have gzip encoding available:
 
-    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://%s' % box)
+    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://localhost/ | egrep "^(HTTP|Content-Encoding)"')
     HTTP/1.1 200 OK
-    ...
-    Content-Encoding: gzip...
+    Content-Encoding: gzip
 
 Let's prove to ourselves that this is Plone 4:
 
@@ -345,12 +338,9 @@ Let's prove to ourselves that this is Plone 4:
 Asking twice for a static resource should result in a cache hit.
 
     >>> print ssh_run('curl --ipv4 -I -s http://localhost/logo.png > /dev/null')
-    >>> print ssh_run('curl --ipv4 -I -s http://localhost/logo.png')
+    >>> print ssh_run('curl --ipv4 -I -s http://localhost/logo.png | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
     Content-Type: image/png
-    ...
     X-Varnish-Cache: HIT
 
 The restart script exercises our control of the supervisor
@@ -380,16 +370,10 @@ processes, haproxy and varnish.
     <BLANKLINE>
     Done
 
-The varnish cache for this host should now be empty.
-
-    >>> print ssh_run('curl --ipv4 -I -s http://localhost/logo.png')
+    >>> print ssh_run('curl --ipv4 -I -s http://localhost/logo.png | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
     Content-Type: image/png
-    ...
     X-Varnish-Cache: MISS
-
 
     >>> print >> sys.stderr, "Tests done"
 
