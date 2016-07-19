@@ -11,10 +11,42 @@
     mode=644
   notify: restart munin-node
 
-- name: Add custom monitors
+- name: Add custom plone monitor
   copy:
-    src=monitors/
+    src=monitors/plonezope_res
     dest=/etc/munin/plugins/
+    mode=775
+  notify: restart munin-node
+
+- name: Add custom haproxy monitors
+  copy:
+    src=monitors/haproxy/
+    dest=/etc/munin/plugins/
+    mode=775
+  when: install_loadbalancer|default(True)
+  notify: restart munin-node
+
+- name: Add standard haproxy monitor for backend
+  file:
+    path="/etc/munin/plugins/haproxy_backend"
+    state=link
+    src="/usr/share/munin/plugins/haproxy_"
+  when: install_loadbalancer|default(True)
+  notify: restart munin-node
+
+- name: Configure custom haproxy monitors
+  template:
+    src=haproxy.j2
+    dest=/etc/munin/plugin-conf.d/
+  when: install_loadbalancer|default(True)
+  notify: restart munin-node
+
+- name: Add standard varnish monitor for hit rate
+  file:
+    path="/etc/munin/plugins/varnish_hit_rate"
+    state=link
+    src="/usr/share/munin/plugins/varnish_"
+  when: install_proxycache|default(True)
   notify: restart munin-node
 
 - name: Deactivate unneeded monitors

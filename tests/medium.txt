@@ -11,7 +11,7 @@ Test the "medium" sample specification.
     ...   - curl
     ...   - lsof
     ... muninnode_query_ips:
-    ...     - 127.0.0.1
+    ...     - 10.0.2.2
     ... """
 
     >>> import subprocess

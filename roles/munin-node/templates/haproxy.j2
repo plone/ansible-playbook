@@ -1,0 +1,3 @@
+[haproxy*]
+  env.url  http://127.0.0.1:{{ loadbalancer_monitor_port }}/admin?stats;csv
+  env.backend {% for front_end in playbook_plones %}{{ front_end.plone_instance_name|default(plone_instance_name) }} {% endfor %}
