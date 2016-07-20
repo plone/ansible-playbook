@@ -42,10 +42,12 @@ server {
 
 {% if item.get('zodb_path') != None %}
   location / {
+{%     if 'auth_basic ' not in item.get('location_extra', '') %}
     auth_basic off;
-    {% if item.get('location_extra') != None %}
-      {{ item.location_extra }}
-    {% endif %}
+{%     endif %}
+{%     if item.get('location_extra') != None %}
+    {{   item.location_extra }}
+{%     endif %}
     rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }
