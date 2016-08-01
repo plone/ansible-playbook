@@ -32,6 +32,9 @@
       - name: sneridagh
         groups: sudo
         auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1Sy0WqIJ5axkJybkN128krc4nJAUtcYidh+VHZYAGCH7xezrI3cB87CWQfI5ALCzrhLsPiquceuuWhca9WPtvP0SdP05Vs+djtzSgKbgmSdAhcefT5tlKH775XCcesqK64YZU+FXm1+LUIST7yXU+fXHSlBsWd2c59clj9mMEmqUdHDH2HrRZC2xzveR22XfKlKkxMrTmhwofkp+g9PYoeJjfXUCYX4Ia/vbCQoKPcovMEQH0BEQ+GOGKxV0W1oFtu3X4f3dl/TwC6Mz/8ESe2cQ7Ae7q99o+pl3NEMjiZQFonszidB26QoXXmjI1n/pc0mwm8INsL1GcPJEFEJedw== sneridagh@gmail.com
+      - name: pumukel
+        groups: sudo
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNwzCbri2So/D19UkHXX1BjR7J61J+wNKaHUm71+RQrynUzUuSrpoFUZKi7446y78QhrK4Mqet0iEGM0saeG+SaTa/nMmk0NodEoxgVNtsj1I4wySbfIMEMlEzQe+c/LltV3ldjNRBxeonGWz2ztgHbFESmIH2ti0FGfI4DjRSKISzuiPIfFNUzKn3eRbPMdvC9aWt8aSS0QWpJMBjg4ZMwXNPxiqux5ol/vHgtwvq3tDpCXgLC5xAQYTtNpT5RMD8j8rzCYxAv++HnJJvSrdIeIMDo9eS8aNmoRiPJ7bHuiq6hRSUuVvzQnrP5WseEzO8Lalj6c88qpd7YMvprGW5 alex@Pumukel-GNU-Tablet
 
   tasks:
 
