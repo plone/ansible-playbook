@@ -27,20 +27,7 @@ sub vcl_recv {
     }
 {% endif %}
 
-    # Sanitize compression handling
-    if (req.http.Accept-Encoding) {
-        if (req.url ~ "\.{{ nocompress_ext }}$") {
-            # No point in compressing these
-            unset req.http.Accept-Encoding;
-        } elsif (req.http.Accept-Encoding ~ "gzip") {
-            set req.http.Accept-Encoding = "gzip";
-        } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
-            set req.http.Accept-Encoding = "deflate";
-        } else {
-            # unknown algorithm
-            unset req.http.Accept-Encoding;
-        }
-    }
+    call sanitize_compression;
 
     # Handle special requests
     if (req.method != "GET" && req.method != "HEAD") {
@@ -68,18 +55,7 @@ sub vcl_recv {
         unset req.http.Authorization;
     }
 
-    # Sanitize cookies so they do not needlessly destroy cacheability for anonymous pages
-    if (req.http.Cookie) {
-        set req.http.Cookie = ";" + req.http.Cookie;
-        set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
-        set req.http.Cookie = regsuball(req.http.Cookie, ";{{ cache_sanitize_cookie_exceptions }}=", "; \1=");
-        set req.http.Cookie = regsuball(req.http.Cookie, ";[^ ][^;]*", "");
-        set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
-
-        if (req.http.Cookie == "") {
-            unset req.http.Cookie;
-        }
-    }
+    call sanitize_cookies;
 
     # Annotate request with X-Anonymous header if anonymous
     if (!(req.http.Cookie && req.http.Cookie ~ "{{ nonanonymous_cookies }}=")) {
@@ -97,3 +73,34 @@ sub vcl_deliver {
     }
 }
 
+# Sanitize compression handling
+sub sanitize_compression {
+    if (req.http.Accept-Encoding) {
+        if (req.url ~ "\.{{ nocompress_ext }}$") {
+            # No point in compressing these
+            unset req.http.Accept-Encoding;
+        } elsif (req.http.Accept-Encoding ~ "gzip") {
+            set req.http.Accept-Encoding = "gzip";
+        } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {
+            set req.http.Accept-Encoding = "deflate";
+        } else {
+            # unknown algorithm
+            unset req.http.Accept-Encoding;
+        }
+    }
+}
+
+# Sanitize cookies so they do not needlessly destroy cacheability for anonymous pages
+sub sanitize_cookies {
+    if (req.http.Cookie) {
+        set req.http.Cookie = ";" + req.http.Cookie;
+        set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
+        set req.http.Cookie = regsuball(req.http.Cookie, ";{{ cache_sanitize_cookie_exceptions }}=", "; \1=");
+        set req.http.Cookie = regsuball(req.http.Cookie, ";[^ ][^;]*", "");
+        set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
+
+        if (req.http.Cookie == "") {
+            unset req.http.Cookie;
+        }
+    }
+}
