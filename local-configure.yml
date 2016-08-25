@@ -35,6 +35,7 @@ plone_additional_eggs:
   - collective.recaptcha
   - simplejson
   - Products.PloneHotfix20160419
+  - plone.app.changeownership
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
@@ -84,6 +85,7 @@ plone_additional_versions:
   - "lazr.uri = 1.0.3"
   - "lazr.authentication = 0.1.3"
 #  - "pas.plugins.authomatic = 1.0a6"
+  - "plone.app.changeownership = 0.5"
 
 # Nginx settings
 
