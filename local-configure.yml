@@ -36,6 +36,7 @@ plone_additional_eggs:
   - simplejson
   - Products.PloneHotfix20160419
   - plone.app.changeownership
+  - Products.PloneHotfix20160830
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
@@ -86,6 +87,7 @@ plone_additional_versions:
   - "lazr.authentication = 0.1.3"
 #  - "pas.plugins.authomatic = 1.0a6"
   - "plone.app.changeownership = 0.5"
+  - "Products.PloneHotfix20160830 = 1.0"
 
 # Nginx settings
 
