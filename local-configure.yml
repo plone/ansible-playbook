@@ -48,7 +48,7 @@ plone_sources:
   - "collective.badge = git https://github.com/collective/collective.badge.git pushurl=git@github.com:collective/collective.badge.git"
   - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
   - "collective.isotope = git git://github.com/collective/collective.isotope.git pushurl=git@github.com:collective/collective.isotope.git"
-  - "plone.app.changeownership = git git@github.com:collective/plone.app.changeownership.git pushurl=git@github.com:collective/plone.app.changeownership.git branch=new-owner-text-field"
+  - "plone.app.changeownership = git https://github.com/collective/plone.app.changeownership.git pushurl=https://github.com/collective/plone.app.changeownership.git branch=new-owner-text-field"
 
 plone_additional_versions:
   - "check-manifest = 0.25"
