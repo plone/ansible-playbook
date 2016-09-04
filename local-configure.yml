@@ -48,6 +48,7 @@ plone_sources:
   - "collective.badge = git https://github.com/collective/collective.badge.git pushurl=git@github.com:collective/collective.badge.git"
   - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
   - "collective.isotope = git git://github.com/collective/collective.isotope.git pushurl=git@github.com:collective/collective.isotope.git"
+  - "plone.app.changeownership = git git@github.com:collective/plone.app.changeownership.git pushurl=git@github.com:collective/plone.app.changeownership.git branch=new-owner-text-field"
 
 plone_additional_versions:
   - "check-manifest = 0.25"
@@ -86,7 +87,6 @@ plone_additional_versions:
   - "lazr.uri = 1.0.3"
   - "lazr.authentication = 0.1.3"
 #  - "pas.plugins.authomatic = 1.0a6"
-  - "plone.app.changeownership = 0.5"
   - "Products.PloneHotfix20160830 = 1.0"
 
 # Nginx settings
