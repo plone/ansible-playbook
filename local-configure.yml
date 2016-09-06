@@ -145,6 +145,7 @@ webserver_virtualhosts:
     extra:
       - rewrite ^/help /support redirect;
       - rewrite ^/edu /community/edu redirect;
+      - rewrite ^/documentation/kb/installing-add-ons-quick-how-to http://docs.plone.org/manage/installing/installing_addons.html redirect;
 
 additional_packages:
   - nodejs-legacy
