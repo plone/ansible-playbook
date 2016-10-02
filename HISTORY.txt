@@ -1,5 +1,9 @@
 1.2.12 unreleased
 
+- Add a provisioning mechanism that creates vbox_host.cfg during vagrant provisioning.
+  This makes it easier to use Ansible directly against the newer generation of Vagrant boxes that don't have insecure keys.
+  [smcmahon]
+
 - Use subroutines to keep vcl_recv shorter in Varnish vcl.
   [gforcada]
 
