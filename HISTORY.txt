@@ -1,5 +1,8 @@
 1.2.12 unreleased
 
+- Use plone server role 1.2.12.
+  [smcmahon]
+
 - Use Plone 5.0.6 in samples.
   [smcmahon]
 

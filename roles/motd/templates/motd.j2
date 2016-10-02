@@ -1,5 +1,6 @@
-
 {{ motd }}
+Last Ansible provisioning: {{ ansible_date_time.iso8601 }}
+
 Admin email: {{ admin_email }}
 Custom Services/Ports
 {% for aplone in playbook_plones %}
