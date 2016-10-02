@@ -39,7 +39,7 @@ module AnsibleInventory
             /User (?<user>.+)/ =~ output
             /IdentityFile (?<keyfile>.+)/ =~ output
             # write an ansible inventory file
-            contents = "myhost ansible_ssh_port=#{port} ansible_ssh_host=#{host} ansible_ssh_user=#{user} ansible_ssh_private_key_file=#{keyfile}\n"
+            contents = "#{config.machine} ansible_ssh_port=#{port} ansible_ssh_host=#{host} ansible_ssh_user=#{user} ansible_ssh_private_key_file=#{keyfile}\n"
             File.open("vbox_host.cfg", "w") do |aFile|
               aFile.puts(contents)
             end
