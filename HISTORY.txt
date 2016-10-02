@@ -1,7 +1,12 @@
+1.2.12 unreleased
+
+- Use subroutines to keep vcl_recv shorter in Varnish vcl.
+  [gforcada]
+
 1.2.11 2016-09-22
 
 - Use plone server role 1.2.11.
-[smcmahon]
+  [smcmahon]
 
 1.2.10 2016-08-18
 
