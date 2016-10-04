@@ -1,5 +1,7 @@
 1.2.12 unreleased
 
+- Postfix "mydestination" parameter was incorrect, blocking local mail. Fixes #50.
+
 - Use plone server role 1.2.12.
   [smcmahon]
 
