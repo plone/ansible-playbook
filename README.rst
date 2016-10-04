@@ -49,7 +49,7 @@ TL;DR
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an Ansible inventory file for the remote host (look at vbox_host.cfg for an example) and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
+7. To deploy, create an Ansible inventory file for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
 
 8. Set a real password for your Plone instance on the target server;
 
