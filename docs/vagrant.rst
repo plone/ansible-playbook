@@ -12,10 +12,15 @@ If you've installed Ansible globally, no other steps are necessary. If you wish 
     cd ansible.playbook
     virtualenv ./
     bin/pip install ansible
-    bin/pip install ansible-vagrant
     vagrant up
 
-    bin/ansible-playbook-vagrant playbook.yml
+If you wish to run ``ansible-playbook`` directly with the command:
+
+.. code-block:: bash
+
+    bin/ansible-playbook -i vbox_host.cfg playbook.yml
+
+``vbox_host.cfg`` is automatically generated when vagrant provisions the host server.
 
 Common errors
 -------------
@@ -30,6 +35,8 @@ To resolve these errors, use the command:
     ssh-keygen -f "~/.ssh/known_hosts" -R [127.0.0.1]:2222
 
 to remove the old host key, then try again.
+
+This should not happen if you're using the generated vbox_host.cfg, as it turns of Ansible's host key checking.
 
 Testing
 -------

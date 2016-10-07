@@ -1,6 +1,10 @@
 1.2.12 unreleased
 
+- Turn of ssh strict host checking by Ansible in generated Vagrant vbox_host.cfg.
+  [smcmahon]
+
 - Postfix "mydestination" parameter was incorrect, blocking local mail. Fixes #50.
+  [smcmahon]
 
 - Use plone server role 1.2.12.
   [smcmahon]
