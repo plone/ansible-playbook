@@ -1,0 +1,6 @@
+Title = "Plone Errors"
+LogFile = NONE
+
+# PLONE_TARGETS is a json-ish (single-quotes act as dquotes) sequence of title, var dicts.
+
+$PLONE_TARGETS = "[{% for aplone in playbook_plones %}{{ "{" }}'title': '{{ aplone.plone_instance_name|default(plone_instance_name) }}', 'var': '{{ aplone.plone_var_path|default(plone_var_path) }}/{{ aplone.plone_instance_name|default(plone_instance_name) }}'{{ "}" }}, {% endfor %} {{ "{}" }}]"
