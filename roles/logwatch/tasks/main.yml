@@ -1,10 +1,17 @@
 ---
 
-- include: "{{ ansible_os_family }}.yml" 
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Custom logwatch files present
   copy:
     src=etc_logwatch/
     dest=/etc/logwatch/
+    owner=root
+    group=root
+
+- name: Plone Events logwatch configuration
+  template:
+    src=plone_events.j2
+    dest=/etc/logwatch/conf/services/plone_events.conf
     owner=root
     group=root

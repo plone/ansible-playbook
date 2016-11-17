@@ -1,3 +1,8 @@
+1.2.14 (unreleased)
+
+- Add logwatch for plone errors; add vsz and rss to supervisor process list watch.
+  [mcmahon]
+
 1.2.13 2016-10-07
 
 - We want plone_server 1.2.13.
