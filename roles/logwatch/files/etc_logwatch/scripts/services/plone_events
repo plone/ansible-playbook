@@ -45,7 +45,7 @@ def cleanLine(first_line, last_line):
     return time_pattern.sub('', line)
 
 
-def checkLogs(var_dir):
+def checkLogs(title, var_dir):
     """ Read all the log files under a particular ./var directory.
         Grab first and last line of every error entry.
         Count and print them.
@@ -54,6 +54,7 @@ def checkLogs(var_dir):
     event_logs = glob(os.path.join(var_dir, 'client*/event.log'))
     errors = {}
     first_line = ''
+    title_printed = False
     for log in event_logs:
         with open(log, 'ra') as f:
             in_entry = False
@@ -72,16 +73,16 @@ def checkLogs(var_dir):
     # sort so that most frequent errors are first; print them.
     if errors:
         for t in reversed(sorted([(errors[akey], akey) for akey in errors])):
+            if not title_printed:
+                print "=== %s ===" % title
+                title_printed = True
             print "%6d %s" % t
 
 if len(targets) == 0:
     print "No targets found"
 for plone in targets:
     title = plone.get('title')
-    if title is not None:
-        print "=== %s ===" % title
     var_dir = plone.get('var')
     # print var_dir
     if var_dir is not None:
-        checkLogs(var_dir)
-    print
+        checkLogs(title, var_dir)
