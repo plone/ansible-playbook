@@ -1,5 +1,8 @@
 1.2.14 (unreleased)
 
+- Add mailserver_maincf_extras option for Postfix setup.
+  [mcmahon]
+
 - Add logwatch for plone errors; add vsz and rss to supervisor process list watch.
   [mcmahon]
 
