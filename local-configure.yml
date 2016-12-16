@@ -150,6 +150,8 @@ webserver_virtualhosts:
       - rewrite ^/documentation/kb/installing-add-ons-quick-how-to http://docs.plone.org/manage/installing/installing_addons.html redirect;
       - rewrite ^/upgrade http://docs.plone.org/manage/upgrading/index.html redirect;
       - rewrite ^/donate https://plone.org/sponsors redirect;
+      - rewrite ^/products /download redirect;
+      - rewrite ^/jobs https://community.plone.org/c/jobs redirect;
 
 additional_packages:
   - nodejs-legacy
