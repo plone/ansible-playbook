@@ -152,6 +152,7 @@ webserver_virtualhosts:
       - rewrite ^/donate https://plone.org/sponsors redirect;
       - rewrite ^/products /download redirect;
       - rewrite ^/jobs https://community.plone.org/c/jobs redirect;
+      - rewrite ^/providers https://plone.com/providers redirect;
 
 additional_packages:
   - nodejs-legacy
