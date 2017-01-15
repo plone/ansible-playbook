@@ -122,3 +122,100 @@ You should know
 ~~~~~~~~~~~~~~~
 
 When you do specify a zodb_path, so that the webserver role knows that you're working with Plone, it will block URLs containing "/manage\_" and will block http basic authentication. This means that it will be difficult to use the Zope Management Interface via the web server reverse proxy. Instead, use an SSH tunnel to the load balancer. Remember, this is a production installation. It *should* be hard to use the ZMI via the public interface.
+
+SSL Settings
+~~~~~~~~~~~~
+
+**SSL Protocols**
+
+Globally:
+
+.. code-block:: yaml
+
+    ssl_protocols: "{{ intermediate_protocols }}"
+
+or, per-server:
+
+    - hostname: plone.com
+      protocol: https
+      ssl_protocols:  "{{ intermediate_protocols }}"
+
+Use this variable to control SSL protocols either globally or per virtual server.
+You may set these as a simple string or make use of one of three variables:
+
+    - modern_protocols
+    - intermediate_protocols
+    - old_protocols
+
+"Modern", "Intermediate" and "Old" are meant to match the matching settings from Mozilla's `Security/Server Side TLS >https://wiki.mozilla.org/Security/Server_Side_TLS>` recommendations.
+
+Default value:
+
+.. code-block:: yaml
+
+    ssl_protocols: "{{ modern_protocols }}"
+
+
+**SSL Ciphers**
+
+Globally:
+
+.. code-block:: yaml
+
+    ssl_ciphers: "{{ intermediate_ciphers }}"
+
+or, per-server:
+
+    - hostname: plone.com
+      protocol: https
+      ssl_ciphers:  "{{ intermediate_ciphers }}"
+
+Use this variable to control SSL ciphers either globally or per virtual server.
+You may set these as a simple string or make use of one of three variables:
+
+    - modern_ciphers
+    - intermediate_ciphers
+    - old_ciphers
+
+"Modern", "Intermediate" and "Old" are meant to match the matching settings from Mozilla's `Security/Server Side TLS >https://wiki.mozilla.org/Security/Server_Side_TLS>` recommendations.
+
+Default value:
+
+.. code-block:: yaml
+
+    ssl_ciphers: "{{ modern_ciphers }}"
+
+**Shared SSL Settings**
+
+.. code-block:: yaml
+
+    ssl_shared_conf: |
+      ssl_session_timeout 1h;
+      ssl_session_cache shared:SSL:5m;
+      ssl_session_tickets off;
+
+The value of this variable is written into the nginx conf.d directory as the file ``ssl_shared.conf``.
+Use this to change SSL settings that are meant to apply globally or may only be set once.
+
+Default value:
+
+.. code-block:: yaml
+
+    ssl_shared_conf: |
+      ssl_session_timeout 1d;
+      ssl_session_cache shared:SSL:50m;
+      ssl_session_tickets off;
+
+
+**http2**
+
+.. code-block:: yaml
+
+    allow_http2: no
+
+If your nginx version is >= 1.9.5, we turn on http2 for https virtual hosts.
+You may globally block this behavior by setting allow_http2 to "no".
+
+.. code-block:: yaml
+
+    allow_http2: yes
