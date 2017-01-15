@@ -1,5 +1,10 @@
 1.2.14 (unreleased)
 
+- Add mechanisms to control SSL variables like protocols and ciphers.
+  Add http2 support.
+  All documented in docs/webserver.rst.
+  [mcmahon]
+
 - Add mailserver_maincf_extras option for Postfix setup.
   [mcmahon]
 

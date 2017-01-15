@@ -22,6 +22,15 @@
     enabled=yes
   when: ansible_os_family == 'RedHat'
 
+- name: Get nginx version
+  shell: "/usr/sbin/nginx -v 2>&1 >/dev/null | sed -r 'sX^.*nginx/([0-9.]+).*$X\\1X'"
+  register: nginx_v_result
+  become: no
+
+- name: Should we use http2 if using ssl?
+  set_fact:
+    use_http2: "{{ allow_http2 | default(nginx_v_result.stdout | version_compare('1.9.5', 'ge')) }}"
+
 - name: Make sure sample host is absent
   when: ansible_os_family == 'Debian'
   file:
@@ -36,11 +45,21 @@
     state: absent
   notify: restart nginx
 
+- name: Shared ssl configuration
+  copy:
+    content: "{{ ssl_shared_conf }}"
+    dest: /etc/nginx/conf.d/ssl_shared.conf
+    mode: 0644
+
 - name: Make sure /etc/nginx/ssl exists
   file:
     path: /etc/nginx/ssl
     state: directory
     mode: 0755
+
+- name: Generate dhparam file
+  command: openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+    creates=/etc/nginx/ssl/dhparam.pem
 
 - name: Create zope-style virtual hosts
   when: ansible_os_family == 'Debian'
