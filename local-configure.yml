@@ -153,6 +153,7 @@ webserver_virtualhosts:
       - rewrite ^/products /download redirect;
       - rewrite ^/jobs https://community.plone.org/c/jobs redirect;
       - rewrite ^/providers https://plone.com/providers redirect;
+      - rewrite ^/wpd https://plone.org/events/wpd redirect;
 
 additional_packages:
   - nodejs-legacy
