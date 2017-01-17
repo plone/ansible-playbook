@@ -92,6 +92,8 @@ plone_additional_versions:
   - "Products.PloneHotfix20160830 = 1.0"
   - "Products.PloneHotfix20161129 = 1.2"
   - "Products.PloneHotfix20170117 = 1.0"
+  - "collective.recaptcha = 2.0.0"
+  - "norecaptcha = 0.3.0"
 
 # Nginx settings
 
