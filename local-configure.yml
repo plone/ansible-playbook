@@ -38,6 +38,7 @@ plone_additional_eggs:
   - plone.app.changeownership
   - Products.PloneHotfix20160830
   - Products.PloneHotfix20161129
+  - Products.PloneHotfix20170117
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
@@ -90,6 +91,7 @@ plone_additional_versions:
 #  - "pas.plugins.authomatic = 1.0a6"
   - "Products.PloneHotfix20160830 = 1.0"
   - "Products.PloneHotfix20161129 = 1.2"
+  - "Products.PloneHotfix20170117 = 1.0"
 
 # Nginx settings
 
