@@ -10,6 +10,10 @@
 # Update to admins@plone.org for live
 admin_email: stevem@plone.org
 
+mailserver_maincf_extras: |
+  # gmail won't accept us if we connect via ipv6
+  inet_protocols = ipv4
+
 plone_initial_password: admin
 
 muninnode_query_ips:

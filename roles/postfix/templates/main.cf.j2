@@ -29,7 +29,6 @@ smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
 myhostname = {{ inventory_hostname }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = localhost, localhost.localdomain
 mynetworks_style = host
 
 mailbox_size_limit = 0
@@ -49,3 +48,5 @@ smtpd_tls_security_level = encrypt
 relayhost =
 smtpd_tls_security_level = may
 {% endif %}
+
+{{ mailserver_maincf_extras }}

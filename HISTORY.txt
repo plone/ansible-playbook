@@ -1,5 +1,7 @@
 1.2.9 (unreleased)
 
+- plone.org: turned of postfix ipv6
+
 - Updated Postfix role to limit mydestination setting to localhost. Otherwise it would not be able to mail to its own hostname, even if that hostname had another MX.
   [smcmahon]
 
