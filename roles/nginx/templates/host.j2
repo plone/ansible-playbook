@@ -1,4 +1,10 @@
+# Plone virtual host file maintained via Plone Ansible Playbook
+
+{% for aplone in playbook_plones %}
+{% for item in aplone.webserver_virtualhosts %}
+
 server {
+  server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
 {% if item.get('protocol', 'http') == 'https' %}
   listen {{ item.address|default('*') }}:{{ item.port|default('443') }}{% if item.get('default_server') %} default_server{% endif %} ssl{% if use_http2 %} http2{% endif %};
 
@@ -14,11 +20,9 @@ server {
   ssl_ciphers "{{ item.ssl_ciphers|default(ssl_ciphers) }}";
   ssl_prefer_server_ciphers on;
   ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-  {% else %}
+{% else %}
   listen {{ item.address|default('*') }}:{{ item.port|default('80') }} {% if item.get('default_server') %}default_server{% endif %};
-  {% endif %}
-
-  server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
+{% endif %}
 
   client_max_body_size {{ item.client_max_body_size|default('2M') }};
 
@@ -61,3 +65,6 @@ server {
 {% endif %}
 
 }
+
+{% endfor %}
+{% endfor %}

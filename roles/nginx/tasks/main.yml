@@ -65,18 +65,16 @@
   when: ansible_os_family == 'Debian'
   template:
     src: host.j2
-    dest: /etc/nginx/sites-enabled/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}
+    dest: /etc/nginx/sites-enabled/plone_hosts
     mode: 0644
-  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   notify: restart nginx
 
 - name: Create zope-style virtual hosts
   when: ansible_os_family == 'RedHat'
   template:
     src: host.j2
-    dest: /etc/nginx/conf.d/{{ item.protocol|default('http') }}_{{ item.hostname|default(inventory_hostname)|replace('.', '_') }}.conf
+    dest: /etc/nginx/conf.d/plone_hosts.conf
     mode: 0644
-  with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
   notify: restart nginx
 
 - name: Copy certificate files
