@@ -31,6 +31,23 @@
   set_fact:
     use_http2: "{{ allow_http2 | default(nginx_v_result.stdout | version_compare('1.9.5', 'ge')) }}"
 
+- name: Set vhost directory - Debian
+  when: ansible_os_family == 'Debian'
+  set_fact:
+    vhost_path: /etc/nginx/sites-enabled/
+
+- name: Set vhost directory - el
+  when: ansible_os_family == 'RedHat'
+  set_fact:
+    vhost_path: /etc/nginx/conf.d
+
+- name: Make sure sample host is absent
+  when: ansible_os_family == 'Debian'
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+
 - name: Make sure sample host is absent
   when: ansible_os_family == 'Debian'
   file:
@@ -44,6 +61,11 @@
     path: /etc/nginx/conf.d/default.conf
     state: absent
   notify: restart nginx
+
+- name: Remove old-style vhost files
+  shell: "rm http_* https_*"
+  args:
+    chdir: "{{ vhost_path }}"
 
 - name: Shared ssl configuration
   copy:
@@ -62,18 +84,9 @@
     creates=/etc/nginx/ssl/dhparam.pem
 
 - name: Create zope-style virtual hosts
-  when: ansible_os_family == 'Debian'
   template:
     src: host.j2
-    dest: /etc/nginx/sites-enabled/plone_hosts
-    mode: 0644
-  notify: restart nginx
-
-- name: Create zope-style virtual hosts
-  when: ansible_os_family == 'RedHat'
-  template:
-    src: host.j2
-    dest: /etc/nginx/conf.d/plone_hosts.conf
+    dest: "{{ vhost_path }}/plone_hosts.conf"
     mode: 0644
   notify: restart nginx
 
