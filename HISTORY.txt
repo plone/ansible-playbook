@@ -1,5 +1,8 @@
 1.2.14 (unreleased)
 
+- motd was not picking up correct paths when using multiple plones. Fixed.
+  [smcmahon]
+
 - Remove uses of jinja2 "truncate", which has stopped working as advertised.
   [smcmahon]
 
