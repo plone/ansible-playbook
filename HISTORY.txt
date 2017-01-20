@@ -1,5 +1,8 @@
 1.2.14 (unreleased)
 
+- Remove uses of jinja2 "truncate", which has stopped working as advertised.
+  [smcmahon]
+
 - Add mechanisms to control SSL variables like protocols and ciphers.
   Add http2 support.
   All documented in docs/webserver.rst.
