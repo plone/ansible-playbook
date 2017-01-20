@@ -1,5 +1,8 @@
 1.2.14 (unreleased)
 
+- Use plone_server 1.2.14.
+  [smcmahon]
+
 - motd was not picking up correct paths when using multiple plones. Fixed.
   [smcmahon]
 
@@ -9,17 +12,18 @@
 - Add mechanisms to control SSL variables like protocols and ciphers.
   Add http2 support.
   All documented in docs/webserver.rst.
-  [mcmahon]
+  [smcmahon]
 
 - Add mailserver_maincf_extras option for Postfix setup.
-  [mcmahon]
+  [smcmahon]
 
 - Add logwatch for plone errors; add vsz and rss to supervisor process list watch.
-  [mcmahon]
+  [smcmahon]
 
 1.2.13 2016-10-07
 
 - We want plone_server 1.2.13.
+  [smcmahon]
 
 1.2.12 unreleased
 
