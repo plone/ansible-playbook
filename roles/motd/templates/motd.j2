@@ -2,21 +2,34 @@
 Last Ansible provisioning: {{ ansible_date_time.iso8601 }}
 
 Admin email: {{ admin_email }}
+
 Custom Services/Ports
-{% for aplone in playbook_plones %}
-{{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ aplone.plone_target_path|default(plone_target_path) }}/{{ aplone.plone_instance_name|default(plone_instance_name) }}
+---------------------
+plone:
+{%- for aplone in playbook_plones %}
+{% if plone_config.plone_target_path is defined %}
+    {% set work_target_path = aplone.plone_target_path %}
+{% elif aplone.plone_version is defined %}
+    {% set work_version = aplone.get('plone_version', plone_version) %}
+    {% set work_major_version = '.'.join(work_version.split('.')[0:2]) %}
+    {% set work_target_path = '/usr/local/plone-' + work_major_version %}
+{% else %}
+    {% set work_target_path = plone_target_path %}
+{% endif %}
+
+- {{ aplone.plone_instance_name|default(plone_instance_name) }}: {{ work_target_path }}/{{ aplone.plone_instance_name|default(plone_instance_name) }}
 {% for webserver in aplone.webserver_virtualhosts %}
-    {{ webserver.zodb_path|default('No Path Specified') }}: {{ webserver.hostname }} {{ webserver.aliases|default([]) }}
+    {{ webserver.zodb_path|default('No Path Specified') }}: {{ webserver.protocol|default('http') }}://{{ webserver.hostname }}, aliases: {{ webserver.aliases|default([]) }}
 {% endfor %}
     zeo server: 127.0.0.1:{{ aplone.plone_zeo_port|default(plone_zeo_port) }}
 {% if install_loadbalancer %}
     haproxy front end: {{ aplone.loadbalancer_port|default(loadbalancer_port) }}
 {% endif %}
     zeo clients: {% for client in range(0, aplone.plone_client_count|default(plone_client_count)|int) %}127.0.0.1:{{ aplone.plone_client_base_port|default(plone_client_base_port)|int + client}} {% endfor %}
-
 {% endfor %}
+
 {% if install_loadbalancer %}
-haproxy monitor: 127.0.0.1:{{ loadbalancer_monitor_port }}
+haproxy monitor: http://127.0.0.1:{{ loadbalancer_monitor_port }}/admin
 {% endif %}
 {% if install_proxycache %}
 varnish: 127.0.0.1:{{ proxycache_port }}
