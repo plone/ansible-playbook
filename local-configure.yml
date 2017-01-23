@@ -8,7 +8,7 @@
 #     Cores: 2
 
 # Update to admins@plone.org for live
-admin_email: stevem@plone.org
+admin_email: admins@plone.org
 
 mailserver_maincf_extras: |
   # gmail won't accept us if we connect via ipv6
