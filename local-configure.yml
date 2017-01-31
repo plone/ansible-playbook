@@ -45,6 +45,7 @@ plone_additional_eggs:
   - Products.PloneHotfix20160830
   - Products.PloneHotfix20161129
   - Products.PloneHotfix20170117
+  - plone.app.mosaic
 
 plone_sources:
   - "ploneorg.core = git https://github.com/plone/ploneorg.core.git"
@@ -100,6 +101,13 @@ plone_additional_versions:
   - "Products.PloneHotfix20170117 = 1.0"
   - "collective.recaptcha = 2.0.0"
   - "norecaptcha = 0.3.0"
+  - "plone.app.mosaic = 2.0.0rc4"
+  - "plone.tiles = 1.8.1"
+  - "plone.subrequest = 1.8"
+  - "plone.app.tiles = 3.0.1"
+  - "plone.app.standardtiles = 2.0.0"
+  - "plone.app.blocks = 4.0.0"
+  - "plone.app.drafts = 1.1.1"
 
 # Nginx settings
 
