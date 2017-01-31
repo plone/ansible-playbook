@@ -13,6 +13,8 @@ admin_email: admins@plone.org
 mailserver_maincf_extras: |
   # gmail won't accept us if we connect via ipv6
   inet_protocols = ipv4
+  # explicit is better than implicit, otherwise postfix will fall back to myyhostname
+  mydestination = localhost
 
 plone_initial_password: admin
 
