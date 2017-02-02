@@ -1,5 +1,7 @@
 1.2.14 (unreleased)
 
+- Use plone_server 1.2.15.
+
 - Use plone_server 1.2.14.
   [smcmahon]
 
