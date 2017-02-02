@@ -1,3 +1,28 @@
+1.2.14 (unreleased)
+
+- Use plone_server 1.2.15.
+  [smcmahon]
+
+- Use plone_server 1.2.14.
+  [smcmahon]
+
+- motd was not picking up correct paths when using multiple plones. Fixed.
+  [smcmahon]
+
+- Remove uses of jinja2 "truncate", which has stopped working as advertised.
+  [smcmahon]
+
+- Add mechanisms to control SSL variables like protocols and ciphers.
+  Add http2 support.
+  All documented in docs/webserver.rst.
+  [smcmahon]
+
+- Add mailserver_maincf_extras option for Postfix setup.
+  [smcmahon]
+
+- Add logwatch for plone errors; add vsz and rss to supervisor process list watch.
+  [smcmahon]
+
 1.2.13 2016-10-07
 
 - We want plone_server 1.2.13.
