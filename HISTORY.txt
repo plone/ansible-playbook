@@ -1,3 +1,8 @@
+1.2.15 (unreleased)
+
+- Change version to match up with plone_server.
+  [smcmahon]
+
 1.2.14 (unreleased)
 
 - Very old nginx does not have the ssl_session_tickets parameter.
