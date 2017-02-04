@@ -26,6 +26,16 @@ Relaying
 
 Sets up a mail relay. This may be required if you're using a service like Google Compute Engine that doesn't allow outgoing connections to external mailservers. Defaults to none.
 
+mail_hostname
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    mail_hostname: www.plone.org
+
+Use this setting if you need to set the hostname used by Postfix to something other than the hostname.
+You may need to do this if the inventory hostname is the same as the hostname you're using for mail delivery.
+
 Extras
 ~~~~~~
 

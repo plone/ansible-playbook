@@ -1,12 +1,15 @@
 1.2.15 (unreleased)
 
+- Allow myhostname in Postfix to be set to something other than the inventory hostname via a mail_hostname variable.
+  [smcmahon]
+
 - Change version to match up with plone_server.
   [smcmahon]
 
 1.2.14 (unreleased)
 
 - Very old nginx does not have the ssl_session_tickets parameter.
-  So, don't use it.
+  So, don't use it if nginx is old.
   [smcmahon]
 
 - Use plone_server 1.2.15.
