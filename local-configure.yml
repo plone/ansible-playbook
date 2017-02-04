@@ -177,3 +177,5 @@ additional_packages:
   - nodejs-legacy
   - nodejs
   - npm
+
+mail_hostname: www.plone.org
