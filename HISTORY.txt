@@ -1,3 +1,6 @@
+- Allow myhostname in Postfix to be set to something other than the inventory hostname via a mail_hostname variable.
+  [smcmahon]
+
 1.2.9 (unreleased)
 
 - plone.org: turned of postfix ipv6
