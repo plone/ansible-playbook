@@ -173,6 +173,15 @@ webserver_virtualhosts:
       - rewrite ^/providers https://plone.com/providers redirect;
       - rewrite ^/wpd https://plone.org/events/wpd redirect;
 
+  - hostname: oldstatic2.plone.org
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
+    extra:
+      - location / { auth_basic off; root /www/old.plone.org ; index index.html index.htm; }
+
 additional_packages:
   - nodejs-legacy
   - nodejs
