@@ -1,0 +1,5 @@
+---
+
+# Get a valid timezone list via `timedatectl list-timezones`
+
+timezone: "UTC"

@@ -95,3 +95,13 @@ Specify the timezone that should be set on the server.  Default is "UTC\n".
 .. note::
 
     The timezone string must be terminated with a newline character (\n).
+
+set_timezone
+~~~~~~~~~~~~
+
+.. code-block:: yml
+
+    set_timezone: no
+
+If you have a reason to prevent setting the timezone, set this to "no".
+Default is "yes".

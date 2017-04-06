@@ -175,28 +175,32 @@
       when: install_muninnode|default(True)
       tags: munin
 
+    - role: timezone
+      when: set_timezone|default(True)
+      tags: timezone
+
     - role: motd
       when: install_motd|default(True)
       tags: motd
 
-  tasks:
+  # tasks:
 
-    - name: Set timezone variables
-      tags: timezone
-      copy: content={{ timezone|default("UTC\n") }}
-            dest=/etc/timezone
-            owner=root
-            group=root
-            mode=0644
-            backup=yes
-      notify:
-        - update timezone
+  #   - name: Set timezone variables
+  #     tags: timezone
+  #     copy: content={{ timezone|default("UTC\n") }}
+  #           dest=/etc/timezone
+  #           owner=root
+  #           group=root
+  #           mode=0644
+  #           backup=yes
+  #     notify:
+  #       - update timezone
 
-  handlers:
-    - name: update timezone
-      when: ansible_os_family == 'Debian'
-      command: dpkg-reconfigure --frontend noninteractive tzdata
+  # handlers:
+  #   - name: update timezone
+  #     when: ansible_os_family == 'Debian'
+  #     command: dpkg-reconfigure --frontend noninteractive tzdata
 
-    - name: update timezone
-      when: ansible_os_family == 'RedHat'
-      file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
+  #   - name: update timezone
+  #     when: ansible_os_family == 'RedHat'
+  #     file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
