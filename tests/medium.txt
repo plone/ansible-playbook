@@ -144,7 +144,8 @@ processes, haproxy and varnish.
     Waiting a bit...
     zeoserver_zeoclient1: started
     Waiting a bit...
-    Fetching Plone site-home page
+    Fetch site homepages to warm cache
+    /Plone
     Marking client 1 available
     <BLANKLINE>
     Waiting between clients
@@ -155,7 +156,8 @@ processes, haproxy and varnish.
     Waiting a bit...
     zeoserver_zeoclient2: started
     Waiting a bit...
-    Fetching Plone site-home page
+    Fetch site homepages to warm cache
+    /Plone
     Marking client 2 available
     Purging varnish cache
     <BLANKLINE>
