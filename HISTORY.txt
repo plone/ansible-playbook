@@ -3,6 +3,9 @@
 - Our munin-node plugin for plone/zope RSS needs to distinguish instances.
   [smcmahon]
 
+- Clean up restart script a bit. It was unnecessarily noisy.
+  [smcmahon]
+
 - The varnish default.vcl we generate had a logical error that would cause it to use the primary server incorrectly in some cases where multiple plones were installed and multiple hostnames in use. Fixed.
   [smcmahon]
 
