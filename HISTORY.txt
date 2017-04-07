@@ -1,5 +1,8 @@
 1.2.15 (unreleased)
 
+- The varnish default.vcl we generate had a logical error that would cause it to use the primary server incorrectly in some cases where multiple plones were installed and multiple hostnames in use. Fixed.
+  [smcmahon]
+
 - Allow myhostname in Postfix to be set to something other than the inventory hostname via a mail_hostname variable.
   [smcmahon]
 
