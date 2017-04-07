@@ -1,5 +1,8 @@
 1.2.15 (unreleased)
 
+- Our munin-node plugin for plone/zope RSS needs to distinguish instances.
+  [smcmahon]
+
 - Clean up restart script a bit. It was unnecessarily noisy.
   [smcmahon]
 

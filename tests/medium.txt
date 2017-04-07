@@ -170,5 +170,12 @@ The varnish cache for this host should now be empty.
     Content-Type: image/png
     X-Varnish-Cache: MISS
 
+Check our custom munin-node plugin for plone_daemon RSS
+
+    >>> print ssh_run('/etc/munin/plugins/plonezope_res')
+    zeoserver-zeoserver.value ...
+    zeoserver-client1.value ...
+    zeoserver-client2.value ...
+
     >>> print >> sys.stderr, "Tests done"
 
