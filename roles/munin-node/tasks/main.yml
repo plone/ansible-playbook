@@ -15,6 +15,7 @@
   copy:
     src=monitors/
     dest=/etc/munin/plugins/
+    mode=0755
   notify: restart munin-node
 
 - name: Deactivate unneeded monitors

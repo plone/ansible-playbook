@@ -26,7 +26,7 @@ if config:
 ps_out = subprocess.Popen(
     ps_command.split(),
     stdout=subprocess.PIPE
-    ).stdout.read()
+).stdout.read()
 
 for line in ps_out.split('\n'):
     # print line
@@ -36,13 +36,16 @@ for line in ps_out.split('\n'):
         # print res, command
         cmatch = command_re.search(command)
         if cmatch:
+            # Beware jquery-style indenting; a little clearer here.
             cstr = cmatch.groups()[0].replace('/', '_'
                 ).replace('-', '_'
                 ).replace('.', '_'
                 ).replace('_zope', ''
                 ).replace('_etc', ''
                 ).strip('_'
-                ).lower().split('_')[-1]
+                ).lower().split('_')
+            # print cstr
+            cstr = "%s-%s" % (cstr[-3], cstr[-1])
             if config:
                 print "%s.label %s" % (cstr, cstr)
             else:
