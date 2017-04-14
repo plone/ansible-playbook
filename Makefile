@@ -17,4 +17,4 @@ bin/ansible : | bin
 	bin/pip install -U ansible
 
 bin :
-	virtualenv-2.7 .
+	virtualenv -p python2.7 .
