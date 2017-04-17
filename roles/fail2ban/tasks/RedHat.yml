@@ -1,0 +1,16 @@
+---
+
+- name: "Enable epel-release"
+  yum: pkg=epel-release state=present
+
+- name: "Ensure python-inotify available"
+  yum: pkg=python-inotify state=present
+
+- name: "Ensure fail2ban installed"
+  yum: pkg=fail2ban state=present
+
+- name: "Enable and start fail2ban"
+  service:
+    name: fail2ban
+    enabled: yes
+    state: started

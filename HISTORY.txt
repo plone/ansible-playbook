@@ -1,5 +1,8 @@
 1.2.15 (unreleased)
 
+- Implement our own fail2ban role which will run on debian and redhat families.
+  [smcmahon]
+
 - Our munin-node plugin for plone/zope RSS needs to distinguish instances.
   [smcmahon]
 
