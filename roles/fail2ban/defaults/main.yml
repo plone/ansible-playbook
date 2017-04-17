@@ -1,0 +1,11 @@
+---
+
+fail2ban_ignoreip: 127.0.0.1/8
+
+fail2ban_bantime: 3600
+
+fail2ban_findtime: 600
+
+fail2ban_maxretry: 5
+
+fail2ban_extra:
