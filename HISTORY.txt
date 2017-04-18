@@ -1,5 +1,8 @@
 1.2.15 (unreleased)
 
+- Updated the Makefile to use "virtualenv -p python2.7" instead of "virtualenv-2.7"
+  [pigeonflight]
+  
 - Our munin-node plugin for plone/zope RSS needs to distinguish instances.
   [smcmahon]
 
