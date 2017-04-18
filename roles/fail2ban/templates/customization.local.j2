@@ -1,0 +1,16 @@
+[DEFAULT]
+ignoreip = {{ fail2ban_ignoreip }}
+
+bantime: {{ fail2ban_bantime }}
+findtime: {{ fail2ban_findtime }}
+maxretry: {{ fail2ban_maxretry }}
+
+{% if ansible_os_family == 'RedHat' %}
+# Override /etc/fail2ban/jail.d/00-firewalld.conf:
+banaction = iptables-multiport
+{% endif %}
+
+[sshd]
+enabled = true
+
+{{ fail2ban_extra }}

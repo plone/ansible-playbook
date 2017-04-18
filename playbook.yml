@@ -101,8 +101,8 @@
         - 'o=${distro_id},a=${distro_codename}'
         - 'o=${distro_id},a=${distro_codename}-updates'
 
-    - role: tersmitten.fail2ban
-      when: install_fail2ban|default(True) and ansible_os_family == 'Debian'
+    - role: fail2ban
+      when: install_fail2ban|default(True)
       tags: fail2ban
 
     - role: default_config
