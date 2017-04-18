@@ -1,5 +1,8 @@
 1.2.15 (unreleased)
 
+- Updated the Makefile to use "virtualenv -p python2.7" instead of "virtualenv-2.7"
+  [pigeonflight]
+
 - Implement our own fail2ban role which will run on debian and redhat families.
   [smcmahon]
 
