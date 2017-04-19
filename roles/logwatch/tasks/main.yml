@@ -15,3 +15,11 @@
     dest=/etc/logwatch/conf/services/plone_events.conf
     owner=root
     group=root
+
+- name: Ignore log lines configuration
+  copy:
+    dest: /etc/logwatch/conf/ignore.conf
+    content: "{{ logwatch_ignore }}"
+    mode: 0644
+    owner: root
+    group: root
