@@ -1,4 +1,9 @@
-1.2.15 (unreleased)
+1.2.16 (unreleased)
+
+- Use plone role 1.2.16. Advance playbook version to match.
+  [smcmahon]
+
+1.2.15 (never released)
 
 - Updated the Makefile to use "virtualenv -p python2.7" instead of "virtualenv-2.7"
   [pigeonflight]
