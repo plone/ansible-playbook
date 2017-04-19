@@ -5,3 +5,4 @@
   with_items:
     - munin-node
     - libwww-perl
+    - libxml-parser-perl

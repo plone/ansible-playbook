@@ -1,0 +1,10 @@
+---
+
+# logwatch ignore; ignore lines like these.
+# All these lines are redundant of information in the auth report.
+
+logwatch_ignore: |
+  Received disconnect from
+  Disconnected from
+  message repeated \d+ times: \[ Failed password for root from
+  maximum authentication attempts exceeded for root

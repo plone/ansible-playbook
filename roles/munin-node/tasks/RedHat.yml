@@ -4,6 +4,7 @@
   yum: name={{ item }} state=present update_cache=yes
   with_items:
     - munin-node
+    - perl-XML-parser
 
 - name: Enable munin-node to start on boot - CentOS
   service:
