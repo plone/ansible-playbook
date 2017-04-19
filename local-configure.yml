@@ -46,3 +46,9 @@ plone_zodb_cache_size: 15000
 # and enforce that with a memory-monitor
 plone_client_max_memory: 750MB
 
+plone_additional_eggs:
+  - plone.restapi
+  - pas.plugins.authomatic
+
+plone_additional_versions:
+  - "pas.plugins.authomatic = 1.0a7"
