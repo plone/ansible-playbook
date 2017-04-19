@@ -1,0 +1,48 @@
+---
+
+# plone.io configuration
+#
+# Medium configuration
+# --------------------
+#
+# This is a good start for larger configurations.
+# Just scale the client counts and cache/memory.
+#
+# This targets a medium server::
+#
+#     RAM: 2048MB
+#     Cores: 2
+
+
+# Things you MUST change
+# ----------------------
+
+admin_email: nguyen@plone.org
+
+plone_initial_password: admin
+
+#muninnode_query_ips:
+#    - ip.of.munin.monitor
+
+# If you do not have a Munin monitor running, comment out the
+# muninnode_query_ips and uncomment the line below:
+
+install_muninnode: no
+
+
+# Major settings
+# --------------
+
+# Plone 4.3.x and 5.0.x are currently tested and working.
+# Make sure this setting is quoted so that it's interpreted as a string.
+plone_version: '5.0.6'
+
+# 2 clients
+plone_client_count: 2
+
+# smallish
+plone_zodb_cache_size: 15000
+
+# and enforce that with a memory-monitor
+plone_client_max_memory: 750MB
+
