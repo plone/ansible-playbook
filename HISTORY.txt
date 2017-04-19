@@ -1,5 +1,8 @@
 1.2.16 (unreleased)
 
+- Add logwatch_ignore variable to set contents of logwatch's ignore.conf file.
+  [smcmahon]
+
 - Use plone role 1.2.16. Advance playbook version to match.
   [smcmahon]
 

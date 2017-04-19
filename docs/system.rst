@@ -105,3 +105,20 @@ set_timezone
 
 If you have a reason to prevent setting the timezone, set this to "no".
 Default is "yes".
+
+
+logwatch_ignore
+~~~~~~~~~~~~~~~
+
+.. code-block: yml
+
+    logwatch_ignore: |
+      Received disconnect from
+      Disconnected from
+      message repeated \d+ times: \[ Failed password for root from
+      maximum authentication attempts exceeded for root
+
+Sets the contents of the logwatch `ignore.conf` file.
+Each line should be a regular expression.
+If matched, the log line will be ignored and unconsidered in any log-based report.
+Use with great caution to reduce noice in your logwatch report.
