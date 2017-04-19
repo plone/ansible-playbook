@@ -1,0 +1,2 @@
+[varnish4_*]
+    user root

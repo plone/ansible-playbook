@@ -1,0 +1,2 @@
+[haproxy_ng]
+env.url http://localhost:1080/admin;csv;norefresh

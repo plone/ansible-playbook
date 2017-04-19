@@ -1,5 +1,8 @@
 1.2.16 (unreleased)
 
+- Munin-node: Add and use varnish4_ plugin if using varnish4.
+  [smcmahon]
+
 - Munin-node: use haproxy_ng when available.
   [smcmahon]
 
