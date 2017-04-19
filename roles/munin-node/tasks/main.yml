@@ -66,6 +66,23 @@
     - nginx_status
   notify: restart munin-node
 
+- block:
+    - name: Add haproxy_ng if available and appropriate
+      file:
+        path="/etc/munin/plugins/haproxy_ng"
+        state=link
+        src="/usr/share/munin/plugins/haproxy_ng"
+        mode=0755
+      notify: restart munin-node
+    - name: Add monitor configuration
+      copy:
+        src=conf/haproxy_ng
+        dest=/etc/munin/plugin-conf.d/
+        mode=0644
+      notify: restart munin-node
+  when: install_loadbalancer|default(True)
+  ignore_errors: True
+
 - name: Assure munin running at end of playbook
   command: /bin/true
   notify: munin-node started

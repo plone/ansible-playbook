@@ -1,5 +1,8 @@
 1.2.16 (unreleased)
 
+- Munin-node: use haproxy_ng when available.
+  [smcmahon]
+
 - Add logwatch_ignore variable to set contents of logwatch's ignore.conf file.
   [smcmahon]
 
