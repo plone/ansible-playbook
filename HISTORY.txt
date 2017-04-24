@@ -1,5 +1,8 @@
 1.2.16 (unreleased)
 
+- Make update-notifier work in logwatch on Xenial.
+  [smcmahon]
+
 - Cleanup motd formatting.
   [smcmahon
 

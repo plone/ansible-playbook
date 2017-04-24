@@ -23,3 +23,13 @@
     mode: 0644
     owner: root
     group: root
+
+
+- name: Add update notify to logwatch
+  template:
+    src=update-notify.j2
+    dest=/etc/logwatch/scripts/services/update-notify
+    owner=root
+    group=root
+    mode=0755
+  when: ansible_os_family == 'Debian'
