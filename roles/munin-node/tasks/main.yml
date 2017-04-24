@@ -11,10 +11,11 @@
     mode=644
   notify: restart munin-node
 
-- name: Add custom monitors
+- name: Add custom plonezope monitor
   copy:
-    src=monitors/
+    src=monitors/plonezope_res
     dest=/etc/munin/plugins/
+    mode=0755
   notify: restart munin-node
 
 - name: Deactivate unneeded monitors
@@ -64,6 +65,53 @@
     - nginx_request
     - nginx_status
   notify: restart munin-node
+
+- block:
+    - name: Add haproxy_ng if available and appropriate
+      file:
+        path="/etc/munin/plugins/haproxy_ng"
+        state=link
+        src="/usr/share/munin/plugins/haproxy_ng"
+        mode=0755
+      notify: restart munin-node
+    - name: Add monitor configuration
+      copy:
+        src=conf/haproxy_ng
+        dest=/etc/munin/plugin-conf.d/
+        mode=0644
+      notify: restart munin-node
+  when: install_loadbalancer|default(True)
+  ignore_errors: True
+
+- name: Determine varnish version
+  shell: '/usr/sbin/varnishd -V 2>&1 | grep varnishd | sed -r "s/.+varnish-([0-9.]+) .+/\1/"'
+  register: varnish_version
+
+- block:
+    - name: Add base varnish4 monitor if appropriate
+      copy:
+        src=monitors/varnish4_
+        dest=/etc/munin/plugins/varnish4_hit_rate
+        mode=0755
+      notify: restart munin-node
+    - name: Add links for varnish4_ supplementary plugins
+      file:
+        path="/etc/munin/plugins/varnish4_{{ item }}"
+        state=link
+        src="/etc/munin/plugins/varnish4_hit_rate"
+      with_items:
+        - backend_traffic
+        - memory_usage
+        - request_rate
+      notify: restart munin-node
+    - name: Add monitor configuration
+      copy:
+        src=conf/varnish4
+        dest=/etc/munin/plugin-conf.d/
+        mode=0644
+      notify: restart munin-node
+  when: install_proxycache|default(True) and varnish_version.stdout >= '4'
+  ignore_errors: True
 
 - name: Assure munin running at end of playbook
   command: /bin/true

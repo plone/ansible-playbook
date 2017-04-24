@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+"""
+    Add memory footprint to supervisorctl status
+"""
+
+import re
+import subprocess
+
+pid_pattern = re.compile("pid (\d+)")
+status = subprocess.check_output("""supervisorctl status""", shell=True)
+for line in status.split('\n'):
+    if line:
+        match = pid_pattern.search(line)
+        if match is not None:
+            pid = match.group(1)
+            rez = subprocess.check_output("""ps -q %s -o vsz=,rss=""" % pid, shell=True)
+            vsz, rss = rez.split()
+            print "%s, vsz %s, rss %s" % (line, vsz, rss)
+        else:
+            print line

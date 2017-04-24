@@ -144,7 +144,8 @@ processes, haproxy and varnish.
     Waiting a bit...
     zeoserver_zeoclient1: started
     Waiting a bit...
-    Fetching Plone site-home page
+    Fetch site homepages to warm cache
+    /Plone
     Marking client 1 available
     <BLANKLINE>
     Waiting between clients
@@ -155,7 +156,8 @@ processes, haproxy and varnish.
     Waiting a bit...
     zeoserver_zeoclient2: started
     Waiting a bit...
-    Fetching Plone site-home page
+    Fetch site homepages to warm cache
+    /Plone
     Marking client 2 available
     Purging varnish cache
     <BLANKLINE>
@@ -168,5 +170,27 @@ The varnish cache for this host should now be empty.
     Content-Type: image/png
     X-Varnish-Cache: MISS
 
+Check our custom munin-node plugin for plone_daemon RSS
+
+    >>> print ssh_run('/etc/munin/plugins/plonezope_res')
+    zeoserver-zeoserver.value ...
+    zeoserver-client1.value ...
+    zeoserver-client2.value ...
+
     >>> print >> sys.stderr, "Tests done"
 
+Check fail2ban
+
+    >>> print ssh_run('sudo fail2ban-client ping')
+    Server replied: pong
+
+    >>> print ssh_run('sudo fail2ban-client status sshd')
+     Status for the jail: sshd
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed: 0
+    |  `- ...
+    `- Actions
+       |- Currently banned: 0
+       |- Total banned: 0
+       `- Banned IP list:

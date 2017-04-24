@@ -15,4 +15,5 @@ tests.out
 *.retry
 *.log
 vbox_host.cfg
-
+.DS_Store
+*.py[co]

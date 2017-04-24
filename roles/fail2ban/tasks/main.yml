@@ -1,0 +1,10 @@
+---
+
+- include: "{{ ansible_os_family }}.yml"
+
+- name: "Local config in jail.d/customization.local"
+  template:
+    src: customization.local.j2
+    dest: /etc/fail2ban/jail.d/customization.local
+    backup: yes
+  notify: restart fail2ban

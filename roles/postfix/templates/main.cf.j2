@@ -26,7 +26,7 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # information on enabling SSL in the smtp client.
 
 smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
-myhostname = {{ inventory_hostname }}
+myhostname = {{ mail_hostname | default(inventory_hostname) }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mynetworks_style = host
@@ -48,3 +48,5 @@ smtpd_tls_security_level = encrypt
 relayhost =
 smtpd_tls_security_level = may
 {% endif %}
+
+{{ mailserver_maincf_extras }}

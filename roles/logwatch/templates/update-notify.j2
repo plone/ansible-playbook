@@ -1,8 +1,10 @@
 #!/bin/bash
 
+{% if have_update_motd_d.stat.exists %}
+/etc/update-motd.d/9?-*
+{% else %}
 /usr/lib/update-notifier/update-motd-updates-available
-
 /usr/lib/update-notifier/update-motd-reboot-required
-echo
-/usr/bin/supervisorctl status
-echo
+{% endif %}
+
+

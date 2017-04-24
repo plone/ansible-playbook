@@ -2,3 +2,11 @@
 
 - name: logwatch package installed
   apt: pkg=logwatch state=present
+
+- name: Check our update notify technology
+  stat:
+    path: /etc/update-motd.d/90-updates-available
+  register: have_update_motd_d
+
+# - debug:
+#     var: have_update_motd_d.stat.exists

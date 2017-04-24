@@ -39,6 +39,11 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Provisioning"
     ...     run("vagrant provision %s" % box)
 
+Add a test host entry.
+
+    >>> command = "echo '127.0.0.1 test.example.com' | sudo tee -a /etc/hosts"
+    >>> p = subprocess.call('vagrant ssh %s -c "%s"' % (box, command), shell=True)
+
 Reboot the box. We only care about what survives a restart.
 
     >>> print >> sys.stderr, "Poweroff %s" % box
@@ -61,28 +66,34 @@ Check our motd.
     This server is configured via Ansible.
     Do not change configuration settings directly.
     <BLANKLINE>
+    Last Ansible provisioning: ...
+    <BLANKLINE>
     Admin email: test@example.com
+    <BLANKLINE>
     Custom Services/Ports
-    primary: /usr/local/plone-5.0/primary
-        /Plone: ... [u'default']
-        /Plone: ... [u'default']
+    ---------------------
+    plone:
+    - primary: /usr/local/plone-5.0/primary
+        /Plone: http://xenial, aliases: [u'default']
+        /Plone: https://xenial, aliases: [u'default']
         zeo server: 127.0.0.1:8100
         haproxy front end: 8080
         zeo clients: 127.0.0.1:8081 127.0.0.1:8082
-    secondary: /usr/local/plone-5.0/secondary
-        /Plone: localhost []
+    - secondary: /usr/local/plone-4.3/secondary
+        /Plone: http://localhost, aliases: []
         zeo server: 127.0.0.1:7100
         haproxy front end: 7080
         zeo clients: 127.0.0.1:7081 127.0.0.1:7082
-    haproxy monitor: 127.0.0.1:1080
+    haproxy monitor: http://127.0.0.1:1080/admin
     varnish: 127.0.0.1:6081
     varnish admin: 127.0.0.1:6082
     munin-node: 4949
     postfix: 25 (host-only)
     nginx:
-    - ...: *:80
-    - ...: *:443
+    - xenial: *:80
+    - xenial: *:443
     - localhost: *:80
+    - test.example.com:80
     <BLANKLINE>
 
 Use lsof to make sure we are listening on all expected ports
@@ -160,6 +171,7 @@ Is everything where we expect it to be?
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
+    -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
@@ -233,6 +245,7 @@ Asking twice for a static resource should result in a cache hit.
     Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
+    ...
 
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
@@ -271,6 +284,7 @@ The varnish cache for this host should now be empty.
     Content-Type: image/png
     ...
     X-Varnish-Cache: MISS
+    ...
 
 
 Secondary instance tests
@@ -280,13 +294,14 @@ Secondary instance tests
     drwxr-xr-x  root    ...     .
     ...                         ..
     drwxr-xr-x  plone_buildout  plone_group buildout-cache
-    drwxr-xr-x  root    root    Python-2.7
+    drwxr-xr-x  root    root    python2.7
     drwxr-xr-x  plone_buildout  plone_group secondary
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
+    -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group parts...
@@ -332,6 +347,12 @@ And, we should have gzip encoding available:
 Let's prove to ourselves that this is Plone 4:
 
     >>> output = ssh_run('curl --ipv4 http://localhost')
+    >>> output.find('barceloneta') >= 0
+    False
+
+Asking for test.example.com should also produce a Plone 4 page:
+
+    >>> output = ssh_run('curl --ipv4 http://test.example.com')
     >>> output.find('barceloneta') >= 0
     False
 

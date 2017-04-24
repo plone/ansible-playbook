@@ -1,5 +1,53 @@
+1.2.16 2017-04-25
+
+- Make update-notifier work in logwatch on Xenial.
+  [smcmahon]
+
+- Cleanup motd formatting.
+  [smcmahon
+
+- Munin-node: Add and use varnish4_ plugin if using varnish4.
+  [smcmahon]
+
+- Munin-node: use haproxy_ng when available.
+  [smcmahon]
+
+- Add logwatch_ignore variable to set contents of logwatch's ignore.conf file.
+  [smcmahon]
+
+- Use plone role 1.2.16. Advance playbook version to match.
+  [smcmahon]
+
+1.2.15 (never released)
+
+- Updated the Makefile to use "virtualenv -p python2.7" instead of "virtualenv-2.7"
+  [pigeonflight]
+
+- Implement our own fail2ban role which will run on debian and redhat families.
+  [smcmahon]
+
+- Our munin-node plugin for plone/zope RSS needs to distinguish instances.
+  [smcmahon]
+
+- Clean up restart script a bit. It was unnecessarily noisy.
+  [smcmahon]
+
+- The varnish default.vcl we generate had a logical error that would cause it to use the primary server incorrectly in some cases where multiple plones were installed and multiple hostnames in use. Fixed.
+  [smcmahon]
+
+- Allow myhostname in Postfix to be set to something other than the inventory hostname via a mail_hostname variable.
+  [smcmahon]
+
+- Change version to match up with plone_server.
+  [smcmahon]
+
 1.2.14 (unreleased)
 
+- Very old nginx does not have the ssl_session_tickets parameter.
+  So, don't use it if nginx is old.
+  [smcmahon]
+
+>>>>>>> master
 - Use plone_server 1.2.15.
   [smcmahon]
 
@@ -26,6 +74,7 @@
 1.2.13 2016-10-07
 
 - We want plone_server 1.2.13.
+  [smcmahon]
 
 1.2.12 unreleased
 

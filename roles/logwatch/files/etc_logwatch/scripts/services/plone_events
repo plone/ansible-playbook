@@ -1,0 +1,88 @@
+#!/usr/bin/env python2.7
+
+# Sample environment:
+# PLONE_TARGETS = \
+# "[{'title':'Plone 4.3', 'var':'/var/db/Plone-4.3/zeocluster/var'}, "
+# "{'title':'Plone 4.2', 'var':'/var/db/Plone-4.2/zeocluster/var'}, {}]"
+
+from glob import glob
+
+import datetime
+import json
+import os
+import os.path
+import re
+
+# Read our targets from the environment in pseudo json using ' for "
+targets = json.loads(os.environ.get('plone_targets', '[]').replace("'", '"'))
+
+# Read time frame from the environment; turn it into ISO date
+time_frame = os.environ.get('LOGWATCH_DATE_RANGE', 'yesterday').lower()
+if time_frame == 'today':
+    target_date = datetime.date.today().isoformat()
+elif time_frame == 'yesterday':
+    target_date = (datetime.date.today() - datetime.timedelta(1)).isoformat()
+else:
+    target_date = ''
+
+oat_pattern = re.compile(r"object at 0x[0-9a-f]+")
+time_pattern = re.compile(r"^[0-9\-T:]+ ERROR ")
+zsl_pattern = re.compile(r"Zope.SiteErrorLog [0-9\.]+ ")
+
+
+def cleanLine(first_line, last_line):
+    """ Sanitize an abbreviated log entry -- just a first and last line --
+        by removing the datetime and object details that may vary from
+        client to client.
+    """
+
+    if first_line != last_line:
+        line = "%s; %s" % (first_line.strip(), last_line.strip())
+    else:
+        line = first_line.strip()
+    line = oat_pattern.sub('object at ...', line)
+    line = zsl_pattern.sub('', line)
+    return time_pattern.sub('', line)
+
+
+def checkLogs(title, var_dir):
+    """ Read all the log files under a particular ./var directory.
+        Grab first and last line of every error entry.
+        Count and print them.
+    """
+
+    event_logs = glob(os.path.join(var_dir, 'client*/event.log'))
+    errors = {}
+    first_line = ''
+    title_printed = False
+    for log in event_logs:
+        with open(log, 'ra') as f:
+            in_entry = False
+            previous_line = ''
+            for line in f:
+                if in_entry:
+                    if line.startswith('---'):
+                        # found end of error entry. sanitize and count.
+                        in_entry = False
+                        key = cleanLine(first_line, previous_line)
+                        errors[key] = errors.get(key, 0) + 1
+                elif ' ERROR ' in line and line.startswith(target_date):
+                    in_entry = True
+                    first_line = line
+                previous_line = line
+    # sort so that most frequent errors are first; print them.
+    if errors:
+        for t in reversed(sorted([(errors[akey], akey) for akey in errors])):
+            if not title_printed:
+                print "=== %s ===" % title
+                title_printed = True
+            print "%6d %s" % t
+
+if len(targets) == 0:
+    print "No targets found"
+for plone in targets:
+    title = plone.get('title')
+    var_dir = plone.get('var')
+    # print var_dir
+    if var_dir is not None:
+        checkLogs(title, var_dir)
