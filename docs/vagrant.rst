@@ -51,4 +51,4 @@ The Vagrantfile included with this kit maps several more ports. The general rule
   config.vm.network "forwarded_port", guest: 8080, host: 9080
   config.vm.network "forwarded_port", guest: 4949, host: 5949
 
-Note that when you use host port 1080 to connect to guest host 80, the virtual hosting will not work correctly. You'll get the homepage, but links -- including those to stylesheets and JS resources, will be wrong. So, you can't really test virtual host rewriting via Vagrant.
+Note that when you use host port 1080 to connect to guest port 80, the virtual hosting will not work correctly. You'll get the homepage, but links -- including those to stylesheets and JS resources, will be wrong. So, you can't really test virtual host rewriting via Vagrant.
