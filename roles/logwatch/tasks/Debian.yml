@@ -5,7 +5,7 @@
 
 - name: Check our update notify technology
   stat:
-    path: /etc/update-motd.d/90-updates-available
+    path: /etc/update-motd.d
   register: have_update_motd_d
 
 # - debug:
