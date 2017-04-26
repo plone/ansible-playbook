@@ -1,5 +1,8 @@
 1.2.17 (unreleased)
 
+- Logwatch role: check for new update notification was too specific. Fixed.
+  [smcmahon]
+
 1.2.16 2017-04-24
 
 - Make update-notifier work in logwatch on Xenial.
