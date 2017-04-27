@@ -129,21 +129,21 @@
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[1]|default({}) }}"
-      when: "{{ playbook_plones|length() > 1 }}"
+      when: playbook_plones|length > 1
       tags:
         - plone
         - plone2
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[2]|default({}) }}"
-      when: "{{ playbook_plones|length() > 2 }}"
+      when: playbook_plones|length > 2
       tags:
         - plone
         - plone3
 
     - role: plone.plone_server
       plone_config: "{{ playbook_plones[3]|default({}) }}"
-      when: "{{ playbook_plones|length() > 3 }}"
+      when: playbook_plones|length > 3
       tags:
         - plone
         - plone4
