@@ -34,6 +34,8 @@ We generally support relatively current CentOS and Debian/Ubuntu environments. V
 
 See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.readthedocs.org/en/latest/>`_ for complete documentation.
 
+Detailed, tutorial-style documentation with lots of real-life examples is available at the `Plone Training <https://training.plone.org/5/deployment/index.html>`_ site.
+
 TL;DR
 ^^^^^
 
