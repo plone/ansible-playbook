@@ -8,5 +8,14 @@
     dest="{{ item.plone_target_path|default('/usr/local/plone-' + '.'.join(item.get('plone_version', plone_version).split('.')[0:2])) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_clients.sh"
     owner=root
     group=root
-    mode=0755
+    mode=0544
+  with_items: "{{ playbook_plones }}"
+
+- name: Create single client restart script
+  template:
+    src=restart_single_client.sh.j2
+    dest="{{ item.plone_target_path|default('/usr/local/plone-' + '.'.join(item.get('plone_version', plone_version).split('.')[0:2])) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_single_client.sh"
+    owner=root
+    group=root
+    mode=0544
   with_items: "{{ playbook_plones }}"
