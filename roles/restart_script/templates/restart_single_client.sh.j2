@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# This performs a more-or-less graceful restart of zope clients.
+# Strategy: For each client,
+#   1) Mark it down for maintenance in haproxy;
+#   2) stop client;
+#   3) start client; wait long enough for it to start listening
+#   4) Fetch the homepage directly from the client to load the cache.
+#      This will be the first request the client receives,
+#      since haproxy hasn't have marked it live yet.
+#      So, when haproxy marks it live, the cache will be warm.
+#   5) Mark the client available in haproxy.
+#
+#   Please regard this script as experimental. Before use, read it and make
+#   sure it's reasonable for your situation.
+#
+#   This script is meant to be run as root as it needs access to supervisor
+#   and the haproxy socket.
+
+if [ `whoami` != 'root' ]; then
+    echo "The restart script needs to control haproxy, varnish and supervisor."
+    echo "It must be run as superuser -- typically via sudo."
+    exit 1
+fi
+
+if [ $# -ne 1 ]; then
+    echo "usage: restart_single_client.sh client#"
+    echo "where client# is 1 to {{ item.plone_client_count|default(plone_client_count)|int }}"
+    exit 1
+fi
+
+CLIENT=$1
+
+{% if install_loadbalancer %}
+echo "Marking client #$CLIENT down for maintenance"
+echo "disable server {{ item.plone_instance_name|default(plone_instance_name) }}/client$CLIENT" | socat /var/run/haproxy.sock stdio > /dev/null
+{% endif %}
+echo "Restarting client #$CLIENT"
+supervisorctl stop {{ item.plone_instance_name|default(plone_instance_name) }}_zeoclient$CLIENT
+echo Waiting a bit...
+sleep 20
+supervisorctl start {{ item.plone_instance_name|default(plone_instance_name) }}_zeoclient$CLIENT
+echo Waiting a bit...
+sleep 30
+echo Fetch site homepages to warm cache
+{% for vhost in item.webserver_virtualhosts %}
+{% if vhost.zodb_path is defined %}
+echo "  {{ vhost.zodb_path }}"
+{% for warm_path in vhost.warm_paths|default(['/']) %}
+{% if vhost.warm_paths|default(['/'])|length > 1 %}
+echo "    {{ warm_path }}"
+{% endif %}
+curl http://localhost:$(({{ item.plone_client_base_port|default(plone_client_base_port)|int }} + $CLIENT)){{ vhost.zodb_path }}{{ warm_path }} -s -o - > /dev/null
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% if install_loadbalancer %}
+echo "Marking client #$CLIENT available"
+echo "enable server {{ item.plone_instance_name|default(plone_instance_name) }}/client$CLIENT" | socat /var/run/haproxy.sock stdio > /dev/null
+{% endif %}
+
+
+echo Done
