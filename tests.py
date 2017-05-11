@@ -48,6 +48,11 @@ parser.add_argument(
     help="Specify a particular target box from:\n    %s" % boxes,
     action="append",
 )
+parser.add_argument(
+    '-nr', '--no-restart',
+    action="store_true",
+    help="Skip restart",
+)
 
 args = parser.parse_args()
 if args.box:
@@ -60,18 +65,6 @@ box = None
 devnull = open('/dev/null', 'w')
 
 mplatform = None
-
-
-# def get_mplatform():
-#     global mplatform
-
-#     if mplatform is None:
-#         mplatform = subprocess.check_output(
-#             """vagrant ssh %s -c 'python -mplatform'""" % box,
-#             shell=True,
-#             stderr=devnull
-#             )
-#     return mplatform
 
 
 def ssh_run(cmd):
@@ -136,6 +129,7 @@ for abox in boxes:
         'skip_provisioning': args.no_provision,
         'forcing': args.force,
         'box': box,
+        'skip_restart': args.no_restart,
     }
 
     if not args.force:

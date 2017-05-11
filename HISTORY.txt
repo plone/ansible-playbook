@@ -1,5 +1,11 @@
 1.2.17 (unreleased)
 
+- Move to plone_server role v 1.2.17.
+  [smcmahon]
+
+- Document restart script; add single client restart script; add warm_path option.
+  [smcmahon]
+
 - Logwatch role: check for new update notification was too specific. Fixed.
   [smcmahon]
 
