@@ -76,8 +76,8 @@ Check our motd.
     plone:
       - primary: /usr/local/plone-5.0/primary
         haproxy front end: 8080; zeo server: 127.0.0.1:8100; zeo clients: 127.0.0.1:8081 127.0.0.1:8082
-        http://xenial; /Plone; aliases: default
-        https://xenial; /Plone; aliases: default
+        http://...; /Plone; aliases: default
+        https://...; /Plone; aliases: default
       - secondary: /usr/local/plone-4.3/secondary
         haproxy front end: 7080; zeo server: 127.0.0.1:7100; zeo clients: 127.0.0.1:7081 127.0.0.1:7082
         http://localhost; /Plone
@@ -232,9 +232,6 @@ Asking twice for a static resource should result in a cache hit.
     >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
     >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
-    Content-Type: image/png
     ...
     X-Varnish-Cache: HIT
     ...
@@ -277,9 +274,6 @@ The varnish cache for this host should now be empty.
 
     >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
     HTTP/1.1 200 OK
-    Server: nginx/...
-    Date: ...
-    Content-Type: image/png
     ...
     X-Varnish-Cache: MISS
     ...
