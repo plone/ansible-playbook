@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+"""
+    Check memory use of clients; restart if resident memory use is too hot (high).
+
+    Strategy:
+      - get pid from supervisorctl;
+      - use ps to check rss;
+      - use restart_single_client.sh if too hot;
+      - assume root gets notified by crontab if restart happens.
+"""
+
+from supervisor.datatypes import byte_size
+
+import re
+import subprocess
+
+# variables set by Ansible:
+admin_email = "{{ admin_email }}"
+instance_discriminator =  "{{ '%s_' % item.plone_instance_name }}"
+client_count = {{ item.plone_client_count|default(plone_client_count) }}
+max_memory = byte_size("{{ item.plone_client_max_memory|default(plone_client_max_memory) }}")
+restart_script = "{{ item.plone_target_path|default('/usr/local/plone-' + '.'.join(item.get('plone_version', plone_version).split('.')[0:2])) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_single_client.sh"
+
+pid_pattern = re.compile("pid (\d+)")
+one_mb = 1024.0 * 1024.0
+
+def in_mb(i):
+    return "{:0,.0f}MB".format(i / one_mb + 0.5)
+
+for client in range(0, client_count):
+    client_name = "{}zeoclient{}". format(instance_discriminator, client + 1)
+    status = subprocess.check_output("supervisorctl status {0}".format(client_name), shell=True)
+    match = pid_pattern.search(status)
+    if match is not None:
+        pid = match.group(1)
+        rez = subprocess.check_output("ps -q {} -o rss=".format(pid), shell=True).strip()
+        rez = int(rez) * 1024L
+        # print client_name, in_mb(rez), in_mb(max_memory)
+        # print restart_script, client + 1
+        if rez > max_memory:
+            print "Restarting {}; {} > {}".format(client_name, in_mb(rez), in_mb(max_memory))
+            print
+            command = "{} {}".format(restart_script, client + 1)
+            print command
+            print subprocess.check_output(command, shell=True)

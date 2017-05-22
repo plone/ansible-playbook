@@ -1,5 +1,19 @@
 1.2.17 (unreleased)
 
+- Add a new option plone_hot_monitor that may be set to `superlance` or `cron`.
+  `superlance` is the default.
+  If `cron` is specified, a cron script will run twice an hour to restart if memory use is hot.
+  [smcmahon]
+
+- Add a script that will restart a client using the single-client restart script (thus getting cluster-maintenance and cache-warming features) if it's using too much memory.
+  [smcmahon]
+
+- Move to plone_server role v 1.2.17.
+  [smcmahon]
+
+- Document restart script; add single-client restart script; add warm_path option.
+  [smcmahon]
+
 - Logwatch role: check for new update notification was too specific. Fixed.
   [smcmahon]
 
