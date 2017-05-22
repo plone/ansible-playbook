@@ -26,7 +26,7 @@ Defaults to ``/usr/local/plone-{{ plone_major_version }}``
 
 
 plone_var_path
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 

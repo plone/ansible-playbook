@@ -1,4 +1,15 @@
 ---
 
 - name: logwatch package installed
-  apt: pkg=logwatch state=present
+  apt: pkg={{ item }} state=present
+  with_items:
+    - logwatch
+    - update-notifier-common
+
+- name: Check our update notify technology
+  stat:
+    path: /etc/update-motd.d
+  register: have_update_motd_d
+
+# - debug:
+#     var: have_update_motd_d.stat.exists
