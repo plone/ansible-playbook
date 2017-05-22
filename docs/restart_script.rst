@@ -21,7 +21,7 @@ Optionally, the script will finish by clearing the Varnish cache for each virtua
 You may prevent this by adding `noflush` to the `restart_clients.sh` command line.
 
 The `restart_single_client.sh` does the same for a single client, specified by number on the command line.
-The Varnish cace is not touched.
+The Varnish cache is not touched.
 
 Both scripts must be executed as superuser, usually via `sudo`.
 The extra permissions are required to control supervisor, haproxy and Varnish.

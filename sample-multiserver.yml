@@ -74,6 +74,7 @@ playbook_plones:
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080
+    plone_hot_monitor: cron
     webserver_virtualhosts:
       - hostname: localhost
         zodb_path: /Plone
