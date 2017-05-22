@@ -21,7 +21,7 @@ What about other apps?
 This playbook assumes that your target server will be pretty much devoted to Plone's stack. If that doesn't match your plans, then feel free to pick and choose among the roles that have been created and gathered to make up this playbook. Then use them and others to create your own.
 
 Major choices
-^^^^^^^^^^^^^
+`````````````
 
 Your production-server requirements may vary widely. Perhaps the biggest variable is the number of logged-in users you wish to support. You may serve thousands of complex pages per second -- if they are not customized per user -- on the lightest of servers. On the other hand, if you expect to serve 100 pages per second of content that is customized per user, you'll need one or more powerful servers, and will spend serious analysis time optimizing them.
 
