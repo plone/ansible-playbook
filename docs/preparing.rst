@@ -7,7 +7,7 @@ Target server
 Supported platforms
 ```````````````````
 
-At the moment, we are testing with Ubuntu 14 (Trusty) LTS, Ubuntu 15 (Vivid) and with Debian wheezy, Debian jessy, and CentOS 7.
+At the moment, we are testing with Ubuntu 14 (Trusty) LTS, Ubuntu 15 (Vivid), Ubuntu 16 (Xenial) LTS, Debian wheezy, Debian jessy, and CentOS 7.
 
 The following components are currently not supported for the CentOS environment:
 
