@@ -166,6 +166,7 @@ webserver_virtualhosts:
       - rewrite ^/help /support redirect;
       - rewrite ^/edu /community/edu redirect;
       - rewrite ^/documentation/kb/installing-add-ons-quick-how-to http://docs.plone.org/manage/installing/installing_addons.html redirect;
+      - rewrite ^/documentation http://docs.plone.org redirect;
       - rewrite ^/upgrade http://docs.plone.org/manage/upgrading/index.html redirect;
       - rewrite ^/donate https://plone.org/sponsors redirect;
       - rewrite ^/products /download redirect;
