@@ -1,5 +1,8 @@
 1.2.17 (unreleased)
 
+- Make client_max_body_size work either globally or in virtual host blocks.
+  [smcmahon]
+
 - Add proxy_cache_vcl_extra variable that allows the addition of miscellaneous VCL to the varnish default.vcl file.
   [smcmahon]
 

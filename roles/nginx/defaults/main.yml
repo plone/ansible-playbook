@@ -18,3 +18,5 @@ ssl_shared_conf: |
   {% if nginx_v_result.stdout | version_compare('1.5.9', 'ge') %}ssl_session_tickets off;{% endif %}
 
 allow_http2: yes
+
+client_max_body_size: 2M
