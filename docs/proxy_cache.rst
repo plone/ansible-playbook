@@ -49,6 +49,7 @@ proxycache_method
 
 Use this to specify Varnish's cache mechanism. Default is ``malloc``.
 
+
 Cache controls
 ~~~~~~~~~~~~~~
 
@@ -69,4 +70,9 @@ These settings fine-tune the cache rules.
     # X-Anonymous header to allow split caching.
     nonanonymous_cookies: __ac(|_(name|password|persistent))
 
+    # Adds miscellaneous VCL; see the template files for location
+    proxy_cache_vcl_extra:
+
 Defaults are as indicated in the example. Don't change these without giving it some thought.
+
+
