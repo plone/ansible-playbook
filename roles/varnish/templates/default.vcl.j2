@@ -24,6 +24,8 @@ sub vcl_recv {
 {% endfor %}
 {% endif %}
 
+{{ proxy_cache_vcl_extra }}
+
     # Sanitize compression handling
     if (req.http.Accept-Encoding) {
         if (req.url ~ "\.{{ nocompress_ext }}$") {
