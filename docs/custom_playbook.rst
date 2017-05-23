@@ -2,7 +2,7 @@ Setting up the Playbook
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Clone or fork-and-clone
-`````````````````````````
+```````````````````````
 
 Take a few moments to think about how you're going to customize the Plone Playbook. Are you likely to make substantial changes? Or simply change the option settings?
 
