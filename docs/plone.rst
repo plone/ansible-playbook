@@ -42,12 +42,12 @@ plone_buildout_git_repo
 
 .. code-block:: yaml
 
-    buildout_git_repo: https://github.com/plone/plone.com.ansible.git
-    buildout_git_version: master
+    plone_buildout_git_repo: https://github.com/plone/plone.com.ansible.git
+    plone_buildout_git_version: master
 
-``buildout_git_repo`` defaults to none (uses built-in buildout).
+``plone_buildout_git_repo`` defaults to none (uses built-in buildout).
 
-``buildout_git_version`` is the tag or branch. Defaults to ``master``.
+``plone_buildout_git_version`` is the tag or branch. Defaults to ``master``.
 
 .. note::
 

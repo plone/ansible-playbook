@@ -60,6 +60,10 @@ You have two available mechanisms for doing this customization in conjunction wi
 
 If you choose the git repository strategy, your buildout skeleton must, at a minimum, include ``bootstrap.py`` and ``buildout.cfg`` files. It will also commonly contain a ``src/`` subdirectory and extra configuration files. It will probably **not** contain ``bin/``, ``var/`` or ``parts/`` directories. Those will typically be excluded in your ``.gitignore`` file.
 
+.. note::
+
+    See the ``plone_buildout_git_repo`` variable documentation in the Plone Options chapter.
+
 If you use a buildout directory checkout, you must still specify in your Playbook variables the names and listening port numbers of any client parts you wish included in the load balancer configuration. Also specify the name of your ZEO server part if it is not ``zeoserver``.
 
 A sample strategy
