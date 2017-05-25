@@ -22,3 +22,4 @@ Plone's Ansible Playbook
    mailserver
    monitoring
    multiserver
+   restart_script

@@ -4,7 +4,8 @@
 Runs doctests against Vagrant boxes defined in Vagrant file.
 doctest files are in the tests/ directory.
 
-Note that when writing new test files, it will be convenient to use the command-line flags to avoid time-consuming reprovisioning or to target particular boxes or tests.
+Note that when writing new test files, it will be convenient to use the command-line
+flags to avoid time-consuming reprovisioning or to target particular boxes or tests.
 """
 
 from sys import stderr
@@ -27,26 +28,31 @@ parser.add_argument(
     '-f', '--force',
     action='store_true',
     help="Force tests to proceed if box already exists. Do not destroy box at end of tests."
-    )
+)
 parser.add_argument(
     '-np', '--no-provision',
     action='store_true',
     help="Skip provisioning."
-    )
+)
 parser.add_argument(
     '--haltonfail',
     action='store_true',
     help="Stop multibox tests after a fail; leave box running."
-    )
+)
 parser.add_argument(
     '--file',
     help="Specify a single doctest file.",
-    )
+)
 parser.add_argument(
     '--box',
     help="Specify a particular target box from:\n    %s" % boxes,
     action="append",
-    )
+)
+parser.add_argument(
+    '-nr', '--no-restart',
+    action="store_true",
+    help="Skip restart",
+)
 
 args = parser.parse_args()
 if args.box:
@@ -61,18 +67,6 @@ devnull = open('/dev/null', 'w')
 mplatform = None
 
 
-# def get_mplatform():
-#     global mplatform
-
-#     if mplatform is None:
-#         mplatform = subprocess.check_output(
-#             """vagrant ssh %s -c 'python -mplatform'""" % box,
-#             shell=True,
-#             stderr=devnull
-#             )
-#     return mplatform
-
-
 def ssh_run(cmd):
     """
         Run a command line in a vagrant box via vagrant ssh.
@@ -83,7 +77,7 @@ def ssh_run(cmd):
         """vagrant ssh %s -c '%s'""" % (box, cmd),
         shell=True,
         stderr=devnull
-        ).replace('^@', '')
+    ).replace('^@', '')
 
 
 def run(cmd):
@@ -98,12 +92,12 @@ def run(cmd):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         close_fds=True
-        )
+    )
     stdout, stderr = p.communicate()
     if p.returncode:
         print >> sys.stderr, stdout
         # Stop the doctest
-        raise KeyboardInterrupt, stderr
+        raise KeyboardInterrupt(stderr)
     return None
 
 
@@ -135,7 +129,8 @@ for abox in boxes:
         'skip_provisioning': args.no_provision,
         'forcing': args.force,
         'box': box,
-        }
+        'skip_restart': args.no_restart,
+    }
 
     if not args.force:
         output = subprocess.check_output("vagrant status %s" % box, shell=True)
@@ -169,4 +164,3 @@ for abox in boxes:
             run("vagrant destroy %s -f" % box)
         else:
             print >> stderr, "Vagrant box %s left running." % box
-

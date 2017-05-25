@@ -27,6 +27,8 @@ sub vcl_recv {
 {% endfor %}
 {% endif %}
 
+{{ proxy_cache_vcl_extra }}
+
     call sanitize_compression;
 
     # Handle special requests

@@ -48,18 +48,23 @@ Default value:
         zodb_path: /Plone
         aliases:
           - default
+        client_max_body_size: 2M
 
 .. note ::
 
     If you are setting up an https server, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
 
-.. warning ::
-
-    Make sure that your source key file is not placed in a public location.
-
+    You may set ``client_max_body_size`` globally.
+    If you set it in virtual host blocks, it overrides the global setting.
 
 Certificates
 ~~~~~~~~~~~~
+
+If you are setting up an https server, you must supply certificate and key files.
+
+.. warning ::
+
+    Your key file must not be encrypted or you will not be able to start the web server automatically.
 
 Certificate files may be specified in one of two ways.
 

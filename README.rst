@@ -30,9 +30,11 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
-We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 14 (Trusty) LTS, Ubuntu 15, Debian wheezy, Debian jessy, and CentOS 7. Support for Ubuntu Xenial 16.0.4 is currently under development.
+We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 16.0.4 (Xenial) LTS, Ubuntu 15, Ubuntu 14, Debian wheezy, Debian jessy, and CentOS 7.
 
 See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.readthedocs.org/en/latest/>`_ for complete documentation.
+
+Detailed, tutorial-style documentation with lots of real-life examples is available at the `Plone Training <https://training.plone.org/5/deployment/index.html>`_ site.
 
 TL;DR
 ^^^^^
@@ -57,7 +59,13 @@ TL;DR
 
 .. warning::
 
-    This version of the playbook requires that the plone.plone_server role be 1.2.0+.
+    Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
+
+    If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
+    `which python2.7` will let you know.
+    If it's missing, use your package manager to install it.
+
+    On Ubuntu Xenial (16.0.4 LTS), `sudo apt-get install -y python` will do the trick.
 
 License
 -------

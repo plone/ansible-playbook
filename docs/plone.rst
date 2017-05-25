@@ -42,12 +42,12 @@ plone_buildout_git_repo
 
 .. code-block:: yaml
 
-    buildout_git_repo: https://github.com/plone/plone.com.ansible.git
-    buildout_git_version: master
+    plone_buildout_git_repo: https://github.com/plone/plone.com.ansible.git
+    plone_buildout_git_version: master
 
-``buildout_git_repo`` defaults to none (uses built-in buildout).
+``plone_buildout_git_repo`` defaults to none (uses built-in buildout).
 
-``buildout_git_version`` is the tag or branch. Defaults to ``master``.
+``plone_buildout_git_version`` is the tag or branch. Defaults to ``master``.
 
 .. note::
 
@@ -131,12 +131,27 @@ plone_client_max_memory
 
 A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any Zope/Plone process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
 
-Defaults to ``0`` (turned off)
+plone_hot_monitor
+~~~~~~~~~~~~~~~~~
 
-.. note ::
+.. code-block:: yaml
 
-    This setting is used in configuration of the ``memmon`` monitor in supervisor: `superlance <http://superlance.readthedocs.org/en/latest>`_ plugin.
+    plone_hot_monitor: cron
 
+The *hot monitor* is the mechanism used to check for and act on processes exceeding the `plone_client_max_memory` setting.
+There are two available mechanisms:
+
+* `superlance <http://superlance.readthedocs.org/en/latest>`_ is a supervisor plugin.
+  It's memory-monitor mechanisms are well-known in the Plone community and well-tested.
+  If a Zope/Plone process exceeds the max memory setting, the equivalent of a supervisor process restart occurs.
+
+* `cron` is a mechanism installed by the Plone Ansible Playbook.
+  It uses a cron job to check twice an hour for clients that pass the threshhold.
+  If an offending client is found, the `scripts/restart_single_client.sh` script is used to restart the client.
+  This script removes the client from the haproxy cluster before restarting, then loads pages to warm the ZODB cache before returning the client to the load-balancer cluster.
+  The `cron` option was added in version 1.2.17 of the Playbook. It's implemented in the restart_script role.
+
+Defaults to ``superlance``
 
 plone_additional_eggs
 ~~~~~~~~~~~~~~~~~~~~~
