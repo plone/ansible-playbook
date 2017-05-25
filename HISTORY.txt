@@ -1,5 +1,8 @@
 1.2.17 (unreleased)
 
+- Use Plone 5.0.7 in samples.
+  [stevepiercy]
+
 - Make client_max_body_size work either globally or in virtual host blocks.
   [smcmahon]
 
