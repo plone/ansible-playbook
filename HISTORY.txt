@@ -1,5 +1,9 @@
 1.2.17 (unreleased)
 
+- Document need for Python 2.7.x to be activated in Xenial+.
+  Fixes #82.
+  [smcmahon]
+
 - Use Plone 5.0.7 in samples.
   [stevepiercy]
 

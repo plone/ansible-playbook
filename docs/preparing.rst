@@ -63,3 +63,15 @@ We have a few Ansible role dependencies which you may fulfill via Ansible Galaxy
     ansible-galaxy -r requirements.yml -p roles install
 
 This should be executed in your playbook directory. Downloaded requirements will be dropped into the ``roles`` directory there.
+
+Remote setup
+^^^^^^^^^^^^
+
+Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
+
+If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
+`which python2.7` will let you know.
+If it's missing, use your package manager to install it.
+
+On Ubuntu Xenial (16.0.4 LTS), `sudo apt-get install -y python` will do the trick.
+
