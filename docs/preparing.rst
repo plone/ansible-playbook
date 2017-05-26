@@ -23,15 +23,13 @@ Beyond the basic platform, the only requirements are that you have ``ssh`` acces
 
 For local testing via virtual machine, any machine that supports VirtualBox/Vagrant should be adequate.
 
-Remote hosting
-``````````````
+Potential Problems
+``````````````````
 
-Each hosting provider may have requirements that must be satisfied to successfully run the playbook.
+Problems may arise from insufficient memory or disk space when running the playbook on the target server.
+This section describes some common problems and their symptoms, helping you to recognize them and decide how to handle them.
 
-Digital Ocean
-~~~~~~~~~~~~~
-
-When running the playbook for the first time on a droplet that is smaller than 1GB of RAM, then you will encounter an error message like the following:
+When running the playbook for the first time on a server that has less than 1GB of RAM and has insufficient disk swap space, then you will encounter an error message like the following.
 
 .. code-block:: console
 
@@ -61,7 +59,10 @@ Noting that the output of buildout is located on the target machine in ``/usr/lo
 
 lxml could not be installed.
 
-There are at least three options to remedy this situation, each of which impacts financial cost, labor, maintenance, and hardware, and other users.
+To remedy this situation, there are several options depending on the hosting provider, each of which impacts financial cost, labor, maintenance, and hardware, and other users.
+
+How to Resolve Insufficient Resources on Digital Ocean
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Create a droplet with at least 1GB of RAM.
 * Create a droplet with 512GB of RAM, then resize it up to 1GB temporarily in Digital Ocean's interface without changing the disk size. Run the playbook to install lxml, then downsize the droplet back to 512GB of RAM.
