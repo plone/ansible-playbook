@@ -52,3 +52,30 @@ plone_additional_eggs:
 
 plone_additional_versions:
   - "pas.plugins.authomatic = 1.0a7"
+
+# Nginx settings
+
+webserver_virtualhosts:
+  - hostname: plone.io
+    default_server: yes
+    extra: return 301 https://$server_name$request_uri;
+
+  - hostname: plone.io
+    default_server: yes
+    zodb_path: /Plone
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
+
+  - hostname: demo.plone.io
+    extra: return 301 https://$server_name$request_uri;
+
+  - hostname: demo.plone.io
+    zodb_path: /Demo
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
