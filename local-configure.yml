@@ -79,3 +79,14 @@ webserver_virtualhosts:
     certificate:
       key: /etc/nginx/ssl/wildcard.key
       crt: /etc/nginx/ssl/wildcard.crt
+
+  - hostname: backend.plone.io
+    extra: return 301 https://$server_name$request_uri;
+
+  - hostname: backend.plone.io
+    zodb_path: /Plone
+    port: 443
+    protocol: https
+    certificate:
+      key: /etc/nginx/ssl/wildcard.key
+      crt: /etc/nginx/ssl/wildcard.crt
