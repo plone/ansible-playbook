@@ -53,6 +53,9 @@ plone_additional_eggs:
 plone_additional_versions:
   - "pas.plugins.authomatic = 1.0a7"
 
+plone_client_extras: |
+  zcml-additional = <configure xmlns="http://namespaces.zope.org/zope" xmlns:plone="http://namespaces.plone.org/plone"> <plone:CORSPolicy allow_origin="" allow_methods="DELETE,GET,OPTIONS,PATCH,POST,PUT" allow_credentials="true" expose_headers="Content-Length,X-My-Header" allow_headers="Accept,Authorization,Content-Type,X-Custom-Header" max_age="3600" /> </configure>
+
 # Nginx settings
 
 webserver_virtualhosts:
