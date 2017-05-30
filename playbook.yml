@@ -35,6 +35,7 @@
         - motd
         - nginx
         - timezone
+        - audit
 
     - name: Fail if no administrative email set
       fail:
@@ -182,6 +183,9 @@
     - role: motd
       when: install_motd|default(True)
       tags: motd
+
+    - role: audit
+      tags: audit
 
   # tasks:
 
