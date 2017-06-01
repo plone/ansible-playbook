@@ -17,7 +17,7 @@
 # Things you MUST change
 # ----------------------
 
-admin_email: nguyen@plone.org
+admin_email: admins@plone.org
 
 plone_initial_password: admin
 
