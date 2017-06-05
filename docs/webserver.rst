@@ -10,9 +10,9 @@ install_webserver
 
 Do you want to install Nginx? Defaults to ``yes``.
 
-.. note ::
+.. note::
 
-    If you decide not to install the webserver -- which acts as a reverse proxy -- you are on your own for making sure that Plone is accessible at a well-known port.
+    If you decide not to install the webserver—which acts as a reverse proxy—you are on your own for making sure that Plone is accessible at a well-known port.
 
 Virtual hosting setup
 ~~~~~~~~~~~~~~~~~~~~~
@@ -50,9 +50,9 @@ Default value:
           - default
         client_max_body_size: 2M
 
-.. note ::
+.. note::
 
-    If you are setting up an https server, you must supply certificate and key files. The files will be copied from your local machine (the one containing the playbook) to the target server. Your key file must not be encrypted or you will not be able to start the web server automatically.
+    If you are setting up an https server, you must supply certificate and key files in one of two ways. Details are in the following Certificates section.
 
     You may set ``client_max_body_size`` globally.
     If you set it in virtual host blocks, it overrides the global setting.
@@ -62,7 +62,7 @@ Certificates
 
 If you are setting up an https server, you must supply certificate and key files.
 
-.. warning ::
+.. warning::
 
     Your key file must not be encrypted or you will not be able to start the web server automatically.
 
