@@ -1,5 +1,8 @@
 1.2.18 (unreleased)
 
+- Clarify certificate files process (#73)
+  [stevepiercy]
+
 - Add audit role to catch unmaintained nginx or supervisor configuration files.
   [smcmahon]
 
