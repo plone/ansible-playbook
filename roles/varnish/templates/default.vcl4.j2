@@ -22,6 +22,11 @@ sub vcl_recv {
     if (req.url ~ "{{ site.protocol|default('http') }}/{{ site.hostname }}:") {
         set req.backend_hint = {{ backend.plone_instance_name|default(plone_instance_name) }};
     }
+{% for alias in site.get('aliases', []) %}
+    if (req.url ~ "{{ site.protocol|default('http') }}/{{ alias }}:") {
+        set req.backend_hint = {{ backend.plone_instance_name|default(plone_instance_name) }};
+    }
+{% endfor %}
 {% endif %}
 {% endfor %}
 {% endfor %}
