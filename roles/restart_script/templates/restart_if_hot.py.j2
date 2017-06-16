@@ -17,7 +17,7 @@ import subprocess
 
 # variables set by Ansible:
 admin_email = "{{ admin_email }}"
-instance_discriminator =  "{{ '%s_' % item.plone_instance_name }}"
+instance_discriminator =  "{{ '%s_' % item.plone_instance_name|default(plone_instance_name) }}"
 client_count = {{ item.plone_client_count|default(plone_client_count) }}
 max_memory = byte_size("{{ item.plone_client_max_memory|default(plone_client_max_memory) }}")
 restart_script = "{{ item.plone_target_path|default('/usr/local/plone-' + '.'.join(item.get('plone_version', plone_version).split('.')[0:2])) }}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts/restart_single_client.sh"
