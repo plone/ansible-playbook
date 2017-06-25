@@ -1,3 +1,21 @@
+1.2.18 2017-06-25
+
+- Use plone_server role tag 1.2.18.
+  [smcmahon]
+
+- Add default values for a template that use plone_instance_name.
+  roles/restart_script/templates/restart_if_hot.py.j2
+  [ramiroluz]
+
+- Make virtual host aliases work as expected by using $host rather than $server_name in nginx host files and with matching selection logic in varnish default.vcl.
+  [smcmahon]
+
+- Clarify certificate files process (#73)
+  [stevepiercy]
+
+- Add audit role to catch unmaintained nginx or supervisor configuration files.
+  [smcmahon]
+
 1.2.17 2017-05-25
 
 - Document need for Python 2.7.x to be activated in Xenial+.

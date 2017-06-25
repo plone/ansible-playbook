@@ -1,0 +1,30 @@
+---
+
+- set_fact:
+    supervisor_config_dir: "/etc/supervisord/conf.d"
+    supervisor_ext: ".conf"
+
+- set_fact:
+    supervisor_config_dir: "/etc/supervisord.d/"
+    supervisor_ext: ".ini"
+  when: ansible_os_family == 'RedHat'
+
+- find:
+    paths: "/etc/nginx/sites-enabled"
+  register: sites_found
+
+- find:
+    paths: "{{ supervisor_config_dir }}"
+  register: jobs_found
+
+- set_fact:
+    unexpected_vhosts: "{{ playbook_plones|unexpected_vhost_files(inventory_hostname, sites_found)|join(', ') }}"
+    unexpected_supervisor_files: "{{ playbook_plones|unexpected_supervisor_files(jobs_found, supervisor_ext)|join(', ') }}"
+
+- debug:
+    msg: "WARNING: You have one or more files in /etc/nginx/sites-enabled that are not being maintained by the playbook: {{ unexpected_vhosts }}."
+  when: unexpected_vhosts|length > 0
+
+- debug:
+    msg: "WARNING: You have one or more files in {{ supervisor_config_dir }} that are not being maintained by the playbook: {{ unexpected_supervisor_files }}."
+  when: unexpected_supervisor_files|length > 0

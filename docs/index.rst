@@ -23,3 +23,4 @@ Plone's Ansible Playbook
    monitoring
    multiserver
    restart_script
+   audit
