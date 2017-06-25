@@ -1,4 +1,4 @@
-1.2.18 (unreleased)
+1.2.18 2017-06-25
 
 - Use plone_server role tag 1.2.18.
   [smcmahon]
