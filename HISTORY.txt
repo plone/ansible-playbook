@@ -3,6 +3,10 @@
 - Use plone_server role tag 1.2.18.
   [smcmahon]
 
+- Add default values for a template that use plone_instance_name.
+  roles/restart_script/templates/restart_if_hot.py.j2
+  s[ramiroluz]
+
 - Make virtual host aliases work as expected by using $host rather than $server_name in nginx host files and with matching selection logic in varnish default.vcl.
   [smcmahon]
 
