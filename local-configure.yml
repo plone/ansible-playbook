@@ -40,7 +40,6 @@ plone_additional_eggs:
   - Products.PloneFormGen
   - collective.recaptcha
   - simplejson
-  - plone.app.changeownership
   - plone.app.mosaic
   - plone.formwidget.autocomplete
 
@@ -54,7 +53,6 @@ plone_sources:
   - "collective.badge = git https://github.com/collective/collective.badge.git pushurl=git@github.com:collective/collective.badge.git"
   - "pas.plugins.authomatic = git https://github.com/collective/pas.plugins.authomatic.git pushurl=git@github.com:collective/pas.plugins.authomatic.git"
   - "collective.isotope = git git://github.com/collective/collective.isotope.git pushurl=git@github.com:collective/collective.isotope.git"
-  - "plone.app.changeownership = git https://github.com/collective/plone.app.changeownership.git pushurl=https://github.com/collective/plone.app.changeownership.git branch=new-owner-text-field"
   - "collective.recaptcha = git git://github.com/collective/collective.recaptcha.git"
 
 plone_additional_versions:
