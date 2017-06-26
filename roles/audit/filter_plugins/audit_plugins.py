@@ -38,7 +38,7 @@ def expected_supervisor_files(plones, supervisor_ext):
 
     filenames = set()
     for aplone in plones:
-        filenames.add("{0}_zeo{1}" .format(aplone['plone_instance_name'], supervisor_ext))
+        filenames.add("{0}_zeo{1}" .format(aplone.get('plone_instance_name', 'zeoserver'), supervisor_ext))
     return filenames
 
 
