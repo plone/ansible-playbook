@@ -37,6 +37,6 @@ loadbalancer_options
 
 .. code-block:: yaml
 
-    loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+    loadbalancer_options: "check maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
 
 Use this variable to customize backend options for haproxy.
