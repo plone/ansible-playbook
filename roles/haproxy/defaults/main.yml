@@ -2,7 +2,10 @@
 
 loadbalancer_monitor_port: 1080
 
-loadbalancer_options: "check maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+# these will be set in the default-server
+loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+
+loadbalancer_healthcheck: On
 
 # Set default options for all the backend servers below.
 # maxconn 4          = maximum of 4 connections that will be queued to this backend
