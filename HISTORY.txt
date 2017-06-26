@@ -1,5 +1,9 @@
 1.2.19 unreleased
 
+- Add loadbalancer_healthcheck option to haproxy setup.
+  Refactor loadbalancer_options to go into haproxy's default_server setting.
+  [smcmahon]
+
 - Audit module would fail if no instance name was set.
   [smcmahon]
 
