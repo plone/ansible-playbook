@@ -12,16 +12,16 @@ acl purge {
 sub vcl_recv {
 
 {% if playbook_plones|length > 1 %}
-    set req.backend_hint = {{ playbook_plones[0].plone_instance_name|default(plone_instance_name) }};
+    set req.backend = {{ playbook_plones[0].plone_instance_name|default(plone_instance_name) }};
 {% for backend in playbook_plones %}
 {% for site in backend.webserver_virtualhosts|default([{'hostname':'default'}]) %}
 {% if site.get('zodb_path') != None %}
     if (req.url ~ "{{ site.protocol|default('http') }}/{{ site.hostname }}:") {
-        set req.backend_hint = {{ backend.plone_instance_name|default(plone_instance_name) }};
+        set req.backend = {{ backend.plone_instance_name|default(plone_instance_name) }};
     }
 {% for alias in site.get('aliases', []) %}
     if (req.url ~ "{{ site.protocol|default('http') }}/{{ alias }}:") {
-        set req.backend_hint = {{ backend.plone_instance_name|default(plone_instance_name) }};
+        set req.backend = {{ backend.plone_instance_name|default(plone_instance_name) }};
     }
 {% endfor %}
 {% endif %}
