@@ -10,7 +10,12 @@ maxretry: {{ fail2ban_maxretry }}
 banaction = iptables-multiport
 {% endif %}
 
+{% if sshd_check_result.rc == 0 %}
 [sshd]
 enabled = true
+{% else %}
+[ssh]
+enabled = true
+{% endif %}
 
 {{ fail2ban_extra }}

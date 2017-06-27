@@ -2,6 +2,11 @@
 
 - include: "{{ ansible_os_family }}.yml"
 
+- name: Check fail2ban jail for [sshd]
+  command: 'grep -F "[sshd]" /etc/fail2ban/jail.conf'
+  ignore_errors: yes
+  register: sshd_check_result
+
 - name: "Local config in jail.d/customization.local"
   template:
     src: customization.local.j2
