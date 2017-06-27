@@ -1,7 +1,11 @@
 1.2.19 unreleased
 
+- 2017-04-07 VCL fix broke vcl < 4 (e.g., trusty). Fixed.
+  [smcmahon]
+
 - Add loadbalancer_healthcheck option to haproxy setup.
   Refactor loadbalancer_options to go into haproxy's default_server setting.
+  [smcmahon]
 
 - The new fail2ban role (added in 1.2.15) would not work with older versions of jail.conf that set up an ssh jail rather than sshd.
   [smcmahon]
