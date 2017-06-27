@@ -2,6 +2,8 @@
 
 - Add loadbalancer_healthcheck option to haproxy setup.
   Refactor loadbalancer_options to go into haproxy's default_server setting.
+
+- The new fail2ban role (added in 1.2.15) would not work with older versions of jail.conf that set up an ssh jail rather than sshd.
   [smcmahon]
 
 - Audit module would fail if no instance name was set.
