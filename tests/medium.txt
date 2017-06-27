@@ -184,6 +184,8 @@ Check fail2ban
     >>> print ssh_run('sudo fail2ban-client ping')
     Server replied: pong
 
+Note that this will return a false failure on older OS releases that use ``ssh`` rather than ``sshd``.
+
     >>> print ssh_run('sudo fail2ban-client status sshd')
      Status for the jail: sshd
     |- Filter
