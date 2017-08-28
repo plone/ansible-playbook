@@ -65,7 +65,7 @@ TL;DR
     ``which python2.7`` will let you know.
     If it's missing, use your package manager to install it.
 
-    On Ubuntu Xenial (16.0.4 LTS), `sudo apt-get install -y python` will do the trick.
+    On Ubuntu Xenial (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.
 
 License
 -------
