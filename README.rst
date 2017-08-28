@@ -62,7 +62,7 @@ TL;DR
     Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
 
     If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
-    `which python2.7` will let you know.
+    ``which python2.7`` will let you know.
     If it's missing, use your package manager to install it.
 
     On Ubuntu Xenial (16.0.4 LTS), `sudo apt-get install -y python` will do the trick.
