@@ -1,5 +1,8 @@
 1.2.19 unreleased
 
+- Use plone role version 1.2.19 to pick up PyPI https fix.
+  [smcmahon]
+
 - 2017-04-07 VCL fix broke vcl < 4 (e.g., trusty). Fixed.
   [smcmahon]
 
