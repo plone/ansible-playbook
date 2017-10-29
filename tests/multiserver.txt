@@ -161,7 +161,6 @@ Is everything where we expect it to be?
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.0/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  plone_buildout  plone_group bin
-    -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
@@ -290,6 +289,10 @@ But not a cron job.
     #Ansible: Restart primary clients if too hot
     #15,45 * * * * root /usr/local/plone-5.0/primary/scripts/restart_if_hot.py
 
+The load balancer for this instance should be running health checks.
+
+    >>> print ssh_run('grep "8081" /etc/haproxy/haproxy.cfg')
+    server client1 127.0.0.1:8081 check
 
 Secondary instance tests
 ------------------------
@@ -303,7 +306,6 @@ Secondary instance tests
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  plone_buildout  plone_group bin
-    -rw-r--r--  plone_buildout  plone_group bootstrap.py
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
@@ -418,7 +420,16 @@ And, not memmon.
     >>> print ssh_run('grep memmon /etc/supervisor/conf.d/secondary_zeo.conf; echo $?')
     1
 
+The load balancer for this instance should not be running health checks.
 
+    >>> print ssh_run('grep "7081" /etc/haproxy/haproxy.cfg')
+    server client1 127.0.0.1:7081
+
+One of our load balancer backends should have a customized default-server.
+One should not.
+
+    >>> print ssh_run('grep "default-server" /etc/haproxy/haproxy.cfg')
+    default-server maxconn 1 inter 60000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15
+    default-server maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15
 
     >>> print >> sys.stderr, "Tests done"
-

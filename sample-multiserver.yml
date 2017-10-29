@@ -57,6 +57,7 @@ playbook_plones:
     plone_zeo_port: 8100
     plone_client_base_port: 8081
     loadbalancer_port: 8080
+    loadbalancer_options: "maxconn 1 inter 60000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
     webserver_virtualhosts:
       - hostname: "{{ inventory_hostname }}"
         aliases:
@@ -74,6 +75,7 @@ playbook_plones:
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080
+    loadbalancer_healthcheck: Off
     plone_hot_monitor: cron
     webserver_virtualhosts:
       - hostname: localhost
