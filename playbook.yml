@@ -82,7 +82,7 @@
       with_items: "{{ additional_packages|default([]) }}"
 
     - name: Ensure selinux packages via yum
-      when: ansible_os_family == 'RedHat' and ansible_selinux
+      when: ansible_os_family == 'RedHat' and ansible_selinux and ansible_selinux.status == 'enabled'
       yum: name={{ item }} state=present update_cache=yes
       with_items:
         - libsemanage-python
