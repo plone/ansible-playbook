@@ -1,4 +1,18 @@
-1.2.19 unreleased
+1.2.20 2017-11-12
+
+- Using jinja2 filters in with_items now requires "{{ ... }}}" quoting.
+  This broke the firewall playbook.
+  Fixed.
+  [smcmahon]
+
+- With Ansible 2.4.1.0, a negative result value for ansible_selinux changed from boolean to a dict.
+  Adjusted tests for selinux while maintaining backward compatability.
+  [smcmahon]
+
+- Use plone_server 1.2.20.
+  [smcmahon]
+
+1.2.19
 
 - Use plone role version 1.2.19 to pick up PyPI https fix.
   [smcmahon]

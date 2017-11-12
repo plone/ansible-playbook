@@ -15,7 +15,7 @@
   when: ansible_os_family == 'RedHat'
 
 - name: Enable selinux boolean varnishd_connect_any
-  when: ansible_selinux
+  when: ansible_selinux and ansible_selinux.status == 'enabled'
   seboolean: name=varnishd_connect_any state=yes persistent=yes
 
 - name: Determine varnish version
