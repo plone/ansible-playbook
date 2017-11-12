@@ -22,5 +22,5 @@
 - name: 4949 (munin-node) is open to monitor(s)
   when: install_muninnode|default(True)
   ufw: rule=allow port=4949 proto=tcp from_ip={{ item }}
-  with_items: muninnode_query_ips|default([])
+  with_items: "{{ muninnode_query_ips|default([]) }}"
 

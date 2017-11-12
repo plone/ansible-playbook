@@ -1,5 +1,10 @@
 1.2.20 2017-11-12
 
+- Using jinja2 filters in with_items now requires "{{ ... }}}" quoting.
+  This broke the firewall playbook.
+  Fixed.
+  [smcmahon]
+
 - With Ansible 2.4.1.0, a negative result value for ansible_selinux changed from boolean to a dict.
   Adjusted tests for selinux while maintaining backward compatability.
   [smcmahon]
