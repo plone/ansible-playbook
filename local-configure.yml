@@ -49,9 +49,11 @@ plone_client_max_memory: 750MB
 plone_additional_eggs:
   - plone.restapi
   - pas.plugins.authomatic
+  - Products.PloneHotfix20171128
 
 plone_additional_versions:
   - "pas.plugins.authomatic = 1.0a7"
+  - "Products.PloneHotfix20171128 = 1.0"
 
 plone_client_extras: |
   zcml-additional = <configure xmlns="http://namespaces.zope.org/zope" xmlns:plone="http://namespaces.plone.org/plone"> <plone:CORSPolicy allow_origin="*" allow_methods="DELETE,GET,OPTIONS,PATCH,POST,PUT" allow_credentials="true" expose_headers="Content-Length,X-My-Header" allow_headers="Accept,Authorization,Content-Type,X-Custom-Header,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control" max_age="3600" /> </configure>
