@@ -4,7 +4,12 @@
   apt: pkg={{ item }} state=present
   with_items:
     - logwatch
+
+- name: update-notifier-common installed
+  apt: pkg={{ item }} state=present
+  with_items:
     - update-notifier-common
+  ignore_errors: True
 
 - name: Check our update notify technology
   stat:

@@ -1,5 +1,8 @@
 1.2.22 unreleased
 
+- Changed logwatch role modules to give us Debian 9 (stretch) compatability.
+  [smcmahon]
+
 - Use plone_server 1.2.22.
   [smcmahon]
 
