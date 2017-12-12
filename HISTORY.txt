@@ -1,3 +1,10 @@
+1.2.22 unreleased
+
+- Use plone_server 1.2.22.
+  [smcmahon]
+
+1.2.21 skipped
+
 1.2.20 2017-11-12
 
 - Using jinja2 filters in with_items now requires "{{ ... }}}" quoting.
