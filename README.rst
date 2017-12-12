@@ -30,7 +30,7 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
-We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 16.0.4 (Xenial) LTS, Ubuntu 15, Ubuntu 14, Debian wheezy, Debian jessy, and CentOS 7.
+We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 16.0.4 (Xenial) LTS, Ubuntu 15, Ubuntu 14, Debian wheezy, Debian jessie, Debian stretch, and CentOS 7.
 
 See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.readthedocs.org/en/latest/>`_ for complete documentation.
 
@@ -51,7 +51,7 @@ TL;DR
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an Ansible inventory file for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
+7. To deploy, create an `Ansible inventory file <http://docs.ansible.com/ansible/latest/intro_inventory.html>`_  for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
 
 8. Set a real password for your Plone instance on the target server;
 
