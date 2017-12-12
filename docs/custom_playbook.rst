@@ -58,7 +58,7 @@ You have two available mechanisms for doing this customization in conjunction wi
 
 * You may supply a git repository specification, including branch or tag, for a buildout directory skeleton. The Plone Ansible Playbook will clone this or pull updates as necessary.
 
-If you choose the git repository strategy, your buildout skeleton must, at a minimum, include ``bootstrap.py`` and ``buildout.cfg`` files. It will also commonly contain a ``src/`` subdirectory and extra configuration files. It will probably **not** contain ``bin/``, ``var/`` or ``parts/`` directories. Those will typically be excluded in your ``.gitignore`` file.
+If you choose the git repository strategy, your buildout skeleton must, at a minimum, include a buildout file .cfg file. Use ``plone_buildout_cfg`` to set the filename if it's not live.cfg. It will also commonly contain a ``src/`` subdirectory and extra configuration files. It will probably **not** contain ``bin/``, ``var/`` or ``parts/`` directories. Those will typically be excluded in your ``.gitignore`` file.
 
 .. note::
 

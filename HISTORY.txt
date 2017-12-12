@@ -1,4 +1,7 @@
-1.2.22 unreleased
+1.2.22 2017-12-12
+
+- Do some doc cleanup for the plone_buildout_cfg option.
+  [smcmahon]
 
 - Changed logwatch role modules to give us Debian 9 (stretch) compatability.
   [smcmahon]
