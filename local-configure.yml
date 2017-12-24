@@ -79,6 +79,7 @@ webserver_virtualhosts:
 
   - hostname: demo.plone.io
     zodb_path: /Demo
+    location_subfolder: backend
     port: 443
     protocol: https
     certificate:
