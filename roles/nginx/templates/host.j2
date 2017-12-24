@@ -39,7 +39,7 @@ server {
 
 {% if item.get('zodb_path') != None %}
   {% if item.get('location_subfolder') != None %}
-    location /{{ item.location_subfolder }}/ {
+    location /{{ item.location_subfolder }} {
   {% else %}
     location / {
   {% endif %}
@@ -48,7 +48,7 @@ server {
       {{ item.location_extra }}
     {% endif %}
   {% if item.get('location_subfolder') != None %}
-      rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/_vh_{{ item.location_subfolder }}$1 break;
+      rewrite ^/{{ item.location_subfolder }}(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/_vh_{{ item.location_subfolder }}$1 break;
   {% else %}
       rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
   {% endif %}
