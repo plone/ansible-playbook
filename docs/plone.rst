@@ -13,6 +13,14 @@ Initial password of the Zope ``admin`` user. The initial password is used when t
 Defaults to ``""`` -- which will fail.
 
 
+plone_buildout_cfg
+~~~~~~~~~~~~~~~~~~
+
+    plone_buildout_cfg: buildout.cfg
+
+Sets the filename of the main buildout file. Default to `live.cfg`.
+
+
 plone_target_path
 ~~~~~~~~~~~~~~~~~
 

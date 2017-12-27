@@ -1,5 +1,8 @@
 1.2.23 unreleased
 
+- Copy plone_buildout_cfg setting note from plone role to main docs.
+  [smcmahon]
+
 - Add a note to the very-small-server example about problems building with limited RAM.
   [smcmahon]
 
