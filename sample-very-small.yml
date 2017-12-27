@@ -10,7 +10,10 @@
 #
 #     RAM: 512MB
 #     Cores: 1
-
+#
+# NOTE: 512 MB may not be enough RAM to build Plone for the first time (in particular, building lxml-python).
+# If a buildout error log indicates an out-of-memory or mysterious failure, try creating a swap partition or file.
+# If you keep your ZODB cash small, there should be no problem with operation.
 
 # Things you MUST change
 # ----------------------

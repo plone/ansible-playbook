@@ -1,3 +1,11 @@
+1.2.23 unreleased
+
+- Add a note to the very-small-server example about problems building with limited RAM.
+  [smcmahon]
+
+- Copy missing-python warning from README to intro.
+  [smcmahon]
+
 1.2.22 2017-12-12
 
 - Do some doc cleanup for the plone_buildout_cfg option.
