@@ -173,6 +173,7 @@ webserver_virtualhosts:
       - rewrite ^/jobs https://community.plone.org/c/jobs redirect;
       - rewrite ^/providers https://plone.com/providers redirect;
       - rewrite ^/wpd https://plone.org/events/wpd redirect;
+      - rewrite ^/downloads$ https://plone.org/download redirect;
 
   - hostname: old.plone.org
     extra: return 301 https://$server_name$request_uri;
