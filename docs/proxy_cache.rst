@@ -70,9 +70,10 @@ These settings fine-tune the cache rules.
     # X-Anonymous header to allow split caching.
     nonanonymous_cookies: __ac(|_(name|password|persistent))
 
-    # Adds miscellaneous VCL; see the template files for location
+    # Adds miscellaneous VCL in vcl_recv; see the template files for location
     proxy_cache_vcl_extra:
 
+    # Adds code inside backend stanzas. Most commonly used to set timeouts.
+    proxy_cache_backend_extra:
+
 Defaults are as indicated in the example. Don't change these without giving it some thought.
-
-

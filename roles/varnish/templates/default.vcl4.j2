@@ -4,6 +4,11 @@ vcl 4.0;
 backend {{ backend.plone_instance_name|default(plone_instance_name) }} {
 	.host = "127.0.0.1";
 	.port = "{{ backend.loadbalancer_port|default(loadbalancer_port) }}";
+{% if proxy_cache_backend_extra is defined %}
+
+{{ proxy_cache_backend_extra }}
+
+{% endif %}
 }
 {% endfor %}
 
