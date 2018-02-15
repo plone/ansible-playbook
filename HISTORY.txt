@@ -1,5 +1,8 @@
 1.2.23 unreleased
 
+- Add a virtualhosting variable `location_subfolder` that allows VHM "inside-out" hosting.
+  [tkimnguyen]
+
 - Copy plone_buildout_cfg setting note from plone role to main docs.
   [smcmahon]
 
