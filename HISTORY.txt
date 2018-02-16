@@ -1,5 +1,8 @@
 1.2.23 unreleased
 
+- Add loadbalancer_listen_extra variable to offer more flexibility in haproxy configuration.
+  [smcmahon]
+
 - Add a virtualhosting variable `location_subfolder` that allows VHM "inside-out" hosting.
   [tkimnguyen]
 

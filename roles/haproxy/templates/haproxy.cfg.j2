@@ -41,6 +41,9 @@ listen admin
 listen {{ front_end.plone_instance_name|default(plone_instance_name) }}
     bind *:{{ front_end.loadbalancer_port|default(loadbalancer_port) }}
     default-server {{ front_end.loadbalancer_options|default(loadbalancer_options) }}
+    {% if front_end.loadbalancer_listen_extra|default(loadbalancer_listen_extra|default(False)) %}
+        {{ front_end.loadbalancer_listen_extra|default(loadbalancer_listen_extra) }}
+    {% endif %}
 
 {% for client in range(0, front_end.plone_client_count|default(plone_client_count)|int) %}
     server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.plone_client_base_port|default(plone_client_base_port)|int + client) }} {% if front_end.get('loadbalancer_healthcheck', True) %}check{% endif %}

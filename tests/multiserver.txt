@@ -161,12 +161,12 @@ Is everything where we expect it to be?
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.0/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  plone_buildout  plone_group bin
-    -rw-r--r--  plone_buildout  plone_group buildout.cfg
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     drwxr-xr-x  plone_buildout  plone_group include
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib...
+    -rw-r--r--  plone_buildout  plone_group live.cfg
     drwxr-xr-x  plone_buildout  plone_group parts...
     drwxr-xr-x  plone_buildout  plone_group products
     drwxr-xr-x  root    root    scripts
@@ -293,6 +293,11 @@ The load balancer for this instance should be running health checks.
 
     >>> print ssh_run('grep "8081" /etc/haproxy/haproxy.cfg')
     server client1 127.0.0.1:8081 check
+
+And, have longer timeouts.
+
+    >>> print ssh_run('grep "longer timeout for primary" /etc/haproxy/haproxy.cfg')
+    timeout connect 30s  # longer timeout for primary
 
 Secondary instance tests
 ------------------------

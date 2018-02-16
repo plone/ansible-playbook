@@ -58,6 +58,7 @@ playbook_plones:
     plone_client_base_port: 8081
     loadbalancer_port: 8080
     loadbalancer_options: "maxconn 1 inter 60000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+    loadbalancer_listen_extra: "timeout connect 30s  # longer timeout for primary"
     webserver_virtualhosts:
       - hostname: "{{ inventory_hostname }}"
         aliases:
@@ -77,6 +78,7 @@ playbook_plones:
     loadbalancer_port: 7080
     loadbalancer_healthcheck: Off
     plone_hot_monitor: cron
+    plone_buildout_cfg: buildout.cfg
     webserver_virtualhosts:
       - hostname: localhost
         zodb_path: /Plone
