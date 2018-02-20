@@ -1,4 +1,7 @@
-1.2.23 unreleased
+1.2.23 2018-02-20
+
+- Require plone_server 1.2.23.
+  [smcmahon]
 
 - Add loadbalancer_listen_extra variable to offer more flexibility in haproxy configuration.
   [smcmahon]
