@@ -41,6 +41,19 @@ loadbalancer_healthcheck
 
 This option may be set to "On" or "Off" to turn haproxy health checks on or off for your ZEO clients.
 
+
+loadbalancer_listen_extra
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    loadbalancer_listen_extra: "timeout connect 30s  # longer timeout for primary"
+
+Use this variable to add configuration lines in "listen" sections.
+Usually done to override defaults.
+This variable may be set globally or in individual playbook_plones.
+
+
 loadbalancer_options
 ~~~~~~~~~~~~~~~~~~~~
 

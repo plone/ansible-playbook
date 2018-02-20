@@ -48,6 +48,18 @@ TL;DR
 
 9. Set up appropriate firewalls.
 
+.. warning::
+
+    **Python required:** Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
+
+    If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
+    ``which python2.7`` will let you know.
+    If it's missing, use your package manager to install it.
+
+    On Ubuntu Xenial (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.
+
+    **sshpass**: You may need to install ``sshpass`` on the host machine to manage sending passwords to the remote machine over ssh. ``sudo apt-get install -y sshpass`` will do the trick in the Debian universe.
+
 
 Automated-server provisioning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -117,6 +117,23 @@ This is a *redirect to https* setting.
         auth_basic "Private Demo - please enter your credentials";
         auth_basic_user_file /etc/nginx/htpasswd;
 
+
+Inside-out hosting
+~~~~~~~~~~~~~~~~~~
+
+Zope "inside-out" virtual hosting allows you to direct URLs for a subpath to a ZODB location.
+The subpath is stripped by the Zope Virtual Host Monster.
+
+.. code-block:: yaml
+
+    - hostname: plone.com
+      zodb_path: plone_vendors
+      location_subfolder: vendors
+
+URLs starting with plone.com/vendors will be served from the ZODB path /plone_vendors.
+Other plone.com URLs will be unaffected.
+
+
 Status and monitoring
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -226,3 +243,5 @@ You may globally block this behavior by setting allow_http2 to "no".
 .. code-block:: yaml
 
     allow_http2: yes
+
+

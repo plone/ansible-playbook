@@ -51,7 +51,7 @@ TL;DR
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an `Ansible inventory file <http://docs.ansible.com/ansible/latest/intro_inventory.html>`_  for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
+7. To deploy, create an `Ansible inventory file <http://docs.ansible.com/ansible/latest/intro_inventory.html>`_  for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``[*]_;
 
 8. Set a real password for your Plone instance on the target server;
 
@@ -59,13 +59,15 @@ TL;DR
 
 .. warning::
 
-    Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
+    **Python required:** Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
 
     If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
     ``which python2.7`` will let you know.
     If it's missing, use your package manager to install it.
 
     On Ubuntu Xenial (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.
+
+    **sshpass**: You may need to install ``sshpass`` on the host machine to manage sending passwords to the remote machine over ssh. ``sudo apt-get install sshpass`` will do the trick in the Debian universe.
 
 License
 -------
