@@ -144,6 +144,7 @@ processes, haproxy and varnish.
     Waiting a bit...
     Fetching Plone site-home page
     Purging varnish cache
+      /Plone
     <BLANKLINE>
     Done
 
