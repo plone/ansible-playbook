@@ -160,6 +160,7 @@ processes, haproxy and varnish.
     /Plone
     Marking client 2 available
     Purging varnish cache
+      /Plone
     <BLANKLINE>
     Done
 
