@@ -7,7 +7,3 @@
 - src: https://github.com/jnv/ansible-role-unattended-upgrades.git
   version: v1.3.0
   name: jnv.unattended-upgrades
-
-- src: https://github.com/ANXS/hostname.git
-  version: v1.1.0
-  name: ANXS.hostname

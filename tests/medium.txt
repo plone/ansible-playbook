@@ -53,6 +53,12 @@ And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"
 
+Check hostname:
+
+    >>> rez = ssh_run('hostname')
+    >>> rez.strip() == box
+    True
+
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 

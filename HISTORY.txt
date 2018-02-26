@@ -1,3 +1,8 @@
+1.2.24 unreleased
+
+- Remove dependency on anxs.hostname.
+  [smcmahon]
+
 1.2.23 2018-02-20
 
 - Require plone_server 1.2.23.
