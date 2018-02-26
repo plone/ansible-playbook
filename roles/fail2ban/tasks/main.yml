@@ -7,6 +7,12 @@
   ignore_errors: yes
   register: sshd_check_result
 
+- name: Ensure jail.d directory
+  file:
+    path=/etc/fail2ban/jail.d
+    state=directory
+    mode=0755
+
 - name: "Local config in jail.d/customization.local"
   template:
     src: customization.local.j2
