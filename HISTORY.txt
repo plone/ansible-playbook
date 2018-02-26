@@ -1,5 +1,8 @@
 1.2.24 unreleased
 
+- fail2ban install was failing on hosts with no /etc/fail2ban/jail.d directory (after the fail2ban package install). Fixed.
+  [smcmahon]
+
 - Remove dependency on anxs.hostname.
   [smcmahon]
 
