@@ -1,5 +1,8 @@
 1.2.24 unreleased
 
+- Update jnv.unattended-upgrades to v1.5.0.
+  [smcmahon]
+
 - fail2ban install was failing on hosts with no /etc/fail2ban/jail.d directory (after the fail2ban package install). Fixed.
   [smcmahon]
 
