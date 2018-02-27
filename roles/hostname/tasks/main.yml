@@ -1,5 +1,9 @@
 ---
 
+- name: Ensure availability of dbus on Debian
+  apt: pkg=dbus state=present
+  when: ansible_os_family == 'Debian'
+
 - name: Hostname | Update the hostname (pt. 1) - hostname cmd
   hostname:
     name: "{{inventory_hostname_short}}"
