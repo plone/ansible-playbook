@@ -72,14 +72,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
   end
 
-  config.vm.define "wily", autostart: false do |myhost|
-      myhost.vm.box = "ubuntu/wily64"
-      myhost.vm.provision "write_vbox_cfg", machine: "wily"
-      myhost.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-      end
-  end
-
   config.vm.define "wheezy", autostart: false do |myhost|
       myhost.vm.box = "debian/wheezy64"
       myhost.vm.provision "write_vbox_cfg", machine: "wheezy"
