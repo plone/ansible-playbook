@@ -53,6 +53,12 @@ And, now run tests against the box.
 
     >>> print >> sys.stderr, "Running tests against box"
 
+Check hostname:
+
+    >>> rez = ssh_run('hostname')
+    >>> rez.strip() == box
+    True
+
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
 
@@ -160,6 +166,7 @@ processes, haproxy and varnish.
     /Plone
     Marking client 2 available
     Purging varnish cache
+      /Plone
     <BLANKLINE>
     Done
 
@@ -184,15 +191,7 @@ Check fail2ban
     >>> print ssh_run('sudo fail2ban-client ping')
     Server replied: pong
 
-Note that this will return a false failure on older OS releases that use ``ssh`` rather than ``sshd``.
-
-    >>> print ssh_run('sudo fail2ban-client status sshd')
-     Status for the jail: sshd
-    |- Filter
-    |  |- Currently failed: 0
-    |  |- Total failed: 0
-    |  `- ...
-    `- Actions
-       |- Currently banned: 0
-       |- Total banned: 0
-       `- Banned IP list:
+    >>> print ssh_run('sudo fail2ban-client status')
+    Status
+    |- Number of jail:  1
+    `- Jail list:       ssh...

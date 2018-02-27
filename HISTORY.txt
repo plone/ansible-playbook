@@ -1,3 +1,17 @@
+1.2.24 2018-02-27
+
+- Use plone server role 1.2.24.
+  [smcmahon]
+
+- Update jnv.unattended-upgrades to v1.5.0.
+  [smcmahon]
+
+- fail2ban install was failing on hosts with no /etc/fail2ban/jail.d directory (after the fail2ban package install). Fixed.
+  [smcmahon]
+
+- Remove dependency on anxs.hostname.
+  [smcmahon]
+
 1.2.23 2018-02-20
 
 - Require plone_server 1.2.23.
