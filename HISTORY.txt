@@ -1,3 +1,8 @@
+1.2.25 2018-03-06
+
+- Use plone server role 1.2.25, which has Plone 5.1.0 for its default.
+  [smcmahon]
+
 1.2.24 2018-02-27
 
 - Use plone server role 1.2.24.
