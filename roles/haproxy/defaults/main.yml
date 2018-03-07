@@ -3,7 +3,7 @@
 loadbalancer_monitor_port: 1080
 
 # these will be set in the default-server
-loadbalancer_options: "maxconn 1 inter 10000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15"
+loadbalancer_options: "maxconn 1 inter 2s slowstart 1m"
 
 loadbalancer_healthcheck: On
 
