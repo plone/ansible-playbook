@@ -286,6 +286,7 @@ plone_client_extras
         z2-log-level = error
 
 Extra text to add to all the client buildout parts. Defaults to "".
+Don't use this to add zope-conf-additional stanzas, as they may be overriden.
 
 
 plone_client1_extras
@@ -298,6 +299,47 @@ plone_client1_extras
         ftp-address = 8021
 
 Extra text to add to only the first client buildout part. Defaults to "".
+Don't use this to add zope-conf-additional stanzas, as they may be overriden.
+
+
+plone_zeo_extras
+~~~~~~~~~~~~~~~~
+
+Extra text to add to the ZEO server part of the buildout.
+
+
+plone_zope_conf_additional
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+    plone_zope_conf_additional: |
+        <product-config foobar>
+            spam eggs
+        </product-config>
+
+Use this directive to add a zope-conf-additional section to client zope configurations.
+
+
+plone_client_tcpcheck
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+    plone_client_tcpcheck: off
+
+As of plone server role version 1.3.0, we use five.z2monitor to set up monitor threads for each Plone ZEO client.
+You may use this directive to turn this off. Default is "on".
+
+
+plone_client_base_tcpcheck_port
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+    plone_client_base_tcpcheck_port: 7200
+
+If plone_client_tcpcheck, monitor threads will be configured for each Plone ZEO client.
+This directive allows you to control the base port.
+There will be as many ports used as there are Plone ZEO clients.
+The default is "{{ plone_client_base_port + 100 }}".
 
 
 plone_extra_parts
