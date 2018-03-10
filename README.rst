@@ -6,6 +6,12 @@ Plone Ansible playbook
 
     Use Ansible to provision a full-stack Plone server
 
+.. warning::
+
+    **Before you update***: If you're using version 1.2.x, you should note that version 1.3.0+ sets up client monitors for each ZEO client.
+    These monitors will use the client port + 100.
+    haproxy will use these monitor ports as a mechanism to check ZEO client status without using an http thread.
+    See ``tcpcheck`` variables in the documentation for plone setup if you wish to alter or turn off this feature.
 
 Introduction
 ------------
