@@ -88,9 +88,9 @@ timezone
 
 .. code-block:: yaml
 
-    timezone: "America/Los_Angeles\n"
+    timezone: "America/Los_Angeles"
 
-Specify the timezone that should be set on the server.  Default is "UTC\n".
+Specify the timezone that should be set on the server.  Default is "UTC".
 
 .. note::
 
