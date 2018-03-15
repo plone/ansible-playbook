@@ -1,3 +1,8 @@
+1.3.1 unreleased
+
+- Restart script didn't know how to use a custom plone_target_path unless there were multiple plone playbooks."
+  [smcmahon]
+
 1.3.0 2018-03-10
 
     **Before you update***: If you're using version 1.2.x, you should note that version 1.3.0+ sets up client monitors for each ZEO client.
