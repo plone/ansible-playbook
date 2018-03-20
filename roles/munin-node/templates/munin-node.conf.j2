@@ -59,3 +59,5 @@ host *
 
 # And which port
 port {{ munin_node_port }}
+
+{{ munin_node_extra|default('') }}
