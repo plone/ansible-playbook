@@ -48,9 +48,9 @@ server {
       {{ item.location_extra }}
     {% endif %}
   {% if item.get('location_subfolder') != None %}
-      rewrite ^/{{ item.location_subfolder }}(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/_vh_{{ item.location_subfolder }}$1 break;
+      rewrite ^/{{ item.location_subfolder }}(.*)$ /VirtualHostBase/$vh_protocol/${{ item.get('rewrite_server_name', 'server_name') }}:$vh_port{{ item.zodb_path }}/VirtualHostRoot/_vh_{{ item.location_subfolder }}$1 break;
   {% else %}
-      rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/$server_name:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
+      rewrite ^/(.*)$ /VirtualHostBase/$vh_protocol/${{ item.get('rewrite_server_name', 'server_name') }}:$vh_port{{ item.zodb_path }}/VirtualHostRoot/$1 break;
   {% endif %}
     proxy_pass http://localhost:{{ proxycache_port|default('6081') }};
   }

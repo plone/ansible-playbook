@@ -134,6 +134,26 @@ URLs starting with plone.com/vendors will be served from the ZODB path /plone_ve
 Other plone.com URLs will be unaffected.
 
 
+rewrite_server_name
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block: yaml
+
+    - hostname: plone.com
+      aliases:
+        www.plone.com
+      default_server: yes
+      rewrite_server_name: host
+      ...
+
+When we use nginx to rewrite URLs for Zope/Plone, we normally use the nginx variable ``$server_name`` to stand in for the hostname.
+The nginx ``$server_name`` variable picks up the primary hostname -- the one specified by the hostname variable of the ``webserver_virtualhosts`` list item.
+You may or may not want this behavior, as the resources that Plone links to will be referenced at that canonical hostname.
+
+If, instead, you wish the rewrites to use whatever hostname is specified, then you'll want to use the nginx ``$host`` variable instead.
+Make sure you test, as the $host variable can be a bit flakey in real use.
+
+
 Status and monitoring
 ~~~~~~~~~~~~~~~~~~~~~
 
