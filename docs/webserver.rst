@@ -246,7 +246,7 @@ Default value:
     ssl_shared_conf: |
       ssl_session_timeout 1d;
       ssl_session_cache shared:SSL:50m;
-      {% if nginx_v_result.stdout | version_compare('1.5.9', 'ge') %}ssl_session_tickets off;{% endif %}
+      {% if nginx_v_result.stdout is version('1.5.9', 'ge') %}ssl_session_tickets off;{% endif %}
 
 The last line assures that the ssl_session_tickets parameter is only set on versions of nginx that allow it.
 
