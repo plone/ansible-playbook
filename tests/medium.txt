@@ -72,6 +72,8 @@ Zope
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
+    python2.7   plone_daemon    127.0.0.1:8181
+    python2.7   plone_daemon    127.0.0.1:8182
     zeoserver   plone_daemon    127.0.0.1:8100
 
 haproxy
@@ -143,7 +145,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.0/zeoserver/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.1/zeoserver/scripts/restart_clients.sh')
     Marking client 1 down for maintenance
     Restarting client 1
     zeoserver_zeoclient1: stopped
@@ -179,10 +181,10 @@ The varnish cache for this host should now be empty.
 
 Check our custom munin-node plugin for plone_daemon RSS
 
-    >>> print ssh_run('/etc/munin/plugins/plonezope_res')
-    zeoserver-zeoserver.value ...
+    >>> print ssh_run('/etc/munin/plugins/plonezope_res | sort')
     zeoserver-client1.value ...
     zeoserver-client2.value ...
+    zeoserver-zeoserver.value ...
 
     >>> print >> sys.stderr, "Tests done"
 

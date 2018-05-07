@@ -15,7 +15,7 @@ ssl_ciphers: "{{ modern_ciphers }}"
 ssl_shared_conf: |
   ssl_session_timeout 1d;
   ssl_session_cache shared:SSL:50m;
-  {% if nginx_v_result.stdout | version_compare('1.5.9', 'ge') %}ssl_session_tickets off;{% endif %}
+  {% if nginx_v_result.stdout is version('1.5.9', 'ge') %}ssl_session_tickets off;{% endif %}
 
 allow_http2: yes
 

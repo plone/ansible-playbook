@@ -61,11 +61,13 @@ sub vcl_recv {
         return(pass);
     }
 
+{%if proxy_cache_block_basic_auth|default(True) %}
     # Don't allow basic auth via this route.
     # If you want to login at the Zope root, use an ssh tunnel.
     if (req.http.Authorization) {
         unset req.http.Authorization;
     }
+{% endif %}
 
     call sanitize_cookies;
 

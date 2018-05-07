@@ -1,3 +1,5 @@
 ---
 
 munin_node_port: 4949
+
+munin_node_extra:

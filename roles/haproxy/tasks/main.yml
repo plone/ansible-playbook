@@ -6,6 +6,17 @@
   when: ansible_selinux and ansible_selinux.status == 'enabled'
   seboolean: name=haproxy_connect_any state=yes persistent=yes
 
+- name: Determine haproxy version
+  shell: '/usr/sbin/haproxy -v | grep version | sed -r "s/.+version ([0-9.]+) .+/\1/"'
+  register: haproxy_version
+
+- set_fact:
+    haproxy_version: "{{ haproxy_version.stdout }}"
+
+- debug:
+    msg: "WARNING: load balancer health checks are not advisable for haproxy < 5"
+  when: loadbalancer_healthcheck and haproxy_version < '5'
+
 - name: haproxy config
   template:
     src=haproxy.cfg.j2

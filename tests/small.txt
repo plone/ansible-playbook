@@ -61,6 +61,7 @@ in all expected ways.
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:8081
+    python2.7   plone_daemon    127.0.0.1:8181
     zeoserver   plone_daemon    127.0.0.1:8100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
@@ -136,17 +137,19 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.0/zeoserver/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.1/zeoserver/scripts/restart_clients.sh')
     Restarting client 1
     zeoserver_zeoclient1: stopped
     Waiting a bit...
     zeoserver_zeoclient1: started
     Waiting a bit...
-    Fetching Plone site-home page
+    Fetch site homepages to warm cache
+      /Plone
     Purging varnish cache
       /Plone
-    <BLANKLINE>
+
     Done
+    <BLANKLINE>
 
 The varnish cache for this host should now be empty.
 

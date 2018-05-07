@@ -60,21 +60,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
-    v.cpus = 1
+    v.memory = 4096
+    v.cpus = 2
   end
 
   config.vm.define "trusty", autostart: false do |myhost|
       myhost.vm.box = "ubuntu/trusty64"
       myhost.vm.provision "write_vbox_cfg", machine: "trusty"
-      myhost.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-      end
-  end
-
-  config.vm.define "wheezy", autostart: false do |myhost|
-      myhost.vm.box = "debian/wheezy64"
-      myhost.vm.provision "write_vbox_cfg", machine: "wheezy"
       myhost.vm.provision "ansible" do |ansible|
         ansible.playbook = "playbook.yml"
       end
@@ -104,10 +96,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
   end
 
-  config.vm.define "xenial", primary: true, autostart: true do |myhost|
+  config.vm.define "xenial", autostart: false do |myhost|
       myhost.vm.box = "ubuntu/xenial64"
       myhost.vm.provision "shell", inline: "apt-get install -y python"
       myhost.vm.provision "write_vbox_cfg", machine: "xenial"
+      myhost.vm.provision "ansible" do |ansible|
+        ansible.playbook = "playbook.yml"
+      end
+  end
+
+  config.vm.define "bionic", primary: true, autostart: true do |myhost|
+      myhost.vm.box = "ubuntu/bionic64"
+      myhost.vm.provision "shell", inline: "apt-get install -y python"
+      myhost.vm.provision "write_vbox_cfg", machine: "bionic"
       myhost.vm.provision "ansible" do |ansible|
         ansible.playbook = "playbook.yml"
       end

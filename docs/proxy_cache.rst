@@ -50,6 +50,16 @@ proxycache_method
 Use this to specify Varnish's cache mechanism. Default is ``malloc``.
 
 
+proxy_cache_block_basic_auth
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+    proxy_cache_block_basic_auth: off
+
+Use this variable to determine whether or not Varnish blocks the HTTP Authorization header, which is used in basic auth.
+This is set to "on" by default, thus blocking Zope's basic auth, which generally should not be exposed to the Internet.
+
+
 Cache controls
 ~~~~~~~~~~~~~~
 
