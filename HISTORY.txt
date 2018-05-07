@@ -1,5 +1,14 @@
 1.3.1 unreleased
 
+- Make bionic the default Vagrant test platform.
+  [smcmahon]
+
+- Update samples to use Plone 5.1.1.
+  [smcmahon]
+
+- Update to plone server role v 1.3.1.
+  [smcmahon]
+
 - Add munin_node_extra variable.
   [smcmahon]
 
