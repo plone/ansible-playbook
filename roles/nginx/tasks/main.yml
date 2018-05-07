@@ -29,7 +29,7 @@
 
 - name: Should we use http2 if using ssl?
   set_fact:
-    use_http2: "{{ allow_http2 | default(nginx_v_result.stdout | version_compare('1.9.5', 'ge')) }}"
+    use_http2: "{{ allow_http2 | default(nginx_v_result.stdout is version('1.9.5', 'ge')) }}"
 
 - name: Make sure sample host is absent
   when: ansible_os_family == 'Debian'
