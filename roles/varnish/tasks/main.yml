@@ -65,10 +65,10 @@
 - name: systemd setup - xenial
   when: sysd_varnish.rc == 0 and ansible_os_family == 'Debian' and varnish_version >= '4.1'
   ini_file:
-    dest=/etc/systemd/system/multi-user.target.wants/varnish.service
+    dest=/lib/systemd/system/varnish.service
     section=Service
     option=ExecStart
-    value="/usr/sbin/varnishd  -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }}"
+    value="/usr/sbin/varnishd -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }}"
     backup=yes
   notify:
     - systemd daemon reload
