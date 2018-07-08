@@ -1,5 +1,9 @@
 1.3.2 unreleased
 
+- Run configtest on nginx before restarting.
+  Halt if that fails.
+  [smcmahon]
+
 - Drop Trusty and CentOS7 from tested environments.
   They no longer have Pythons current enough for Plone 5.1.x.
   (They're still fine for earlier versions of Plone.)
