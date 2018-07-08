@@ -1,5 +1,9 @@
 1.3.2 unreleased
 
+- Check compilability of default.vcl before varnish starts/restarts.
+  Halt if that fails.
+  [smcmahon]
+
 - Run configtest on nginx before restarting.
   Halt if that fails.
   [smcmahon]
