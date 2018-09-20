@@ -1,5 +1,8 @@
 1.3.3 unreleased
 
+- haproxy health check warning tested wrong version.
+  [smcmahon]
+
 - Automated configuration of the tcp check port wasn't working for multiple plones.
   Deliberately specified ports on a plone-by-plone level was working.
   Fix requires matching plone server role.

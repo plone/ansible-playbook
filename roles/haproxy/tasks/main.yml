@@ -14,8 +14,8 @@
     haproxy_version: "{{ haproxy_version.stdout }}"
 
 - debug:
-    msg: "WARNING: load balancer health checks are not advisable for haproxy < 5"
-  when: loadbalancer_healthcheck and haproxy_version < '5'
+    msg: "WARNING: load balancer health checks are not advisable for haproxy < 1.5"
+  when: loadbalancer_healthcheck and haproxy_version < '1.5'
 
 - name: haproxy config
   template:
