@@ -1,0 +1,1 @@
+drupal ansible_ssh_port=22 ansible_ssh_host=206.189.162.96
