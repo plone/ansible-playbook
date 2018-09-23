@@ -24,3 +24,9 @@
   ufw: rule=allow port=4949 proto=tcp from_ip={{ item }}
   with_items: "{{ muninnode_query_ips|default([]) }}"
 
+- name: mosh UDP port range is open
+  ufw: rule=allow port=60000:61000 proto=udp
+
+- name: drupal port 8000 is open
+  ufw: rule=allow port=8000 proto=tcp
+

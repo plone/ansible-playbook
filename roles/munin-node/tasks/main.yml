@@ -18,6 +18,13 @@
     mode=0755
   notify: restart munin-node
 
+- name: Add custom nginx monitor
+  copy:
+    src=monitors/nginx_error
+    dest=/etc/munin/plugins/
+    mode=0755
+  notify: restart munin-node
+
 - name: Deactivate unneeded monitors
   file:
     path="/etc/munin/plugins/{{ item }}"
