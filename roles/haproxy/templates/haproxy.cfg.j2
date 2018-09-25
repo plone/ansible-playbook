@@ -55,7 +55,7 @@ listen {{ front_end.plone_instance_name|default(plone_instance_name) }}
 
 {% for client in range(0, front_end.plone_client_count|default(plone_client_count)|int) %}
 {%if haproxy_version >= '1.5.0' and front_end.plone_client_tcpcheck|default(plone_client_tcpcheck|default()) %}
-    server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.plone_client_base_port|default(plone_client_base_port)|int + client) }} {% if front_end.get('loadbalancer_healthcheck', loadbalancer_healthcheck) %}check port {{ "%s" % (front_end.plone_client_base_tcpcheck_port|default(front_end.plone_client_base_port + 100)|int + client) }}{% endif %}
+    server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.plone_client_base_port|default(plone_client_base_port)|int + client) }} {% if front_end.get('loadbalancer_healthcheck', loadbalancer_healthcheck) %}check port {{ "%s" % (front_end.plone_client_base_tcpcheck_port|default(front_end.plone_client_base_port|default(plone_client_base_port)|int + 100)|int + client) }}{% endif %}
 {% else %}
     server client{{ client + 1 }} 127.0.0.1:{{ "%s" % (front_end.plone_client_base_port|default(plone_client_base_port)|int + client) }} {% if front_end.get('loadbalancer_healthcheck', loadbalancer_healthcheck) %}check{% endif %}
 {% endif %}
