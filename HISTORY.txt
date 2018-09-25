@@ -1,4 +1,16 @@
+1.3.5 2018-09-25
+
+- Skipped 1.3.3 and 1.3.4 tags to synchronize with plone server role.
+  [smcmahon]
+
+- Require plone server role 1.3.5.
+  [smcmahon]
+
 1.3.3 unreleased
+
+- Fix for configuration of tcpcheck port broke if client count wasn't specified in the individual config.
+  Fixed.
+  [smcmahon]
 
 - haproxy health check warning tested wrong version.
   [smcmahon]
