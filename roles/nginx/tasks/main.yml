@@ -97,12 +97,6 @@
   when: item.key_file is defined
   notify: restart nginx
 
-- name: nginx started
-  service:
-    name=nginx
-    state=started
-    enabled=yes
-
 - name: Assure nginx running at end of playbook
   command: /bin/true
-  notify: nginx started
+  notify: nginx running

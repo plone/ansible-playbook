@@ -36,7 +36,7 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
-We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 16.0.4 (Xenial) LTS, Ubuntu 15, Ubuntu 14, Debian wheezy, Debian jessie, Debian stretch, and CentOS 7.
+We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 18.04 (Bionic) LTS, 16.0.4 (Xenial) LTS, Ubuntu 15, Debian jessie, Debian stretch, and CentOS 7.
 
 See the ``docs`` subdirectory or `readthedocs <http://plone-ansible-playbook.readthedocs.org/en/latest/>`_ for complete documentation.
 
@@ -71,7 +71,7 @@ TL;DR
     ``which python2.7`` will let you know.
     If it's missing, use your package manager to install it.
 
-    On Ubuntu Xenial (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.
+    On Ubuntu Xenial and Bionic (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.
 
     **sshpass**: You may need to install ``sshpass`` on the host machine to manage sending passwords to the remote machine over ssh. ``sudo apt-get install sshpass`` will do the trick in the Debian universe.
 

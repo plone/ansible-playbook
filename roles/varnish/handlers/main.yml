@@ -3,8 +3,18 @@
 - name: systemd daemon reload
   command: systemctl daemon-reload
 
-- name: restart varnish
-  service: name=varnish state=restarted
+- name: configtest before restart; fail immediately if our config is bad
+  command: varnishd -C -f /etc/varnish/default.vcl
+  listen: restart varnish
 
-- name: varnish started
+- name: restart varnish service
+  service: name=varnish state=restarted
+  listen: restart varnish
+
+- name: configtest before status check; fail immediately if our config is bad
+  command: varnishd -C -f /etc/varnish/default.vcl
+  listen: varnish started
+
+- name: varnish service is started
   service: name=varnish state=started
+  listen: varnish started

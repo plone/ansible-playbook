@@ -1,4 +1,54 @@
-1.3.1 unreleased
+1.3.5 2018-09-25
+
+- Skipped 1.3.3 and 1.3.4 tags to synchronize with plone server role.
+  [smcmahon]
+
+- Require plone server role 1.3.5.
+  [smcmahon]
+
+1.3.3 unreleased
+
+- Fix for configuration of tcpcheck port broke if client count wasn't specified in the individual config.
+  Fixed.
+  [smcmahon]
+
+- haproxy health check warning tested wrong version.
+  [smcmahon]
+
+- Automated configuration of the tcp check port wasn't working for multiple plones.
+  Deliberately specified ports on a plone-by-plone level was working.
+  Fix requires matching plone server role.
+  [smcmahon]
+
+1.3.2 unreleased
+
+- Check compilability of default.vcl before varnish starts/restarts.
+  Halt if that fails.
+  [smcmahon]
+
+- Run configtest on nginx before restarting.
+  Halt if that fails.
+  [smcmahon]
+
+- Drop Trusty and CentOS7 from tested environments.
+  They no longer have Pythons current enough for Plone 5.1.x.
+  (They're still fine for earlier versions of Plone.)
+  [smcmahon]
+
+- Fixed problems with Varnish not restarting on bionic.
+  [smcmahon]
+
+- Update plone server role to v 1.3.2.
+  [smcmahon]
+
+- Update samples to 5.1.2.
+  [smcmahon]
+
+- Update Ansible version requirement to 2.5.0.
+  Fixes #112.
+  [smcmahon]
+
+1.3.1 2018-07-07
 
 - Make bionic the default Vagrant test platform.
   [smcmahon]

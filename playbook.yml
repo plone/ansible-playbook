@@ -8,9 +8,9 @@
 
   pre_tasks:
 
-    - name: Fail if Ansible is ancient
-      fail: msg="We need Ansible >= 2.0. Please update your kit. 'pip install -U Ansible'"
-      when: ansible_version.major < 2
+    - name: Fail if Ansible is old
+      fail: msg="We need updates in Ansible 2.5.0. Please update your kit. 'pip install -U Ansible'"
+      when: ansible_version is version('2.5.0', 'lt')
       tags:
         - always
 

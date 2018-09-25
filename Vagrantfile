@@ -64,14 +64,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
-  config.vm.define "trusty", autostart: false do |myhost|
-      myhost.vm.box = "ubuntu/trusty64"
-      myhost.vm.provision "write_vbox_cfg", machine: "trusty"
-      myhost.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-      end
-  end
-
   config.vm.define "jessie", autostart: false do |myhost|
       myhost.vm.box = "debian/jessie64"
       myhost.vm.provision "write_vbox_cfg", machine: "jessie"
@@ -83,14 +75,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "stretch", autostart: false do |myhost|
       myhost.vm.box = "debian/stretch64"
       myhost.vm.provision "write_vbox_cfg", machine: "stretch"
-      myhost.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbook.yml"
-      end
-  end
-
-  config.vm.define "centos7", autostart: false do |myhost|
-      myhost.vm.box = "centos/7"
-      myhost.vm.provision "write_vbox_cfg", machine: "centos7"
       myhost.vm.provision "ansible" do |ansible|
         ansible.playbook = "playbook.yml"
       end
