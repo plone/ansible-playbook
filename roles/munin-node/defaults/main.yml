@@ -3,3 +3,8 @@
 munin_node_port: 4949
 
 munin_node_extra:
+
+munin_node_debian_packages:
+  - munin-node
+  - libwww-perl
+  - libxml-parser-perl

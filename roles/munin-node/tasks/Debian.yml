@@ -1,8 +1,4 @@
 ---
 
 - name: Munin-Node package present
-  apt: pkg={{ item }} state=present
-  with_items:
-    - munin-node
-    - libwww-perl
-    - libxml-parser-perl
+  apt: pkg="{{ munin_node_debian_packages }}" state=present

@@ -9,3 +9,7 @@ fail2ban_findtime: 600
 fail2ban_maxretry: 5
 
 fail2ban_extra:
+
+fail2ban_debian_packages:
+  - python-pyinotify
+  - fail2ban

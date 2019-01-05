@@ -64,8 +64,7 @@
 
     - name: Ensure optional packages via apt
       when: ansible_os_family == 'Debian'
-      apt: pkg={{ item }} state=present
-      with_items: "{{ additional_packages|default([]) }}"
+      apt: pkg="{{ additional_packages|default([]) }}" state=present
 
     - name: Enable aditional repos for CentOS
       yum: pkg={{ item }} state=present
