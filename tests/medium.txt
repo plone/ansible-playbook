@@ -110,7 +110,7 @@ Munin
 
 Check the process list for all the daemons we expect.
 
-    >>> we_expect = ['fail2ban-server', 'haproxy', 'memmon', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
+    >>> we_expect = ['fail2ban-server', 'haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
     >>> rez = ssh_run('ps  -eo comm')
     >>> [s for s in we_expect if s not in rez]
     []
@@ -118,7 +118,6 @@ Check the process list for all the daemons we expect.
 Check supervisor's job list.
 
     >>> print joined_cut(ssh_run('sudo supervisorctl status'), [0, 1], True)
-    zeoserver_memmon    RUNNING
     zeoserver_zeoclient1    RUNNING
     zeoserver_zeoclient2    RUNNING
     zeoserver_zeoserver RUNNING
