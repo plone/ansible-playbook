@@ -34,7 +34,7 @@ Plone's Ansible Playbook can completely provision a remote server to run the ful
 
 * Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
-An ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
+An Ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
 We generally support relatively current CentOS and Debian/Ubuntu environments. Versions currently supported are Ubuntu 18.04 (Bionic) LTS, 16.0.4 (Xenial) LTS, Ubuntu 15, Debian jessie, Debian stretch, and CentOS 7.
 
