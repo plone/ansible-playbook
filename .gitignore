@@ -1,7 +1,7 @@
-local-configure.yml
+#local-configure.yml
 .vagrant/
 docs/_build/
-roles/plone.plone_server
+#roles/plone.plone_server
 roles/jnv.unattended-upgrades
 roles/tersmitten.fail2ban
 roles/ANXS.hostname
