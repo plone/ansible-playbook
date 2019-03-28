@@ -38,6 +38,7 @@ for option; do
     esac
 done
 
+{{ item.plone_restart_pre_script|default(plone_restart_pre_script) }}
 
 {% for client in range(0, item.plone_client_count|default(plone_client_count)|int) %}
 
@@ -93,5 +94,7 @@ varnishadm "ban req.url ~ /VirtualHostBase/http/{{ vhost.hostname }}:{{ vhost.po
 {% endfor %}
 {% endif %}
 fi
+
+{{ item.plone_restart_post_script|default(plone_restart_post_script) }}
 
 echo Done
