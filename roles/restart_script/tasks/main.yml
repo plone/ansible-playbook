@@ -2,7 +2,9 @@
 
 - include: "{{ ansible_os_family }}.yml"
 
-
+# Use an included task inside a loop to handle iteration through
+# the playbook_plones.
+# This simplifies the handling of target paths for multiple plones.
 - include_tasks: tasks_for_playbook.yml
   loop: "{{ playbook_plones }}"
 
