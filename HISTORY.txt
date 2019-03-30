@@ -1,5 +1,14 @@
 1.3.6 unreleased
 
+- Added pre/post restart script command options.
+  Documented in docs/restart_script.rst.
+  [smcmahon]
+
+- Restart script mechanism didn't work in a multiserver configuration with multiple plones;
+  it always addressed the default Plone target.
+  Fixed.
+  [smcmahon]
+
 - clarify documentation on what can be tested with Vagrant
   [tkimnguyen]
 

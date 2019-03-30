@@ -51,7 +51,7 @@ Reboot the box. We only care about what survives a restart.
     ... else:
     ...     print >> sys.stderr, "Poweroff %s" % box
     ...     p = subprocess.call('vagrant ssh %s -c "sudo poweroff"' % box, shell=True)
-    ...     time.sleep(10)
+    ...     time.sleep(30)
     ...     print >> sys.stderr, "Bringing %s back up" % box
     ...     run("vagrant up %s --no-provision" % box)
     ...     print >> sys.stderr, "Waiting for services to start..."
@@ -74,7 +74,7 @@ Check our motd.
     Custom Services/Ports
     ---------------------
     plone:
-      - primary: /usr/local/plone-5.1/primary
+      - primary: /usr/local/plone-5.2rc2-pending/primary
         haproxy front end: 8080; zeo server: 127.0.0.1:8100; zeo clients: 127.0.0.1:8081 127.0.0.1:8082
         http://...; /Plone; aliases: default
         https://...; /Plone; aliases: default
@@ -98,6 +98,8 @@ in all expected ways.
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:7081
     python2.7   plone_daemon    127.0.0.1:7082
+    python2.7   plone_daemon    127.0.0.1:7181
+    python2.7   plone_daemon    127.0.0.1:7182
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
     python2.7   plone_daemon    127.0.0.1:8181
@@ -155,43 +157,44 @@ Primary instance tests
 
 Is everything where we expect it to be?
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.1 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2rc2-pending | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x root           ...        .
     ...
     drwxr-xr-x plone_buildout plone_group buildout-cache
     drwxr-xr-x plone_buildout plone_group primary
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.1/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2rc2-pending/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
     drwxr-xr-x  plone_buildout  plone_group include
-    -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group lib
     -rw-r--r--  plone_buildout  plone_group live.cfg
     drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
-    -rw-r--r--  plone_buildout  plone_group pip-selfcheck.json
     drwxr-xr-x  plone_buildout  plone_group products
+    -r--r--r--  plone_buildout  plone_group requirements.txt
     drwxr-xr-x  root    root    scripts
+    drwxr-xr-x  plone_buildout  plone_group share
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.1/ | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2rc2-pending/ | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x root         ...         .
     ...
     drwxrws--- plone_daemon plone_group primary
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.1/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2rc2-pending/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    drwx------  plone_daemon    plone_group .python-eggs
     drwx--S---  plone_daemon    plone_group blobstorage
     drwxrws---  plone_buildout  plone_group client1
     drwxrws---  plone_buildout  plone_group client2
     drwxrws---  plone_buildout  plone_group client_reserved
     drwxrws---  plone_buildout  plone_group filestorage
-    drwx------  plone_daemon    plone_group .python-eggs
     drwxrws---  plone_buildout  plone_group zeoserver
 
-    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.1/primary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.2rc2-pending/primary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-r--r--  plone_daemon    plone_group Data.fs
     -rw-r--r--  plone_daemon    plone_group Data.fs.index
     -rw-r--r--  plone_daemon    plone_group Data.fs.lock
@@ -242,7 +245,8 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.1/primary/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.2rc2-pending/primary/scripts/restart_clients.sh')
+    pre restart script running
     Marking client 1 down for maintenance
     Restarting client 1
     primary_zeoclient1: stopped
@@ -271,6 +275,7 @@ processes, haproxy and varnish.
     <BLANKLINE>
       /Plone
     <BLANKLINE>
+    post restart script running
     Done
 
 The varnish cache for this host should now be empty.
@@ -291,7 +296,7 @@ But not a cron job.
 
     >>> print ssh_run('grep "primary" /etc/cron.d/restart_hot_plones')
     #Ansible: Restart primary clients if too hot
-    #15,45 * * * * root /usr/local/plone-5.1/primary/scripts/restart_if_hot.py
+    #15,45 * * * * root /usr/local/plone-5.2rc2-pending/primary/scripts/restart_if_hot.py
 
 The load balancer for this instance should be running health checks.
 
@@ -314,13 +319,14 @@ Secondary instance tests
     drwxr-xr-x  plone_buildout  plone_group secondary
 
     >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
-    -rw-------  plone_buildout  plone_group .installed.cfg
-    drwxr-xr-x  plone_buildout  plone_group parts...
+    drwxr-xr-x  plone_buildout  plone_group parts
     drwxr-xr-x  plone_buildout  plone_group products
+    -rw-r--r--  plone_buildout  plone_group requirements.txt
     drwxr-xr-x  root    root    scripts
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
@@ -331,13 +337,15 @@ Secondary instance tests
     drwxrws---  plone_daemon    plone_group secondary
 
     >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3/secondary/ | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
-    drwx--S---  plone_daemon    plone_group blobstorage
-    drwxrws---  plone_buildout  plone_group client1
-    drwxrws---  plone_buildout  plone_group client2
-    drwxrws---  plone_buildout  plone_group client_reserved
-    drwxrws---  plone_buildout  plone_group filestorage
-    drwx------  plone_daemon    plone_group .python-eggs
-    drwxrws---  plone_buildout  plone_group zeoserver
+    drwx------  plone_daemon    plone_group     .python-eggs
+    drwxr-sr-x  plone_daemon    plone_group     backups
+    drwx--S---  plone_daemon    plone_group     blobstorage
+    drwxr-sr-x  plone_daemon    plone_group     blobstoragebackups
+    drwxrws---  plone_buildout  plone_group     client1
+    drwxrws---  plone_buildout  plone_group     client2
+    drwxrws---  plone_buildout  plone_group     client_reserved
+    drwxrws---  plone_buildout  plone_group     filestorage
+    drwxrws---  plone_buildout  plone_group     zeoserver
 
     >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-4.3/secondary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-r--r--  plone_daemon    plone_group Data.fs
