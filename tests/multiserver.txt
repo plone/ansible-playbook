@@ -338,9 +338,7 @@ Secondary instance tests
 
     >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3/secondary/ | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwx------  plone_daemon    plone_group     .python-eggs
-    drwxr-sr-x  plone_daemon    plone_group     backups
     drwx--S---  plone_daemon    plone_group     blobstorage
-    drwxr-sr-x  plone_daemon    plone_group     blobstoragebackups
     drwxrws---  plone_buildout  plone_group     client1
     drwxrws---  plone_buildout  plone_group     client2
     drwxrws---  plone_buildout  plone_group     client_reserved
