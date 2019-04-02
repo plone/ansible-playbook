@@ -1,4 +1,4 @@
-1.3.6 unreleased
+1.3.6 2019-04-02
 
 - Added pre/post restart script command options.
   Documented in docs/restart_script.rst.
