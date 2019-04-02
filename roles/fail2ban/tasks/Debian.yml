@@ -1,9 +1,6 @@
 ---
 
 - name: Ensure required packages
-  apt: pkg={{ item }} state=present
-  with_items:
-    - python-pyinotify
-    - fail2ban
+  apt: pkg="{{ fail2ban_debian_packages }}" state=present
 
 # Debian's fail2ban package is installed enabled

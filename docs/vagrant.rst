@@ -1,7 +1,9 @@
-Testing with Vagrant
---------------------
+Testing the Playbook with Vagrant
+---------------------------------
 
-This is really easy. Vagrant includes an Ansible provisioner and will run the playbook when you first run ``vagrant up`` and again when you run ``vagrant provision``.
+Instead of testing your playbook by applying it on your target deployment machine, you can test your playbook locally using Vagrant. 
+
+Vagrant includes an Ansible provisioner and will run the playbook when you first run ``vagrant up`` and again when you run ``vagrant provision``.
 
 While Vagrant knows about Ansible, and the playbook specification is in your VagrantFile, you still must have Ansible itself available.
 
@@ -38,8 +40,23 @@ to remove the old host key, then try again.
 
 This should not happen if you're using the generated vbox_host.cfg, as it turns of Ansible's host key checking.
 
-Testing
--------
+Using the Vagrant
+-----------------
+
+To use your Vagrant, you must use SSH. 
+
+Vagrant maps host ports into the guest VirtualBox OS. 
+
+The standard mapping takes host port 2222 to the guest's SSH port, 22.
+
+To SSH to your Vagrant:
+
+.. code-block:: bash
+
+    vagrant ssh
+
+Port Mapping
+------------
 
 Vagrant maps host ports into the guest VirtualBox OS. The standard mapping takes host port 2222 to the guest's SSH port, 22.
 
@@ -47,8 +64,19 @@ The Vagrantfile included with this kit maps several more ports. The general rule
 
   config.vm.network "forwarded_port", guest: 80, host: 1080
   config.vm.network "forwarded_port", guest: 1080, host: 2080
+  config.vm.network "forwarded_port", guest: 4949, host: 5949
   config.vm.network "forwarded_port", guest: 6081, host: 7081
   config.vm.network "forwarded_port", guest: 8080, host: 9080
-  config.vm.network "forwarded_port", guest: 4949, host: 5949
+
+You can find these forwarded port settings by opening VirtualBox, selecting your Vagrant (will be called something like `ansible-playbook`), right-clicking, choosing "Settings", clicking "Network", expanding the "Advanced" widget, and clicking the button "Port Forwarding". 
+
+Here is what the forwarded ports are used for and where they are defined:
+
+- 80, 443: nginx (`roles/nginx/templates/host.j2`)
+- 1080: haproxy (`roles/haproxy/defaults/main.yml`)
+- 4949: munin_node (`roles/munin-node/defaults/main.yml`)
+- 6081: varnish (`roles/varnish/defaults/main.yml`)
+- 8100: zeo_port (`roles/plone.plone_server/defaults/main.yml`)
+- 8081: client_base_port (`roles/plone.plone_server/defaults/main.yml`)
 
 Note that when you use host port 1080 to connect to guest port 80, the virtual hosting will not work correctly. You'll get the homepage, but links -- including those to stylesheets and JS resources, will be wrong. So, you can't really test virtual host rewriting via Vagrant.

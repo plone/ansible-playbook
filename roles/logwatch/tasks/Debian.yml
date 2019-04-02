@@ -1,14 +1,10 @@
 ---
 
 - name: logwatch package installed
-  apt: pkg={{ item }} state=present
-  with_items:
-    - logwatch
+  apt: pkg="logwatch" state=present
 
 - name: update-notifier-common installed
-  apt: pkg={{ item }} state=present
-  with_items:
-    - update-notifier-common
+  apt: pkg="update-notifier-common" state=present
   ignore_errors: True
 
 - name: Check our update notify technology

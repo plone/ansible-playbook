@@ -140,7 +140,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.1/zeoserver/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.2*/zeoserver/scripts/restart_clients.sh')
     Restarting client 1
     zeoserver_zeoclient1: stopped
     Waiting a bit...

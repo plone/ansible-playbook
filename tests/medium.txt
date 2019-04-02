@@ -45,7 +45,7 @@ Reboot the box. We only care about what survives a restart.
     ... else:
     ...     print >> sys.stderr, "Poweroff %s" % box
     ...     p = subprocess.call('vagrant ssh %s -c "sudo poweroff"' % box, shell=True)
-    ...     time.sleep(10)
+    ...     time.sleep(20)
     ...     print >> sys.stderr, "Bringing %s back up" % box
     ...     run("vagrant up %s --no-provision" % box)
     ...     print >> sys.stderr, "Waiting for services to start..."
@@ -110,7 +110,7 @@ Munin
 
 Check the process list for all the daemons we expect.
 
-    >>> we_expect = ['fail2ban-server', 'haproxy', 'memmon', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
+    >>> we_expect = ['fail2ban-server', 'haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
     >>> rez = ssh_run('ps  -eo comm')
     >>> [s for s in we_expect if s not in rez]
     []
@@ -118,7 +118,6 @@ Check the process list for all the daemons we expect.
 Check supervisor's job list.
 
     >>> print joined_cut(ssh_run('sudo supervisorctl status'), [0, 1], True)
-    zeoserver_memmon    RUNNING
     zeoserver_zeoclient1    RUNNING
     zeoserver_zeoclient2    RUNNING
     zeoserver_zeoserver RUNNING
@@ -147,7 +146,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.1/zeoserver/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.2*/zeoserver/scripts/restart_clients.sh')
     Marking client 1 down for maintenance
     Restarting client 1
     zeoserver_zeoclient1: stopped

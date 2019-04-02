@@ -1,0 +1,49 @@
+---
+
+- set_fact:
+    restart_instance_script_path:
+      "{%- if item.plone_target_path is defined -%}
+        {{ item.plone_target_path }}
+      {%- elif item.plone_version is defined -%}
+        /usr/local/plone-{{ '.'.join(item.plone_version.split('.')[0:2]) }}
+      {%- else -%}
+        {{ plone_target_path }}
+      {%- endif -%}/{{ item.plone_instance_name|default(plone_instance_name) }}/scripts"
+
+# - debug:
+#     var: restart_instance_script_path
+
+- name: Create restart script
+  template:
+    src=restart_clients.sh.j2
+    dest="{{ restart_instance_script_path }}/restart_clients.sh"
+    owner=root
+    group=root
+    mode=0544
+
+- name: Create single client restart script
+  template:
+    src=restart_single_client.sh.j2
+    dest="{{ restart_instance_script_path }}/restart_single_client.sh"
+    owner=root
+    group=root
+    mode=0544
+
+- name: Create restart-if-hot script
+  template:
+    src=restart_if_hot.py.j2
+    dest="{{ restart_instance_script_path }}/restart_if_hot.py"
+    owner=root
+    group=root
+    mode=0544
+  when: item.plone_client_max_memory|default(plone_client_max_memory) != 0
+
+- name: Cron job for restarting hot clients
+  cron:
+    cron_file: restart_hot_plones
+    name: "Restart {{ item.plone_instance_name|default(plone_instance_name) }} clients if too hot"
+    job: "{{ restart_instance_script_path }}/restart_if_hot.py"
+    state: present
+    disabled: "{{ item.plone_hot_monitor|default(plone_hot_monitor)|default('superlance') != 'cron' or item.plone_client_max_memory|default(plone_client_max_memory) == 0 }}"
+    user: root
+    minute: "{{ item.plone_restart_hot_minute|default(plone_restart_hot_minute) }}"

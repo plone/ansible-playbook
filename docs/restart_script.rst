@@ -29,7 +29,7 @@ The extra permissions are required to control supervisor, haproxy and Varnish.
 Restart script options
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The restart script mechanism has one playbook setting, `warm_paths`, which is used to specify paths that should be requested in order to warm the ZODB cache for the instance.
+The restart script mechanism setting `warm_paths` is used to specify paths that should be requested in order to warm the ZODB cache for the instance.
 This is specified in a `webserver_virtualhosts` block.
 
 warm_paths
@@ -49,3 +49,43 @@ warm_paths
 In this example, the restart scripts will request the ZODB paths `/Plone/`, `/Plone/support` and `/Plone/contribute` from each client before returning it to the load-balancer cluster.
 
 The default value of `warm_paths` is '/' alone.
+
+
+plone_restart_pre_script
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This may be specified globally or individually in webserver_virtualhosts.
+
+.. code-block:: yaml
+
+    plone_restart_pre_script: |
+        echo shell commands to run before restarting all clients
+
+or:
+
+.. code-block:: yaml
+
+    playbook_plones:
+      - plone_instance_name: primary
+        plone_restart_pre_script: |
+            echo shell commands to run before restarting all clients for this vhost
+
+
+plone_restart_post_script
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+This may be specified globally or individually in webserver_virtualhosts.
+
+    plone_restart_post_script: |
+        echo shell commands to run after restarting all clients
+
+or:
+
+.. code-block:: yaml
+
+    playbook_plones:
+      - plone_instance_name: primary
+        plone_restart_post_script: |
+            echo shell commands to run after restarting all clients for this vhost

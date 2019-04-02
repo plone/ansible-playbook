@@ -13,7 +13,7 @@ category = os.environ.get('category') or 'plone'
 
 ps_command = 'ps -ww -o rss= -o command= -U %s' % users
 # print ps_command
-command_re = re.compile(r'\s(\S+)(\.conf| fg)')
+command_re = re.compile(r'\s(\S+)(\.conf| fg|wsgi\.ini)')
 pid_split = re.compile(r'^(\d+) +(.+)$')
 
 config = len(sys.argv) > 1 and sys.argv[1].lower() == 'config'

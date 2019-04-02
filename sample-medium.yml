@@ -36,7 +36,7 @@ muninnode_query_ips:
 
 # Plone 4.3.x, 5.0.x and 5.1.x are currently tested and working.
 # Make sure this setting is quoted so that it's interpreted as a string.
-plone_version: '5.1.2'
+plone_version: '5.2rc2-pending'
 
 # 2 clients
 plone_client_count: 2
@@ -47,3 +47,5 @@ plone_zodb_cache_size: 15000
 # and enforce that with a memory-monitor
 plone_client_max_memory: 750MB
 
+# with multiple clients, the "cron" hot monitor does a better job of avoiding downtime.
+plone_hot_monitor: cron
