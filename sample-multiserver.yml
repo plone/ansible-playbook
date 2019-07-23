@@ -32,9 +32,9 @@ muninnode_query_ips:
 # Major settings
 # --------------
 
-# Plone 4.3.x, 5.0.x and 5.1.x are currently tested and working.
+# Plone 4.3.x, 5.0.x, 5.1.x and 5.2.x are currently tested and working.
 # Make sure this setting is quoted so that it's interpreted as a string.
-plone_version: '5.2rc2-pending'
+plone_version: '5.2.0'
 
 # 2 clients
 plone_client_count: 2
@@ -76,11 +76,11 @@ playbook_plones:
     plone_restart_post_script: |
         echo post restart script running
   - plone_instance_name: secondary
-    plone_version: '4.3.17'
+    plone_version: '5.1.5'
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080
-    loadbalancer_healthcheck: Off
+    loadbalancer_healthcheck: On
     plone_hot_monitor: cron
     plone_buildout_cfg: buildout.cfg
     webserver_virtualhosts:

@@ -84,6 +84,17 @@ plone_version
 Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both plone_major_version and plone_version should be quoted so that they will be interpreted as strings.
 
 
+plone_python_version
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    plone_python_version: '2.7'
+
+For Plone 5.2+, you may specify '2.7' or '3'.
+Earlier Plones must use '2.7'.
+
+
 plone_client_count
 ~~~~~~~~~~~~~~~~~~
 
