@@ -1,5 +1,8 @@
 1.3.7 unreleased
 
+- Set up the multiserver sample with 4.3, 5.1 and 5.2 for a thorough example and test.
+  [smcmahon]
+
 - Add python3-specific test file.
   [smcmahon]
 
@@ -38,7 +41,6 @@
 
 - Update use of "apt" for Debian to avoid with_items, which has been deprecated for package handling.
   [smcmahon]
->>>>>>> Update for Plone 5.2 compatability
 
 1.3.5 2018-09-25
 

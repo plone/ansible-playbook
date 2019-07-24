@@ -93,6 +93,7 @@ plone_python_version
 
 For Plone 5.2+, you may specify '2.7' or '3'.
 Earlier Plones must use '2.7'.
+Defaults to 2.7.
 
 
 plone_client_count

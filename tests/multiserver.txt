@@ -57,7 +57,7 @@ Reboot the box. We only care about what survives a restart.
     ...     print >> sys.stderr, "Bringing %s back up" % box
     ...     run("vagrant up %s --no-provision" % box)
     ...     print >> sys.stderr, "Waiting for services to start..."
-    ...     time.sleep(90)
+    ...     time.sleep(120)
 
 And, now run tests against the box.
 
@@ -104,8 +104,6 @@ in all expected ways.
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:7081
     python2.7   plone_daemon    127.0.0.1:7082
-    python2.7   plone_daemon    127.0.0.1:7181
-    python2.7   plone_daemon    127.0.0.1:7182
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
     python2.7   plone_daemon    127.0.0.1:9081
