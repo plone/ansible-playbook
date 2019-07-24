@@ -80,7 +80,8 @@ playbook_plones:
     plone_zeo_port: 7100
     plone_client_base_port: 7081
     loadbalancer_port: 7080
-    loadbalancer_healthcheck: On
+    loadbalancer_healthcheck: Off
+    plone_client_tcpcheck: off
     plone_hot_monitor: cron
     plone_buildout_cfg: buildout.cfg
     webserver_virtualhosts:
@@ -89,4 +90,15 @@ playbook_plones:
         extra: "# test comment here; added via extra"
         location_extra: "# test comment here; added via location_extra"
       - hostname: test.example.com
+        zodb_path: /Plone
+  - plone_instance_name: tertiary
+    plone_version: '4.3.18'
+    plone_zeo_port: 9100
+    plone_client_base_port: 9081
+    loadbalancer_port: 9080
+    loadbalancer_healthcheck: On
+    plone_hot_monitor: cron
+    plone_buildout_cfg: buildout.cfg
+    webserver_virtualhosts:
+      - hostname: test2.example.com
         zodb_path: /Plone
