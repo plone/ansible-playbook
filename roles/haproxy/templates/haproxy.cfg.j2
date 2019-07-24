@@ -43,7 +43,12 @@ listen {{ front_end.plone_instance_name|default(plone_instance_name) }}
     option tcp-check
     tcp-check send quit\n
 {% else %}
+{% if front_end.plone_python_version|default(plone_python_version) == '2.7' %}
     option httpchk
+{% else %}
+    # waitress does not support more efficient http methods
+    option httpchk GET /
+{% endif %}
 {% endif %}
 {% endif %}
 

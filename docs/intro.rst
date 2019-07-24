@@ -3,6 +3,10 @@ Introduction
 
 Plone's Ansible Playbook can completely provision a remote server to run a full-stack, production-ready Plone server, including:
 
+* Compatibility with Plone 4.3.x, 5.0.x, 5.1.x and 5.2.x.
+  5.2 may be set up with either Python 2.7 or 3 via the plone_python_version variable.
+  Earlier Plones only work with 2.7.
+
 * Plone in a cluster configuration;
 
 * Automatic starting and process control of the Plone cluster with `supervisor <http://supervisord.org>`_;

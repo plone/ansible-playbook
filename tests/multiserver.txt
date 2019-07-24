@@ -39,9 +39,11 @@ Vagrant provision -- unless contraindicated.
     ...     print >> sys.stderr, "Provisioning"
     ...     run("vagrant provision %s" % box)
 
-Add a test host entry. The trick with `tee` allows us to append to a file with sudo.
+Add a couple of test host entries. The trick with `tee` allows us to append to a file with sudo.
 
     >>> command = "echo '127.0.0.1 test.example.com' | sudo tee -a /etc/hosts > /dev/null"
+    >>> p = subprocess.call('vagrant ssh %s -c "%s"' % (box, command), shell=True)
+    >>> command = "echo '127.0.0.1 test2.example.com' | sudo tee -a /etc/hosts > /dev/null"
     >>> p = subprocess.call('vagrant ssh %s -c "%s"' % (box, command), shell=True)
 
 Reboot the box. We only care about what survives a restart.
@@ -55,7 +57,7 @@ Reboot the box. We only care about what survives a restart.
     ...     print >> sys.stderr, "Bringing %s back up" % box
     ...     run("vagrant up %s --no-provision" % box)
     ...     print >> sys.stderr, "Waiting for services to start..."
-    ...     time.sleep(90)
+    ...     time.sleep(120)
 
 And, now run tests against the box.
 
@@ -74,20 +76,24 @@ Check our motd.
     Custom Services/Ports
     ---------------------
     plone:
-      - primary: /usr/local/plone-5.2rc2-pending/primary
+      - primary: /usr/local/plone-5.2/primary
         haproxy front end: 8080; zeo server: 127.0.0.1:8100; zeo clients: 127.0.0.1:8081 127.0.0.1:8082
         http://...; /Plone; aliases: default
         https://...; /Plone; aliases: default
-      - secondary: /usr/local/plone-4.3/secondary
+      - secondary: /usr/local/plone-5.1/secondary
         haproxy front end: 7080; zeo server: 127.0.0.1:7100; zeo clients: 127.0.0.1:7081 127.0.0.1:7082
         http://localhost; /Plone
         http://test.example.com; /Plone
+      - tertiary: /usr/local/plone-4.3/tertiary
+        haproxy front end: 9080; zeo server: 127.0.0.1:9100; zeo clients: 127.0.0.1:9081 127.0.0.1:9082
+        http://test2.example.com; /Plone
     haproxy monitor: http://127.0.0.1:1080/admin
     varnish: 127.0.0.1:6081
     varnish admin: 127.0.0.1:6082
     munin-node: 4949
     postfix: 25 (host-only)
     nginx: [80, 443]
+    <BLANKLINE>
 
 Use lsof to make sure we are listening on all expected ports
 in all expected ways.
@@ -98,19 +104,21 @@ in all expected ways.
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python2.7   plone_daemon    127.0.0.1:7081
     python2.7   plone_daemon    127.0.0.1:7082
-    python2.7   plone_daemon    127.0.0.1:7181
-    python2.7   plone_daemon    127.0.0.1:7182
     python2.7   plone_daemon    127.0.0.1:8081
     python2.7   plone_daemon    127.0.0.1:8082
-    python2.7   plone_daemon    127.0.0.1:8181
-    python2.7   plone_daemon    127.0.0.1:8182
+    python2.7   plone_daemon    127.0.0.1:9081
+    python2.7   plone_daemon    127.0.0.1:9082
+    python2.7   plone_daemon    127.0.0.1:9181
+    python2.7   plone_daemon    127.0.0.1:9182
     zeoserver   plone_daemon    127.0.0.1:7100
     zeoserver   plone_daemon    127.0.0.1:8100
+    zeoserver   plone_daemon    127.0.0.1:9100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
     haproxy haproxy *:1080
     haproxy haproxy *:7080
     haproxy haproxy *:8080
+    haproxy haproxy *:9080
 
     >>> listening_on = ['127.0.0.1:6082', '*:6081']
     >>> rez = "\n".join([s for s in listeners if 'varnishd' in s])
@@ -137,6 +145,9 @@ Check the process list.
     python2.7       plone_daemon    plone_group
     python2.7       plone_daemon    plone_group
     python2.7       plone_daemon    plone_group
+    python2.7       plone_daemon    plone_group
+    python2.7       plone_daemon    plone_group
+    zeoserver       plone_daemon    plone_group
     zeoserver       plone_daemon    plone_group
     zeoserver       plone_daemon    plone_group
 
@@ -150,6 +161,9 @@ Check supervisor's job list.
     secondary_zeoclient1             RUNNING
     secondary_zeoclient2             RUNNING
     secondary_zeoserver              RUNNING
+    tertiary_zeoclient1              RUNNING
+    tertiary_zeoclient2              RUNNING
+    tertiary_zeoserver               RUNNING
 
 
 Primary instance tests
@@ -157,13 +171,13 @@ Primary instance tests
 
 Is everything where we expect it to be?
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2rc2-pending | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x root           ...        .
     ...
     drwxr-xr-x plone_buildout plone_group buildout-cache
     drwxr-xr-x plone_buildout plone_group primary
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2rc2-pending/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.2/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group buildout.log
@@ -180,21 +194,22 @@ Is everything where we expect it to be?
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2rc2-pending/ | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2/ | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x root         ...         .
     ...
     drwxrws--- plone_daemon plone_group primary
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2rc2-pending/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.2/primary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwx------  plone_daemon    plone_group .python-eggs
-    drwx--S---  plone_daemon    plone_group blobstorage
+    drwxr-sr-x  plone_daemon    plone_group blobstorage
+    drwxrws---  plone_buildout  plone_group cache
     drwxrws---  plone_buildout  plone_group client1
     drwxrws---  plone_buildout  plone_group client2
     drwxrws---  plone_buildout  plone_group client_reserved
     drwxrws---  plone_buildout  plone_group filestorage
     drwxrws---  plone_buildout  plone_group zeoserver
 
-    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.2rc2-pending/primary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.2/primary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-r--r--  plone_daemon    plone_group Data.fs
     -rw-r--r--  plone_daemon    plone_group Data.fs.index
     -rw-r--r--  plone_daemon    plone_group Data.fs.lock
@@ -245,7 +260,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-5.2rc2-pending/primary/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.2/primary/scripts/restart_clients.sh')
     pre restart script running
     Marking client 1 down for maintenance
     Restarting client 1
@@ -296,7 +311,7 @@ But not a cron job.
 
     >>> print ssh_run('grep "primary" /etc/cron.d/restart_hot_plones')
     #Ansible: Restart primary clients if too hot
-    #15,45 * * * * root /usr/local/plone-5.2rc2-pending/primary/scripts/restart_if_hot.py
+    #15,45 * * * * root /usr/local/plone-5.2/primary/scripts/restart_if_hot.py
 
 The load balancer for this instance should be running health checks.
 
@@ -311,41 +326,44 @@ And, have longer timeouts.
 Secondary instance tests
 ------------------------
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.1 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  root    ...     .
     ...                         ..
     drwxr-xr-x  plone_buildout  plone_group buildout-cache
-    drwxr-xr-x  root    root    python2.7
     drwxr-xr-x  plone_buildout  plone_group secondary
 
-    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-5.1/secondary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-------  plone_buildout  plone_group .installed.cfg
     drwxr-xr-x  plone_buildout  plone_group bin
     -rw-r--r--  plone_buildout  plone_group buildout.cfg
     -rw-r--r--  plone_buildout  plone_group buildout.log
     drwxr-xr-x  plone_buildout  plone_group develop-eggs
+    drwxr-xr-x  plone_buildout  plone_group include
+    drwxr-xr-x  plone_buildout  plone_group lib
+    drwxr-xr-x  plone_buildout  plone_group local
     drwxr-xr-x  plone_buildout  plone_group parts
     drwxr-xr-x  plone_buildout  plone_group products
-    -rw-r--r--  plone_buildout  plone_group requirements.txt
+    -r--r--r--  plone_buildout  plone_group requirements.txt
     drwxr-xr-x  root    root    scripts
+    drwxr-xr-x  plone_buildout  plone_group share
     drwxr-xr-x  plone_buildout  plone_group src
     drwxr-xr-x  plone_buildout  plone_group var
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.1 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwxr-xr-x  root    ...   .
     ...                         ..
     drwxrws---  plone_daemon    plone_group secondary
 
-    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3/secondary/ | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-5.1/secondary/ | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
     drwx------  plone_daemon    plone_group     .python-eggs
-    drwx--S---  plone_daemon    plone_group     blobstorage
+    drwxr-sr-x  plone_daemon    plone_group blobstorage
     drwxrws---  plone_buildout  plone_group     client1
     drwxrws---  plone_buildout  plone_group     client2
     drwxrws---  plone_buildout  plone_group     client_reserved
     drwxrws---  plone_buildout  plone_group     filestorage
     drwxrws---  plone_buildout  plone_group     zeoserver
 
-    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-4.3/secondary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-5.1/secondary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
     -rw-r--r--  plone_daemon    plone_group Data.fs
     -rw-r--r--  plone_daemon    plone_group Data.fs.index
     -rw-r--r--  plone_daemon    plone_group Data.fs.lock
@@ -365,17 +383,17 @@ And, we should have gzip encoding available:
     HTTP/1.1 200 OK
     Content-Encoding: gzip
 
-Let's prove to ourselves that this is Plone 4:
+Let's prove to ourselves that this is Plone 5ish:
 
     >>> output = ssh_run('curl --ipv4 http://localhost')
     >>> output.find('barceloneta') >= 0
-    False
+    True
 
-Asking for test.example.com should also produce a Plone 4 page:
+Asking for test.example.com should also produce a Plone 5ish page:
 
     >>> output = ssh_run('curl --ipv4 http://test.example.com')
     >>> output.find('barceloneta') >= 0
-    False
+    True
 
 Asking twice for a static resource should result in a cache hit.
 
@@ -388,7 +406,7 @@ Asking twice for a static resource should result in a cache hit.
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
 
-    >>> print ssh_run('sudo /usr/local/plone-4.3/secondary/scripts/restart_clients.sh')
+    >>> print ssh_run('sudo /usr/local/plone-5.1/secondary/scripts/restart_clients.sh')
     Marking client 1 down for maintenance
     Restarting client 1
     secondary_zeoclient1: stopped
@@ -428,7 +446,7 @@ This instance should be using a cronjob for hot restarts.
 
     >>> print ssh_run('grep "secondary" /etc/cron.d/restart_hot_plones')
     #Ansible: Restart secondary clients if too hot
-    15,45 * * * * root /usr/local/plone-4.3/secondary/scripts/restart_if_hot.py
+    15,45 * * * * root /usr/local/plone-5.1/secondary/scripts/restart_if_hot.py
 
 And, not memmon.
 
@@ -438,13 +456,141 @@ And, not memmon.
 The load balancer for this instance should not be running health checks.
 
     >>> print ssh_run('grep "7081" /etc/haproxy/haproxy.cfg')
+        server client1 127.0.0.1:7081
+
+
+Tertiary instance tests
+-----------------------
+
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    drwxr-xr-x  root    ...     .
+    ...                         ..
+    drwxr-xr-x  plone_buildout  plone_group buildout-cache
+    drwxr-xr-x  root    root    python2.7
+    drwxr-xr-x  plone_buildout  plone_group tertiary
+
+    >>> print joined_cut(ssh_run('ls -la /usr/local/plone-4.3/tertiary | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    -rw-------  plone_buildout  plone_group .installed.cfg
+    drwxr-xr-x  plone_buildout  plone_group bin
+    -rw-r--r--  plone_buildout  plone_group buildout.cfg
+    -rw-r--r--  plone_buildout  plone_group buildout.log
+    drwxr-xr-x  plone_buildout  plone_group develop-eggs
+    drwxr-xr-x  plone_buildout  plone_group parts
+    drwxr-xr-x  plone_buildout  plone_group products
+    -rw-r--r--  plone_buildout  plone_group requirements.txt
+    drwxr-xr-x  root    root    scripts
+    drwxr-xr-x  plone_buildout  plone_group src
+    drwxr-xr-x  plone_buildout  plone_group var
+
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3 | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    drwxr-xr-x  root    ...   .
+    ...                         ..
+    drwxrws---  plone_daemon    plone_group tertiary
+
+    >>> print joined_cut(ssh_run('sudo ls -la /var/local/plone-4.3/tertiary/ | tail -n +4'), [0, 2, 3, 8]).replace('.\t', '\t')
+    drwx------  plone_daemon    plone_group     .python-eggs
+    drwx--S---  plone_daemon    plone_group     blobstorage
+    drwxrws---  plone_buildout  plone_group     client1
+    drwxrws---  plone_buildout  plone_group     client2
+    drwxrws---  plone_buildout  plone_group     client_reserved
+    drwxrws---  plone_buildout  plone_group     filestorage
+    drwxrws---  plone_buildout  plone_group     zeoserver
+
+    >>> print joined_cut(ssh_run('sudo ls -l /var/local/plone-4.3/tertiary/filestorage | tail -n +2'), [0, 2, 3, 8]).replace('.\t', '\t')
+    -rw-r--r--  plone_daemon    plone_group Data.fs
+    -rw-r--r--  plone_daemon    plone_group Data.fs.index
+    -rw-r--r--  plone_daemon    plone_group Data.fs.lock
+    -rw-r--r--  plone_daemon    plone_group Data.fs.tmp
+
+
+We should be able to get a page on port 80.
+
+    >>> print ssh_run('curl --ipv4 -I -s http://localhost | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
+    HTTP/1.1 200 OK
+    Content-Type: text/html;charset=utf-8
+    X-Varnish-Cache: MISS
+
+And, we should have gzip encoding available:
+
+    >>> print ssh_run('curl --ipv4 -H "Accept-Encoding:gzip" -I -s http://localhost/ | egrep "^(HTTP|Content-Encoding)"')
+    HTTP/1.1 200 OK
+    Content-Encoding: gzip
+
+Let's prove to ourselves that this is Plone 4:
+
+    >>> output = ssh_run('curl --ipv4 http://test2.example.com')
+    >>> output.find('barceloneta') >= 0
+    False
+
+
+Asking twice for a static resource should result in a cache hit.
+
+    >>> print ssh_run('curl --ipv4 -I -s http://test2.example.com/logo.png > /dev/null')
+    >>> print ssh_run('curl --ipv4 -I -s http://test2.example.com/logo.png | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
+    HTTP/1.1 200 OK
+    Content-Type: image/png
+    X-Varnish-Cache: HIT
+
+The restart script exercises our control of the supervisor
+processes, haproxy and varnish.
+
+    >>> print ssh_run('sudo /usr/local/plone-4.3/tertiary/scripts/restart_clients.sh')
+    Marking client 1 down for maintenance
+    Restarting client 1
+    tertiary_zeoclient1: stopped
+    Waiting a bit...
+    tertiary_zeoclient1: started
+    Waiting a bit...
+    Fetch site homepages to warm cache
+      /Plone
+    Marking client 1 available
+    <BLANKLINE>
+    Waiting between clients
+    <BLANKLINE>
+    Marking client 2 down for maintenance
+    Restarting client 2
+    tertiary_zeoclient2: stopped
+    Waiting a bit...
+    tertiary_zeoclient2: started
+    Waiting a bit...
+    Fetch site homepages to warm cache
+      /Plone
+    Marking client 2 available
+    Purging varnish cache
+      /Plone
+    <BLANKLINE>
+    Done
+
+    >>> print ssh_run('curl --ipv4 -I -s http://test2.example.com/logo.png | egrep "^(HTTP|Content-Type|X-Varnish-Cache)"')
+    HTTP/1.1 200 OK
+    Content-Type: image/png
+    X-Varnish-Cache: MISS
+
+This instance should be using a cronjob for hot restarts.
+
+    >>> print ssh_run('grep "tertiary" /etc/cron.d/restart_hot_plones')
+    #Ansible: Restart tertiary clients if too hot
+    15,45 * * * * root /usr/local/plone-4.3/tertiary/scripts/restart_if_hot.py
+
+And, not memmon.
+
+    >>> print ssh_run('grep memmon /etc/supervisor/conf.d/tertiary_zeo.conf; echo $?')
+    1
+
+The load balancer for this instance should not be running health checks.
+
+    >>> print ssh_run('grep "7081" /etc/haproxy/haproxy.cfg')
     server client1 127.0.0.1:7081
 
+Load Balancer
+-------------
+
 One of our load balancer backends should have a customized default-server.
-One should not.
+Two should not.
 
     >>> print ssh_run('grep "default-server" /etc/haproxy/haproxy.cfg')
     default-server maxconn 1 inter 60000 downinter 2000 rise 1 fall 2 on-error mark-down error-limit 15
+    default-server maxconn 1 inter 2s slowstart 1m
     default-server maxconn 1 inter 2s slowstart 1m
 
     >>> print >> sys.stderr, "Tests done"

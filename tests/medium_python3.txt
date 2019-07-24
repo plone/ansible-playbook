@@ -1,6 +1,6 @@
----------------------------------------
-Test the "medium" sample specification.
----------------------------------------
+----------------------------------------------------
+Test the "medium" sample specification with Python 3
+----------------------------------------------------
 
     >>> sample = 'sample-medium.yml'
 
@@ -12,6 +12,8 @@ Test the "medium" sample specification.
     ...   - lsof
     ... muninnode_query_ips:
     ...     - 127.0.0.1
+    ... plone_python_version: '3'
+    ... plone_client_tcpcheck: no
     ... """
 
     >>> import subprocess
@@ -72,10 +74,8 @@ ip4 listeners
 Zope
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    python...   plone_daemon    127.0.0.1:8081
-    python...   plone_daemon    127.0.0.1:8082
-    python...   plone_daemon    127.0.0.1:8181
-    python...   plone_daemon    127.0.0.1:8182
+    python3   plone_daemon    127.0.0.1:8081
+    python3   plone_daemon    127.0.0.1:8082
     zeoserver   plone_daemon    127.0.0.1:8100
 
 haproxy
@@ -110,7 +110,7 @@ Munin
 
 Check the process list for all the daemons we expect.
 
-    >>> we_expect = ['fail2ban-server', 'haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
+    >>> we_expect = ['fail2ban-server', 'haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python3', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
     >>> rez = ssh_run('ps  -eo comm')
     >>> [s for s in we_expect if s not in rez]
     []
