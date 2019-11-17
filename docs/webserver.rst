@@ -90,6 +90,52 @@ To use files that already exist on the controlled server, use:
           crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
 
 
+Let's Encrypt Certificates and certbot
+--------------------------------------
+
+An optional playbook ``geerlingguy.certbot.yml`` is provided that uses free Let's Encrypt certificates and certbot to generate and renew them via a cron job.
+
+To use this playbook, first install the role.
+
+.. code-block:: bash
+
+    cd ansible-playbook
+    git clone https://github.com/geerlingguy/ansible-role-certbot.git geerlingguy.certbot
+
+Next configure your playbook.
+The following example configures ``geerlingguy.certbot`` to also perform a redirection of all traffic from http to https with the ``extra`` key.
+
+.. code-block:: yaml
+
+    certbot_create_if_missing: true
+    certbot_admin_email: email@example.com
+    certbot_auto_renew_options: '--quiet --no-self-upgrade
+    --pre-hook "service nginx stop" --post-hook "service nginx start"'
+
+    certbot_certs:
+      - domains:
+        - "{{ inventory_hostname }}"
+
+    webserver_virtualhosts:
+      - hostname: "{{ inventory_hostname }}"
+        port: 80
+        protocol: http
+        extra: return 301 https://$server_name$request_uri;
+      - hostname: "{{ inventory_hostname }}"
+        default_server: yes
+        zodb_path: /Plone
+        address: 1.1.1.1
+        port: 443
+        protocol: https
+        certificate:
+          key: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
+          crt: /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+
+.. seealso::
+
+    `Documentation for geerlingguy.certbot <https://github.com/geerlingguy/ansible-role-certbot>`_.
+
+
 Redirections, etc.
 ~~~~~~~~~~~~~~~~~~
 
