@@ -5,9 +5,6 @@ server {
 {% if item.get('certificate') %}
   ssl_certificate {{ item.certificate.crt }};
   ssl_certificate_key {{ item.certificate.key }};
-{% elif item.get('lets_encrypt_certificate') %}
-  ssl_certificate {{ item.lets_encrypt_certificate.crt }};
-  ssl_certificate_key {{ item.lets_encrypt_certificate.key }};
 {% else %}
   ssl_certificate /etc/nginx/ssl/{{ item.hostname }}.crt;
   ssl_certificate_key /etc/nginx/ssl/{{ item.hostname }}.key;
