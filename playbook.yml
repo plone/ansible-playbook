@@ -160,10 +160,6 @@
       when: install_webserver|default(True)
       tags: nginx
 
-    - role: geerlingguy.certbot
-      when: install_webserver|default(True)
-      tags: geerlingguy.certbot
-
     - role: restart_script
       tags: restart_script
 

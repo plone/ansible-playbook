@@ -7,7 +7,3 @@
 - src: https://github.com/jnv/ansible-role-unattended-upgrades.git
   version: v1.5.0
   name: jnv.unattended-upgrades
-
-- src: https://github.com/geerlingguy/ansible-role-certbot.git
-  version: v3.0.3
-  name: geerlingguy.certbot
