@@ -10,7 +10,7 @@
 
     - name: Fail if Ansible is old
       fail: msg="We need updates in Ansible 2.5.0. Please update your kit. 'pip install -U Ansible'"
-      when: ansible_version is version('2.5.0', 'lt')
+      when: ansible_version.full is version('2.5.0', '<')
       tags:
         - always
 
