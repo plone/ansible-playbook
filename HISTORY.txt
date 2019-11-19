@@ -1,5 +1,8 @@
 Unreleased
 
+- Allow Bearer Authorization headers to be used for JWT Token authentication used by plone.restapi.
+  [fulv]
+  
 - Fix version compare and align with ansible.plone_server.
   [stevepiercy]
 
