@@ -11,7 +11,7 @@ install_proxycache
 
 Do you want to install the Varnish reverse-proxy cache? Default is ``yes``.
 
-.. note ::
+.. note::
 
     If you decide not to use a proxy cache, you will need to make sure that the ``proxycache_port`` setting points to your load balancer front end. If you are not using a load balancer, you must make sure that ``proxycache_port`` points to the main ZEO client.
 
@@ -25,9 +25,9 @@ proxycache_port
 
 The front-end address for the proxy cache. Defaults to ``6081``.
 
-.. note ::
+.. note::
 
-    We assume the varnish cache and admin ports are firewalled and that you will administer the cache via ssh.
+    We assume the varnish cache and admin ports are firewalled and that you will administer the cache via ``ssh``.
 
 
 proxycache_size
@@ -57,7 +57,7 @@ proxy_cache_block_basic_auth
     proxy_cache_block_basic_auth: off
 
 Use this variable to determine whether or not Varnish blocks the HTTP Authorization header, which is used in basic auth.
-This is set to "on" by default, thus blocking Zope's basic auth, which generally should not be exposed to the Internet.
+This is set to ``on`` by default, thus blocking Zope's basic auth, which generally should not be exposed to the Internet.
 
 
 Cache controls

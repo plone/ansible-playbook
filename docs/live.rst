@@ -17,7 +17,7 @@ You may leave off the ``ansible_ssh_host`` setting if the hostname is real. Howe
 Running your playbook
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: sh
+.. code-block:: bash
 
     ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml
 
@@ -41,7 +41,7 @@ The following tags are set up in playbook.yml.
 
 When you use one of these tags while running your playbook, only the bare minimum setup and the module named will be updated.
 
-Apply a tag using the `--tags` option. Example: `--tags="nginx"`
+Apply a tag using the ``--tags`` option. Example: ``--tags="nginx"``
 
 
 Firewall
@@ -51,7 +51,7 @@ The main playbook, ``playbook.yml``, does **not** configure your firewall.
 
 A separate playbook, ``firewall.yml`` sets up a basic firewall that closes all ports except ssh, http and https. The munin-node port is also opened to your monitoring server(s).
 
-.. note ::
+.. note::
 
     To reach other ports, use SSH tunnelling. In the default setup, you will have to use a tunnel and connect to the load-balancer port in order to get access to the Zope root. (The default proxy-cache setup blocks http basic authentication.)
 
@@ -64,7 +64,7 @@ You must set the ``plone_initial_password`` variable to the desired password for
 Hotfixes, Updates, Upgrades
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. warning ::
+.. warning::
 
     If you are administering an Internet-accessible Plone install, you **must** subscribe to the `Plone-Announce mailing list <https://lists.sourceforge.net/lists/listinfo/plone-announce>`_ to receive vital security and version update announcements. Expect to apply periodic hotfixes to maintain your site.
 

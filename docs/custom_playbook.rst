@@ -8,7 +8,9 @@ Take a few moments to think about how you're going to customize the Plone Playbo
 
 If you expect to make substantial changes, you'll want to create your own git fork of the Plone Playbook. Then, clone your branch. That way you'll be able to push changes back to your branch. We assume that you either know how to use git, or will learn, so we won't try to document this usage.
 
-If you expect to change only option settings, then just clone the Plone Playbook to your local computer (not the target server)::
+If you expect to change only option settings, then just clone the Plone Playbook to your local computer (not the target server):
+
+.. code-block:: bash
 
     git clone https://github.com/plone/ansible-playbook.git -b STABLE
 
@@ -58,7 +60,7 @@ You have two available mechanisms for doing this customization in conjunction wi
 
 * You may supply a git repository specification, including branch or tag, for a buildout directory skeleton. The Plone Ansible Playbook will clone this or pull updates as necessary.
 
-If you choose the git repository strategy, your buildout skeleton must, at a minimum, include a buildout file .cfg file. Use ``plone_buildout_cfg`` to set the filename if it's not live.cfg. It will also commonly contain a ``src/`` subdirectory and extra configuration files. It will probably **not** contain ``bin/``, ``var/`` or ``parts/`` directories. Those will typically be excluded in your ``.gitignore`` file.
+If you choose the git repository strategy, your buildout skeleton must, at a minimum, include a buildout file ``.cfg`` file. Use ``plone_buildout_cfg`` to set the filename if it's not ``live.cfg``. It will also commonly contain a ``src/`` subdirectory and extra configuration files. It will probably **not** contain ``bin/``, ``var/`` or ``parts/`` directories. Those will typically be excluded in your ``.gitignore`` file.
 
 .. note::
 
@@ -73,38 +75,48 @@ The Plone Community's administrative infrastructue team maintains several severa
 
 * Fork the Plone Ansible Playbook. Because we wish to keep some administrative details confidential, our fork is in a private repository.
 
-* To your fork, add an inventory.cfg file. This file contains the host names, IP addresses and SSH variables specific to each of our hosts.
+* To your fork, add an ``inventory.cfg`` file. This file contains the host names, IP addresses and SSH variables specific to each of our hosts.
 
-* Create a `./host_vars` directory. This directory contains a .yml file with a name matching the host name in inventory.cfg. Each file contains the equivalent of local-configure.yml, but for a particular host:
+* Create a `./host_vars` directory. This directory contains a ``.yml`` file with a name matching the host name in ``inventory.cfg``. Each file contains the equivalent of ``local-configure.yml``, but for a particular host:
 
-    ansible-playbook/host_vars
-        plone.com.yml
-        ploneconf.yml
-        plone.org.yml
+  .. code-block:: text
 
-* Create a `vbox_inventory.cfg` file containing VirtualBox setup for each host you wish to test via Vagrant/VirtualBox.
+      ansible-playbook/host_vars/
+          plone.com.yml
+          ploneconf.yml
+          plone.org.yml
+
+* Create a ``vbox_inventory.cfg`` file containing VirtualBox setup for each host you wish to test via Vagrant/VirtualBox.
 
 * Commit all your new files and push to your fork repository.
 
 * Never change any of the files that you inherited from the master Plone Ansible Playbook.
 
-* When you want to update **all** your hosts, use a command like::
+* When you want to update **all** your hosts, use a command like:
 
-    ansible-playbook -K playbook.yml
+  .. code-block:: bash
+
+      ansible-playbook -K playbook.yml
 
 * To update **a particular** host, use a command like:
 
-    ansible-playbook -K -l plone.com playbook.yml
+  .. code-block:: bash
 
-The "-l" flag allows you to run a playbook on a single host, using the host name from inventory.cfg.
+      ansible-playbook -K -l plone.com playbook.yml
+
+The ``-l`` flag allows you to run a playbook on a single host, using the host name from ``inventory.cfg``.
 
 * Picking up changes from the Plone Ansible Playbook
 
-Add the Plone Ansible Playbook to your clone as a remote::
+Add the Plone Ansible Playbook to your clone as a remote:
+
+.. code-block:: bash
 
     git remote add papb https://github.com/plone/ansible-playbook.git
 
-Now, on your clone, do the following::
+Now, on your clone, do the following:
+
+.. code-block:: bash
 
     git checkout master   # check out your own master branch
     git fetch papb        # fetch refs from the Plone Ansible Playbook

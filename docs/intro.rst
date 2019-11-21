@@ -27,7 +27,7 @@ We generally support relatively current CentOS and Debian/Ubuntu environments. V
 
 An Ansible playbook and roles describe the desired condition of the server. The playbook is used both for initial provisioning and for updating.
 
-.. note ::
+.. note::
 
     If you want to take more control of your playbook, the `Plone server role <https://github.com/plone/ansible.plone_server>`_ is available by itself, and is listed on `Ansible Galaxy <https://galaxy.ansible.com/list#/roles/2212>`__.
 
