@@ -10,6 +10,15 @@
 
   vars:
     certbot_auto_renew_user: root
+    certbot_create_if_missing: true
+    certbot_admin_email: email@example.com
+    certbot_auto_renew_options: '--quiet --no-self-upgrade
+    --pre-hook "service nginx stop" --post-hook "service nginx start"'
+    certbot_create_standalone_stop_services: []
+
+    certbot_certs:
+      - domains:
+        - "{{ inventory_hostname }}"
 
   tasks:
   - name: Include vars from local-configure.yml if found

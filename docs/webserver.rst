@@ -94,6 +94,7 @@ Let's Encrypt Certificates and certbot
 --------------------------------------
 
 An optional playbook ``geerlingguy.certbot.yml`` is provided that uses free Let's Encrypt certificates and certbot to generate and renew them via a cron job.
+Review and change any variables in this file, specifically ``certbot_admin_email``.
 
 To use this playbook, first install the role.
 
@@ -102,19 +103,18 @@ To use this playbook, first install the role.
     cd ansible-playbook
     git clone https://github.com/geerlingguy/ansible-role-certbot.git geerlingguy.certbot
 
-Next configure your playbook.
+Run the playbook.
+
+.. code-block:: bash
+
+    ansible-playbook geerlingguy.certbot.yml
+
+Next configure your playbook ``local-configure.yml``.
 The following example configures ``geerlingguy.certbot`` to also perform a redirection of all traffic from http to https with the ``extra`` key.
+You will need to specify a correct IP address.
+Also verify that the location of the private key and certificate files installed by ``geerlingguy.certbot`` is correct for your system.
 
 .. code-block:: yaml
-
-    certbot_create_if_missing: true
-    certbot_admin_email: email@example.com
-    certbot_auto_renew_options: '--quiet --no-self-upgrade
-    --pre-hook "service nginx stop" --post-hook "service nginx start"'
-
-    certbot_certs:
-      - domains:
-        - "{{ inventory_hostname }}"
 
     webserver_virtualhosts:
       - hostname: "{{ inventory_hostname }}"
@@ -130,6 +130,15 @@ The following example configures ``geerlingguy.certbot`` to also perform a redir
         certificate:
           key: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
           crt: /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+
+.. note::
+
+    The playbook will only *add* new web server configuration files.
+    It does not update existing web server configuration files.
+    If you have previously configured your web server, then you must SSH in to your server, and delete the existing configuration files (for nginx on Debian/Ubuntu, ``/etc/nginx/sites-enabled/``).
+    Then you can run the playbook to add the new configuration files.
+
+    To avoid the previous step, you can run the ``geerlingguy.certbot`` playbook before the Plone playbook.
 
 .. seealso::
 
