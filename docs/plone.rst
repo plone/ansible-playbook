@@ -18,7 +18,7 @@ plone_buildout_cfg
 
     plone_buildout_cfg: buildout.cfg
 
-Sets the filename of the main buildout file. Default to `live.cfg`.
+Sets the filename of the main buildout file. Default to ``live.cfg``.
 
 
 plone_target_path
@@ -30,7 +30,7 @@ plone_target_path
 
 Sets the Plone installation directory.
 
-Defaults to ``/usr/local/plone-{{ plone_major_version }}``
+Defaults to ``/usr/local/plone-{{ plone_major_version }}``.
 
 
 plone_var_path
@@ -42,7 +42,7 @@ plone_var_path
 
 Sets the Plone installation directory.
 
-Defaults to ``/var/local/plone-{{ plone_major_version }}``
+Defaults to ``/var/local/plone-{{ plone_major_version }}``.
 
 
 plone_buildout_git_repo
@@ -61,7 +61,7 @@ plone_buildout_git_repo
 
     If you use your own buildout from a repository, you still need to specify your client count so that the playbook can 1) set up the supervisor specifications to start/stop and monitor clients, and 2) set up the load balancer.
 
-    Client part names must follow the pattern `client#` where # is a number (1,2,3 ...). Client ports must be numbered sequentially beginning with 8081 or the value you set for plone_client_base_port. The zeoserver part must be named `zeoserver` and be at 8100 or the value you set for plone_zeo_port.
+    Client part names must follow the pattern ``client#`` where # is a number (1, 2, 3, ...). Client ports must be numbered sequentially beginning with ``8081`` or the value you set for ``plone_client_base_port``. The zeoserver part must be named ``zeoserver`` and be at ``8100`` or the value you set for ``plone_zeo_port``.
 
     If you use your own buildout, all Plone settings except ``plone_client_count``, ``plone_client_base_port``, and ``plone_client_max_memory`` are ignored.
 
@@ -81,7 +81,7 @@ plone_version
 
     plone_version: '5.0'
 
-Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both plone_major_version and plone_version should be quoted so that they will be interpreted as strings.
+Which Plone version do you wish to install? This defaults to the current stable version at the time you copy or clone the playbook. Both ``plone_major_version`` and ``plone_version`` should be quoted so that they will be interpreted as strings.
 
 
 plone_python_version
@@ -91,9 +91,9 @@ plone_python_version
 
     plone_python_version: '2.7'
 
-For Plone 5.2+, you may specify '2.7' or '3'.
-Earlier Plones must use '2.7'.
-Defaults to 2.7.
+For Plone 5.2+, you may specify ``'2.7'`` or ``'3'``.
+Earlier Plones must use ``'2.7'``.
+Defaults to ``'2.7'``.
 
 
 plone_client_count
@@ -105,9 +105,9 @@ plone_client_count
 
 How many ZEO clients do you want to run?
 
-Defaults to ``2``
+Defaults to ``2``.
 
-.. note ::
+.. note::
 
     The provided buildout always creates an extra client ``client_reserve`` that is not hooked into supervisor or the load balancer.
     Use it for debugging, running scripts and quick testing.
@@ -123,9 +123,9 @@ plone_zodb_cache_size
 
 How many objects do you wish to keep in the ZODB cache.
 
-Defaults to ``30000``
+Defaults to ``30000``.
 
-.. Note ::
+.. note::
 
     The default configuration is *very* conservative to allow Plone to run in a minimal memory server. You will want to increase this if you have more than minimal memory.
 
@@ -139,7 +139,7 @@ plone_zserver_threads
 
 How many threads should run per server?
 
-Defaults to ``1``
+Defaults to ``1``.
 
 
 plone_client_max_memory
@@ -149,7 +149,7 @@ plone_client_max_memory
 
     plone_client_max_memory: 800MB
 
-A size (suffix-multiplied using “KB”, “MB” or “GB”) that should be considered “too much”. If any Zope/Plone process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
+A size (suffix-multiplied using ``KB``, ``MB``, or ``GB``) that should be considered "too much". If any Zope/Plone process exceeds this maximum, it will be restarted. Set to ``0`` for no memory monitoring.
 
 plone_hot_monitor
 ~~~~~~~~~~~~~~~~~
@@ -158,20 +158,20 @@ plone_hot_monitor
 
     plone_hot_monitor: cron
 
-The *hot monitor* is the mechanism used to check for and act on processes exceeding the `plone_client_max_memory` setting.
+The *hot monitor* is the mechanism used to check for and act on processes exceeding the ``plone_client_max_memory`` setting.
 There are two available mechanisms:
 
 * `superlance <http://superlance.readthedocs.org/en/latest>`_ is a supervisor plugin.
-  It's memory-monitor mechanisms are well-known in the Plone community and well-tested.
+  Its memory-monitor mechanisms are well-known in the Plone community and well-tested.
   If a Zope/Plone process exceeds the max memory setting, the equivalent of a supervisor process restart occurs.
 
-* `cron` is a mechanism installed by the Plone Ansible Playbook.
-  It uses a cron job to check twice an hour for clients that pass the threshhold.
-  If an offending client is found, the `scripts/restart_single_client.sh` script is used to restart the client.
+* ``cron`` is a mechanism installed by the Plone Ansible Playbook.
+  It uses a cron job to check twice an hour for clients that pass the threshold.
+  If an offending client is found, the ``scripts/restart_single_client.sh`` script is used to restart the client.
   This script removes the client from the haproxy cluster before restarting, then loads pages to warm the ZODB cache before returning the client to the load-balancer cluster.
-  The `cron` option was added in version 1.2.17 of the Playbook. It's implemented in the restart_script role.
+  The ``cron`` option was added in version 1.2.17 of the Playbook. It's implemented in the ``restart_script`` role.
 
-Defaults to ``superlance``
+Defaults to ``superlance``.
 
 plone_additional_eggs
 ~~~~~~~~~~~~~~~~~~~~~
@@ -187,7 +187,7 @@ List additional Python packages (beyond Plone and the Python Imaging Library) th
 
 The default list is empty.
 
-.. note ::
+.. note::
 
     Plone hotfixes are typically added as additional eggs.
 
@@ -203,9 +203,9 @@ plone_sources
 
 This setting allows you to check out and include repository-based sources in your buildout.
 
-Source specifications, a list of strings in `mr.developer <https://pypi.python.org/pypi/mr.developer>`_ sources format. If you specify plone_sources, the mr.developer extension will be used with auto-checkout set to "*" and git_clone_depth set to "1".
+Source specifications, a list of strings in `mr.developer <https://pypi.python.org/pypi/mr.developer>`_ sources format. If you specify plone_sources, the ``mr.developer`` extension will be used with auto-checkout set to ``*`` and git_clone_depth set to ``1``.
 
-Private repository source present a special challenge. The typical solution will be to set up a repository user with the ssh public key for the plone_buildout user.
+Private repository source present a special challenge. The typical solution will be to set up a repository user with the ssh public key for the ``plone_buildout`` user.
 
 
 plone_zcml_slugs
@@ -239,7 +239,7 @@ plone_install_zeoserver
 
     plone_install_zeoserver: no
 
-Allows you to turn on and off the creation of a zeoserver. Defaults to `yes`. Useful if the zeoserver is not on the same machine as the clients.
+Allows you to turn on and off the creation of a zeoserver. Defaults to ``yes``. Useful if the zeoserver is not on the same machine as the clients.
 
 
 plone_zeo_ip
@@ -249,7 +249,7 @@ plone_zeo_ip
 
     plone_zeo_ip: 192.168.1.100
 
-The ip address for the Zope database server. Defaults to `127.0.0.1`. Useful if the zeoserver is not on the same machine as the clients.
+The ip address for the Zope database server. Defaults to ``127.0.0.1``. Useful if the zeoserver is not on the same machine as the clients.
 
 
 plone_zeo_port
@@ -297,8 +297,8 @@ plone_client_extras
     plone_client_extras: |
         z2-log-level = error
 
-Extra text to add to all the client buildout parts. Defaults to "".
-Don't use this to add zope-conf-additional stanzas, as they may be overriden.
+Extra text to add to all the client buildout parts. Defaults to ``""``.
+Don't use this to add ``zope-conf-additional`` stanzas, as they may be overridden.
 
 
 plone_client1_extras
@@ -310,8 +310,8 @@ plone_client1_extras
         webdav-address = 9080
         ftp-address = 8021
 
-Extra text to add to only the first client buildout part. Defaults to "".
-Don't use this to add zope-conf-additional stanzas, as they may be overriden.
+Extra text to add to only the first client buildout part. Defaults to ``""``.
+Don't use this to add ``zope-conf-additional`` stanzas, as they may be overridden.
 
 
 plone_zeo_extras
@@ -324,35 +324,39 @@ plone_zope_conf_additional
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
+
     plone_zope_conf_additional: |
         <product-config foobar>
             spam eggs
         </product-config>
 
-Use this directive to add a zope-conf-additional section to client zope configurations.
+Use this directive to add a ``zope-conf-additional`` section to client zope configurations.
 
 
 plone_client_tcpcheck
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
+
     plone_client_tcpcheck: off
 
-As of plone server role version 1.3.0, we use five.z2monitor to set up monitor threads for each Plone ZEO client.
-You may use this directive to turn this off. Default is "on".
+As of ``ansible.plone_server`` role version 1.3.0, we use ``five.z2monitor`` to set up monitor threads for each Plone ZEO client.
+You may use this directive to turn this off.
+Default is ``on``.
 
 
 plone_client_base_tcpcheck_port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
+
     plone_client_base_tcpcheck_port: 7200
 
-If plone_client_tcpcheck, monitor threads will be configured for each Plone ZEO client.
+If ``plone_client_tcpcheck`` is ``on``, monitor threads will be configured for each Plone ZEO client.
 This directive allows you to control the base port.
 There will be as many ports used as there are Plone ZEO clients.
-The default is "{{ plone_client_base_port + 100 }}".
-This is not a global variable; it may only be overridden in the plone_config argument when the role is called.
+The default is ``{{ plone_client_base_port + 100 }}``.
+This is not a global variable; it may only be overridden in the ``plone_config`` argument when the role is called.
 
 
 plone_extra_parts
@@ -396,9 +400,9 @@ plone_buildout_extra_dir
 
 Copies a local directory or the *contents* of a directory into the buildout directory on the remote server.
 
-Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory. Put a "/" on the end of the local path if you wish to copy the contents of the directory. Leave of the trailing "/" to copy the directory itself.
+Use this variable to drop extra files (or even subdirectories) into the buildout directory. Local path may be absolute or relative to the playbook directory. Put a ``/`` on the end of the local path if you wish to copy the contents of the directory. Leave off the trailing ``/`` to copy the directory itself.
 
-If the copied files change, buildout will be run if plone_autorun_buildout is true (the default). However, the autorun mechanism is not able to detect any other kind of change. For example, if you've used this setting, then remove it, the autorun will not be triggered.
+If the copied files change, buildout will be run if ``plone_autorun_buildout`` is ``true`` (the default). However, the autorun mechanism is not able to detect any other kind of change. For example, if you've used this setting, then remove it, the autorun will not be triggered.
 
 
 plone_autorun_buildout
@@ -428,7 +432,7 @@ plone_buildout_cache_file
 
     plone_buildout_cache_file: /home/steve/buildout-cache.tar.bz2
 
-The full local (host) filepath of a buildout egg cache. Defaults to none. Should not be used at the same time as plone_buildout_cache_url.
+The full local (host) filepath of a buildout egg cache. Defaults to ``none``. Should not be used at the same time as ``plone_buildout_cache_url``.
 
 
 plone_create_site
@@ -438,7 +442,7 @@ plone_create_site
 
     plone_create_site: no
 
-Should we create a Plone site in the ZODB when it's first initialized? Defaults to 'yes'.
+Should we create a Plone site in the ZODB when it's first initialized? Defaults to ``yes``.
 
 
 plone_site_id
@@ -448,7 +452,7 @@ plone_site_id
 
     plone_site_id: client55
 
-If we're creating a Plone site, what should the id be? Defaults to 'Plone'.
+If we're creating a Plone site, what should the id be? Defaults to ``Plone``.
 
 
 plone_extension_profiles
@@ -459,7 +463,7 @@ plone_extension_profiles
     plone_extension_profiles:
         - jarn.jsi18n:default
 
-List additional Plone profiles which should be activated in the new Plone site.  These are only activated if the plone_create_site variable is set. Defaults to empty.
+List additional Plone profiles which should be activated in the new Plone site.  These are only activated if the ``plone_create_site`` variable is set. Defaults to empty.
 
 
 plone_default_language
@@ -469,7 +473,7 @@ plone_default_language
 
     plone_default_language: es
 
-If we're creating a Plone site, what should be the default language? Defaults to 'en'.
+If we're creating a Plone site, what should be the default language? Defaults to ``en``.
 
 
 supervisor_instance_discriminator
@@ -480,9 +484,9 @@ supervisor_instance_discriminator
     supervisor_instance_discriminator: customer_15
 
 Optionally use this variable when you're installing multiple plone servers on the same machine.
-The value for supervisor_instance_discriminator will be set as a prefix to all supervisor jobs for this plone server.
+The value for ``supervisor_instance_discriminator`` will be set as a prefix to all supervisor jobs for this Plone server.
 
-You do not need to set a supervisor_instance_discriminator if the servers have different instance names.
+You do not need to set a ``supervisor_instance_discriminator`` if the servers have different instance names.
 
 
 plone_download_requirements_txt
@@ -492,9 +496,9 @@ plone_download_requirements_txt
 
     plone_download_requirements_txt: yes
 
-Should we download a requirements.txt file from dist.plone.org for the matching version of Plone?
-If you set this to `no`, or if dist.plone.org does not have a requirements file for the target version, we'll create one from a template.
-If we create from template, the following settings are used, all of which may be overriden:
+Should we download a ``requirements.txt`` file from ``dist.plone.org`` for the matching version of Plone?
+If you set this to ``no``, or if ``dist.plone.org`` does not have a requirements file for the target version, we'll create one from a template.
+If we create from template, the following settings are used, all of which may be overridden:
 
 .. code-block:: yaml
 
@@ -502,7 +506,7 @@ If we create from template, the following settings are used, all of which may be
     plone_zc_buildout_version: '2.5.3'
     plone_pip_version: '10.0.1'
 
-However the requirements.txt file is created, it will be used via pip to prime our virtualenv.
+However the ``requirements.txt`` file is created, it will be used via pip to prime our virtual environment.
 
 
 plone_restart_after_buildout
@@ -512,7 +516,7 @@ plone_restart_after_buildout
 
     plone_restart_after_buildout: yes
 
-When set to `yes` (the default), the role will restart the clients that are running under supervisor whenever buildout runs. This may be undesirable in situations where uptime is a high priority and clients are slow to start serving requests.
+When set to ``yes`` (the default), the role will restart the clients that are running under supervisor whenever buildout runs. This may be undesirable in situations where uptime is a high priority and clients are slow to start serving requests.
 
 The full Plone Ansible Playbook has a nice alternative in such cases: a restart script that removes clients from the load-balancer cluster and doesn't return them until after priming caches.
 
@@ -530,7 +534,7 @@ plone_pack_at
       hour: 1
       weekday: 7
 
-When do you wish to run the ZEO pack operation? Specify minute, hour and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 1:30 Sunday morning. Set to ``no`` to avoid creation of a cron job.
+When do you wish to run the ZEO pack operation? Specify minute, hour, and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 1:30 Sunday morning. Set to ``no`` to avoid creation of a cron job.
 
 
 plone_keep_days
@@ -553,7 +557,7 @@ plone_backup_at
       hour: 2
       weekday: "*"
 
-When do you wish to run the backup operation?  Specify minute, hour and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 2:30 every morning.  Set to ``no`` to avoid creation of a cron job.
+When do you wish to run the backup operation?  Specify minute, hour, and weekday specifications for a valid *cron* time. See ``CRONTAB(5)``. Defaults to 2:30 every morning.  Set to ``no`` to avoid creation of a cron job.
 
 
 plone_keep_backups
@@ -565,7 +569,7 @@ plone_keep_backups
 
 How many generations of full backups do you wish to keep? Defaults to ``2``.
 
-.. note ::
+.. note::
 
     Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However, backups after a pack operation are complete (full) backups -- not incremental ones. Thus, keeping two full backups means that you have backups for ``plone_keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.python.org/pypi/collective.recipe.backup>`_.
 
@@ -577,7 +581,7 @@ plone_keep_blob_days
 
     plone_keep_blob_days: 21
 
-How many days of blob backups do you wish to keep? This is typically set to `keep_backups * days_between_packs`` days. Default is ``14``.
+How many days of blob backups do you wish to keep? This is typically set to ``keep_backups * days_between_packs`` days. Default is ``14``.
 
 
 plone_backup_path
@@ -597,4 +601,4 @@ plone_rsync_backup_options
 
     plone_rsync_backup_options: --perms --chmod=ug+rx
 
-Rsync options set within the backup scripts (see [collective.recipe.backup](https://pypi.python.org/pypi/collective.recipe.backup#supported-options)). This can be used (for example) to change permissions on backups so they can be downloaded more easily. Defaults to empty.
+Rsync options set within the backup scripts (see `collective.recipe.backup <https://pypi.python.org/pypi/collective.recipe.backup#supported-options>`_). This can be used, for example, to change permissions on backups so they can be downloaded more easily. Defaults to empty.

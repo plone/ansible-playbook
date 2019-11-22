@@ -3,9 +3,9 @@ Multiple Plone Servers
 
 The easiest way to use this kit is when there is only one Plone installation for each server. You may, though, use it to install multiple Plone instances to a single server. Up to four Plone instances are supported per server. More may be added via minor customization of the playbook.
 
-To install multiple Plone instances to a server, specify all settings that are unique per instance in a `playbook_plones` list. Settings that are not specific to a particular server may be set as usual.
+To install multiple Plone instances to a server, specify all settings that are unique per instance in a ``playbook_plones`` list. Settings that are not specific to a particular server may be set as usual.
 
-At a minimum, you must set specific values for `plone_instance_name` and for the Plone and load-balancer ports. You'll usually also want to set virtual host settings.
+At a minimum, you must set specific values for ``plone_instance_name`` and for the Plone and load-balancer ports. You'll usually also want to set virtual host settings.
 
 Here's a minimal example:
 
@@ -29,11 +29,11 @@ Here's a minimal example:
           - hostname: www.plone.org
             zodb_path: /Plone
 
-Dispatching requests to the matching Plone instance occurs in Varnish, and is done by hostname. So, in the example above, when Varnish sees www.plone.org in a request URL, it will send the request to port 7080, our secondary instance.
+Dispatching requests to the matching Plone instance occurs in Varnish, and is done by hostname. So, in the example above, when Varnish sees ``www.plone.org`` in a request URL, it will send the request to port 7080, our secondary instance.
 
-Remember, all the settings except the ones in `playbook_plones` are set as documented elsewhere.
+Remember, all the settings except the ones in ``playbook_plones`` are set as documented elsewhere.
 
-Nearly all the plone_* variables, and a few others like loadbalancer_port and webserver_virtualhosts may be set in `playbook_plones`. Let's take a look at a more sophisticated instance list that handles two different versions of Plone:
+Nearly all the ``plone_*`` variables, and a few others like ``loadbalancer_port`` and ``webserver_virtualhosts`` may be set in ``playbook_plones``. Let's take a look at a more sophisticated instance list that handles two different versions of Plone:
 
 .. code-block:: yaml
 
