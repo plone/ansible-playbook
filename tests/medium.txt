@@ -198,3 +198,7 @@ Check fail2ban
     Status
     |- Number of jail:  1
     `- Jail list:       ssh...
+
+Test the too-hot restart script; no output expected
+
+    >>> print ssh_run('sudo /usr/local/plone-5.2*/zeoserver/scripts/restart_if_hot.py')
