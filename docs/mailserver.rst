@@ -10,7 +10,7 @@ install_mailserver
 
 Do you want to install the Postfix mail server in a send-only configuration. Default is ``yes``.
 
-.. note ::
+.. note::
 
     If you choose not to install a mail server via this playbook, this becomes your responsibility.
 
@@ -45,4 +45,4 @@ Extras
         ; turn off Postscript ip6 support
         inet_protocols = ipv4
 
-Allows you to add extra entries at the end of the Postscript main.cf file.
+Allows you to add extra entries at the end of the Postscript ``main.cf`` file.

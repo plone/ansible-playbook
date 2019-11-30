@@ -11,8 +11,8 @@ At the moment, we are testing with Ubuntu 14 (Trusty) LTS, Ubuntu 15 (Vivid), Ub
 
 The following components are currently not supported for the CentOS environment:
 
-  - ``jnv.unattended-upgrades``
-  - ``tersmitten.fail2ban``
+- ``jnv.unattended-upgrades``
+- ``tersmitten.fail2ban``
 
 This means that installation of unattended upgrades and the fail2ban service do not occur on CentOS.
 
@@ -21,7 +21,7 @@ SSH access; sudo
 
 Beyond the basic platform, the only requirements are that you have ``ssh`` access to the remote server with full ``sudo`` rights.
 
-For local testing via virtual machine, any machine that supports VirtualBox/Vagrant should be adequate.
+For local testing via a virtual machine, any machine that supports VirtualBox/Vagrant should be adequate.
 
 Potential Problems
 ``````````````````
@@ -71,13 +71,15 @@ How to Resolve Insufficient Resources on Digital Ocean
 Local setup
 ^^^^^^^^^^^
 
-On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <http://docs.ansible.com/intro_installation.html>`_ has thorough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development. (Note: don't us your OS package manager to install Ansible; you may get an unusably out-of-date version.)
+On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <http://docs.ansible.com/intro_installation.html>`_ has thorough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development. (Note: don't us your OS package manager to install Ansible; you may get an unusable out-of-date version.)
 
 Ansible's only dependency is a recent version of Python 2.6 or later.
 
 You will also nearly certainly want git, both for cloning the playbook and for version-controlling your own work.
 
 To clone the stable branch of the playbook, use the command:
+
+.. code-block:: bash
 
     git clone https://github.com/plone/ansible-playbook.git -b STABLE
 
@@ -86,11 +88,13 @@ Quick setup
 
 If you're using a machine with the following installed:
 
-    - Python 2.7
-    - virtualenv 2.7
-    - make
+- Python 2.7
+- virtualenv 2.7
+- make
 
 you may install quickly by cloning the playbook and using the commands:
+
+.. code-block:: bash
 
     git clone https://github.com/plone/ansible-playbook.git -b STABLE
     cd ansible-playbook
@@ -105,6 +109,8 @@ Ansible role requirements
 
 We have a few Ansible role dependencies which you may fulfill via Ansible Galaxy with the command:
 
+.. code-block:: bash
+
     ansible-galaxy -r requirements.yml -p roles install
 
 This should be executed in your playbook directory. Downloaded requirements will be dropped into the ``roles`` directory there.
@@ -115,8 +121,7 @@ Remote setup
 Ansible requires that the target server have a recent Python 2.x on the server. Newer platforms (like Ubuntu Xenial and later) may not have this activated on pristine new machines.
 
 If you get connection errors from Ansible, check the remote machine to make sure Python 2.7 is available.
-`which python2.7` will let you know.
+``which python2.7`` will let you know.
 If it's missing, use your package manager to install it.
 
-On Ubuntu Xenial (16.0.4 LTS), `sudo apt-get install -y python` will do the trick.
-
+On Ubuntu Xenial (16.0.4 LTS), ``sudo apt-get install -y python`` will do the trick.

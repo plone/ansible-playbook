@@ -1,7 +1,6 @@
 Load-balancer options
 `````````````````````
 
-
 install_loadbalancer
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -11,7 +10,7 @@ install_loadbalancer
 
 Do you want to use a load balancer? Defaults to ``yes``.
 
-.. note ::
+.. note::
 
     If you decide not to use a load balancer, you will need to make sure that the ``loadbalancer_port`` setting points to your main ZEO client if you are using a proxy cache. If you are not using a proxy_cache, you must make sure that ``proxycache_port`` points to the main ZEO client.
 
@@ -27,7 +26,7 @@ loadbalancer_port
 
 The front-end port for the load balancer. Defaults to ``8080``.
 
-.. note ::
+.. note::
 
     The haproxy stats page will be at ``http://localhost:1080/admin``. The administrative password is disabled on the assumption that the port will be firewalled and you will use an ssh tunnel to connect.
 
@@ -49,7 +48,7 @@ loadbalancer_listen_extra
 
     loadbalancer_listen_extra: "timeout connect 30s  # longer timeout for primary"
 
-Use this variable to add configuration lines in "listen" sections.
+Use this variable to add configuration lines in ``listen`` sections.
 Usually done to override defaults.
 This variable may be set globally or in individual playbook_plones.
 
@@ -64,7 +63,7 @@ loadbalancer_options
 Use this variable to customize backend options for haproxy.
 This is used with haproxy's ``default-server`` option.
 
-.. note ::
+.. note::
 
     Note the ``maxconn 1`` portion of the setting.
     This is meant to match up with the number of threads in use for each ZEO client.
@@ -74,4 +73,3 @@ This is used with haproxy's ``default-server`` option.
     Also, if you're using health checks, you may want to read the haproxy docs and think seriously about how to avoid false positives that will mark a client down when it's handling a long request.
     Health check tests are made even when ``maxconn`` has been reached.
     You will want to make sure that ``inter`` anticipates the longest response time for the vast majority of your requests.
-

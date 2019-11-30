@@ -12,8 +12,8 @@ ansible_ssh_pipelining
     ansible_ssh_pipelining: true
 
 The Plone server role uses ssh pipelining to avoid security errors from Ansible when running operations without superuser rights.
-SSH pipelining for this purpose may require the disabling of ‘requiretty’ in /etc/sudoers.
-If you get a pipelining error and cannot disable requiretty, set this variable to false and instead turn on allow_world_readable_tmpfiles in your ansible.cfg.
+SSH pipelining for this purpose may require the disabling of ``requiretty`` in ``/etc/sudoers``.
+If you get a pipelining error and cannot disable ``requiretty``, set this variable to ``false`` and instead turn on ``allow_world_readable_tmpfiles`` in your ``ansible.cfg``.
 See http://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user for a discussion.
 
 
@@ -27,7 +27,7 @@ admin_email
 
     admin_email: sysadmin@yourdomain.com
 
-It is important that you update this setting. The admin_email address will receive system mail, some of which is vitally important.
+It is important that you update this setting. The ``admin_email`` address will receive system mail, some of which is vitally important.
 
 If you don't set this variable, the playbook won't run.
 
@@ -61,9 +61,9 @@ auto_upgrades
 
 Should the operating system's auto-update feature be turned on. You will still need to monitor for updates that cannot be automatically applied and for cases where a system restart is required after an update.
 
-Defaults to `yes`
+Defaults to ``yes``.
 
-.. warning ::
+.. warning::
 
     Turning on automatic updates does not relieve you of the duty of actively administering the server. Many updates, including vital security updates, will not happen or take effect without direct action.
 
@@ -78,7 +78,7 @@ additional_packages
 
 List any additional operating system packages you wish to install. Default is empty.
 
-.. note ::
+.. note::
 
     The operating system packages necessary for the components in this kit are automatically handled when a part is installed.
 
@@ -90,11 +90,11 @@ timezone
 
     timezone: "America/Los_Angeles"
 
-Specify the timezone that should be set on the server.  Default is "UTC".
+Specify the timezone that should be set on the server.  Default is ``UTC``.
 
 .. note::
 
-    The timezone string must be terminated with a newline character (\n).
+    The timezone string must be terminated with a newline character (``\n``).
 
 set_timezone
 ~~~~~~~~~~~~
@@ -103,14 +103,14 @@ set_timezone
 
     set_timezone: no
 
-If you have a reason to prevent setting the timezone, set this to "no".
-Default is "yes".
+If you have a reason to prevent setting the timezone, set this to ``no``.
+Default is ``yes``.
 
 
 logwatch_ignore
 ~~~~~~~~~~~~~~~
 
-.. code-block: yml
+.. code-block:: yml
 
     logwatch_ignore: |
       Received disconnect from
@@ -118,7 +118,7 @@ logwatch_ignore
       message repeated \d+ times: \[ Failed password for root from
       maximum authentication attempts exceeded for root
 
-Sets the contents of the logwatch `ignore.conf` file.
+Sets the contents of the logwatch ``ignore.conf`` file.
 Each line should be a regular expression.
 If matched, the log line will be ignored and unconsidered in any log-based report.
 Use with great caution to reduce noice in your logwatch report.

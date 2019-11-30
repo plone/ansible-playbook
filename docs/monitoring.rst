@@ -17,11 +17,11 @@ Do you want to install munin-node? Defaults to `yes`.
         - 192.168.10.3
 
 What IP address are allowed to query your munin node? Specify a list of ip addresses.
-Note that these will be converted to regular expressions by putting ^ and $ at the beginning and end and escaping dots.
+Note that these will be converted to regular expressions by putting ``^`` and ``$`` at the beginning and end and escaping dots.
 
 Defaults to ``127.0.0.1``
 
-.. note ::
+.. note::
 
     For this to be useful, you must set up a munin monitor machine and cause it to query your node.
 
@@ -42,7 +42,7 @@ install_logwatch
 
     install_logwatch: (yes|no)
 
-If turned on, this will cause a daily summary of log file information to be sent to the admin email address. Defaults to `yes`
+If turned on, this will cause a daily summary of log file information to be sent to the admin email address. Defaults to ``yes``.
 
 
 install_fail2ban
@@ -54,7 +54,6 @@ install_fail2ban
 
 Fail2ban scans log files and bans IPs that show malicious signs -- too many password failures, seeking for exploits, etc. Defaults to ``yes``.
 
-.. note ::
+.. note::
 
     fail2ban is only useful with an iptables-style firewall.
-
