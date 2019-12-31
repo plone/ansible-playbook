@@ -51,13 +51,13 @@ TL;DR
 
 3. Check out or download a copy of `the STABLE branch of this package <https://github.com/plone/ansible-playbook>`_;
 
-4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
+4. Run ``ansible-galaxy install -r requirements.yml`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an `Ansible inventory file <http://docs.ansible.com/ansible/latest/intro_inventory.html>`_  for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``[*]_;
+7. To deploy, create an `Ansible inventory file <http://docs.ansible.com/ansible/latest/intro_inventory.html>`_  for the remote host and run ``ansible-playbook -K -i myhost.cfg playbook.yml`` (`-K` prompts for the sudo password on the remote host)
 
 8. Set a real password for your Plone instance on the target server;
 
