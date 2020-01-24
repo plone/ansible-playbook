@@ -1,5 +1,8 @@
 1.3.8 unreleased
 
+- Varnish 4 syntax prefers double quote marks to single.
+  [stevepiercy]
+
 - Update hot restart script to work with python3.
   [smcmahon]
 
