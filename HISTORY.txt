@@ -1,5 +1,11 @@
 1.3.8 unreleased
 
+- Test against 5.2.1.
+  [smcmahon]
+
+- Use plone server role v. 1.3.8.
+  [smcmahon]
+
 - Remove support for Varnish <4.
   [stevepiercy]
 
