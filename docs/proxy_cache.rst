@@ -86,4 +86,8 @@ These settings fine-tune the cache rules.
     # Adds code inside backend stanzas. Most commonly used to set timeouts.
     proxy_cache_backend_extra:
 
+    # Sanitize response by removing s-maxage from Cache-Control header
+    # so that it won't reach the browser.
+    proxy_cache_clean_smaxage: True
+
 Defaults are as indicated in the example. Don't change these without giving it some thought.

@@ -85,6 +85,11 @@ sub vcl_deliver {
     } else {
         set resp.http.X-Varnish-Cache = "MISS";
     }
+{% if proxy_cache_clean_smaxage|default(True) %}
+    # Remove shared-cache s-maxage setting from response;
+    # it should not reach the browser.
+    set resp.http.Cache-Control = regsub(resp.http.Cache-Control, "s-maxage=\d+, ", "");
+{% endif %}
 }
 
 # Sanitize compression handling
