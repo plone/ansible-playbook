@@ -1,0 +1,5 @@
+---
+
+certbot_staging: no
+
+certbot_hosts:

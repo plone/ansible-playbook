@@ -1,0 +1,37 @@
+---
+
+
+# This is a standalone playbook to add certbot-nginx to the target server
+# and to use certbot in certonly mode to create certificates.
+
+# To use the playbook, add a `certbot_hosts` variable to your local-configure.yml
+# file. This should define a list of hostnames for which you wish to create
+# certificates::
+
+#   certbot_hosts:
+#     - meet.mcsmith.org
+#     - auth.mcsmith.org
+
+# You may also set `certbot_staging: yes` if you wish to use certbot's staging
+# server to create test certificates without using your regular certbot quota.
+
+# NOTE: only currently working for Debian-family servers.
+
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+
+  pre_tasks:
+  
+    - name: Include vars from local-configure.yml if found
+      include_vars: "{{ item }}"
+      with_first_found:
+       - local-configure.yml
+       - null.yml
+
+  roles:
+  
+    - role: certbot

@@ -1,0 +1,15 @@
+---
+
+- name: Add certbot repository
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    state: present
+
+- name: Update packages via apt
+  when: ansible_os_family == 'Debian'
+  apt: upgrade=dist update_cache=yes
+
+- name: Install python3-certbot-nginx
+  package:
+    name: "python3-certbot-nginx"
+    state: present

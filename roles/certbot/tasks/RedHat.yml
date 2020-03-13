@@ -1,0 +1,4 @@
+---
+
+- fail:
+    msg: RedHat family not yet supported for automating certbot.
