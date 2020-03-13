@@ -5,6 +5,9 @@ server {
 {% if item.get('certificate') %}
   ssl_certificate {{ item.certificate.crt }};
   ssl_certificate_key {{ item.certificate.key }};
+{% elif certbot_hosts is defined and item.hostname in certbot_hosts %}
+  ssl_certificate /etc/letsencrypt/live/{{ item.hostname }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ item.hostname }}/privkey.pem;
 {% else %}
   ssl_certificate /etc/nginx/ssl/{{ item.hostname }}.crt;
   ssl_certificate_key /etc/nginx/ssl/{{ item.hostname }}.key;
