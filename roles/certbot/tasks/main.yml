@@ -16,3 +16,8 @@
   args:
     creates: "/etc/letsencrypt/live/{{ item }}/cert.pem"
   loop: "{{ certbot_hosts }}"
+
+- name: "Test renewal with a dry run."
+  shell: >
+    certbot renew --dry-run
+    
