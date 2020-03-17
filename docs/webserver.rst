@@ -89,6 +89,17 @@ To use files that already exist on the controlled server, use:
           key: /etc/ssl/private/ssl-cert-snakeoil.key
           crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
 
+.. code-block:: yaml
+
+An shortcut if you're using certbot for certificates and the certificates are in the usual ``/etc/letsencrypt/live/HOST_NAME`` folders.
+If you specify a global ``certbot_hosts`` list variable, then these certificates will be used for all matching hosts.
+
+   certbot_hosts:
+     - one.mcsmith.org
+     - two.mcsmith.org
+
+Remember, the ``certbot_hosts`` variable must be global, not part of ``webserver_virtualhosts`` list.
+
 
 Redirections, etc.
 ~~~~~~~~~~~~~~~~~~
