@@ -89,16 +89,26 @@ To use files that already exist on the controlled server, use:
           key: /etc/ssl/private/ssl-cert-snakeoil.key
           crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
 
-.. code-block:: yaml
+Alternatively, you can use certbot to create and renew certificates.
+Certificates are in the usual ``/etc/letsencrypt/live/HOST_NAME`` folders.
+If you specify a global ``certbot_hosts`` list variable, then certificates managed by certbot from Let's Encrypt will be used for all matching hosts.
 
-An shortcut if you're using certbot for certificates and the certificates are in the usual ``/etc/letsencrypt/live/HOST_NAME`` folders.
-If you specify a global ``certbot_hosts`` list variable, then these certificates will be used for all matching hosts.
+.. code-block:: yaml
 
    certbot_hosts:
      - one.mcsmith.org
      - two.mcsmith.org
 
+Or if you have the ``inventory_hostname`` variable defined:
+
+.. code-block:: yaml
+
+   certbot_hosts:
+     - "{{ inventory_hostname }}"
+
 Remember, the ``certbot_hosts`` variable must be global, not part of ``webserver_virtualhosts`` list.
+Also the ``certificate`` key and items under ``webserver_virtualhosts`` takes precedence over all other certificate management methods.
+If you want to use certbot, then remove the ``certificate`` block.
 
 
 Redirections, etc.

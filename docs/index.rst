@@ -24,4 +24,4 @@ Plone's Ansible Playbook
    multiserver
    restart_script
    audit
-   cetbot
+   certbot

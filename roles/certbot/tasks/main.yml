@@ -19,5 +19,4 @@
 
 - name: "Test renewal with a dry run."
   shell: >
-    certbot renew --dry-run
-    
+    certbot renew --dry-run --nginx
