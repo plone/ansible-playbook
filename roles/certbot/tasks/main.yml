@@ -20,13 +20,3 @@
 - name: "Test renewal with a dry run."
   shell: >
     certbot renew --dry-run --nginx
-
-- name: Cron job to auto renew certificates via certbot
-  when: certbot_renew_at|bool
-  cron:
-    name="Automatically renew Let's Encrypt certificates via certbot"
-    job="certbot renew --quiet --no-self-upgrade --nginx"
-    user=root
-    minute={{ item.minute }}
-    hour={{ item.hour }}
-  with_items: "{{ [certbot_renew_at] }}"
