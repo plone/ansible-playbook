@@ -106,14 +106,6 @@ Or if you have the ``inventory_hostname`` variable defined:
    certbot_hosts:
      - "{{ inventory_hostname }}"
 
-To automatically renew the certificates, you need to set the time you want to attempt renewal on a daily basis with the ``certbot_renew_at`` global variable.
-
-.. code-block:: yaml
-
-    certbot_renew_at:
-      minute: 30
-      hour: 3
-
 Remember, the ``certbot_hosts`` variable must be global, not part of ``webserver_virtualhosts`` list.
 Also the ``certificate`` key and items under ``webserver_virtualhosts`` takes precedence over all other certificate management methods.
 If you want to use certbot, then remove the ``certificate`` block.
