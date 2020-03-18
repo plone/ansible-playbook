@@ -33,7 +33,7 @@ Note that ``python3-certbot-nginx`` includes an auto-renewal cronjob.
 Webserver support
 ~~~~~~~~~~~~~~~~~
 
-When the nginx role creates a configuration file for an virtual host, it will check ssl hostnames against the ``certbot_hosts`` list.
+When the nginx role creates a configuration file for a virtual host, it will check TLS hostnames against the ``certbot_hosts`` list.
 If the hostname matches, the certbot certificate/key will be used automatically (unless you override this by specifying certificate/key files).
 
 Certificate/key files for certbot are expected to be in ``/etc/letsencrypt/live/HOST_NAME`` or this mechanism will fail when nginx is reloaded after configuration.
