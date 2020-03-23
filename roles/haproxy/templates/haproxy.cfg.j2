@@ -41,6 +41,7 @@ listen {{ front_end.plone_instance_name|default(plone_instance_name) }}
 {% if front_end.get('loadbalancer_healthcheck', loadbalancer_healthcheck) %}
 {% if haproxy_version >= '1.5.0' and front_end.plone_client_tcpcheck|default(plone_client_tcpcheck|default(false)) %}
     option tcp-check
+    tcp-check connect
     tcp-check send quit\n
 {% else %}
 {% if front_end.plone_python_version|default(plone_python_version) == '2.7' %}
