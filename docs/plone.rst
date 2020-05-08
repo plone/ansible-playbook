@@ -344,6 +344,9 @@ As of ``ansible.plone_server`` role version 1.3.0, we use ``five.z2monitor`` to 
 You may use this directive to turn this off.
 Default is ``on``.
 
+If you are using Python 3+, you'll want to check to see if ``five.z2monitor`` has a compatible update.
+Otherwise, turn this off.
+
 
 plone_client_base_tcpcheck_port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
