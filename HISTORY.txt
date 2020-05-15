@@ -1,5 +1,8 @@
 1.3.9 unreleased
 
+- Add certbot test file; this tests provisioning of certbot-nginx, but not certificate issuance.
+  [smcmahon]
+
 - Add certbot playbook, role and documentation.
   Provides LetsEncrypt support using certbot-nginx plugin.
   [smcmahon, stevepiercy]
