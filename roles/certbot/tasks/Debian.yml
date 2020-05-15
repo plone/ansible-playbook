@@ -1,9 +1,20 @@
 ---
 
-- name: Add certbot repository
-  apt_repository:
-    repo: 'ppa:certbot/certbot'
-    state: present
+- name: Install software-properties-common
+  package:
+    name: "software-properties-common"
+    state: latest
+
+- name: Add universe repository
+  command: "add-apt-repository universe"
+
+- name: Check for python3-certbot-nginx
+  command: "apt-cache search python3-certbot-nginx"
+  register: pcn_present
+
+- name: Add certbot repository if not present
+  command: "add-apt-repository ppa:certbot/certbot"
+  when: pcn_present.failed
 
 - name: Update packages via apt
   when: ansible_os_family == 'Debian'

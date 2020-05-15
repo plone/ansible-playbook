@@ -11,6 +11,7 @@
 - name: "Generate new certificates as necessary"
   shell: >
     certbot certonly --nginx --email '{{ admin_email }}'
+    --non-interactive
     --agree-tos -d '{{ item }}'
     {% if certbot_staging %} --staging {% endif %}
   args:

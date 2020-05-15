@@ -1,5 +1,9 @@
 1.3.9 unreleased
 
+- Get certbot role working for provisioning on focal.
+  Certificate issuance is not yet working there due to a hopefully soon-to-be-fixed bug.
+  [smcmahon]
+
 - Add certbot test file; this tests provisioning of certbot-nginx, but not certificate issuance.
   [smcmahon]
 
