@@ -13,7 +13,6 @@ Test the "medium" sample specification with Python 3
     ... muninnode_query_ips:
     ...     - 127.0.0.1
     ... plone_python_version: '3'
-    ... plone_client_tcpcheck: no
     ... """
 
     >>> import subprocess
