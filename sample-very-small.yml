@@ -60,5 +60,9 @@ loadbalancer_port: 8081
 # file-based cache.
 proxycache_method: file
 
+# it's 2020 now... Use Python 3
+plone_python_version: "3"
 
+# with Python 3, z2monitor should not be used
+plone_client_tcpcheck: no
 

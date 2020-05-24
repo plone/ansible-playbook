@@ -45,6 +45,12 @@ plone_zodb_cache_size: 15000
 # and enforce that with a memory-monitor
 plone_client_max_memory: 750MB
 
+# it's 2020 now... Use Python 3
+plone_python_version: "3"
+
+# with Python 3, z2monitor should not be used
+plone_client_tcpcheck: no
+
 # Plone instance settings
 # -----------------------
 # Most settings can be either global or specific to a particular install.

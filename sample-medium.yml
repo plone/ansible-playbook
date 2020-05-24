@@ -49,3 +49,9 @@ plone_client_max_memory: 750MB
 
 # with multiple clients, the "cron" hot monitor does a better job of avoiding downtime.
 plone_hot_monitor: cron
+
+# it's 2020 now... Use Python 3
+plone_python_version: "3"
+
+# with Python 3, z2monitor should not be used
+plone_client_tcpcheck: no
