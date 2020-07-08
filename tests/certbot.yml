@@ -51,9 +51,6 @@ Check hostname:
     >>> ssh_run('ls -d /etc/letsencrypt').strip()
     '/etc/letsencrypt'
 
-    >>> ssh_run('ls /etc/letsencrypt/options-ssl-nginx.conf').strip()
-    '/etc/letsencrypt/options-ssl-nginx.conf'
-
     >>> ssh_run('certbot --help | grep "\--nginx"')
     '  --nginx           Use the Nginx plugin for authentication & installation\r\n'
 
