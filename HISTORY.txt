@@ -11,6 +11,17 @@
   Provides LetsEncrypt support using certbot-nginx plugin.
   [smcmahon, stevepiercy]
 
+- Add "tcp-check connect" to haproxy tcp-check sequence.
+  Fixes #123.
+  Thanks, jid.
+  [smcmahon]
+  
+- it's 2020 so default to Python 3, disable incompatible z2monitor
+  [tkimnguyen]
+
+- Update plone docs and tests for plone_client_tcpcheck on py3.
+  [fulv]
+
 1.3.8 2020-02-15
 
 - Test against 5.2.1.
