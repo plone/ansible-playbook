@@ -1,0 +1,56 @@
+------------------------------------------
+Test the certbot playbook for provisioning
+------------------------------------------
+    >>> sample = 'sample-medium.yml'
+
+    >>> extras = r"""
+    ... admin_email: test@example.com
+    ... plone_initial_password: admin
+    ... additional_packages:
+    ...   - curl
+    ...   - lsof
+    ... muninnode_query_ips:
+    ...     - 127.0.0.1
+    ... certbot_hosts: []
+    ... """
+
+    >>> import subprocess
+    >>> import sys
+    >>> import time
+
+Set up local-configure.yml by copying our sample.
+Append extras.
+
+    >>> with open(sample, 'r') as f:
+    ...     with open('local-configure.yml', 'w') as g:
+    ...         g.write(f.read() + extras)
+
+Vagrant up
+
+    >>> print >> sys.stderr, "Bringing up %s" % box
+    >>> run("vagrant up %s --provision-with write_vbox_cfg" % box)
+
+Vagrant provision -- unless contraindicated.
+
+    >>> if skip_provisioning:
+    ...     print >> sys.stderr, "Skipping provisioning"
+    ... else:
+    ...     print >> sys.stderr, "Provisioning"
+    ...     run("ansible-playbook -i vbox_host.cfg certbot.yml")
+
+
+And, now run tests against the box.
+
+    >>> print >> sys.stderr, "Running tests against box"
+
+Check hostname:
+
+    >>> ssh_run('which certbot').strip()
+    '/usr/bin/certbot'
+
+    >>> ssh_run('ls -d /etc/letsencrypt').strip()
+    '/etc/letsencrypt'
+
+    >>> ssh_run('certbot --help | grep "\--nginx"')
+    '  --nginx           Use the Nginx plugin for authentication & installation\r\n'
+
