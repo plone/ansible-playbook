@@ -42,7 +42,7 @@ Using the local configuration strategy, add only the options you wish to change 
 Ansible inventory variables
 ```````````````````````````
 
-Ansible allows you to set variables for particular hosts or groups of hosts. Check the Ansible documentation on `Inventory variables <http://docs.ansible.com/ansible/intro_inventory.html>`_ for details. This is a particularly good approach if you are hoping to support multiple hosts, as different variables may be set for different hosts.
+Ansible allows you to set variables for particular hosts or groups of hosts. Check the Ansible documentation on `Inventory variables <https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html>`_ for details. This is a particularly good approach if you are hoping to support multiple hosts, as different variables may be set for different hosts.
 
 If you use inventory variables, note that any variable you set in ``local-configure.yml`` will override your inventory variables.
 
@@ -128,4 +128,4 @@ Resolve conflicts if any. Commit and push to your fork repo.
 The Configuration File
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The configuration file format is YAML with Jinja2 templating. It's well-documented at `docs.ansible.com <http://docs.ansible.com/YAMLSyntax.html>`_.
+The configuration file format is YAML with Jinja2 templating. It's well-documented at `docs.ansible.com <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_.
