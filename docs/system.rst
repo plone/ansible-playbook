@@ -99,7 +99,7 @@ Specify the timezone that should be set on the server.  Default is ``UTC``.
 set_timezone
 ~~~~~~~~~~~~
 
-.. code-block:: yml
+.. code-block:: yaml
 
     set_timezone: no
 
@@ -110,7 +110,7 @@ Default is ``yes``.
 logwatch_ignore
 ~~~~~~~~~~~~~~~
 
-.. code-block:: yml
+.. code-block:: yaml
 
     logwatch_ignore: |
       Received disconnect from

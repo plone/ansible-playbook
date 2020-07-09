@@ -54,6 +54,7 @@ proxy_cache_block_basic_auth
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
+
     proxy_cache_block_basic_auth: off
 
 Use this variable to determine whether or not Varnish blocks the HTTP Authorization header, which is used in basic auth.
