@@ -1,10 +1,20 @@
 1.3.9 unreleased
 
+- Clean up tests; Remove 4.3 from test suite. All tests now pass on Bionic and Focal.
+  [smcmahon]
+
+- Turn loadbalancer_healthcheck off by default.
+  Without the tcp check option (unavailable with Python 3), haproxy's health checks work poorly (they consume a thread) and are less reliable.
+  [smcmahon]
+
+- Finish up Python 3 compatability by taking care of remaining scripts that were Py 2.7 only.
+  [smcmahon]
+
 - Add "tcp-check connect" to haproxy tcp-check sequence.
   Fixes #123.
   Thanks, jid.
   [smcmahon]
-  
+
 - it's 2020 so default to Python 3, disable incompatible z2monitor
   [tkimnguyen]
 

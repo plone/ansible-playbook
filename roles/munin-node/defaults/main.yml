@@ -8,3 +8,6 @@ munin_node_debian_packages:
   - munin-node
   - libwww-perl
   - libxml-parser-perl
+
+# Note that munin_python_version should be a string; typically '2.7' or '3'
+munin_python_version: '3'

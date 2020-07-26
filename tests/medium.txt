@@ -74,8 +74,6 @@ Zope
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
     python...   plone_daemon    127.0.0.1:8081
     python...   plone_daemon    127.0.0.1:8082
-    python...   plone_daemon    127.0.0.1:8181
-    python...   plone_daemon    127.0.0.1:8182
     zeoserver   plone_daemon    127.0.0.1:8100
 
 haproxy
@@ -110,7 +108,7 @@ Munin
 
 Check the process list for all the daemons we expect.
 
-    >>> we_expect = ['fail2ban-server', 'haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python2.7', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
+    >>> we_expect = ['haproxy', 'munin-node', 'nginx', 'nginx', 'pickup', 'python', 'qmgr', 'supervisord', 'varnishd', 'varnishd']
     >>> rez = ssh_run('ps  -eo comm')
     >>> [s for s in we_expect if s not in rez]
     []

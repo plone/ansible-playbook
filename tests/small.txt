@@ -63,8 +63,7 @@ in all expected ways.
     >>> listeners = sorted(set(cut(rez, [0, 2, 8])))
 
     >>> print "\n".join([s for s in listeners if 'plone_daemon' in s])
-    python2.7   plone_daemon    127.0.0.1:8081
-    python2.7   plone_daemon    127.0.0.1:8181
+    python...   plone_daemon    127.0.0.1:8081
     zeoserver   plone_daemon    127.0.0.1:8100
 
     >>> print "\n".join([s for s in listeners if 'haproxy' in s])
@@ -90,13 +89,14 @@ in all expected ways.
 Check the process list for Plone.
 
     >>> print ssh_run('ps  -eo comm,euser:15,egroup | egrep "plone" | egrep -v "(egrep|systemd)" | sort')
-    python2.7       plone_daemon    plone_group
-    zeoserver       plone_daemon    plone_group
+    python...       plone_daemon    plone_group
+    zeoserver       plone_daemon    plone_group...
 
 Check the process list for our fail2ban, which isn't yet up on CentOS.
 
-    >>> print ssh_run('ps  -eo comm | grep fail2ban')
-    fail2ban-server
+    >>> print ssh_run('ps  -fe | grep fail2ban')
+    root ...fail2ban-server...
+    ...
 
 Check the process list for our other daemons.
 
@@ -149,10 +149,7 @@ processes, haproxy and varnish.
     Fetch site homepages to warm cache
       /Plone
     Purging varnish cache
-      /Plone
-
-    Done
-    <BLANKLINE>
+      /Plone...
 
 The varnish cache for this host should now be empty.
 
