@@ -234,11 +234,9 @@ Let's prove to ourselves that this is Plone 5:
 Asking twice for a static resource should result in a cache hit.
 
     >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png > /dev/null' % box)
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png | egrep "^(HTTP|X-Varnish-Cache)"' % box)
     HTTP/1.1 200 OK
-    ...
     X-Varnish-Cache: HIT
-    ...
 
 The restart script exercises our control of the supervisor
 processes, haproxy and varnish.
@@ -261,11 +259,9 @@ processes, haproxy and varnish.
 
 The varnish cache for this host should now be empty.
 
-    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png' % box)
-    HTTP/1.1 200 OK...
-    ...
+    >>> print ssh_run('curl --ipv4 -I -s http://%s/logo.png | egrep "^(HTTP|X-Varnish-Cache)"' % box)
+    HTTP/1.1 200 OK
     X-Varnish-Cache: MISS...
-    ...
 
 This instance should be using superlance's memmon for hot restarts.
 
