@@ -40,7 +40,7 @@ TL;DR
 
 3. Check out or download a copy of `the STABLE branch of this package <https://github.com/plone/ansible-playbook>`_;
 
-4. Run ``ansible-galaxy -p roles -r requirements.yml install`` to install required roles;
+4. Run ``ansible-galaxy install -p roles -r requirements.yml`` to install required roles;
 
 5. Copy one of the ``sample*.yml`` files to ``local-configure.yml`` and edit as needed.
 

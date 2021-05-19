@@ -1,5 +1,9 @@
 1.3.9 unreleased
 
+
+- Correct ansible-galaxy command in docs
+  [djowett]
+
 - Add "tcp-check connect" to haproxy tcp-check sequence.
   Fixes #123.
   Thanks, jid.
