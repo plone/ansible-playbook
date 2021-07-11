@@ -10,6 +10,9 @@
 - Finish up Python 3 compatability by taking care of remaining scripts that were Py 2.7 only.
   [smcmahon]
 
+- Correct ansible-galaxy command in docs
+  [djowett]
+
 - Add "tcp-check connect" to haproxy tcp-check sequence.
   Fixes #123.
   Thanks, jid.
