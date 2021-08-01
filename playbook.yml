@@ -5,6 +5,11 @@
   become_method: sudo
   gather_facts: yes
 
+  vars:
+    certbot_ssl: off
+    ssl_hostnames:
+      - "{{ inventory_hostname }}"
+      - "www.{{ inventory_hostname }}"
 
   pre_tasks:
 
@@ -36,6 +41,14 @@
         - nginx
         - timezone
         - audit
+
+    - name: Define primary SSL name
+      set_fact:
+        ssl_primary: '{{ ssl_hostnames[0] }}'
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - nginx
+        - certbot
 
     - name: Fail if no administrative email set
       fail:
@@ -88,6 +101,95 @@
       tags:
         - nginx
         - haproxy
+
+    - name: Ensure certbot package
+      when: certbot_ssl
+      package:
+        name: certbot
+        state: present
+      tags:
+        - certbot
+
+    - name: Ensure certbot-nginx plugin
+      when: certbot_ssl
+      package:
+        name: python3-certbot-nginx
+        state: present
+      ignore_errors: yes
+      tags:
+        - nginx
+        - certbot
+
+    - name: Ensure nginx is started
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      when: certbot_ssl
+      tags:
+        - nginx
+        - certbot
+
+    - name: Create certbot certs
+      command:
+        cmd: "certbot certonly --nginx --noninteractive --agree-tos --email {{ admin_email }} -d {{ ssl_hostnames | join(' -d ') }}"
+        creates: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - nginx
+        - certbot
+
+    - name: check if ssl key exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl
+      register: ssl_key
+      tags:
+        - nginx
+        - certbot
+
+    - name: key_config
+      set_fact:
+        ssl_config:
+          certificate:
+            crt: "/etc/letsencrypt/live/{{ ssl_primary }}/fullchain.pem"
+            key: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+          protocol: https
+      when: certbot_ssl and ssl_key.stat.exists == True
+      tags:
+        - nginx
+        - certbot
+
+    - name: primary webserver definition
+      set_fact:
+        primary_webserver: "{{ webserver_virtualhosts[0] }}"
+      tags:
+        - nginx
+        - certbot
+
+    - name: define cert config
+      set_fact:
+        ssl_webserver: "{{ primary_webserver | combine(ssl_config) }}"
+      when: certbot_ssl and ssl_key.stat.exists == True
+      tags:
+        - nginx
+        - certbot
+
+    - name: redirect_to_ssl
+      set_fact:
+        primary_webserver: "{{ primary_webserver | combine({'extra': 'return 301 https://$host$uri$is_args$args;'}) }}"
+      when: certbot_ssl and redirect_to_ssl and ssl_key.stat.exists == True
+      tags:
+        - nginx
+        - certbot
+
+    - name: update cert config
+      set_fact:
+        webserver_virtualhosts: "{{ [ssl_webserver, primary_webserver] + webserver_virtualhosts[1:] }}"
+      when: certbot_ssl and ssl_key.stat.exists == True
+      tags:
+        - nginx
+        - certbot
 
   roles:
 
@@ -186,24 +288,24 @@
     - role: audit
       tags: audit
 
-  # tasks:
+  tasks:
 
-  #   - name: Set timezone variables
-  #     tags: timezone
-  #     copy: content={{ timezone|default("UTC\n") }}
-  #           dest=/etc/timezone
-  #           owner=root
-  #           group=root
-  #           mode=0644
-  #           backup=yes
-  #     notify:
-  #       - update timezone
+    - name: Set timezone variables
+      tags: timezone
+      copy: content={{ timezone|default("UTC\n") }}
+            dest=/etc/timezone
+            owner=root
+            group=root
+            mode=0644
+            backup=yes
+      notify:
+        - update timezone
 
-  # handlers:
-  #   - name: update timezone
-  #     when: ansible_os_family == 'Debian'
-  #     command: dpkg-reconfigure --frontend noninteractive tzdata
+  handlers:
+    - name: update timezone
+      when: ansible_os_family == 'Debian'
+      command: dpkg-reconfigure --frontend noninteractive tzdata
 
-  #   - name: update timezone
-  #     when: ansible_os_family == 'RedHat'
-  #     file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
+    - name: update timezone
+      when: ansible_os_family == 'RedHat'
+      file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
