@@ -20,3 +20,5 @@ ssl_shared_conf: |
 allow_http2: yes
 
 client_max_body_size: 2M
+nginx_host_include:
+nginx_ssl_host_include:

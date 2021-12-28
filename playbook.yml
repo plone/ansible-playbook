@@ -301,6 +301,26 @@
       notify:
         - update timezone
 
+    - name: Add additional nginx conf
+      tags: timezone
+      file:
+        src: "{{ nginx_additional_conf }}"
+        dest: "/etc/nginx/conf.d/nginx-additional-global.conf"
+        state: link
+      when: nginx_additional_conf is defined
+      notify:
+        - restart nginx
+
+    - name: Add additional nginx site
+      tags: timezone
+      file:
+        src: "{{ nginx_additional_site }}"
+        dest: "/etc/nginx/sites-enabled/nginx-additional-sites.conf"
+        state: link
+      when: nginx_additional_site is defined
+      notify:
+        - restart nginx
+
   handlers:
     - name: update timezone
       when: ansible_os_family == 'Debian'

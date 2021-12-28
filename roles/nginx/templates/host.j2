@@ -14,8 +14,14 @@ server {
   ssl_ciphers "{{ item.ssl_ciphers|default(ssl_ciphers) }}";
   ssl_prefer_server_ciphers on;
   ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+  {% if item.get('nginx_ssl_host_include') or nginx_ssl_host_include %}
+  include {{ item.get('nginx_ssl_host_include') or nginx_ssl_host_include }};
+  {% endif %}
   {% else %}
   listen {{ item.address|default('*') }}:{{ item.port|default('80') }} {% if item.get('default_server') %}default_server{% endif %};
+  {% if item.get('nginx_host_include') or nginx_host_include %}
+  include {{ item.get('nginx_host_include') or nginx_host_include }};
+  {% endif %}
   {% endif %}
 
   server_name {{ item.hostname }} {% for alias in item.get('aliases', []) %}{{ alias }} {% endfor %};
