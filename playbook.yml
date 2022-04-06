@@ -177,8 +177,16 @@
 
     - name: redirect_to_ssl
       set_fact:
-        primary_webserver: "{{ primary_webserver | combine({'extra': 'return 301 https://$host$uri$is_args$args;'}) }}"
+        primary_webserver: "{{ primary_webserver | combine({'extra': 'return 301 https://{}$uri$is_args$args;'.format(ssl_primary or '$host')}) }}"
       when: certbot_ssl and redirect_to_ssl and ssl_key.stat.exists == True
+      tags:
+        - nginx
+        - certbot
+
+    - name: redirect_to_primary
+      set_fact:
+        ssl_webserver: "{{ ssl_webserver | combine({'extra': 'if ($host != \"%s\") {return 301 https://%s$uri$is_args$args;}'%(ssl_primary, ssl_primary)}) }}"
+      when: certbot_ssl and ssl_webserver and redirect_to_ssl and ssl_key.stat.exists == True
       tags:
         - nginx
         - certbot
@@ -302,24 +310,32 @@
         - update timezone
 
     - name: Add additional nginx conf
-      tags: timezone
       file:
         src: "{{ nginx_additional_conf }}"
         dest: "/etc/nginx/conf.d/nginx-additional-global.conf"
         state: link
       when: nginx_additional_conf is defined
+      tags: nginx
       notify:
         - restart nginx
 
     - name: Add additional nginx site
-      tags: timezone
       file:
         src: "{{ nginx_additional_site }}"
         dest: "/etc/nginx/sites-enabled/nginx-additional-sites.conf"
         state: link
       when: nginx_additional_site is defined
+      tags: nginx
       notify:
         - restart nginx
+
+    - name: certbot timer
+      service:
+        name: certbot.timer
+        state: started
+        enabled: yes
+      ignore_errors: yes
+      tags: certbot
 
   handlers:
     - name: update timezone

@@ -1,7 +1,7 @@
 ---
 
 - src: https://github.com/plone/ansible.plone_server.git
-  version: 123a20c4ff6b431f135b75ff34c574bcc47fdab2
+  version: 3aab6e314a89eed872242a39ba18950d7f0a2dc3
   name: plone.plone_server
 
 - src: https://github.com/jnv/ansible-role-unattended-upgrades.git
