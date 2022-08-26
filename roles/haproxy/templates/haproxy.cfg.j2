@@ -47,7 +47,7 @@ listen {{ front_end.plone_instance_name|default(plone_instance_name) }}
     option httpchk
 {% else %}
     # waitress does not support more efficient http methods
-    option httpchk GET /
+    option httpchk GET /favicon.ico
 {% endif %}
 {% endif %}
 {% endif %}
