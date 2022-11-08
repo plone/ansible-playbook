@@ -12,9 +12,11 @@
   notify: restart munin-node
 
 - name: Add custom plonezope monitor
-  copy:
-    src=monitors/plonezope_res
-    dest=/etc/munin/plugins/
+  template:
+    src=plonezope_res.j2
+    dest=/etc/munin/plugins/plonezope_res
+    owner=root
+    group=root
     mode=0755
   notify: restart munin-node
 

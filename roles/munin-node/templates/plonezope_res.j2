@@ -1,7 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python{{ munin_python_version }}
 
 # munin plugin to gather resident-size for
 # all specified user ids.
+
+from __future__ import print_function
 
 import os
 import re
@@ -18,17 +20,17 @@ pid_split = re.compile(r'^(\d+) +(.+)$')
 
 config = len(sys.argv) > 1 and sys.argv[1].lower() == 'config'
 if config:
-    print "graph_title %s resident memory" % users
-    print "graph_vlabel MB"
-    print "graph_category %s" % category
-    print "graph_scale no"
+    print("graph_title %s resident memory" % users)
+    print("graph_vlabel MB")
+    print("graph_category %s" % category)
+    print("graph_scale no")
 
 ps_out = subprocess.Popen(
     ps_command.split(),
     stdout=subprocess.PIPE
 ).stdout.read()
 
-for line in ps_out.split('\n'):
+for line in ps_out.decode().split('\n'):
     # print line
     match = pid_split.match(line)
     if match:
@@ -47,6 +49,6 @@ for line in ps_out.split('\n'):
             # print cstr
             cstr = "%s-%s" % (cstr[-3], cstr[-1])
             if config:
-                print "%s.label %s" % (cstr, cstr)
+                print("%s.label %s" % (cstr, cstr))
             else:
-                print "%s.value %d" % (cstr, int(res) / 1024)
+                print("%s.value %d" % (cstr, int(res) / 1024))
