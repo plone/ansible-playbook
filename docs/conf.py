@@ -54,7 +54,8 @@ author = u'Steve McMahon / Plone Installer Team'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-with open('../version.txt', 'r') as reader:
+with open(os.path.join(os.path.dirname(__file__), os.path.pardir,
+                       "version.txt")) as reader:
     # The short X.Y version.
     version = reader.readline().split(" ")[0]
     # The full version, including alpha/beta/rc tags.
