@@ -13,13 +13,13 @@ Plone's Ansible Playbook can completely provision a remote server to run a full-
 
 * Load balancing of the cluster with `HAProxy <http://www.haproxy.org/>`_;
 
-* Caching with `Varnish <https://www.varnish-cache.org/>`_;
+* Caching with `Varnish <https://varnish-cache.org/>`_;
 
-* `Nginx <http://wiki.nginx.org/Main>`_ as a world-facing reverse proxy and URL rewrite engine;
+* `Nginx <https://www.nginx.com/resources/wiki/>`_ as a world-facing reverse proxy and URL rewrite engine;
 
 * An outgoing-mail-only mail server using `Postfix <http://www.postfix.org/>`_;
 
-* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_, `logwatch <http://linuxcommand.org/man_pages/logwatch8.html>`_ and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
+* Monitoring and log analysis with `munin-node <http://munin-monitoring.org/>`_, `logwatch <http://manpages.ubuntu.com/manpages/focal/en/man8/logwatch.8.html>`_ and `fail2ban <http://www.fail2ban.org/wiki/index.php/Main_Page>`_.
 
 * Use of a local `VirtualBox <https://www.virtualbox.org/>`_ provisioned via `Vagrant <https://www.vagrantup.com/>`_ to test and model your remote server.
 
@@ -29,7 +29,7 @@ An Ansible playbook and roles describe the desired condition of the server. The 
 
 .. note::
 
-    If you want to take more control of your playbook, the `Plone server role <https://github.com/plone/ansible.plone_server>`_ is available by itself, and is listed on `Ansible Galaxy <https://galaxy.ansible.com/list#/roles/2212>`__.
+    If you want to take more control of your playbook, the `Plone server role <https://github.com/plone/ansible.plone_server>`_ is available by itself, and is listed on `Ansible Galaxy <https://galaxy.ansible.com/igmac/plone_server>`__.
 
 TL;DR
 ^^^^^
@@ -46,7 +46,7 @@ TL;DR
 
 6. To test in a local virtual machine, run ``vagrant up`` or ``vagrant provision``;
 
-7. To deploy, create an `Ansible inventory file <http://docs.plone.org/external/ansible-playbook/docs/live.html#creating-a-host-file>`_ for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
+7. To deploy, create an `Ansible inventory file <https://docs.plone.org/external/ansible-playbook/docs/live.html#creating-a-host-file>`_ for the remote host and run ``ansible-playbook --ask-sudo-pass -i myhost.cfg playbook.yml``;
 
 8. Set a real password for your Plone instance on the target server;
 
@@ -78,9 +78,9 @@ We chose Ansible for our provisioning tool because:
 
 2) It's YAML configuration files use structure and syntax that will be familiar to Python programmers. YAML basically represents a Python data structure in an outline. Conditional and loop expressions are in Python. Templating via Jinja2 is simple and clean.
 
-3) `Ansible's documentation <http://docs.ansible.com>`_ is excellent and complete.
+3) `Ansible's documentation <https://docs.ansible.com/>`_ is excellent and complete.
 
-4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <http://galaxy.ansible.com>`__.
+4) Ansible is easily extended by roles. Many basic roles are available on `Ansible Galaxy <https://galaxy.ansible.com/>`__.
 
 
 If you need to log in

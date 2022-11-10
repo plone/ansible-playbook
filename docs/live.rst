@@ -66,6 +66,6 @@ Hotfixes, Updates, Upgrades
 
 .. warning::
 
-    If you are administering an Internet-accessible Plone install, you **must** subscribe to the `Plone-Announce mailing list <https://lists.sourceforge.net/lists/listinfo/plone-announce>`_ to receive vital security and version update announcements. Expect to apply periodic hotfixes to maintain your site.
+    If you are administering an Internet-accessible Plone install, you **must** subscribe to the `Plone-Announce mailing list <https://sourceforge.net/projects/plone/lists/plone-announce>`_ to receive vital security and version update announcements. Expect to apply periodic hotfixes to maintain your site.
 
 This is the **minimum** responsibility of a site administrator. Ideally you should also participate in the Plone community and read other Plone news.

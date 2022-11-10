@@ -4,7 +4,7 @@ Provisioning a Plone server
 The stack
 `````````
 
-It's easy to `install Plone on a laptop or desktop <http://docs.plone.org/manage/installing/index.html>`_ for testing, development, theming and evaluation. Installing Plone for production, particularly for a busy or complex site is harder, and requires you learn about a variety of moving parts:
+It's easy to `install Plone on a laptop or desktop <https://docs.plone.org/manage/installing/index.html>`_ for testing, development, theming and evaluation. Installing Plone for production, particularly for a busy or complex site is harder, and requires you learn about a variety of moving parts:
 
 * ZEO server
 * ZEO clients
@@ -13,7 +13,7 @@ It's easy to `install Plone on a laptop or desktop <http://docs.plone.org/manage
 * Reverse-proxy caching
 * URL rewriting and HTTPS support including certificate management
 
-If any of this is new to you, spend some time with the `Guide to deploying and installing Plone in production <http://docs.plone.org/manage/deploying/index.html>`_ before continuing.
+If any of this is new to you, spend some time with the `Guide to deploying and installing Plone in production <https://docs.plone.org/manage/deploying/index.html>`_ before continuing.
 
 What about other apps?
 ``````````````````````

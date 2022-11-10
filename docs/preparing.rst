@@ -71,7 +71,7 @@ How to Resolve Insufficient Resources on Digital Ocean
 Local setup
 ^^^^^^^^^^^
 
-On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <http://docs.ansible.com/intro_installation.html>`_ has thorough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development. (Note: don't us your OS package manager to install Ansible; you may get an unusable out-of-date version.)
+On your local machine (the one from which you're controlling the remote server), you will need a recent copy of Ansible. `docs.ansible.com <https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html>`_ has thorough installation instructions. We will be testing with release versions of Ansible, so don't feel a need to track Ansible development. (Note: don't us your OS package manager to install Ansible; you may get an unusable out-of-date version.)
 
 Ansible's only dependency is a recent version of Python 2.6 or later.
 

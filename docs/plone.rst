@@ -161,7 +161,7 @@ plone_hot_monitor
 The *hot monitor* is the mechanism used to check for and act on processes exceeding the ``plone_client_max_memory`` setting.
 There are two available mechanisms:
 
-* `superlance <http://superlance.readthedocs.org/en/latest>`_ is a supervisor plugin.
+* `superlance <https://superlance.readthedocs.io/en/latest/>`_ is a supervisor plugin.
   Its memory-monitor mechanisms are well-known in the Plone community and well-tested.
   If a Zope/Plone process exceeds the max memory setting, the equivalent of a supervisor process restart occurs.
 
@@ -203,7 +203,7 @@ plone_sources
 
 This setting allows you to check out and include repository-based sources in your buildout.
 
-Source specifications, a list of strings in `mr.developer <https://pypi.python.org/pypi/mr.developer>`_ sources format. If you specify plone_sources, the ``mr.developer`` extension will be used with auto-checkout set to ``*`` and git_clone_depth set to ``1``.
+Source specifications, a list of strings in `mr.developer <https://pypi.org/project/mr.developer/>`_ sources format. If you specify plone_sources, the ``mr.developer`` extension will be used with auto-checkout set to ``*`` and git_clone_depth set to ``1``.
 
 Private repository source present a special challenge. The typical solution will be to set up a repository user with the ssh public key for the ``plone_buildout`` user.
 
@@ -574,7 +574,7 @@ How many generations of full backups do you wish to keep? Defaults to ``2``.
 
 .. note::
 
-    Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However, backups after a pack operation are complete (full) backups -- not incremental ones. Thus, keeping two full backups means that you have backups for ``plone_keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.python.org/pypi/collective.recipe.backup>`_.
+    Daily backups are typically partial: they cover the differences between the current state and the state at the last full backup. However, backups after a pack operation are complete (full) backups -- not incremental ones. Thus, keeping two full backups means that you have backups for ``plone_keep_backups * days_between_packs`` days. See the `collective.recipe.backup documentation <https://pypi.org/project/collective.recipe.backup/>`_.
 
 
 plone_keep_blob_days
@@ -604,4 +604,4 @@ plone_rsync_backup_options
 
     plone_rsync_backup_options: --perms --chmod=ug+rx
 
-Rsync options set within the backup scripts (see `collective.recipe.backup <https://pypi.python.org/pypi/collective.recipe.backup#supported-options>`_). This can be used, for example, to change permissions on backups so they can be downloaded more easily. Defaults to empty.
+Rsync options set within the backup scripts (see `collective.recipe.backup <https://pypi.org/project/collective.recipe.backup/#supported-options>`_). This can be used, for example, to change permissions on backups so they can be downloaded more easily. Defaults to empty.

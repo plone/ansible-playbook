@@ -14,7 +14,7 @@ ansible_ssh_pipelining
 The Plone server role uses ssh pipelining to avoid security errors from Ansible when running operations without superuser rights.
 SSH pipelining for this purpose may require the disabling of ``requiretty`` in ``/etc/sudoers``.
 If you get a pipelining error and cannot disable ``requiretty``, set this variable to ``false`` and instead turn on ``allow_world_readable_tmpfiles`` in your ``ansible.cfg``.
-See http://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user for a discussion.
+See `Risks of becoming an unprivileged user <https://docs.ansible.com/ansible/latest/user_guide/become.html#risks-of-becoming-an-unprivileged-user>`_ for a discussion.
 
 
 System options
@@ -99,7 +99,7 @@ Specify the timezone that should be set on the server.  Default is ``UTC``.
 set_timezone
 ~~~~~~~~~~~~
 
-.. code-block:: yml
+.. code-block:: yaml
 
     set_timezone: no
 
@@ -110,7 +110,7 @@ Default is ``yes``.
 logwatch_ignore
 ~~~~~~~~~~~~~~~
 
-.. code-block:: yml
+.. code-block:: yaml
 
     logwatch_ignore: |
       Received disconnect from
