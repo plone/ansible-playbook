@@ -78,6 +78,8 @@
     - name: Ensure optional packages via apt
       when: ansible_os_family == 'Debian'
       apt: pkg="{{ additional_packages|default([]) }}" state=present
+      tags:
+        - update_packages
 
     - name: Enable aditional repos for CentOS
       yum: pkg={{ item }} state=present
@@ -87,11 +89,14 @@
       tags:
         - munin
         - varnish
+        - update_packages
 
     - name: Ensure optional packages via yum
       when: ansible_os_family == 'RedHat'
       yum: name={{ item }} state=present update_cache=yes
       with_items: "{{ additional_packages|default([]) }}"
+      tags:
+        - update_packages
 
     - name: Ensure selinux packages via yum
       when: ansible_os_family == 'RedHat' and ansible_selinux and ansible_selinux.status == 'enabled'
@@ -101,6 +106,7 @@
       tags:
         - nginx
         - haproxy
+        - update_packages
 
     - name: Ensure certbot package
       when: certbot_ssl
@@ -202,6 +208,8 @@
   roles:
 
     - role: hostname
+      tags:
+        - update_packages
 
     - role: jnv.unattended-upgrades
       when: auto_upgrades|default(True) and ansible_os_family == 'Debian'
@@ -341,7 +349,9 @@
     - name: update timezone
       when: ansible_os_family == 'Debian'
       command: dpkg-reconfigure --frontend noninteractive tzdata
+      tags: timezone
 
     - name: update timezone
       when: ansible_os_family == 'RedHat'
       file: src=/usr/share/zoneinfo/{{ timezone|default("UTC\n") }}  dest=/etc/localtime state=link force=yes
+      tags: timezone

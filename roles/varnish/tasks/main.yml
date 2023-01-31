@@ -56,7 +56,7 @@
     dest=/etc/systemd/system/multi-user.target.wants/varnish.service
     section=Service
     option=ExecStart
-    value="/usr/sbin/varnishd -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} -u varnish -g varnish"
+    value="/usr/sbin/varnishd -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} -u varnish -g varnish {{ proxycache_opts }}"
     backup=yes
   notify:
     - systemd daemon reload
@@ -68,7 +68,7 @@
     dest=/lib/systemd/system/varnish.service
     section=Service
     option=ExecStart
-    value="/usr/sbin/varnishd -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }}"
+    value="/usr/sbin/varnishd -j unix,user=vcache -F -a :{{ proxycache_port }} -T localhost:{{ proxycache_port + 1}} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s {{ proxycache_method }},{{ proxycache_size }} {{ proxycache_opts }}"
     backup=yes
   notify:
     - systemd daemon reload

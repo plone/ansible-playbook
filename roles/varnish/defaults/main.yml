@@ -6,6 +6,8 @@ proxycache_method: malloc
 
 proxycache_size: 256m
 
+proxycache_opts:  # e.g. "-p nuke_limit=500"
+
 # allow compression for all except these extensions
 nocompress_ext: (jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)
 
