@@ -5,12 +5,6 @@
   become_method: sudo
   gather_facts: yes
 
-  vars:
-    certbot_ssl: off
-    ssl_hostnames:
-      - "{{ inventory_hostname }}"
-      - "www.{{ inventory_hostname }}"
-
   pre_tasks:
 
     - name: Fail if Ansible is old
@@ -39,8 +33,18 @@
         - munin
         - motd
         - nginx
+        - certbot
         - timezone
         - audit
+
+    - name: Handle undefined SSL hostnames
+      set_fact:
+        certbot_ssl: off
+        ssl_hostnames: []
+      when: ssl_hostnames is undefined or certbot_ssl is undefined
+      tags:
+        - nginx
+        - certbot
 
     - name: Define primary SSL name
       set_fact:
@@ -68,6 +72,7 @@
         - munin
         - motd
         - nginx
+        - certbot
 
     - name: Update packages via apt
       when: ansible_os_family == 'Debian'
@@ -115,6 +120,7 @@
         state: present
       tags:
         - certbot
+        - update_packages
 
     - name: Ensure certbot-nginx plugin
       when: certbot_ssl
@@ -343,6 +349,7 @@
         state: started
         enabled: yes
       ignore_errors: yes
+      when: certbot_ssl
       tags: certbot
 
   handlers:
