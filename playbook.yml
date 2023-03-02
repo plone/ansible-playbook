@@ -163,6 +163,7 @@
     - name: key_config
       set_fact:
         ssl_config:
+          default_server: yes
           certificate:
             crt: "/etc/letsencrypt/live/{{ ssl_primary }}/fullchain.pem"
             key: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
