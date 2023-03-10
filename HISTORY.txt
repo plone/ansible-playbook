@@ -50,6 +50,9 @@
 - Add support for certbot and Let's Encrypt certficates.
   [stevepiercy]
 
+- Add support for certbot and Let's Encrypt certficates.
+  [stevepiercy]
+
 - Allow Bearer Authorization headers to be used for JWT Token authentication used by plone.restapi.
   [fulv]
 

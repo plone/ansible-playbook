@@ -31,7 +31,7 @@ server {
 {% else %}
    set $vh_protocol "http";
    set $vh_port "{{ item.port|default('80') }}";
- {% endif %}
+{% endif %}
 
 {% if item.get('extra') != None %}
   {{ item.extra }}

@@ -90,6 +90,61 @@ To use files that already exist on the controlled server, use:
           crt: /etc/ssl/certs/ssl-cert-snakeoil.pem
 
 
+Let's Encrypt Certificates and certbot
+--------------------------------------
+
+An optional playbook ``geerlingguy.certbot.yml`` is provided that uses free Let's Encrypt certificates and certbot to generate and renew them via a cron job.
+Review and change any variables in this file, specifically ``certbot_admin_email``.
+
+To use this playbook, first install the role.
+
+.. code-block:: bash
+
+    cd ansible-playbook
+    git clone https://github.com/geerlingguy/ansible-role-certbot.git geerlingguy.certbot
+
+Run the playbook.
+
+.. code-block:: bash
+
+    ansible-playbook geerlingguy.certbot.yml
+
+Next configure your playbook ``local-configure.yml``.
+The following example configures ``geerlingguy.certbot`` to also perform a redirection of all traffic from http to https with the ``extra`` key.
+You will need to specify a correct IP address.
+Also verify that the location of the private key and certificate files installed by ``geerlingguy.certbot`` is correct for your system.
+
+.. code-block:: yaml
+
+    webserver_virtualhosts:
+      - hostname: "{{ inventory_hostname }}"
+        port: 80
+        protocol: http
+        extra: return 301 https://$server_name$request_uri;
+      - hostname: "{{ inventory_hostname }}"
+        default_server: yes
+        zodb_path: /Plone
+        address: 1.1.1.1
+        port: 443
+        protocol: https
+        certificate:
+          key: /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
+          crt: /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+
+.. note::
+
+    The playbook will only *add* new web server configuration files.
+    It does not update existing web server configuration files.
+    If you have previously configured your web server, then you must SSH in to your server, and delete the existing configuration files (for nginx on Debian/Ubuntu, ``/etc/nginx/sites-enabled/``).
+    Then you can run the playbook to add the new configuration files.
+
+    To avoid the previous step, you can run the ``geerlingguy.certbot`` playbook before the Plone playbook.
+
+.. seealso::
+
+    `Documentation for geerlingguy.certbot <https://github.com/geerlingguy/ansible-role-certbot>`_.
+
+
 Redirections, etc.
 ~~~~~~~~~~~~~~~~~~
 
