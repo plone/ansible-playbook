@@ -42,7 +42,9 @@ relayhost = [{{ mailserver_relayhost }}]:{{ mailserver_relayport }}
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = static:{{ mailserver_relayuser }}:{{ mailserver_relaypassword }}
 smtp_sasl_security_options = noanonymous
-smtpd_tls_security_level = encrypt
+smtp_tls_security_level = encrypt
+smtp_use_tls = yes
+tls_random_source=dev:/dev/urandom
 {% endif %}
 {% else %}
 relayhost =
