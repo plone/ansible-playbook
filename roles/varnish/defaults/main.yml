@@ -22,6 +22,7 @@ cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp|sid|beaker\.
 nonanonymous_cookies: __ac(|_(name|password|persistent))
 
 proxy_cache_vcl_extra:
+proxy_cache_extra:
 
 proxy_cache_block_basic_auth: on
 proxy_cache_clean_smaxage: on
