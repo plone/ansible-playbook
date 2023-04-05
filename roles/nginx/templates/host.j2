@@ -49,7 +49,12 @@ server {
   {% else %}
     location / {
   {% endif %}
-    auth_basic off;
+    {% if item.get('http_auth_passwordfile') %}
+      auth_basic on;
+      auth_basic_user_file {{item.http_auth_passwordfile}};
+    {% else %}
+      auth_basic off;
+    {% endif %}
     {% if item.get('location_extra') != None %}
       {{ item.location_extra }}
     {% endif %}
