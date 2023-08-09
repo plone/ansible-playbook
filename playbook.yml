@@ -190,7 +190,7 @@
 
     - name: redirect_to_ssl
       set_fact:
-        primary_webserver: "{{ primary_webserver | combine({'extra': 'return 301 https://{}$uri$is_args$args;'.format(ssl_primary or '$host')}) }}"
+        primary_webserver: "{{ primary_webserver | combine({'extra': 'return 301 https://{}$uri$is_args$args;'.format(primary_webserver.hostname or ssl_primary or '$host')}) }}"
       when: certbot_ssl and redirect_to_ssl and ssl_key.stat.exists == True
       tags:
         - nginx
@@ -198,7 +198,7 @@
 
     - name: redirect_to_primary
       set_fact:
-        ssl_webserver: "{{ ssl_webserver | combine({'extra': 'if ($host != \"%s\") {return 301 https://%s$uri$is_args$args;}'%(ssl_primary, ssl_primary)}) }}"
+        ssl_webserver: "{{ ssl_webserver | combine({'extra': 'if ($host != \"%s\") {return 301 https://%s$uri$is_args$args;}'%(primary_webserver.hostname or ssl_primary or '$host', primary_webserver.hostname or ssl_primary or '$host')}) }}"
       when: certbot_ssl and ssl_webserver and redirect_to_ssl and ssl_key.stat.exists == True
       tags:
         - nginx
