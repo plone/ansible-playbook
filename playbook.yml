@@ -41,7 +41,9 @@
       set_fact:
         certbot_ssl: off
         ssl_hostnames: []
-      when: ssl_hostnames is undefined or certbot_ssl is undefined
+        ssl_primary: null
+        ssl_webserver: null
+      when: ssl_hostnames is undefined or not certbot_ssl
       tags:
         - nginx
         - certbot
