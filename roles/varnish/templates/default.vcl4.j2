@@ -104,6 +104,15 @@ sub vcl_backend_response {
         call rewrite_s_maxage;
         return(deliver);
     }
+    if (beresp.http.Location ~ "/(login|require_login|logout)") {
+        set beresp.grace = 0s;
+        set beresp.ttl = 0s;
+        unset beresp.http.ETag;
+        set beresp.uncacheable = true;
+        set beresp.http.X-Varnish-Action = "FETCH (pass - login redirects are not cacheable)";
+        set beresp.http.Cache-Control = "max-age=0, must-revalidate, private";
+        return(deliver);
+    }
     if (beresp.http.Set-Cookie) {
         set beresp.grace = 0s;
         set beresp.ttl = 0s;
