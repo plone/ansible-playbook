@@ -4,6 +4,8 @@
   become: yes
   become_method: sudo
   gather_facts: yes
+  # Inherited by all tasks, incl. the buildout run; buildout passes it to pip.
+  environment: "{{ playbook_environment | default({}) }}"
 
   pre_tasks:
 
