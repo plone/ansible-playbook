@@ -194,7 +194,7 @@
 
     - name: preserve_extra
       set_fact:
-        orig_extra: "{{ primary_webserver.extra or '' }}"
+        orig_extra: "{{ primary_webserver.extra | default('') }}"
       tags:
         - nginx
 
